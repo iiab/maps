@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html>
+    <meta charset="utf-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <head>
+    <link rel="stylesheet" href="./assets/ol.css" type="text/css">
+    <script src="./assets/ol.js"></script>
+    <script src="./assets/olms.js" type="module"></script>
+    <script src="./assets/jquery.js"></script>
+    <script src=".assets/bootstrap.min.js"></script>
+    <link href="./assets/bootstrap.min.css" rel="stylesheet">
+    <script src="./assets/bootstrap-typeahead.min.js"></script>
+    <style>
+      html, body, #map-container {
+        margin: 0;
+        height: 90%;
+        width: 100%;
+        font-family: sans-serif;
+      }
+      #map-container { position: relative;}
+      #search {
+        position: absolute; top: 10px; left: 40px; z-index: 99; }
+    </style>
+  </head>
+  <body class="container">
+       <div class="well col-md-5">
+           <input id="search" type="text" class="col-md-12 form-control" placeholder="Search cities..." autocomplete="off" />
+       </div>
+    <div id="map-container">
+    </div>
+    <select id="units">
+      <option value="degrees">degrees</option>
+      <option value="imperial">imperial inch</option>
+      <option value="us">us inch</option>
+      <option value="nautical">nautical mile</option>
+      <option value="metric" selected>metric</option>
+    </select>
+    <script>
+      var scaleLineControl = new ol.control.ScaleLine();
+
+      const map = new ol.Map({
+         controls: ol.control.defaults({
+            attributionOptions: {
+               collapsible: false
+            }
+         }).extend([
+            scaleLineControl
+         ]),
+         target: 'map-container',
+         view: new  ol.View({
+            center: [0, 0],
+            zoom: 2
+         })
+      });
+
+      const ocean = new ol.layer.Tile({
+         source: new ol.source.TileImage({
+         attributions: [
+      '<a href="http://www.openmaptiles.org/" target="_blank">&copy; OpenMapTiles</a>',
+      '<a href="http://www.openstreetmap.org/about/" target="_blank">&copy; OpenStreetMap contributors</a>'
+    ],
+            format: new ol.format.MVT(),
+            url: `./tileserver.php/ocean/{z}/{x}/{y}.pbf`
+         }),
+         minResolution: 500,
+         maxResolution: 40000 
+      });
+      map.addLayer(ocean);
+
+      const base = new ol.layer.VectorTile({
+         source: new ol.source.VectorTile({
+            format: new ol.format.MVT(),
+            url: `./tileserver.php/base/{z}/{x}/{y}.pbf`,
+         }),
+         minResolution: 20,
+         maxResolution: 20000 
+      });
+      map.addLayer(base);
+
+      fetch('./assets/style-cdn.json').then(function(response) {
+         response.json().then(function(glStyle) {
+            olms.applyStyle(base, glStyle,"openmaptiles");
+         });
+      });
+
+      const detail = new ol.layer.VectorTile({
+         source: new ol.source.VectorTile({
+            format: new ol.format.MVT(),
+            url: `./tileserver.php/detail/{z}/{x}/{y}.pbf`,
+            minZoom: 0,
+            maxZoom: 14
+         }),
+      });
+      map.addLayer(detail);
+
+      fetch('./assets/style-cdn.json').then(function(response) {
+         response.json().then(function(glStyle) {
+            olms.applyStyle(detail, glStyle,"openmaptiles");
+         });
+      });
+      var unitsSelect = document.getElementById('units');
+      function onChange() {
+        scaleLineControl.setUnits(unitsSelect.value);
+      }
+      unitsSelect.addEventListener('change', onChange);
+      onChange();
+
+
+    var selections = Array(50);
+    function go_there(item){
+       for (i=0;i<selections.length;i++){
+          if (selections[i].geonameid == item.value){
+             var there = ol.proj.fromLonLat([selections[i].lon,selections[i].lat]);
+             map.getView().setCenter(there);
+             map.getView().setZoom(9);
+             console.log(selections[i].lon + ' ' + selections[i].lat);
+          }
+       }
+       $('#search').val('');
+    }
+    
+    $(function() {
+
+	$('#search').typeahead({
+	    onSelect: function(item) {
+            console.log(item);
+            go_there(item);
+	    },
+
+	    ajax: {
+		url: './searchapi.php?searchfor='+$('#search').val(),
+		method: 'get',
+		triggerLength: 1,
+		displayField: 'name',
+		valueField: "geonameid",
+		dataType: "json",
+		preProcess: function (data) {
+		    if (data.success === false) {
+			// Hide the list, there was some error
+			return false;
+		    }
+		    // We good!
+                    selections = [];
+		    for (i=0;i<data.length;i++) {
+			data[i].name = data[i].name + ' ' + data[i].country_code + ' pop: ' + data[i].population;
+			choice = {geonameid:data[i].geonameid,lon:data[i].longitude,lat:data[i].latitude};
+			selections.push(choice);
+		    } 
+		    return data;
+		}
+	    },
+	});
+    });
+   </script>
+  </body>
+</html>
+
