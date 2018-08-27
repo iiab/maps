@@ -14,7 +14,7 @@
       html, body, #map-container {
         margin: 0;
         height: 96%;
-        width: 100%;
+        width: 99%;
         font-family: sans-serif;
       }
       #map-container { position: relative;}
@@ -24,7 +24,7 @@
   </head>
   <body>
        <div class="well col-md-5">
-           <input id="search" type="text" class="col-md-12 form-control" placeholder="Search cities..." autocomplete="off" />
+           <input id="search" type="text" class="col-md-4 form-control" placeholder="Search cities..." autocomplete="off" />
        </div>
     <div id="map-container">
     </div>
@@ -49,7 +49,8 @@
          target: 'map-container',
          view: new  ol.View({
             center: [0, 0],
-            zoom: 2
+            minZoom: 2,
+            zoom: 3
          })
       });
 
