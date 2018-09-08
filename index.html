@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html>
-    <meta charset="utf-8">
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta charset="utf-8">
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <head>
     <link rel="stylesheet" href="./assets/ol.css" type="text/css">
     <script src="./assets/ol.js"></script>
@@ -13,7 +14,7 @@
     <style>
       html, body, #map-container {
         margin: 0;
-        height: 96%;
+        height: 99%;
         width: 100%;
         font-family: sans-serif;
       }
@@ -24,7 +25,7 @@
   </head>
   <body>
        <div class="well col-md-5">
-           <input id="search" type="text" class="col-md-12 form-control" placeholder="Search cities..." autocomplete="off" />
+           <input id="search" type="text" class="col-md-6 form-control" placeholder="Search cities..." autocomplete="off" />
        </div>
     <div id="map-container">
     </div>
@@ -49,7 +50,8 @@
          target: 'map-container',
          view: new  ol.View({
             center: [0, 0],
-            zoom: 2
+            minZoom: 2,
+            zoom: 3
          })
       });
 
