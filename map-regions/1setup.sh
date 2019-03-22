@@ -49,7 +49,7 @@ if [ ! -d "$MR_SSD/pack/node_modules" ];then
      "start": "webpack-dev-server --mode=development",\
      "build": "webpack --mode=production"/' $MR_SSD/pack/package.json
 
-    cat <<'EOF' >$MR_SSD/pack/webpack.config.js
+  cat <<'EOF' >$MR_SSD/pack/webpack.config.js
 const path = require('path');
 const CopyPlugin = require('copy-webpack-plugin');
 const HtmlPlugin = require('html-webpack-plugin');

@@ -1,5 +1,6 @@
 map-regions/output/
-map-regions/pack/
+map-regions/pack/node_modules/
+map-regions/pack/build
 map-regions/ol-parcel-bundler/node_modules/
 map-regions/ol-parcel-bundler/dist/
 map-regions/ol-parcel-bundler/.cache
