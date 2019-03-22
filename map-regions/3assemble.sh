@@ -1,6 +1,6 @@
 #!/bin/bash -x
 # Recreate the map source bundle, and merge in the regional vector subsets
-# This stage assumes that the tile generation need the speed of SSD, but
+# This stage assumes that the tile generation needs the speed of SSD, but
 # that in the long run, the large files should reside on hard disk. it makes
 # the transition in stage3
 

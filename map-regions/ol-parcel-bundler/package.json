@@ -2,11 +2,11 @@
   "name": "parcel",
   "version": "1.0.0",
   "description": "",
-  "main": "map.js",
+  "main": "../src/main.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "parcel index.html",
-    "build": "parcel build --public-url . index.html"
+    "start": "parcel ../src/index.html",
+    "build": "parcel build --public-url . ../src/index.html"
   },
   "keywords": [],
   "author": "George Hunt",
