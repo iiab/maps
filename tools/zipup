@@ -1,0 +1,11 @@
+#!/bin/bash -x
+# remember the steps to zip and upload to unleashkids
+
+# parent is the folder up from the package
+parent=/library/www/html/modules
+package=en-osm-omt-min
+pushd $parent
+	zip --recurse-paths --symlinks $package.zip $package/
+
+	scp $package.zip ghunt@unleashkids.org:/var/www/iiab/content/OSM/vector-tiles
+popd

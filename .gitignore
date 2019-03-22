@@ -1,0 +1,11 @@
+map-regions/output/
+map-regions/pack/
+map-regions/ol-parcel-bundler/node_modules/
+map-regions/ol-parcel-bundler/dist/
+map-regions/ol-parcel-bundler/.cache
+map-regions/tilelive/
+map-regions/extracts/
+osm-vector/base/oceans.mbtiles
+
+
+
