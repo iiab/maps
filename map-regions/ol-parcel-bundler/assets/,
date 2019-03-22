@@ -56,7 +56,7 @@
     }
   },
   "sprite": "./assets/sprite",
-  "glyphs": "http://fonts.openmaptiles.org/{fontstack}/{range}.pbf",
+  "glyphs": "./assets/{fontstack}/{range}.pbf",
   "layers": [
     {
       "id": "background",
