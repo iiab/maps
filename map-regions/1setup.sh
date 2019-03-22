@@ -26,6 +26,7 @@ fi
 # make sure that parcel is installed and configured
 #
 if [ ! -d $MR_SSD/ol-parcel-bundler/node_modules ];then
+  mkdir -p $MR_SSD/src
   mkdir -p $MR_SSD/ol-parcel-bundler
   cd $MR_SSD/ol-parcel-bundler
   npm init -y
