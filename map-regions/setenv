@@ -5,13 +5,13 @@
 # thusly: "source setenv"
 
 
-MR_SSD=/hd/root/temp/map/map-regions
+MR_SSD=/hd/root/temp/maps/map-regions
 #MR_SSD=/root/mapgen
 export MR_SSD
 mkdir -p MR_SSD
 
 # where to put large files
-MR_HARD_DISK=/hd/root/temp/mat/map-regions
+MR_HARD_DISK=/hd/root/temp/maps/map-regions
 #MR_HARD_DISK=/root/mapgen
 export MR_HARD_DISK
 mkdir -p MR_HARD_DISK
