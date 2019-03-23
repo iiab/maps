@@ -7,6 +7,10 @@ import VectorSource from 'ol/source/Vector';
 import View from 'ol/View';
 //import XYZSource from 'ol/source/XYZ';
 //import MVT from 'ol/format/MVT';
+import $ from 'jquery';
+document.$ = document.jQuery = $;
+import 'bootstrap';
+import 'bootstrap/dist/css/bootstrap.css';
 
 // a global variable to control which features are shown
 var show = {};
@@ -87,3 +91,4 @@ $( document ).on("mouseout",".extract",function(){
   show = '';
   boxLayer.changed();
 });
+
