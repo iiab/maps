@@ -14,11 +14,24 @@ import {defaults as defaultControls, ScaleLine} from 'ol/control.js';
 import GeoJSON from 'ol/format/GeoJSON';
 import {Style, Fill, Stroke, Circle, Text} from 'ol/style';
 
-
-
-var jquery = require("./assets/jquery.min");
-window.$ = window.jQuery = jquery; // notice the definition of global variables here
+//var jquery = require("./assets/jquery.min");
+//window.$ = window.jQuery = jquery; // notice the definition of global variables here
 var typeahead = require("./assets/bootstrap-typeahead.min");
+var scaleLineControl = new ScaleLine();
+
+//import $ from 'jquery';
+//$.then(function() {
+//   window.$ = $ = window.jQuery = jquery;
+//});
+/*
+import 'bootstrap';
+import 'bootstrap/dist/css/bootstrap.css';
+import {Typeahead} from 'bootstrap-typeahead';
+const typeahead =  new Typeahead();
+//var jquery = require("./assets/jquery.min");
+window.$ = window.jQuery = jquery; // notice the definition of global variables here
+//var typeahead = require("./assets/bootstrap-typeahead.min");
+*/
 var scaleLineControl = new ScaleLine();
 
 var mapData = "/common/assets";
@@ -98,49 +111,6 @@ function onChange() {
 unitsSelect.addEventListener('change', onChange);
 onChange();
 
-var selections = Array(50);
-    function go_there(item){
-       for (var i=0;i<selections.length;i++){
-          if (selections[i].geonameid == item.value){
-             var there = fromLonLat([selections[i].lon,selections[i].lat]);
-             map.getView().setCenter(there);
-             map.getView().setZoom(9);
-             console.log(selections[i].lon + ' ' + selections[i].lat);
-          }
-       }
-       $('#search').val('');
-    }
- $(function() {
-   $('#search').typeahead({
-       onSelect: function(item) {
-            console.log(item);
-            go_there(item);
-       },
-       ajax: {
-      url: './searchapi.php?searchfor='+$('#search').val(),
-      method: 'get',
-      triggerLength: 1,
-      displayField: 'name',
-      valueField: "geonameid",
-      dataType: "json",
-      preProcess: function (data) {
-          if (data.success === false) {
-         // Hide the list, there was some error
-         return false;
-          }
-          // We good!
-          selections = [];
-          for (var i=0;i<data.length;i++) {
-         data[i].name = data[i].name + ' ' + data[i].country_code + ' pop: ' + data[i].population;
-         var choice = {geonameid:data[i].geonameid,lon:data[i].longitude,lat:data[i].latitude};
-         selections.push(choice);
-          } 
-          return data;
-      }
-       },
-   });
-});
-
 var info_overlay = 0;
 $( document ).ready(function() {
    info_overlay = document.getElementById('info-overlay');
@@ -158,7 +128,49 @@ $( document ).ready(function() {
        info_overlay.innerHTML = locTxt;
    });
 
-});
+   var selections = Array(50);
+   function go_there(item){
+       for (var i=0;i<selections.length;i++){
+          if (selections[i].geonameid == item.value){
+             var there = fromLonLat([selections[i].lon,selections[i].lat]);
+             map.getView().setCenter(there);
+             map.getView().setZoom(9);
+             console.log(selections[i].lon + ' ' + selections[i].lat);
+          }
+       }
+       $('#search').val('');
+    }
+   $(function() {
+      $('#search').typeahead({
+       onSelect: function(item) {
+          console.log(item);
+          go_there(item);
+      },
+      ajax: {
+         url: './searchapi.php?searchfor='+$('#search').val(),
+         method: 'get',
+         triggerLength: 1,
+         displayField: 'name',
+         valueField: "geonameid",
+         dataType: "json",
+         preProcess: function (data) {
+          if (data.success === false) {
+            // Hide the list, there was some error
+            return false;
+          }
+          // We good!
+          selections = [];
+          for (var i=0;i<data.length;i++) {
+            data[i].name = data[i].name + ' ' + data[i].country_code + ' pop: ' + data[i].population;
+            var choice = {geonameid:data[i].geonameid,lon:data[i].longitude,lat:data[i].latitude};
+            selections.push(choice);
+          } 
+          return data;
+          }
+      }, // ajax get cities with his prefix
+   }); // typeahead onSelect
+}); // end of search selection
+}); // end of document ready
 
 var toggleButton = document.getElementById('toggle');
 document.addEventListener('click', toggle);
