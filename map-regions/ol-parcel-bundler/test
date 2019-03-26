@@ -1,0 +1,6 @@
+#!/bin/bash -x
+# define aliases for working with test source is inputs for webpack, parcel-bundler
+
+alias put='/bin/cp -f ./main.js ../../osm-vector/test/splash.js;/bin/cp -f ./index.html ../../osm-vector/splash/splash-index.html'
+alias get='/bin/cp -f ../../osm-vector/test/splash-index.html ./index.html;/bin/cp -f ../../osm-vector/splash/splash.js ./main.js'
+alias dif='vimdiff ../../osm-vector/test/splash.js ./main.js'
