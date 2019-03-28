@@ -3,7 +3,7 @@ const CopyPlugin = require('copy-webpack-plugin');
 const HtmlPlugin = require('html-webpack-plugin');
 
 module.exports = {
-  entry: '../src/main.js',
+  entry: './main.js',
   output: {
     path: path.resolve(__dirname, 'build'),
     filename: 'main.js'
@@ -25,9 +25,9 @@ module.exports = {
     ]
   },
   plugins: [
-    new CopyPlugin([{from: '../src/assets', to: 'assets'}]),
+    //new CopyPlugin([{from: '../src/assets', to: 'assets'}]),
     new HtmlPlugin({
-      template: '../src/index.html'
+      template: './index.html'
     })
   ]
 };
