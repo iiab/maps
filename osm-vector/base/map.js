@@ -16,7 +16,7 @@ import {Style, Fill, Stroke, Circle, Text} from 'ol/style';
 window.$ = window.jQuery = require('jquery');
 import 'bootstrap';
 import 'bootstrap/dist/css/bootstrap.css';
-//import 'bootstrap-typeahead';
+const typeahead = require('./assets/bootstrap-typeahead.min.js');
 
 var scaleLineControl = new ScaleLine();
 var mapData = "/common/assets";
