@@ -22,6 +22,9 @@ import Geolocation from 'ol/Geolocation'
 var scaleLineControl = new ScaleLine();
 var mapData = "/common/assets";
 var show = 'central_america';
+var zoom = 2;
+var lat = 37;
+var lon = -177;
 
 const map = new Map({
   target: 'map-container',
@@ -102,17 +105,23 @@ $( document ).ready(function() {
    window.$ = window.jQuery = jQuery;  // needs definition globally
 
    info_overlay = document.getElementById('info-overlay');
-   map.on("pointermove", function(evt) {
-       //var zoom = map.getZoom(); 
-       var coords = toLonLat(evt.coordinate);
-       var lat = coords[1];
-       var lon = coords[0];
+   function update_overlay(evt){
        var locTxt = "Lat: " + lat.toFixed(3) + " Lon: " + lon.toFixed(3); 
        var tilex = long2tile(lon,zoom);
        var tiley = lat2tile(lat,zoom);
        var zoomInfo = ' Zoom: ' + zoom.toFixed(1);
        locTxt += "   TileX: " + tilex + " TileY: " + tiley + zoomInfo; 
        info_overlay.innerHTML = locTxt;
+   }
+   map.on("pointermove", function(evt) {
+      var coords = toLonLat(evt.coordinate);
+      lat = coords[1];
+      lon = coords[0];
+      update_overlay();
+   });
+   map.on("moveend", function() {
+      zoom = map.getView().getZoom(); 
+      update_overlay();
    });
 
    var selections = Array(50);
@@ -160,23 +169,6 @@ $( document ).ready(function() {
 }); // end of search selection
 
 
-   var toggleButton = document.getElementById('toggle');
-   document.addEventListener('click', toggle);
-   var button_state = 0;
-   function toggle() {
-      if (button_state != 0) {
-         info_overlay.style.visibility = "hidden";
-         button_state = 0;
-       } else {
-         info_overlay.style.visibility = "visible";
-         button_state = 1;
-       };
-   };  
-        
-   var zoom = 2;
-      map.on("moveend", function() {
-            zoom = map.getView().getZoom(); 
-      });
    // Functions to compute tiles from lat/lon
    function long2tile(lon,zoom) {
       return (Math.floor((lon+180)/360*Math.pow(2,zoom)));
