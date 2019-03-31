@@ -17,6 +17,7 @@ window.$ = window.jQuery = require('jquery');
 import 'bootstrap';
 import 'bootstrap/dist/css/bootstrap.css';
 const typeahead = require('./assets/bootstrap-typeahead.min.js');
+import Geolocation from 'ol/Geolocation'
 
 var scaleLineControl = new ScaleLine();
 var mapData = "/common/assets";
@@ -110,7 +111,7 @@ $( document ).ready(function() {
        var tilex = long2tile(lon,zoom);
        var tiley = lat2tile(lat,zoom);
        var zoomInfo = ' Zoom: ' + zoom.toFixed(1);
-       locTxt += "<br>TileX: " + tilex + " TileY: " + tiley + zoomInfo; 
+       locTxt += "   TileX: " + tilex + " TileY: " + tiley + zoomInfo; 
        info_overlay.innerHTML = locTxt;
    });
 
@@ -120,7 +121,7 @@ $( document ).ready(function() {
           if (selections[i].geonameid == item.value){
              var there = fromLonLat([selections[i].lon,selections[i].lat]);
              map.getView().setCenter(there);
-             map.getView().setZoom(9);
+             map.getView().setZoom(10);
              console.log(selections[i].lon + ' ' + selections[i].lat);
           }
        }
@@ -198,5 +199,15 @@ $( document ).ready(function() {
       map.getView().setCenter(there);
       map.getView().setZoom(parseFloat(config["zoom"]));
       show = config.region;
+   });
+   var geolocation = new Geolocation({
+      // take the projection to use from the map's view
+      projection: 'EPSG:3857'
+   });
+   geolocation.setTracking(true);
+
+   $( '#home' ).on('click', function(){
+      const coords = geolocation.getPosition();
+        map.getView().animate({center: coords, zoom: 10});
    });
 }); // end of document ready
