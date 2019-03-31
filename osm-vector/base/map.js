@@ -13,30 +13,14 @@ import stylefunction from 'ol-mapbox-style/stylefunction';
 import {defaults as defaultControls, ScaleLine} from 'ol/control.js';
 import GeoJSON from 'ol/format/GeoJSON';
 import {Style, Fill, Stroke, Circle, Text} from 'ol/style';
-
-//var jquery = require("./assets/jquery.min");
-//window.$ = window.jQuery = jquery; // notice the definition of global variables here
-var typeahead = require("./assets/bootstrap-typeahead.min");
-var scaleLineControl = new ScaleLine();
-
-//import $ from 'jquery';
-//$.then(function() {
-//   window.$ = $ = window.jQuery = jquery;
-//});
-/*
+window.$ = window.jQuery = require('jquery');
 import 'bootstrap';
 import 'bootstrap/dist/css/bootstrap.css';
-import {Typeahead} from 'bootstrap-typeahead';
-const typeahead =  new Typeahead();
-//var jquery = require("./assets/jquery.min");
-window.$ = window.jQuery = jquery; // notice the definition of global variables here
-//var typeahead = require("./assets/bootstrap-typeahead.min");
-*/
+//import 'bootstrap-typeahead';
+
 var scaleLineControl = new ScaleLine();
-
 var mapData = "/common/assets";
-
-
+var show = 'central_america';
 
 const map = new Map({
   target: 'map-container',
@@ -55,6 +39,7 @@ const map = new Map({
     zoom: 2
   })
 });
+
 const detail = new VectorTileLayer({
    source: new VectorTileSource({
       format: new MVT(),
@@ -64,7 +49,7 @@ const detail = new VectorTileLayer({
    }),
    declutter: true,
 });
-fetch('http://192.168.123.5/modules/en-osm-omt-min/assets/style-cdn.json').then(function(response) {
+fetch('./assets/style-cdn.json').then(function(response) {
    response.json().then(function(glStyle) {
      stylefunction(detail, glStyle,"openmaptiles");
    });
@@ -102,7 +87,6 @@ const boxLayer =  new VectorLayer({
    } 
 })
 map.addLayer(boxLayer);    
-var show = 'central_america';
 
 var unitsSelect = document.getElementById('units');
 function onChange() {
@@ -113,8 +97,10 @@ onChange();
 
 var info_overlay = 0;
 $( document ).ready(function() {
-   info_overlay = document.getElementById('info-overlay');
+   // typeahead has (window.jQuery) at the end of its definition
+   window.$ = window.jQuery = jQuery;  // needs definition globally
 
+   info_overlay = document.getElementById('info-overlay');
    map.on("pointermove", function(evt) {
        //var zoom = map.getZoom(); 
        var coords = toLonLat(evt.coordinate);
@@ -140,6 +126,7 @@ $( document ).ready(function() {
        }
        $('#search').val('');
     }
+
    $(function() {
       $('#search').typeahead({
        onSelect: function(item) {
@@ -170,45 +157,46 @@ $( document ).ready(function() {
       }, // ajax get cities with his prefix
    }); // typeahead onSelect
 }); // end of search selection
-}); // end of document ready
 
-var toggleButton = document.getElementById('toggle');
-document.addEventListener('click', toggle);
-var button_state = 0;
-function toggle() {
-   if (button_state != 0) {
-      info_overlay.style.visibility = "hidden";
-      button_state = 0;
-    } else {
-      info_overlay.style.visibility = "visible";
-      button_state = 1;
-    };
-};  
-     
-var zoom = 2;
-   map.on("moveend", function() {
-         zoom = map.getView().getZoom(); 
+
+   var toggleButton = document.getElementById('toggle');
+   document.addEventListener('click', toggle);
+   var button_state = 0;
+   function toggle() {
+      if (button_state != 0) {
+         info_overlay.style.visibility = "hidden";
+         button_state = 0;
+       } else {
+         info_overlay.style.visibility = "visible";
+         button_state = 1;
+       };
+   };  
+        
+   var zoom = 2;
+      map.on("moveend", function() {
+            zoom = map.getView().getZoom(); 
+      });
+   // Functions to compute tiles from lat/lon
+   function long2tile(lon,zoom) {
+      return (Math.floor((lon+180)/360*Math.pow(2,zoom)));
+   }
+   function lat2tile(lat,zoom)  {
+      return (Math.floor((1-Math.log(Math.tan(lat*Math.PI/180) + 1/Math.cos(lat*Math.PI/180))/Math.PI)/2 *Math.pow(2,zoom)));
+   }
+   var config = {};
+   var resp = $.ajax({
+      type: 'GET',
+      async: true,
+      url: './init.json',
+      dataType: 'json'
+   })
+   .done(function( data ) {
+      config = data;
+      var coord = [parseFloat(config.lon),parseFloat(config.lat)];
+      console.log(coord + "");
+      var there = fromLonLat(coord);
+      map.getView().setCenter(there);
+      map.getView().setZoom(parseFloat(config["zoom"]));
+      show = config.region;
    });
-// Functions to compute tiles from lat/lon
-function long2tile(lon,zoom) {
-   return (Math.floor((lon+180)/360*Math.pow(2,zoom)));
-}
-function lat2tile(lat,zoom)  {
-   return (Math.floor((1-Math.log(Math.tan(lat*Math.PI/180) + 1/Math.cos(lat*Math.PI/180))/Math.PI)/2 *Math.pow(2,zoom)));
-}
-var config = {};
-var resp = $.ajax({
-   type: 'GET',
-   async: true,
-   url: './init.json',
-   dataType: 'json'
-})
-.done(function( data ) {
-   config = data;
-   var coord = [parseFloat(config.lon),parseFloat(config.lat)];
-   console.log(coord + "");
-   var there = fromLonLat(coord);
-   map.getView().setCenter(there);
-   map.getView().setZoom(parseFloat(config["zoom"]));
-   show = config.region;
-});
+}); // end of document ready
