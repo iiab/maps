@@ -60,6 +60,10 @@ module.exports = {
     path: path.resolve(__dirname, 'build'),
     filename: 'main.js'
   },
+ mode: 'development',
+ optimization: {
+   usedExports: true
+ },
   devtool: 'source-map',
   devServer: {
     host: '0.0.0.0',
@@ -77,9 +81,9 @@ module.exports = {
     ]
   },
   plugins: [
-    new CopyPlugin([{from: '../src/assets', to: 'assets'}]),
+    //new CopyPlugin([{from: '../src/assets', to: 'assets'}]),
     new HtmlPlugin({
-      template: '../src/index.html'
+      template: './index.html'
     })
   ]
 };

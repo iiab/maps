@@ -3,6 +3,7 @@
 # This stage assumes that the tile generation needs the speed of SSD, but
 # that in the long run, the large files should reside on hard disk. it makes
 # the transition in stage3
+# 3assemble.sh
 
 # first check that the environment has been set
 MG=${MR_SSD}
@@ -24,7 +25,7 @@ for EXTRACT in $(ls $MR_SSD/output/stage2/*.mbtiles); do
 done
 
 
-# the following downloads all the resources to start3/fromscratch
+# the following downloads all the resources to stage3/fromscratch
 if [ ! -d $MR_HARD_DISK/output/stage3/fromscratch ];then
 
    # may need some tools from iiab-factory
