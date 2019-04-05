@@ -1,3 +1,4 @@
+// main.js for IIAB test page showing regions available
 import {Fill, Stroke, Style} from 'ol/style';
 import 'ol/ol.css';
 import GeoJSON from 'ol/format/GeoJSON';
@@ -14,8 +15,7 @@ import 'bootstrap/dist/css/bootstrap.css';
 
 // a global variable to control which features are shown
 var show = {};
-var mapData = "/common/assets";
-
+var mapData = "/osm-vector/assets";
 
 var map = new Map({
   target: 'map-container',

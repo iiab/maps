@@ -1,3 +1,4 @@
+// main.js for Admin Console -- selection of regions
 import {Fill, Stroke, Style} from 'ol/style';
 import 'ol/ol.css';
 import GeoJSON from 'ol/format/GeoJSON';
@@ -10,7 +11,7 @@ import View from 'ol/View';
 
 // a global variable to control which features are shown
 var show = {};
-var mapData = "/common/assets";
+var mapData = "/osm-vector/assets";
 
 
 var map = new Map({

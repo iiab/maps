@@ -7,6 +7,9 @@ map-regions/ol-parcel-bundler/.cache
 map-regions/tilelive/
 map-regions/extracts/
 osm-vector/base/oceans.mbtiles
+osm-vector/base/build
+osm-vector/test/build
+osm-vector/console/build
 
 
 
