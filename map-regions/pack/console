@@ -4,3 +4,5 @@
 alias put='/bin/cp -f ./main.js ../../osm-vector/console/main.js;/bin/cp -f ./index.html ../../osm-vector/console/index.html'
 alias get='/bin/cp -f ../../osm-vector/console/index.html ./index.html;/bin/cp -f ../../osm-vector/console/main.js ./main.js'
 alias dif='vimdiff ../../osm-vector/console/main.js ./main.js'
+alias save='cp -fp ./build/* ../../osm-vector/console/build/'
+alias pub='scp ./build/main.js ghunt@unleashkids.org:/home/ghunt'

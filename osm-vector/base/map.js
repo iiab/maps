@@ -1,3 +1,4 @@
+// main.js for base -- regional OSM vector tiles
 import 'ol/ol.css';
 import Map from 'ol/Map';
 import View from 'ol/View';
@@ -20,11 +21,12 @@ const typeahead = require('./assets/bootstrap-typeahead.min.js');
 import Geolocation from 'ol/Geolocation'
 
 var scaleLineControl = new ScaleLine();
-var mapData = "/common/assets";
-var show = 'central_america';
-var zoom = 2;
-var lat = 37;
-var lon = -177;
+var mapData = "/osm-vector/assets";
+// initial values for on event variables to get through startup
+var zoom = 3;
+var show = 'min';
+var lat = -117;
+var lon = 37;
 
 const map = new Map({
   target: 'map-container',
@@ -185,21 +187,12 @@ $( document ).ready(function() {
    })
    .done(function( data ) {
       config = data;
-      var coord = [parseFloat(config.lon),parseFloat(config.lat)];
+      var coord = [parseFloat(config.center_lon),parseFloat(config.center_lat)];
       console.log(coord + "");
       var there = fromLonLat(coord);
       map.getView().setCenter(there);
       map.getView().setZoom(parseFloat(config["zoom"]));
       show = config.region;
    });
-   var geolocation = new Geolocation({
-      // take the projection to use from the map's view
-      projection: 'EPSG:3857'
-   });
-   geolocation.setTracking(true);
 
-   $( '#home' ).on('click', function(){
-      const coords = geolocation.getPosition();
-        map.getView().animate({center: coords, zoom: 10});
-   });
 }); // end of document ready
