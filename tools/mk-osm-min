@@ -1,5 +1,5 @@
 #!/bin/bash -x
-# Incorporated into map-regions/3assemble.sh -- no longer used
+# HISTORIC Incorporated into map-regions/3assemble.sh -- no longer used
 # Incorporated into mapgen 3
 # fetch updated copies of resources needed for vector OSM - Apr 2018
 # script runs to completion in 26 minutes on hadron

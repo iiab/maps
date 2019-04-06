@@ -1,6 +1,6 @@
 #!/bin/bash -x
 # define aliases for working with base source is inputs for webpack, parcel-bundler
 
-alias put='/bin/cp -f ./main.js ../../osm-vector/base/map.js;/bin/cp -f ./index.html ../../osm-vector/base/index.html'
-alias get='/bin/cp -f ../../osm-vector/base/index.html ./index.html;/bin/cp -f ../../osm-vector/base/map.js ./main.js'
-alias dif='vimdiff ../../osm-vector/base/map.js ./main.js'
+alias put='/bin/cp -f ./main.js ../../osm-vector/base/main.js;/bin/cp -f ./index.html ../../osm-vector/base/index.html;/bin/cp -f ./build/* ../../osm-vector/base/build/'
+alias get='/bin/cp -f ../../osm-vector/base/index.html ./index.html;/bin/cp -f ../../osm-vector/base/main.js ./main.js'
+alias dif='vimdiff ../../osm-vector/base/main.js ./main.js'

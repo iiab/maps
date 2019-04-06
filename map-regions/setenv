@@ -1,17 +1,16 @@
 #!/bin/bash -x
 # set the environment for mapgen
 
-# this must be run thusly from the command line before working on mapgen
-# thusly: "source setenv"
+# changed strategy -- too complicated to separate ssd and hard disk
+#  so set them to the same value and start consilidating
 
-
-MR_SSD=/hd/root/temp/maps/map-regions
+MR_SSD=/opt/iiab/maps/map-regions
 #MR_SSD=/root/mapgen
 export MR_SSD
 mkdir -p MR_SSD
 
 # where to put large files
-MR_HARD_DISK=/hd/root/temp/maps/map-regions
+MR_HARD_DISK=/opt/iiab/maps/map-regions
 #MR_HARD_DISK=/root/mapgen
 export MR_HARD_DISK
 mkdir -p MR_HARD_DISK
@@ -37,7 +36,7 @@ fi
 REGION_LIST=$(cat $MR_SSD/region.list)
 export REGION_LIST
 
-MAP_VERSION=v0.1
+MAP_VERSION=v0.2
 export MAP_VERSION
 
 MAP_DATE=2017-07-03

@@ -1,5 +1,5 @@
 #!/usr/bin/env  python
-# Output the regions in regions.json
+# Use regions.json to create regional packages in stage4
 
 import os,sys
 import json
@@ -8,7 +8,7 @@ import subprocess
 
 # error out if environment is missing
 MR_SSD = os.environ["MR_SSD"]
-REGION_INFO = os.path.join(MR_SSD,'regions.json')
+REGION_INFO = os.path.join(MR_SSD,'../resources/regions.json')
 REGION_LIST = os.environ.get("REGION_LIST")
 REGION_LIST = json.loads(REGION_LIST)
 #print(REGION_LIST)
