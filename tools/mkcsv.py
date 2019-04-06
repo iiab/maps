@@ -11,8 +11,6 @@ REGION_LIST = os.environ.get("REGION_LIST")
 print(REGION_LIST)
 #REGION_LIST = json.loads(REGION_LIST)
 
-MR_HARD_DISK = os.environ.get("MR_HARD_DISK",'/hd/mapgen')
-
 with open(REGION_INFO,'r') as region_fp:
    data = json.loads(region_fp.read())
 headers = 'extract,id,country,city,left,bottom,right,top\n'

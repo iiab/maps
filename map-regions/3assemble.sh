@@ -12,12 +12,28 @@ fi
 # make sure the output directory is ready
 mkdir -p $MR_SSD/output/stage3/bundle
 
-# The bundle is now part of the map repo
+# I had many revisions before deciding on a symbolic link as cleanest solution
+#  To the problem of preserving SSD space
+unlink $MR_SSD/output/stage4
+ln -s $MR_HARD_DISK $MR_SSD/output/stage4
 
-# make sure we start fresh
+# Create bundle from the contents of the map repo
 rm -rf $MR_SSD/output/stage3/bundle/*
+cp -rp $MR_SSD/../osm-vector/base/* $MR_SSD/output/stage3/bundle/
 
-cp -rp $MR_SSD/../osm-vector/base/* $MR_SSD/output/state3/bundle/
+# just have one authoritative copy of some resources used everywhere
+cp -rp $MR_SSD/../resources/bboxes.geojson $MR_SSD/output/stage3/bundle/
+cp -rp $MR_SSD/../resources/regions.json $MR_SSD/output/stage3/bundle/
+
+# move the source out of the way, and use webpack bundles
+pushd  $MR_SSD/output/stage3/bundle
+   mkdir -p src
+   cp index.html main.js src
+   cp -fp build/* .
+popd
+curlhttp://download.iiab/io/packages/OSM/ocean.mbtiles > $MR_SSD/output/stage3/bundle/
+curl http://download.iiab/io/packages/OSM/cities1000.sqlite > $MR_SSD/output/stage3/bundle/
+
  
 # use python to read the mbtiles metadata, and update regions.json
 $MR_SSD/../tools/update_regions.json.py
