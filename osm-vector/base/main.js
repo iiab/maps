@@ -26,6 +26,8 @@ var zoom = 3;
 var show = 'min';
 var lat = -117;
 var lon = 37;
+// keep the values set in init.json for home button to use
+var config = {};
 
 const map = new Map({
   target: 'map-container',
@@ -177,7 +179,6 @@ $( document ).ready(function() {
    function lat2tile(lat,zoom)  {
       return (Math.floor((1-Math.log(Math.tan(lat*Math.PI/180) + 1/Math.cos(lat*Math.PI/180))/Math.PI)/2 *Math.pow(2,zoom)));
    }
-   var config = {};
    var resp = $.ajax({
       type: 'GET',
       async: true,
@@ -192,6 +193,13 @@ $( document ).ready(function() {
       map.getView().setCenter(there);
       map.getView().setZoom(parseFloat(config["zoom"]));
       show = config.region;
+      $( '#home' ).on('click', function(){
+         console.log('init.json contents:' + config.center_lat);
+             var there = fromLonLat([parseFloat(config.center_lon),parseFloat(config.center_lat)]);
+             map.getView().setCenter(there);
+             map.getView().setZoom(parseFloat(config.zoom));
+             console.log('going there:' +there + 'zoom: ' + parseFloat(config.zoom));
+      });
    });
 
 }); // end of document ready
