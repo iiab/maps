@@ -2,7 +2,7 @@
   "name": "pack",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "main.js",
   "scripts": {
     "babel": "babel --presets es2015 ./main.js -o ./build/main.bundle.js",
     "start": "webpack-dev-server --mode=development",

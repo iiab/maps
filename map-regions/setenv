@@ -10,12 +10,12 @@ export MR_SSD
 mkdir -p MR_SSD
 
 # where to put large files
-MR_HARD_DISK=/opt/iiab/maps/map-regions
+MR_HARD_DISK=/hd/stage4
 #MR_HARD_DISK=/root/mapgen
 export MR_HARD_DISK
 mkdir -p MR_HARD_DISK
 
-PLANET_MBTILES=$MR_SSD/output/osm-2017-07-03-v3.6.1-planet.mbtiles
+PLANET_MBTILES=$MR_SSD/output/stage2/osm-2017-07-03-v3.6.1-planet.mbtiles
 export PLANET_MBTILES
 
 CSV_FILE=$MR_SSD/output/stage1/iiab.csv
@@ -36,13 +36,13 @@ fi
 REGION_LIST=$(cat $MR_SSD/region.list)
 export REGION_LIST
 
-MAP_VERSION=v0.2
+MAP_VERSION=v0.1
 export MAP_VERSION
 
 MAP_DATE=2017-07-03
 export MAP_DATE
 
-MAP_DL_URL='http://192.168.123.5/content/maps'
+MAP_DL_URL='https://archive.org/downloads'
 export MAP_DL_URL
 
 MAP_UPLOAD_TARGET=/library/www/html/local_content/maps

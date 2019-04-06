@@ -8,7 +8,9 @@ map-regions/tilelive/
 map-regions/extracts/
 osm-vector/base/oceans.mbtiles
 osm-vector/base/build
+osm-vector/base/dist
 osm-vector/test/build
+osm-vector/test/dist
 osm-vector/console/build
 
 
