@@ -6,7 +6,7 @@ import json
 import uuid
 
 MR_SSD = os.environ.get("MR_SSD",'/root/mapgen')
-REGION_INFO = os.path.join(MR_SSD,'regions.json')
+REGION_INFO = os.path.join(MR_SSD,'../resources','regions.json')
 REGION_LIST = os.environ.get("REGION_LIST")
 print(REGION_LIST)
 #REGION_LIST = json.loads(REGION_LIST)

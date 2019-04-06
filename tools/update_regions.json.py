@@ -6,7 +6,7 @@ import json
 import sqlite3
 
 MR_SSD = os.environ.get("MR_SSD",'/root/mapgen')
-REGION_INFO = os.path.join(MR_SSD,'regions.json')
+REGION_INFO = os.path.join(MR_SSD,'resources','regions.json')
 
 MR_HARD_DISK = os.environ.get("MR_HARD_DISK",'/hd/mapgen')
 
