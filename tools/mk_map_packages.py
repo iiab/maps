@@ -10,6 +10,8 @@ import subprocess
 MR_SSD = os.environ["MR_SSD"]
 REGION_INFO = os.path.join(MR_SSD,'../resources/regions.json')
 REGION_LIST = os.environ.get("REGION_LIST")
+PLANET = os.environ.get("PLANET_MBTILES","")
+print('region.list limits processing to: %s'%REGION_LIST)
 REGION_LIST = json.loads(REGION_LIST)
 print(REGION_LIST)
 
@@ -24,7 +26,7 @@ with open(REGION_INFO,'r') as region_fp:
       print("regions.json parse error")
       sys.exit(1)
    for region in data['regions'].keys():
-      if region in REGION_LIST:
+      if region in REGION_LIST['list']:
          init = {}
          print(region)
          # determine if the destination directory already exists
@@ -40,6 +42,8 @@ with open(REGION_INFO,'r') as region_fp:
             shutil.copytree(os.path.join(MR_SSD,
                   'output/stage3/bundle/'),target_dir)
             src_region = os.path.join(MR_SSD,'output/stage2',region + '.mbtiles')
+            if region == 'world':
+               src_region = PLANET 
             shutil.copy(src_region,target_dir)
             os.chdir(target_dir)
             os.symlink('./' + os.path.basename(src_region),"detail.mbtiles")
