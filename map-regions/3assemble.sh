@@ -31,10 +31,9 @@ pushd  $MR_SSD/output/stage3/bundle
    cp index.html main.js src
    cp -fp build/* .
 popd
-curl http://download.iiab/io/packages/OSM/ocean.mbtiles > $MR_SSD/output/stage3/bundle/
-curl http://download.iiab/io/packages/OSM/cities1000.sqlite > $MR_SSD/output/stage3/bundle/
+wget -c  http://download.iiab.io/packages/OSM/ocean.mbtiles -P $MR_SSD/output/stage3/bundle/
+wget -c  http://download.iiab.io/packages/OSM/cities1000.sqlite -P $MR_SSD/output/stage3/bundle/
 
- 
 # use python to read the mbtiles metadata, and update regions.json
 $MR_SSD/../tools/update_regions.json.py
 
