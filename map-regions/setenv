@@ -42,7 +42,7 @@ export MAP_VERSION
 MAP_DATE=2017-07-03
 export MAP_DATE
 
-MAP_DL_URL='https://archive.org/downloads'
+MAP_DL_URL='https://archive.org/download'
 export MAP_DL_URL
 
 MAP_UPLOAD_TARGET=/library/www/html/local_content/maps

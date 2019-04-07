@@ -5,8 +5,14 @@ import os,sys
 import json
 import sqlite3
 
+MAP_VERSION = os.environ.get("MAP_VERSION",'v.999')
+if MAP_VERSION == 'v.999':
+   print('The environment is not set. Please run "source setenv"') 
+   sys.exit(1)
+# Variables are being properly defined by environment variables
 MR_SSD = os.environ.get("MR_SSD",'/root/mapgen')
 REGION_INFO = os.path.join(MR_SSD,'../resources','regions.json')
+DOWNLOAD_URL = os.environ['MAP_DL_URL']
 
 outstr = ''
 region_list = []
@@ -35,11 +41,13 @@ with open(REGION_INFO,'r') as region_fp:
 	   #print(row[0])
       if row:
          data['regions'][region]['size'] = row[0]
-      data['regions'][region]['perma_ref'] = 'en-osm-omt_' + region
-      download_url = os.environ['MAP_DL_URL']
-      data['regions'][region]['url'] = download_url\
-		 + '/en-osm-omt_' + region + '_' + data['regions'][region]['date'] +'_'\
-		 + os.environ.get("MAP_VERSION",'v0.9') + '.zip'
+      perma_ref = 'en-osm-omt_' + region
+      identity = perma_ref + '_' + data['regions'][region]['date'] +'_'\
+		 + MAP_VERSION 
+      file_ref = identity + '.zip'
+      data['regions'][region]['perma_ref'] = perma_ref
+      data['regions'][region]['url'] = DOWNLOAD_URL+ '/' + identity + \
+                                       '/' + identity + '.zip'
    outstr = json.dumps(data,indent=2) 
    print(outstr)
 
