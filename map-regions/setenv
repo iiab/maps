@@ -7,13 +7,13 @@
 MR_SSD=/opt/iiab/maps/map-regions
 #MR_SSD=/root/mapgen
 export MR_SSD
-mkdir -p MR_SSD
+mkdir -p $MR_SSD
 
 # where to put large files
 MR_HARD_DISK=/hd/stage4
 #MR_HARD_DISK=/root/mapgen
 export MR_HARD_DISK
-mkdir -p MR_HARD_DISK
+mkdir -p $MR_HARD_DISK
 
 PLANET_MBTILES=$MR_SSD/output/stage2/osm-2017-07-03-v3.6.1-planet.mbtiles
 export PLANET_MBTILES
