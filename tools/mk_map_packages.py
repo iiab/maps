@@ -49,6 +49,7 @@ with open(REGION_INFO,'r') as region_fp:
             os.symlink('./' + os.path.basename(src_region),"detail.mbtiles")
    
             # create init.json which sets initial coords and zoom
+            init['region'] = region
             init['zoom'] = data['regions'][region]['zoom'] 
             init['center_lon'] = data['regions'][region]['center_lon'] 
             init['center_lat'] = data['regions'][region]['center_lat'] 
