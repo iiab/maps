@@ -38,7 +38,7 @@ with open(REGION_INFO,'r') as region_fp:
       data['regions'][region]['perma_ref'] = 'en-osm-omt_' + region
       download_url = os.environ['MAP_DL_URL']
       data['regions'][region]['url'] = download_url\
-		 + '/en-osm-omt_' + region + '_'\
+		 + '/en-osm-omt_' + region + '_' + data['regions'][region]['date'] +'_'\
 		 + os.environ.get("MAP_VERSION",'v0.9') + '.zip'
    outstr = json.dumps(data,indent=2) 
    print(outstr)
