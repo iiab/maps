@@ -65,7 +65,7 @@ with open(REGION_INFO,'r') as region_fp:
             # already uploaded
             print('Skipping %s -- checksums match'%region)
             continue
-         if item.metata:
+         if item.metadata:
             print('md5sums for %s do not match'%region)
          else:
             print('Archive.org does not have %s'%identifier) 
@@ -73,6 +73,5 @@ with open(REGION_INFO,'r') as region_fp:
          print('Uploading %s'%region)
          print('MetaData: %s'%md)
          print('Identifier: %s. Filename: %s'%(identifier,target_zip,))
-         sys.exit(0)
          r = internetarchive.upload(identifier, files=[target_zip], metadata=md)
          print(r[0].status_code) 
