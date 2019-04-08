@@ -15,7 +15,7 @@ import 'bootstrap/dist/css/bootstrap.css';
 
 // a global variable to control which features are shown
 var show = {};
-var mapData = "/osm-vector/assets";
+var mapData = "/osm-vector/maplist/assets";
 
 var map = new Map({
   target: 'map-container',

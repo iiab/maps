@@ -6,7 +6,8 @@
   "scripts": {
     "babel": "babel --presets es2015 ./main.js -o ./build/main.bundle.js",
     "start": "webpack-dev-server --mode=development",
-    "build": "webpack --mode=development"
+    "build": "webpack --mode=development",
+    "pack": "webpack --mode=production"
   },
   "keywords": [],
   "author": "",
