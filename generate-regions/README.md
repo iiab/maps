@@ -17,4 +17,4 @@
 4. The authoritative copies of map data are at  http://content/OSM/vector-maps/maplist/hidden/ and are browseable via the ../hidden/ url.
 5. The jquery and osm_functions.js files are copies, non-authoritative, to help the maplist function properly.
 6. The tools directory has an update-unleashed script which guarantees that ukids items are in sync.
-7. For production, webpack generates output to the webpack/build directory. The put alias copies the most recent build to the osm-source/<function>/build directory (not tracked by git).
+7. For production, webpack generates output to the webpack/build directory. The put alias copies the most recent build to the osm-source/(function)/build directory (not tracked by git).
