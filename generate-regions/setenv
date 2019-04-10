@@ -4,7 +4,7 @@
 # changed strategy -- too complicated to separate ssd and hard disk
 #  so set them to the same value and start consilidating
 
-MR_SSD=/opt/iiab/maps/map-regions
+MR_SSD=/opt/iiab/maps/generate-regions
 #MR_SSD=/root/mapgen
 export MR_SSD
 mkdir -p $MR_SSD
