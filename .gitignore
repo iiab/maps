@@ -1,17 +1,17 @@
-map-regions/output/
-map-regions/pack/node_modules/
-map-regions/pack/build
-map-regions/ol-parcel-bundler/node_modules/
-map-regions/ol-parcel-bundler/dist/
-map-regions/ol-parcel-bundler/.cache
-map-regions/tilelive/
-map-regions/extracts/
-osm-vector/base/build
-osm-vector/base/dist
-osm-vector/test/build
-osm-vector/test/dist
-osm-vector/console/build
-osm-vector/ukids/build
+generate-regions/output/
+generate-regions/pack/node_modules/
+generate-regions/pack/build
+generate-regions/ol-parcel-bundler/node_modules/
+generate-regions/ol-parcel-bundler/dist/
+generate-regions/ol-parcel-bundler/.cache
+generate-regions/tilelive/
+generate-regions/extracts/
+osm-source/base/build
+osm-source/base/dist
+osm-source/test/build
+osm-source/test/dist
+osm-source/console/build
+osm-source/ukids/build
 
 
 
