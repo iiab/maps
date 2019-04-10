@@ -40,7 +40,7 @@ with open(REGION_INFO,'r') as region_fp:
             md5 = instr.split(' ')[0]
          if len(md5) == 0:
             print('md5 was zero length. ABORTING')
-            os.exit1
+            os.exit(1)
 
          # Gather together the metadata for archive.org
          md = {}
