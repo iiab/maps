@@ -1,0 +1,5 @@
+#!/bin/bash -x
+# copy the ol-parcel-bundle to apache teritory
+
+rsync -a ./dist/* /library/www/html/temp1
+#rsync -a ./site/* /library/www/html/ghboxes

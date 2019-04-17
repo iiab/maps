@@ -1,0 +1,97 @@
+#!/bin/bash -x
+# HISTORIC Incorporated into map-regions/3assemble.sh -- no longer used
+# Incorporated into mapgen 3
+# fetch updated copies of resources needed for vector OSM - Apr 2018
+# script runs to completion in 26 minutes on hadron
+
+# may need some tools from iiab-factory
+scriptdir=`dirname "$(readlink -f "$0")"`
+
+#prefix=./
+prefix=$MR_HARD_DISK/output/stage3/fromscratch
+
+# create a place to put accumulations of resources
+mkdir -p $prefix/assets
+mkdir -p $prefix/build
+cd $prefix/build
+
+if [ ! -d maps ]; then
+git clone https://github.com/iiab/maps
+fi
+cp -rp maps/* ..
+if [ ! -d "jquery" ]; then
+git clone git://github.com/jquery/jquery.git
+fi
+if [ ! -d "bootstrap" ]; then
+git clone git://github.com/twitter/bootstrap.git
+fi
+if [ ! -d "bootstrap-ajax-typeahead" ]; then
+git clone git://github.com/biggora/bootstrap-ajax-typeahead.git
+fi
+   if [ ! -d "osm-bright-gl-style" ]; then
+   git clone git://github.com/openmaptiles/osm-bright-gl-style --branch gh-pages
+   fi
+cp $prefix/build/osm-bright-gl-style/sprite* $prefix/assets/
+pushd jquery
+if [ ! -f dist/jquery.min.js ]; then
+npm run build
+fi
+rsync $prefix/build/jquery/dist/jquery.min.js* $prefix/assets
+popd
+
+rsync $prefix/build/bootstrap/dist/js/bootstrap.min.js* $prefix/assets
+rsync $prefix/build/bootstrap/dist/css/bootstrap.min.css* $prefix/assets
+ 
+rsync $prefix/build/bootstrap-ajax-typeahead/js/bootstrap-typeahead.min.js* $prefix/assets/
+
+
+# get the cities sqlite database
+cd $prefix/build
+if [ ! -f cities1000.zip ]; then
+wget  http://download.geonames.org/export/dump/cities1000.zip
+unzip cities1000.zip
+fi
+if [ ! -f cities1000.sqlite ];then
+   cp $scriptdir/mkfeatures.sql .
+   cp $scriptdir/geodb.pl .
+   sqlite3 cities1000.sqlite < mkfeatures.sql
+   $prefix/build/geodb.pl
+fi
+cp cities1000.sqlite ..
+
+if [ ! -f ocean.mbtiles ]; then
+wget  http://download.iiab.io/packages/OSM/ocean.mbtiles
+fi
+
+function dummy(){
+   cd $prefix
+   if [ ! -f $detail_mbtiles ]; then
+   wget  http://download.iiab.io/packages/OSM/$detail_mbtiles
+   fi
+   if [ ! -f $base_mbtiles ]; then
+   wget  http://download.iiab.io/packages/OSM/$base_mbtiles
+   fi
+   ln -sf ./$detail_mbtiles detail.mbtiles
+   ln -sf ./$base_mbtiles base.mbtiles
+   if [ ! -d "www.openmaptiles.org" ]; then
+   git clone https://github.com/openmaptiles/www.openmaptiles.org
+   fi
+   if [ ! -d "openlayers" ]; then
+   git clone https://github.com/openlayers/openlayers
+   fi
+   cp $prefix/build/www.openmaptiles.org/maps/olms.js $prefix/assets
+   wget -P $prefix/assets https://cdnjs.cloudflare.com/ajax/libs/openlayers/4.6.5/ol.js
+
+   wget -P $prefix/assets https://cdnjs.cloudflare.com/ajax/libs/openlayers/4.6.5/ol.css
+   """ we are now using google noto sans fonts
+   # generate the fonts for offline use
+   if [ ! -d fonts ];then
+   git clone https://github.com/openmaptiles/fonts
+   cd fonts
+
+   npm install
+   node ./generate.js
+   fi
+   cp -r $prefix/build/fonts/_output/* $prefix/assets/fonts
+   """
+}
