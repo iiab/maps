@@ -1,0 +1,26 @@
+#!/bin/bash -x
+# Collect all map resources and send them to be used by everyone at unleashkids
+# The bulk of the online resources are at http://archive.org/dowloads/
+# Placed there by maps/generate-regions/4publish.sh 
+
+# What is authoritative where:
+# Pleae see https://github.com/georgejhunt/maps/blob/reorg/generate-regions/README.md 
+
+UKIDS_URL=/var/www/iiab/content/OSM/vector-tiles/maplist/hidden
+MAPS_DIR=/opt/iiab/maps
+
+# the following are required assets for the test page
+scp $MAPS_DIR/resources/regions.json $UKIDS_URL/assets/
+scp $MAPS_DIR/resources/bboxes.geojson $UKIDS_URL/assets/
+scp $MAPS_DIR/resources/countries.json $UKIDS_URL/assets/
+scp /opt/admin/console/js/osm_functions.js $UKIDS_URL/assets/
+scp /library/www/html/common/js/jquery.min.js  $UKIDS_URL/assets/
+
+# copy the splash index and main.js 
+scp $MAPS_DIR/osm-source/test-page/build/main.js $UKIDS_URL/../
+scp $MAPS_DIR/osm-source/test-page/build/index.html $UKIDS_URL/../
+
+# The admin console uses a webpack bundle to choose a region to upload
+scp $MAPS_DIR/osm-source/admin-conole/build/main.js $UKIDS_URL/admin-console/
+
+
