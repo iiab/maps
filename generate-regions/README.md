@@ -12,9 +12,9 @@
 
 #### Keeping track of What's authoritative ####
 1. This repo, "maps", is authoritative except for transpiled bundles, and map data (ocean.mbtiles, cities1000.sql, countries.json, bboxes.geojson). Unleashkids.org are source for these map data items.
-2. All of the files on unleashkids.org relating to maps have been consolidated into http://content/OSM/vector-maps/maplist.
-3. ../maplist has an index.html, and displays the standard list of regions (using a non-authoritative ../assets).
+2. All of the files on unleashkids.org relating to maps have been consolidated into http://content/OSM/vector-maps/maplist/hidden/. (The "assets" directory is a symbolic link which exposes the assets folder hidden by ../maplist/index.html).
+3. ../maplist has an index.html, and displays the standard list of regions (using the authoritative ./assets).
 4. The authoritative copies of map data are at  http://content/OSM/vector-maps/maplist/hidden/ and are browseable via the ../hidden/ url.
 5. The jquery and osm_functions.js files are copies, non-authoritative, to help the maplist function properly.
 6. The tools directory has an update-unleashed script which guarantees that ukids items are in sync.
-7. For production, webpack generates output to the webpack/build director. The put alias copies the most recent build to the osm-source/build directory (not tracked by git).
+7. For production, webpack generates output to the webpack/build directory. The put alias copies the most recent build to the osm-source/(function)/build directory (not tracked by git).
