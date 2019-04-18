@@ -19,7 +19,7 @@ ln -s $MR_HARD_DISK $MR_SSD/output/stage4
 
 # Create bundle from the contents of the map repo
 rm -rf $MR_SSD/output/stage3/bundle/*
-cp -rp $MR_SSD/../osm-vector/base/* $MR_SSD/output/stage3/bundle/
+cp -rp $MR_SSD/../osm-source/regional-base/* $MR_SSD/output/stage3/bundle/
 
 # just have one authoritative copy of some resources used everywhere
 cp -rp $MR_SSD/../resources/bboxes.geojson $MR_SSD/output/stage3/bundle/
