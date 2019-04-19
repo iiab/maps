@@ -14,6 +14,10 @@ import stylefunction from 'ol-mapbox-style/stylefunction';
 import {defaults as defaultControls, ScaleLine} from 'ol/control.js';
 import GeoJSON from 'ol/format/GeoJSON';
 import {Style, Fill, Stroke, Circle, Text} from 'ol/style';
+import WMTSCapabilities from 'ol/format/WMTSCapabilities.js';
+import WMTS,{optionsFromCapabilities} from 'ol/source/WMTS.js';
+
+
 window.$ = window.jQuery = require('jquery');
 import 'bootstrap';
 import 'bootstrap/dist/css/bootstrap.css';
@@ -23,109 +27,148 @@ import Geolocation from 'ol/Geolocation'
 var scaleLineControl = new ScaleLine();
 // initial values for on event variables to get through startup
 var zoom = 3;
+var lat = 37;
+var lon = -122;
 var show = 'min';
-var lat = -117;
-var lon = 37;
+var map;
 // keep the values set in init.json for home button to use
 var config = {};
 
-const map = new Map({
-  target: 'map-container',
-  controls: defaultControls().extend([
-    scaleLineControl
-  ]),
-  layers: [
-    new TileLayer({
-      source: new XYZSource({
-        url: './tileserver.php/ocean/{z}/{x}/{y}.png'
-      })
-    })
-  ],
-  view: new View({
-    center: fromLonLat([-71.06, 42.37]),
-    zoom: 2
-  })
-});
-
-const detail = new VectorTileLayer({
-   source: new VectorTileSource({
-      format: new MVT(),
-      url: `./tileserver.php/detail/{z}/{x}/{y}.pbf`,
-      minZoom: 0,
-      maxZoom: 14
-   }),
-   declutter: true,
-});
-fetch('./assets/style-cdn.json').then(function(response) {
-   response.json().then(function(glStyle) {
-     stylefunction(detail, glStyle,"openmaptiles");
+// Globals for satellite images
+var parser = new WMTSCapabilities();
+var options = {};
+var URL = 'https://tiles.maps.eox.at/wmts/1.0.0/WMTSCapabilities.xml';
+fetch(URL).then(function(response) {
+   return response.text();
+}).then(function(text) {
+// Everything needs to wait to read capabilities
+   var result = parser.read(text);
+   options = optionsFromCapabilities(result, {
+      layer: 's2cloudless-2018_3857',
+      matrixSet: 'g'
    });
-});
-map.addLayer(detail);
+   console.log("options:" + options);
+   
+   const WMTS_layer =  new TileLayer({
+           opacity: 1,
+           source: new WMTS((options))
+         });
+   
+   map = new Map({
+     target: 'map-container',
+     controls: defaultControls().extend([
+       scaleLineControl
+     ]),
+     view: new View({
+       center: fromLonLat([-71.06, 42.37]),
+       zoom: 2
+     })
+   }); //end of new Map
 
-const boxLayer =  new VectorLayer({
-   source: new VectorSource({
-     format: new GeoJSON(),
-     url: './bboxes.geojson'
-   }),
-   style: function(feature) {
-     var name = feature.get("name");
-     if (typeof show !== 'undefined' &&
-          show != null && name == show) {
-       return new Style({
-         fill: new Fill({
-           color: 'rgba(67, 163, 46, 0)'
-         }),
-         stroke: new Stroke({
-           color: 'rgba(67, 163, 46, 1)',
-           width: 2
-         })
-       })
-     } else {
-       return new Style({
-         fill: new Fill({
-           color: 'rgba(255,255,255,0)'
-         }),
-         stroke: new Stroke({
-           color: 'rgba(255,255,255,0)'
-         })
-       })
-     } 
-   } 
-})
-map.addLayer(boxLayer);    
+   const detail = new VectorTileLayer({
+      source: new VectorTileSource({
+         format: new MVT(),
+         url: `./tileserver.php/detail/{z}/{x}/{y}.pbf`,
+         minZoom: 0,
+         maxZoom: 14
+      }),
+      declutter: true,
+   });
+   fetch('./assets/style-cdn.json').then(function(response) {
+      response.json().then(function(glStyle) {
+        stylefunction(detail, glStyle,"openmaptiles");
+      });
+   });
+   map.addLayer(detail);
+   map.addLayer(WMTS_layer);
 
-var unitsSelect = document.getElementById('units');
-function onChange() {
-  scaleLineControl.setUnits(unitsSelect.value);
-}
-unitsSelect.addEventListener('change', onChange);
-onChange();
+   const boxLayer =  new VectorLayer({
+      source: new VectorSource({
+        format: new GeoJSON(),
+        url: './bboxes.geojson'
+      }),
+      style: function(feature) {
+        var name = feature.get("name");
+        if (typeof show !== 'undefined' &&
+             show != null && name == show) {
+          return new Style({
+            fill: new Fill({
+              color: 'rgba(67, 163, 46, 0)'
+            }),
+            stroke: new Stroke({
+              color: 'rgba(67, 163, 46, 1)',
+              width: 2
+            })
+          })
+        } else {
+          return new Style({
+            fill: new Fill({
+              color: 'rgba(255,255,255,0)'
+            }),
+            stroke: new Stroke({
+              color: 'rgba(255,255,255,0)'
+            })
+          })
+        } 
+      } 
+   })
+   map.addLayer(boxLayer);    
 
-var info_overlay = 0;
-$( document ).ready(function() {
-   // typeahead has (window.jQuery) at the end of its definition
-   window.$ = window.jQuery = jQuery;  // needs definition globally
-
-   info_overlay = document.getElementById('info-overlay');
-   function update_overlay(evt){
-       var locTxt = "Lat: " + lat.toFixed(3) + " Lon: " + lon.toFixed(3); 
-       var tilex = long2tile(lon,zoom);
-       var tiley = lat2tile(lat,zoom);
-       var zoomInfo = ' Zoom: ' + zoom.toFixed(1);
-       locTxt += "   TileX: " + tilex + " TileY: " + tiley + zoomInfo; 
-       info_overlay.innerHTML = locTxt;
-   }
+   map.on("moveend", function() {
+      zoom = map.getView().getZoom(); 
+      update_overlay();
+   });
    map.on("pointermove", function(evt) {
       var coords = toLonLat(evt.coordinate);
       lat = coords[1];
       lon = coords[0];
       update_overlay();
    });
-   map.on("moveend", function() {
-      zoom = map.getView().getZoom(); 
-      update_overlay();
+   var resp = $.ajax({
+      type: 'GET',
+      async: true,
+      url: './init.json',
+      dataType: 'json'
+   })
+   .done(function( data ) {
+      config = data;
+      var coord = [parseFloat(config.center_lon),parseFloat(config.center_lat)];
+      console.log(coord + "");
+      var there = fromLonLat(coord);
+      map.getView().setCenter(there);
+      map.getView().setZoom(parseFloat(config["zoom"]));
+      show = config.region;
+      $( '#home' ).on('click', function(){
+         console.log('init.json contents:' + config.center_lat);
+             var there = fromLonLat([parseFloat(config.center_lon),parseFloat(config.center_lat)]);
+             map.getView().setCenter(there);
+             map.getView().setZoom(parseFloat(config.zoom));
+             console.log('going there:' +there + 'zoom: ' + parseFloat(config.zoom));
+      });
    });
+}); // end of what to do with Capabilities
+
+var info_overlay = 1;
+$( document ).ready(function() {
+   // typeahead has (window.jQuery) at the end of its definition
+   window.$ = window.jQuery = jQuery;  // needs definition globally
+   var unitsSelect = document.getElementById('units');
+   function onChange() {
+     scaleLineControl.setUnits(unitsSelect.value);
+   }
+   info_overlay = document.getElementById('info-overlay');
+   unitsSelect.addEventListener('change', onChange);
+   onChange();
+});
+
+function update_overlay(){
+    var locTxt = "Lat: " + lat.toFixed(3) + " Lon: " + lon.toFixed(3); 
+    var tilex = long2tile(lon,zoom);
+    var tiley = lat2tile(lat,zoom);
+    var zoomInfo = ' Zoom: ' + zoom.toFixed(1);
+    locTxt += "   TileX: " + tilex + " TileY: " + tiley + zoomInfo; 
+    info_overlay.innerHTML = locTxt;
+}
 
    var selections = Array(50);
    function go_there(item){
@@ -140,11 +183,11 @@ $( document ).ready(function() {
        $('#search').val('');
     }
 
-   $(function() {
-      $('#search').typeahead({
-       onSelect: function(item) {
-          console.log(item);
-          go_there(item);
+$(function() {
+  $('#search').typeahead({
+      onSelect: function(item) {
+        console.log(item);
+        go_there(item);
       },
       ajax: {
          url: './searchapi.php?searchfor='+$('#search').val(),
@@ -172,34 +215,12 @@ $( document ).ready(function() {
 }); // end of search selection
 
 
-   // Functions to compute tiles from lat/lon
-   function long2tile(lon,zoom) {
-      return (Math.floor((lon+180)/360*Math.pow(2,zoom)));
-   }
-   function lat2tile(lat,zoom)  {
-      return (Math.floor((1-Math.log(Math.tan(lat*Math.PI/180) + 1/Math.cos(lat*Math.PI/180))/Math.PI)/2 *Math.pow(2,zoom)));
-   }
-   var resp = $.ajax({
-      type: 'GET',
-      async: true,
-      url: './init.json',
-      dataType: 'json'
-   })
-   .done(function( data ) {
-      config = data;
-      var coord = [parseFloat(config.center_lon),parseFloat(config.center_lat)];
-      console.log(coord + "");
-      var there = fromLonLat(coord);
-      map.getView().setCenter(there);
-      map.getView().setZoom(parseFloat(config["zoom"]));
-      show = config.region;
-      $( '#home' ).on('click', function(){
-         console.log('init.json contents:' + config.center_lat);
-             var there = fromLonLat([parseFloat(config.center_lon),parseFloat(config.center_lat)]);
-             map.getView().setCenter(there);
-             map.getView().setZoom(parseFloat(config.zoom));
-             console.log('going there:' +there + 'zoom: ' + parseFloat(config.zoom));
-      });
-   });
+// Functions to compute tiles from lat/lon
+function long2tile(lon,zoom) {
+   return (Math.floor((lon+180)/360*Math.pow(2,zoom)));
+}
 
-}); // end of document ready
+function lat2tile(lat,zoom)  {
+   return (Math.floor((1-Math.log(Math.tan(lat*Math.PI/180) + 1/Math.cos(lat*Math.PI/180))/Math.PI)/2 *Math.pow(2,zoom)));
+}
+
