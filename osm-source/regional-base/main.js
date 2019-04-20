@@ -4,6 +4,7 @@ import Map from 'ol/Map';
 import View from 'ol/View';
 import TileLayer from 'ol/layer/Tile';
 import XYZSource from 'ol/source/XYZ';
+import TileImage from 'ol/source/TileImage';
 import {fromLonLat,toLonLat} from 'ol/proj';
 import VectorTileLayer from 'ol/layer/VectorTile';
 import VectorTileSource from 'ol/source/VectorTile';
@@ -14,8 +15,13 @@ import stylefunction from 'ol-mapbox-style/stylefunction';
 import {defaults as defaultControls, ScaleLine} from 'ol/control.js';
 import GeoJSON from 'ol/format/GeoJSON';
 import {Style, Fill, Stroke, Circle, Text} from 'ol/style';
-import WMTSCapabilities from 'ol/format/WMTSCapabilities.js';
-import WMTS,{optionsFromCapabilities} from 'ol/source/WMTS.js';
+//import WMTSCapabilities from 'ol/format/WMTSCapabilities.js';
+//import WMTS,{optionsFromCapabilities} from 'ol/source/WMTS.js';
+import WMTSTileGrid from 'ol/tilegrid/WMTS.js';
+import {get as getProjection} from 'ol/proj.js';
+import {getWidth, getTopLeft} from 'ol/extent.js';
+
+
 import LayerSwitcher from './ol5-layerswitcher.js';
 
 
@@ -36,26 +42,33 @@ var map;
 var config = {};
 
 // Globals for satellite images
-var parser = new WMTSCapabilities();
-var options = {};
-var URL = 'https://tiles.maps.eox.at/wmts/1.0.0/WMTSCapabilities.xml';
-fetch(URL).then(function(response) {
-   return response.text();
-}).then(function(text) {
-// Everything needs to wait to read capabilities
-   var result = parser.read(text);
-   options = optionsFromCapabilities(result, {
-      layer: 's2cloudless-2018_3857',
-      matrixSet: 'g'
-   });
-   console.log("options:" + options);
+var projection = getProjection('EPSG:3857');
+var projectionExtent = projection.getExtent();
+var size = getWidth(projectionExtent) / 256;
+var resolutions = new Array(14);
+var matrixIds = new Array(14);
+for (var z = 0; z < 14; ++z) {
+   // generate resolutions and matrixIds arrays for this WMTS
+   resolutions[z] = size / Math.pow(2, z);
+   matrixIds[z] = z;
+}
    
    const WMTS_layer =  new TileLayer({
            opacity: 1,
            title: 'Satellite',
            //type: 'base',
            enableOpacitySliders: true,
-           source: new WMTS((options))
+           source: new TileImage({
+              format: 'image/jpeg',
+              url: './tileserver.php/satellite/{z}/{x}/{y}.jpeg',
+              wrapX: true,
+              projection: projection,
+              tileGrid: new WMTSTileGrid({
+                 origin: getTopLeft(projectionExtent),
+                 resolutions: resolutions,
+                 matrixIds: matrixIds
+              })
+           })
          });
    
    map = new Map({
@@ -86,8 +99,8 @@ fetch(URL).then(function(response) {
         stylefunction(detail, glStyle,"openmaptiles");
       });
    });
-   map.addLayer(detail);
    map.addLayer(WMTS_layer);
+   map.addLayer(detail);
 
    const boxLayer =  new VectorLayer({
       source: new VectorSource({
@@ -158,7 +171,6 @@ fetch(URL).then(function(response) {
         layers:map.getLayers()
     });
     map.addControl(layerSwitcher);
-}); // end of what to do with Capabilities
 
 var info_overlay = 1;
 $( document ).ready(function() {
