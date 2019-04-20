@@ -16,6 +16,7 @@ import GeoJSON from 'ol/format/GeoJSON';
 import {Style, Fill, Stroke, Circle, Text} from 'ol/style';
 import WMTSCapabilities from 'ol/format/WMTSCapabilities.js';
 import WMTS,{optionsFromCapabilities} from 'ol/source/WMTS.js';
+import LayerSwitcher from './ol5-layerswitcher.js';
 
 
 window.$ = window.jQuery = require('jquery');
@@ -51,6 +52,9 @@ fetch(URL).then(function(response) {
    
    const WMTS_layer =  new TileLayer({
            opacity: 1,
+           title: 'Satellite',
+           //type: 'base',
+           enableOpacitySliders: true,
            source: new WMTS((options))
          });
    
@@ -72,6 +76,9 @@ fetch(URL).then(function(response) {
          minZoom: 0,
          maxZoom: 14
       }),
+      //type: 'base',
+      title: 'OSM',
+      enableOpacitySliders: true,
       declutter: true,
    });
    fetch('./assets/style-cdn.json').then(function(response) {
@@ -146,6 +153,11 @@ fetch(URL).then(function(response) {
              console.log('going there:' +there + 'zoom: ' + parseFloat(config.zoom));
       });
    });
+    var layerSwitcher = new LayerSwitcher({
+        tipLabel: 'Légende', // Optional label for button
+        layers:map.getLayers()
+    });
+    map.addControl(layerSwitcher);
 }); // end of what to do with Capabilities
 
 var info_overlay = 1;
