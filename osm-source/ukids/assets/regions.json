@@ -31,9 +31,9 @@
       "size": "1638526976"
     }, 
     "min": {
-      "perma_ref": "en-osm-omt_min", 
+      "perma_ref": "en-osm-omt_san_jose", 
       "seq": 10, 
-      "title": "No Details", 
+      "title": "San Jose", 
       "url": "https://archive.org/download/en-osm-omt_min_2017-07-03_v0.1/en-osm-omt_min_2017-07-03_v0.1.zip", 
       "west": "-122.24", 
       "center_lon": "-122.0", 
@@ -123,7 +123,7 @@
     "world": {
       "perma_ref": "en-osm-omt_world", 
       "seq": 90, 
-      "title": "Detailed World", 
+      "title": "World", 
       "url": "https://archive.org/download/en-osm-omt_world_2017-07-03_v0.1/en-osm-omt_world_2017-07-03_v0.1.zip", 
       "west": "-180", 
       "center_lon": "1.0", 
