@@ -105,7 +105,7 @@
       "south": "-39.32",
       "size": "4842811392"
     },
-    "north_asia": {
+    "asia": {
       "perma_ref": "en-osm-omt_north_asia",
       "seq": 70,
       "title": "North Asia",
@@ -120,7 +120,7 @@
       "south": "36.8",
       "size": "9115815936"
     },
-    "south_asia": {
+    "southeast_asia": {
       "perma_ref": "en-osm-omt_south_asia",
       "seq": 80,
       "title": "South Asia",
@@ -135,7 +135,7 @@
       "south": "-10.19",
       "size": "6324658176"
     }, 
-    "oceania": {
+    "australia": {
       "perma_ref": "en-osm-omt_oceania",
       "seq": 90,
       "title": "Oceania",
