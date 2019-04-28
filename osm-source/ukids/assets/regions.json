@@ -29,7 +29,7 @@
       "center_lat": "55.0",
       "south": "24.7",
       "size": "11561377792"
-    }
+    },
     "central_america": {
       "perma_ref": "en-osm-omt_central_america",
       "seq": 20,
@@ -164,6 +164,6 @@
       "center_lat": "23.0",
       "south": "-80",
       "size": "54776152064"
-    },
+    }
   }
 }
