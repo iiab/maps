@@ -1,6 +1,6 @@
 {
   "regions": {
-    "san_jose": {
+    "min": {
       "perma_ref": "en-osm-omt_san_jose",
       "seq": 5,
       "title": "San Jose",
