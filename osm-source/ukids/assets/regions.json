@@ -95,7 +95,7 @@
       "seq": 60,
       "title": "Middle East",
       "url": "https://archive.org/download/en-osm-omt_africa_2017-07-03_v0.1/en-osm-omt_africa_2017-07-03_v0.1.zip",
-      "west": "-23.58",    // FIX 9 LINES STARTING HERE
+      "west": "-23.58",
       "center_lon": "20.0",
       "zoom": "3",
       "date": "2017-07-03",
@@ -103,7 +103,7 @@
       "east": "63.56",
       "center_lat": "2.0",
       "south": "-39.32",
-      "size": "4842811392"    // FIX 9 LINES ENDING HERE
+      "size": "4842811392"
     },
     "north_asia": {
       "perma_ref": "en-osm-omt_north_asia",
