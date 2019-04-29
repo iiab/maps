@@ -15,7 +15,7 @@
       "south": "26.0", 
       "size": "19813748736"
     }, 
-    "australia": {
+    "oceania": {
       "perma_ref": "en-osm-omt_australia", 
       "seq": 80, 
       "title": "Oceania", 
@@ -30,7 +30,7 @@
       "south": "-84.0", 
       "size": "1638526976"
     }, 
-    "min": {
+    "san_jose": {
       "perma_ref": "en-osm-omt_min", 
       "seq": 10, 
       "title": "San Jose", 
@@ -75,7 +75,7 @@
       "south": "-84.0", 
       "size": "4842811392"
     }, 
-    "asia": {
+    "north_asia": {
       "perma_ref": "en-osm-omt_asia", 
       "seq": 50, 
       "title": "North Asia", 
@@ -105,7 +105,7 @@
       "south": "-2.0", 
       "size": "2547077120"
     }, 
-    "southeast_asia": {
+    "south_asia": {
       "perma_ref": "en-osm-omt_southeast_asia", 
       "seq": 60, 
       "title": "South Asia", 
