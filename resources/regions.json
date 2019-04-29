@@ -25,9 +25,9 @@
       "zoom": "4", 
       "date": "2017-07-03", 
       "north": "6.0", 
-      "east": "226.0", 
+      "east": "278.0", 
       "center_lat": "-31.0", 
-      "south": "-52.84", 
+      "south": "-84.0", 
       "size": "1638526976"
     }, 
     "min": {
@@ -57,7 +57,7 @@
       "north": "25.00", 
       "east": "-18.0", 
       "center_lat": "-26.0", 
-      "south": "0.0", 
+      "south": "-84.0", 
       "size": "3112968192"
     }, 
     "africa": {
@@ -72,7 +72,7 @@
       "north": "46.00", 
       "east": "63.56", 
       "center_lat": "2.0", 
-      "south": "-39.32", 
+      "south": "-84.0", 
       "size": "4842811392"
     }, 
     "asia": {
@@ -87,7 +87,7 @@
       "north": "84.0", 
       "east": "200.0", 
       "center_lat": "60.0", 
-      "south": "35.0", 
+      "south": "34.0", 
       "size": "9115815936"
     }, 
     "central_america": {
@@ -115,7 +115,7 @@
       "zoom": "3", 
       "date": "2017-07-03", 
       "north": "56.00", 
-      "east": "282.0", 
+      "east": "226.0", 
       "center_lat": "23.0", 
       "south": "-11.00", 
       "size": "6324658176"
@@ -129,10 +129,10 @@
       "center_lon": "1.0", 
       "zoom": "2", 
       "date": "2017-07-03", 
-      "north": "80", 
+      "north": "84", 
       "east": "180", 
       "center_lat": "23.0", 
-      "south": "-80", 
+      "south": "-84", 
       "size": "54776152064"
     }, 
     "north_america": {
@@ -140,7 +140,7 @@
       "seq": 25, 
       "title": "North America", 
       "url": "https://archive.org/download/en-osm-omt_north_america_2017-07-03_v0.1/en-osm-omt_north_america_2017-07-03_v0.1.zip", 
-      "west": "-172.0", 
+      "west": "-179.0", 
       "center_lon": "-107.0", 
       "zoom": "3", 
       "date": "2017-07-03", 
