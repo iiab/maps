@@ -2,7 +2,7 @@
   "regions": {
     "europe": {
       "perma_ref": "en-osm-omt_europe", 
-      "seq": 45, 
+      "seq": 40, 
       "title": "Europe", 
       "url": "https://archive.org/download/en-osm-omt_europe_2017-07-03_v0.2/en-osm-omt_europe_2017-07-03_v0.2.zip", 
       "west": "-40.0", 
@@ -18,7 +18,7 @@
     }, 
     "oceania": {
       "perma_ref": "en-osm-omt_oceania", 
-      "seq": 80, 
+      "seq": 90, 
       "title": "Oceania", 
       "url": "https://archive.org/download/en-osm-omt_oceania_2017-07-03_v0.2/en-osm-omt_oceania_2017-07-03_v0.2.zip", 
       "west": "52.0", 
@@ -34,7 +34,7 @@
     }, 
     "middle_east": {
       "perma_ref": "en-osm-omt_middle_east", 
-      "seq": 43, 
+      "seq": 60, 
       "title": "Middle East", 
       "url": "https://archive.org/download/en-osm-omt_middle_east_2017-07-03_v0.2/en-osm-omt_middle_east_2017-07-03_v0.2.zip", 
       "west": "13.0", 
@@ -55,7 +55,7 @@
       "url": "https://archive.org/download/en-osm-omt_san_jose_2017-07-03_v0.2/en-osm-omt_san_jose_2017-07-03_v0.2.zip", 
       "west": "-122.24", 
       "center_lon": "-122.0", 
-      "zoom": "10", 
+      "zoom": "5", 
       "version": "v0.2", 
       "date": "2017-07-03", 
       "north": "37.50", 
@@ -66,7 +66,7 @@
     }, 
     "south_america": {
       "perma_ref": "en-osm-omt_south_america", 
-      "seq": 20, 
+      "seq": 30, 
       "title": "South America", 
       "url": "https://archive.org/download/en-osm-omt_south_america_2017-07-03_v0.2/en-osm-omt_south_america_2017-07-03_v0.2.zip", 
       "west": "-179.00", 
@@ -82,7 +82,7 @@
     }, 
     "africa": {
       "perma_ref": "en-osm-omt_africa", 
-      "seq": 40, 
+      "seq": 50, 
       "title": "Africa", 
       "url": "https://archive.org/download/en-osm-omt_africa_2017-07-03_v0.2/en-osm-omt_africa_2017-07-03_v0.2.zip", 
       "west": "-34.0", 
@@ -98,7 +98,7 @@
     }, 
     "central_america": {
       "perma_ref": "en-osm-omt_central_america", 
-      "seq": 15, 
+      "seq": 20, 
       "title": "Central America", 
       "url": "https://archive.org/download/en-osm-omt_central_america_2017-07-03_v0.2/en-osm-omt_central_america_2017-07-03_v0.2.zip", 
       "west": "-119.0", 
@@ -114,7 +114,7 @@
     }, 
     "south_asia": {
       "perma_ref": "en-osm-omt_south_asia", 
-      "seq": 60, 
+      "seq": 80, 
       "title": "South Asia", 
       "url": "https://archive.org/download/en-osm-omt_south_asia_2017-07-03_v0.2/en-osm-omt_south_asia_2017-07-03_v0.2.zip", 
       "west": "52.00", 
@@ -130,7 +130,7 @@
     }, 
     "world": {
       "perma_ref": "en-osm-omt_world", 
-      "seq": 90, 
+      "seq": 95, 
       "title": "World", 
       "url": "https://archive.org/download/en-osm-omt_world_2017-07-03_v0.2/en-osm-omt_world_2017-07-03_v0.2.zip", 
       "west": "-180", 
@@ -146,7 +146,7 @@
     }, 
     "north_america": {
       "perma_ref": "en-osm-omt_north_america", 
-      "seq": 25, 
+      "seq": 10, 
       "title": "North America", 
       "url": "https://archive.org/download/en-osm-omt_north_america_2017-07-03_v0.2/en-osm-omt_north_america_2017-07-03_v0.2.zip", 
       "west": "-179.0", 
@@ -162,7 +162,7 @@
     }, 
     "north_asia": {
       "perma_ref": "en-osm-omt_north_asia", 
-      "seq": 50, 
+      "seq": 70, 
       "title": "North Asia", 
       "url": "https://archive.org/download/en-osm-omt_north_asia_2017-07-03_v0.2/en-osm-omt_north_asia_2017-07-03_v0.2.zip", 
       "west": "19.0", 
