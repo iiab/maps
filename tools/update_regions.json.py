@@ -46,10 +46,11 @@ with open(REGION_INFO,'r') as region_fp:
 		 + MAP_VERSION 
       file_ref = identity + '.zip'
       data['regions'][region]['perma_ref'] = perma_ref
+      data['regions'][region]['version'] = MAP_VERSION
       data['regions'][region]['url'] = DOWNLOAD_URL+ '/' + identity + \
                                        '/' + identity + '.zip'
    outstr = json.dumps(data,indent=2) 
    print(outstr)
-
+#sys.exit(1)
 with open(REGION_INFO,'w') as region_fp:
    region_fp.write(outstr)

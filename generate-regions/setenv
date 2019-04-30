@@ -36,7 +36,7 @@ fi
 REGION_LIST=$(cat $MR_SSD/region.list)
 export REGION_LIST
 
-MAP_VERSION=v0.1
+MAP_VERSION=v0.2
 export MAP_VERSION
 
 MAP_DATE=2017-07-03
