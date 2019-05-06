@@ -1,4 +1,6 @@
 // main.js for Admin Console -- selection of regions
+// See iiab-admin-console/roles/console/files/maps/map-source.md for
+//   how this source is used
 import {Fill, Stroke, Style} from 'ol/style';
 import 'ol/ol.css';
 import GeoJSON from 'ol/format/GeoJSON';
@@ -11,7 +13,7 @@ import View from 'ol/View';
 
 // a global variable to control which features are shown
 var show = {};
-var mapData = "/osm-vector/maplist/assets";
+var mapData = "/osm-vector-maps/maplist/assets";
 
 
 var map = new Map({
