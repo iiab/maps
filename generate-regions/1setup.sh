@@ -9,6 +9,11 @@ if [ "$MR" == "" ];then
    exit 1
 fi
 
+# there's an environment variable which should impact the TARGET directory --but
+#  right now it is hard coded -- so keep it that way
+TARGET_URL=/library/www/html/temp
+mkdir -p $TARGET_URL
+
 # set up the output/input directors for pipeline
 # all steps including generation of extracts done on SSD
 mkdir -p $MR_SSD/output/stage1
@@ -107,6 +112,6 @@ fi
 
 # create the csv file which is the spec for the regional extract stage2
 $MR_SSD/../tools/mkcsv.py
-# bboxes.geojson now generated during Admin Console install
-#$MR_SSD/tools/mkjson.py > $MR_SSD/build/bboxes.geojson
 
+# download the minumum resources to get the simple version of maps to work
+wget http://download.iiab.io/content/OSM/vector-tiles/maplist/hidden/regional-resources/detail.mbtiles -P $TARGET_URL
