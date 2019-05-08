@@ -14,3 +14,6 @@
      5. Use the './up' script to copy the built packages to /library/www/html/temp.
      6. Browse to <localhost or remote test machine ip>/temp to see whether the map is working.
      7. I find chrome javascript console useful to find out why nothing is working.
+6. To view the less simple version of the map application, download https://archive.org/download/en-osm-omt_min_2017-07-03_v0.1/en-osm-omt_min_2017-07-03_v0.1.zip and unzip it somewhere under doc_root.
+#### Proposed first Project: ####
+1. Use server.py as a model to create a python server to return true/false if detail.mbtiles has data at (zoom,lat,long).
