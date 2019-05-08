@@ -17,3 +17,4 @@
 6. To view the less simple version of the map application, download https://archive.org/download/en-osm-omt_min_2017-07-03_v0.1/en-osm-omt_min_2017-07-03_v0.1.zip and unzip it somewhere under doc_root.
 #### Proposed first Project: ####
 1. Use server.py as a model to create a python server to return true/false if detail.mbtiles has data at (zoom,lat,long).
+2. There is a python function for mapping from lat/long to tilexy in map/tools/tools.py.

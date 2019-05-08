@@ -1,7 +1,6 @@
 {
   "name": "ol_parcel-bundler",
   "version": "1.0.0",
-  "description": "",
   "main": "main.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -15,13 +14,18 @@
     "bootstrap": "^4.3.1",
     "bootstrap-typeahead": "^2.3.2",
     "jquery": "^3.3.1",
-    "ol": "^5.3.1",
-    "ol-mapbox-style": "^4.2.1",
+    "ol": "^5.3.2",
+    "ol-mapbox-style": "^4.3.1",
+    "popper": "^1.0.1",
     "popper.js": "^1.14.7"
   },
   "devDependencies": {
     "cssnano": "^4.1.10",
     "parcel": "^1.12.3",
-    "parcel-bundler": "^1.12.2"
-  }
+    "parcel-bundler": "^1.12.3"
+  },
+  "directories": {
+    "test": "test"
+  },
+  "description": ""
 }

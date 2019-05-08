@@ -45,7 +45,7 @@ export MAP_DATE
 MAP_DL_URL='https://archive.org/download'
 export MAP_DL_URL
 
-MAP_UPLOAD_TARGET=/library/www/html/local_content/maps
+MAP_UPLOAD_TARGET=/library/www/html/temp
 export MAP_UPLOAD_TARGET
 
 #FREE_SSD=true

@@ -1,7 +1,6 @@
 {
   "name": "pack",
   "version": "1.0.0",
-  "description": "",
   "main": "main.js",
   "scripts": {
     "babel": "babel --presets es2015 ./main.js -o ./build/main.bundle.js",
@@ -36,5 +35,11 @@
     "ol": "^5.3.2",
     "ol-mapbox-style": "^4.3.1",
     "popper.js": "^1.15.0"
-  }
+  },
+  "directories": {
+"babel": "babel --presets es2015 ./main.js -o ./build/main.bundle.js",
+     "start": "webpack-dev-server --mode=development",
+     "build": "webpack --mode=production"
+  },
+  "description": ""
 }

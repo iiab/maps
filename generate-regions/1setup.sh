@@ -12,7 +12,7 @@ fi
 # there's an environment variable which should impact the TARGET directory --but
 #  right now it is hard coded -- so keep it that way
 TARGET_URL=/library/www/html/temp
-mkdir -p $TARGET_URL
+mkdir -p $TARGET_URL/assets
 
 # set up the output/input directors for pipeline
 # all steps including generation of extracts done on SSD
@@ -50,7 +50,7 @@ if [ ! -d "$MR_SSD/pack/node_modules" ];then
   npm install --save-dev html-webpack-plugin
   npm install --save-dev ol-mapbox-style ol babel/core
 # add the following to package.json
-  sed -i 's/.*test.*/"babel": "babel --presets es2015 ..\/src\/main.js -o ..\/build\/main.bundle.js",\
+  sed -i 's/.*test.*/"babel": "babel --presets es2015 .\/main.js -o .\/build\/main.bundle.js",\
      "start": "webpack-dev-server --mode=development",\
      "build": "webpack --mode=production"/' $MR_SSD/pack/package.json
 
@@ -60,7 +60,7 @@ const CopyPlugin = require('copy-webpack-plugin');
 const HtmlPlugin = require('html-webpack-plugin');
 
 module.exports = {
-  entry: '../src/main.js',
+  entry: './main.js',
   output: {
     path: path.resolve(__dirname, 'build'),
     filename: 'main.js'
@@ -86,7 +86,7 @@ module.exports = {
     ]
   },
   plugins: [
-    //new CopyPlugin([{from: '../src/assets', to: 'assets'}]),
+    //new CopyPlugin([{from: './assets', to: 'assets'}]),
     new HtmlPlugin({
       template: './index.html'
     })
@@ -115,3 +115,5 @@ $MR_SSD/../tools/mkcsv.py
 
 # download the minumum resources to get the simple version of maps to work
 wget http://download.iiab.io/content/OSM/vector-tiles/maplist/hidden/regional-resources/detail.mbtiles -P $TARGET_URL
+cp -rp ../osm-source/regional-base/assets/* $TARGET_URL/assets/
+cp -rp ../osm-source/regional-base/tileserver.php $TARGET_URL/
