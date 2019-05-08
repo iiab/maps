@@ -11,7 +11,7 @@ generate-regions/ol-parcel-bundler/.cache
 generate-regions/tilelive/
 generate-regions/extracts/
 generate-regions/python_mbtiles/
-osm-source/base/build
+osm-source/*/build
 osm-source/base/dist
 osm-source/test/build
 osm-source/test/dist
