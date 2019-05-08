@@ -17,8 +17,8 @@ module.exports = {
     host: '0.0.0.0',
     port: 3001,
     clientLogLevel: 'none',
-    stats: 'verbose'
-    //stats: 'errors-only'
+    //stats: 'verbose'
+    stats: 'errors-only'
   },
   module: {
     rules: [
