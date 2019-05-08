@@ -25,7 +25,7 @@ var map;
       //type: 'base',
       declutter: true,
    });
-   fetch('./assets/style-cdn.json').then(function(response) {
+   fetch('./assets/style-osm.json').then(function(response) {
       response.json().then(function(glStyle) {
         stylefunction(detail, glStyle,"openmaptiles");
       });

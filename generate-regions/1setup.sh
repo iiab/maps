@@ -12,7 +12,7 @@ fi
 # there's an environment variable which should impact the TARGET directory --but
 #  right now it is hard coded -- so keep it that way
 TARGET_URL=/library/www/html/temp
-mkdir -p $TARGET_URL
+mkdir -p $TARGET_URL/assets
 
 # set up the output/input directors for pipeline
 # all steps including generation of extracts done on SSD
@@ -116,4 +116,4 @@ $MR_SSD/../tools/mkcsv.py
 # download the minumum resources to get the simple version of maps to work
 wget http://download.iiab.io/content/OSM/vector-tiles/maplist/hidden/regional-resources/detail.mbtiles -P $TARGET_URL
 wget http://download.iiab.io/content/OSM/vector-tiles/maplist/hidden/regional-resources/tileserver.php -P $TARGET_URL
-cp -rp ../osm-source/regional-base/assets $TARGET_URL
+cp -rp ../osm-source/regional-base/assets/* $TARGET_URL/assets/

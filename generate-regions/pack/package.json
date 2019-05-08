@@ -37,7 +37,7 @@
     "popper.js": "^1.15.0"
   },
   "directories": {
-"babel": "babel --presets es2015 ../src/main.js -o ../build/main.bundle.js",
+"babel": "babel --presets es2015 ./main.js -o ./build/main.bundle.js",
      "start": "webpack-dev-server --mode=development",
      "build": "webpack --mode=production"
   },

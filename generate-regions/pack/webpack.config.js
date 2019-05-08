@@ -29,7 +29,7 @@ module.exports = {
     ]
   },
   plugins: [
-    //new CopyPlugin([{from: '../src/assets', to: 'assets'}]),
+    //new CopyPlugin([{from: './assets', to: 'assets'}]),
     new HtmlPlugin({
       template: './index.html'
     })
