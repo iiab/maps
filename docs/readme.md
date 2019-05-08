@@ -4,6 +4,7 @@
 2. On github, fork your own copy of the iiab repo.
 3. To your local clone of the iiab/maps repo, add a pointer to your fork (git remote add \<your moniker\> http://github.com/\<your github account\>/maps).
 4. Checkout the "simple" branch which is a bare bones invocation of openlayers on OSM "detail.mbtiles" file.
+4. Move to maps/generate-regions, copy the setenv.template to setenv, edit setenv, and source it (". ./setenv"). I did this because on my test machine, I have both ssd and hard disk, and needed the flexibility to move stuff around. Also the regions.list lets me operate on something small, until I'm ready for production.
 4. Execute ./maps/generate-regions/1setup.sh to add additional functionality (mostly via npm).
 5. Verify that your environment has been set up correctly to compile a webpack openlayers application.
      1. Navigate to /opt/iiab/maps/generate-regions/pack
