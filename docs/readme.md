@@ -1,8 +1,15 @@
-### Create Downloadable Regional Maps ###
-1. I struggled to understand why all the examples and demos of openlayers javascript modules failed to work for me. I finally got the examples to work by installing a npm package called webpack. It is pretty heavy, and when it is not working, and not issuing helpful error messages, it also is frustrating.
-2. My original effort at vector tiles uses the ES5 (ECMAScript) standard -- which is no longer documented in the openlayers docs. Getting it to work was a lot of trial and error.
-3. There were just too many moving parts. I think the current chrome can handle ES6, and the openlayers examples should just work. (The magic sauce may be declaring type="module" in the script tag). I just have not taken the time to find a simple example, and try it.
-4. The webpack package creates a single bundled javascript file (strangely it issues an error message the the generated file is too big). At this point, the map on the admin console requires webpack, for the generation process (there is a rewriting of my source code, that it does, which is hidden in the packaged output. I've read that "babel" is a lighter method of getting to ES6 (or maybe it rewrites back to ES5, so that older browsers will work). The webpack output file is /common/maps/maps.js.
-4. The standard output name for webpack is main.js (which I don't think is descriptive enough for IIAB). I rename main.js to /common/map/map.js.
-5. At this point 3/3/19, I have checkboxes on the admin page, that highlight bounding boxes on the displayed map.
-6. The input to open layers is a geojson file, '/commin/maps/bboxes.geojson', which is generated from the input file '/common/maps/regions.json'.
+## Getting started with MAPs ##
+1. Go to /opt/iiab on your test machine -- can be your laptop, but I find it easier to be ssh'd into a remote machine.
+1. Clone the public maps repo from https://github.com/iiab/maps.
+2. On github, fork your own copy of the iiab repo.
+3. To your local clone of the iiab/maps repo, add a pointer to your fork (git remote add \<your moniker\> http://github.com/\<your github account\>/maps).
+4. Checkout the "simple" branch which is a bare bones invocation of openlayers on OSM "detail.mbtiles" file.
+4. Execute ./maps/generate-regions/1setup.sh to add additional functionality (mostly via npm).
+5. Verify that your environment has been set up correctly to compile a webpack openlayers application.
+     1. Navigate to /opt/iiab/maps/generate-regions/pack
+     2. Source the "base" script which defines useful alias's.
+     3. Use the "get" alias to copy from ./maps/osm-source/base/ the two files that do the work (index.html, and main.js).
+     4. Bundle up the main.js and dependencies (placed into build by webpack) by executing "npm run build".
+     5. Use the './up' script to copy the built packages to /library/www/html/temp.
+     6. Browse to <localhost or remote test machine ip>/temp to see whether the map is working.
+     7. I find chrome javascript console useful to find out why nothing is working.
