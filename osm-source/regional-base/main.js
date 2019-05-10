@@ -2,10 +2,10 @@
 import 'ol/ol.css';
 import Map from 'ol/Map';
 import View from 'ol/View';
-import TileLayer from 'ol/layer/Tile';
 import XYZSource from 'ol/source/XYZ';
-import TileImage from 'ol/source/TileImage';
 import {fromLonLat,toLonLat} from 'ol/proj';
+import TileLayer from 'ol/layer/Tile';
+import TileImage from 'ol/source/TileImage';
 import VectorTileLayer from 'ol/layer/VectorTile';
 import VectorTileSource from 'ol/source/VectorTile';
 import VectorLayer from 'ol/layer/Vector';
@@ -17,7 +17,7 @@ import GeoJSON from 'ol/format/GeoJSON';
 import {Style, Fill, Stroke, Circle, Text} from 'ol/style';
 //import WMTSCapabilities from 'ol/format/WMTSCapabilities.js';
 //import WMTS,{optionsFromCapabilities} from 'ol/source/WMTS.js';
-import WMTSTileGrid from 'ol/tilegrid/WMTS.js';
+//import WMTSTileGrid from 'ol/tilegrid/WMTS.js';
 import {get as getProjection} from 'ol/proj.js';
 import {getWidth, getTopLeft} from 'ol/extent.js';
 
@@ -38,6 +38,8 @@ var lat = 37;
 var lon = -122;
 var show = 'min';
 var map;
+var osm_style = './assets/style-sat.json';
+
 // keep the values set in init.json for home button to use
 var config = {};
 
@@ -46,28 +48,16 @@ var projection = getProjection('EPSG:3857');
 var projectionExtent = projection.getExtent();
 var size = getWidth(projectionExtent) / 256;
 var resolutions = new Array(14);
-var matrixIds = new Array(14);
-for (var z = 0; z < 14; ++z) {
-   // generate resolutions and matrixIds arrays for this WMTS
-   resolutions[z] = size / Math.pow(2, z);
-   matrixIds[z] = z;
-}
    
-   const WMTS_layer =  new TileLayer({
+var sat_layer =  new TileLayer({
            opacity: 1,
            title: 'Satellite',
+           minResolution: 1000,
            //type: 'base',
-           enableOpacitySliders: true,
+           //enableOpacitySliders: true,
            source: new TileImage({
-              format: 'image/jpeg',
               url: './tileserver.php/satellite/{z}/{x}/{y}.jpeg',
               wrapX: true,
-              projection: projection,
-              tileGrid: new WMTSTileGrid({
-                 origin: getTopLeft(projectionExtent),
-                 resolutions: resolutions,
-                 matrixIds: matrixIds
-              })
            })
          });
    
@@ -82,7 +72,7 @@ for (var z = 0; z < 14; ++z) {
      })
    }); //end of new Map
 
-   const detail = new VectorTileLayer({
+   var detail = new VectorTileLayer({
       source: new VectorTileSource({
          format: new MVT(),
          url: `./tileserver.php/detail/{z}/{x}/{y}.pbf`,
@@ -91,15 +81,20 @@ for (var z = 0; z < 14; ++z) {
       }),
       //type: 'base',
       title: 'OSM',
-      enableOpacitySliders: true,
+      //enableOpacitySliders: true,
       declutter: true,
    });
-   fetch('./assets/style-cdn.json').then(function(response) {
+
+function set_detail_style(the_style){
+   fetch(the_style).then(function(response) {
       response.json().then(function(glStyle) {
         stylefunction(detail, glStyle,"openmaptiles");
       });
    });
-   map.addLayer(WMTS_layer);
+}
+
+   set_detail_style(osm_style);
+   map.addLayer(sat_layer);
    map.addLayer(detail);
 
    const boxLayer =  new VectorLayer({
@@ -144,6 +139,16 @@ for (var z = 0; z < 14; ++z) {
       lon = coords[0];
       update_overlay();
    });
+
+   sat_layer.on('change:visible', function(evt) {
+      console.log("evt.oldValue:" + evt.oldValue);
+      if ( evt.oldValue == false )
+         osm_style = './assets/style-sat.json'
+      else
+         osm_style = './assets/style-osm.json';
+      set_detail_style(osm_style);
+   });
+
    var resp = $.ajax({
       type: 'GET',
       async: true,
