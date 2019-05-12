@@ -12,7 +12,7 @@ import VectorLayer from 'ol/layer/Vector';
 import VectorSource from 'ol/source/Vector';
 import MVT from 'ol/format/MVT';
 import stylefunction from 'ol-mapbox-style/stylefunction';
-import {defaults as defaultControls, ScaleLine} from 'ol/control.js';
+import {defaults as defaultControls, ScaleLine,Attribution} from 'ol/control.js';
 import GeoJSON from 'ol/format/GeoJSON';
 import {Style, Fill, Stroke, Circle, Text} from 'ol/style';
 //import WMTSCapabilities from 'ol/format/WMTSCapabilities.js';
@@ -23,11 +23,14 @@ import {getWidth, getTopLeft} from 'ol/extent.js';
 import LayerSwitcher from './ol5-layerswitcher.js';
 import 'bootstrap';
 import 'bootstrap/dist/css/bootstrap.css';
+import MapBrowserEvent from 'ol/MapBrowserEvent'
 
 /////////////  GLOBALS /////////////////////////////
 window.$ = window.jQuery = require('jquery');
 const typeahead = require('./assets/bootstrap-typeahead.min.js');
 var scaleLineControl = new ScaleLine();
+var attribution = new Attribution({
+   label: "OpenStreetMaps.org, OpenLayers.com"});
 
 // initial values for on event variables to get through startup
 var zoom = 3;
@@ -46,8 +49,8 @@ var projectionExtent = projection.getExtent();
 var size = getWidth(projectionExtent) / 256;
    
 map = new Map({ target: 'map-container',
-  controls: defaultControls().extend([
-    scaleLineControl
+  controls: defaultControls({attribution: false}).extend([
+    scaleLineControl,attribution
   ]),
   view: new View({
     center: fromLonLat([-71.06, 42.37]),
@@ -137,6 +140,14 @@ map.on("pointermove", function(evt) {
    update_overlay();
 });
 
+map.on("dblclick", function(evt) {
+     console.log('dblclick event');
+     zoom = map.getView().getZoom(); 
+     evt.stopPropagation();
+     evt.preventDefault();
+     ok_zoom(evt);
+});
+
 sat_layer.on('change:visible', function(evt) {
    console.log("evt.oldValue:" + evt.oldValue);
    if ( evt.oldValue == false )
@@ -145,6 +156,25 @@ sat_layer.on('change:visible', function(evt) {
       osm_style = './assets/style-osm.json';
    set_detail_style(osm_style);
 });
+
+function ok_zoom(evt){
+   var coords = toLonLat(evt.coordinate);
+   lat = coords[1];
+   lon = coords[0];
+   zoom = map.getView().getZoom(); 
+   var resp = $.ajax({
+      type: 'GET',
+      async: true,
+      url: 'http://10.10.123.13:9458',
+      data: '?lon=' + lon + '&lat=' + lat + '&zoom=' + zoom,
+      dataType: 'json'
+   })
+   .done(function( data ) {
+      if ( data['success'] == 'true') {
+         map.getView().setZoom(zoom+1);
+      }
+   })
+};
 
 //////////    BOTTOM LINE OVERLAY FUNCTIONS  ///////////
 // Configuration of home key in init.json
