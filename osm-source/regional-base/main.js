@@ -57,6 +57,7 @@ map = new Map({ target: 'map-container',
     zoom: 2
   })
 }); //end of new Map
+var view = map.getView();
 
 var sat_layer =  new TileLayer({
   opacity: 1,
@@ -161,17 +162,19 @@ function ok_zoom(evt){
    var coords = toLonLat(evt.coordinate);
    lat = coords[1];
    lon = coords[0];
-   zoom = map.getView().getZoom(); 
+   zoom = map.getView().getZoom() + 1;; 
    var resp = $.ajax({
       type: 'GET',
       async: true,
-      url: 'http://10.10.123.13:9458',
-      data: '?lon=' + lon + '&lat=' + lat + '&zoom=' + zoom,
+      url: './exists.php',
+      data: 'db=./detail.mbtiles&lon=' + lon + '&lat=' + lat + '&zoom=' + zoom,
       dataType: 'json'
    })
    .done(function( data ) {
       if ( data['success'] == 'true') {
-         map.getView().setZoom(zoom+1);
+         map.getView().setCenter(evt.coordinate);
+         map.getView().setZoom(zoom);
+         console.log("tile exists=true for zoom:" + zoom);
       }
    })
 };
