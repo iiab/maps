@@ -11,6 +11,7 @@ generate-regions/ol-parcel-bundler/.cache
 generate-regions/tilelive/
 generate-regions/extracts/
 generate-regions/style/
+generate-regions/setenv
 osm-source/base/build
 osm-source/base/dist
 osm-source/test/build

@@ -1,5 +1,14 @@
 {"list": [
-  "min"
+  "europe",
+  "australia",
+  "min",
+  "south_america",
+  "africa",
+  "asia",
+  "central_america",
+  "southeast_asia",
+  "world",
+  "north_america"
 ]
 }
 
