@@ -65,8 +65,9 @@ var sat_layer =  new TileLayer({
   minResolution: 1000,
   //type: 'base',
   //enableOpacitySliders: true,
-  source: new TileImage({
-     url: './tileserver.php/satellite/{z}/{x}/{y}.jpeg',
+  source: new XYZSource({
+     // -y in the followinng url changes origin form lower left to upper left
+     url: './tileserver.php/satellite/{z}/{x}/{-y}.jpeg',
      wrapX: true,
   })
 });
