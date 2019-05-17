@@ -1,6 +1,7 @@
 {
   "regions": {
     "europe": {
+      "size": "22737383424", 
       "perma_ref": "en-osm-omt_europe", 
       "seq": 40, 
       "title": "Europe", 
@@ -12,11 +13,11 @@
       "date": "2017-07-03", 
       "north": "84.0", 
       "east": "67.0", 
-      "center_lat": "51.0", 
       "south": "26.0", 
-      "size": "22732652544"
+      "center_lat": "51.0"
     }, 
     "oceania": {
+      "size": "3607474176", 
       "perma_ref": "en-osm-omt_oceania", 
       "seq": 90, 
       "title": "Oceania", 
@@ -28,11 +29,11 @@
       "date": "2017-07-03", 
       "north": "6.0", 
       "east": "278.0", 
-      "center_lat": "-31.0", 
       "south": "-84.0", 
-      "size": "3604570112"
+      "center_lat": "-31.0"
     }, 
     "middle_east": {
+      "size": "7060840448", 
       "perma_ref": "en-osm-omt_middle_east", 
       "seq": 60, 
       "title": "Middle East", 
@@ -44,11 +45,11 @@
       "date": "2017-07-03", 
       "north": "51.00", 
       "east": "72.0", 
-      "center_lat": "25.0", 
       "south": "3.0", 
-      "size": "7058755584"
+      "center_lat": "25.0"
     }, 
     "san_jose": {
+      "size": "624562176", 
       "perma_ref": "en-osm-omt_san_jose", 
       "seq": 5, 
       "title": "San Jose", 
@@ -60,11 +61,11 @@
       "date": "2017-07-03", 
       "north": "37.50", 
       "east": "-121.60", 
-      "center_lat": "37.35", 
       "south": "37.23", 
-      "size": "624611328"
+      "center_lat": "37.35"
     }, 
     "south_america": {
+      "size": "5943218176", 
       "perma_ref": "en-osm-omt_south_america", 
       "seq": 30, 
       "title": "South America", 
@@ -76,11 +77,11 @@
       "date": "2017-07-03", 
       "north": "25.00", 
       "east": "-18.0", 
-      "center_lat": "-26.0", 
       "south": "-84.0", 
-      "size": "5940883456"
+      "center_lat": "-26.0"
     }, 
     "africa": {
+      "size": "10099986432", 
       "perma_ref": "en-osm-omt_africa", 
       "seq": 50, 
       "title": "Africa", 
@@ -92,11 +93,11 @@
       "date": "2017-07-03", 
       "north": "46.00", 
       "east": "63.56", 
-      "center_lat": "2.0", 
       "south": "-84.0", 
-      "size": "10095624192"
+      "center_lat": "2.0"
     }, 
     "central_america": {
+      "size": "2977423360", 
       "perma_ref": "en-osm-omt_central_america", 
       "seq": 20, 
       "title": "Central America", 
@@ -108,11 +109,11 @@
       "date": "2017-07-03", 
       "north": "33.0", 
       "east": "-44.0", 
-      "center_lat": "23.0", 
       "south": "-2.0", 
-      "size": "2976202752"
+      "center_lat": "23.0"
     }, 
     "south_asia": {
+      "size": "8604721152", 
       "perma_ref": "en-osm-omt_south_asia", 
       "seq": 80, 
       "title": "South Asia", 
@@ -124,11 +125,11 @@
       "date": "2017-07-03", 
       "north": "56.00", 
       "east": "226.0", 
-      "center_lat": "23.0", 
       "south": "-11.00", 
-      "size": "8601686016"
+      "center_lat": "23.0"
     }, 
     "world": {
+      "size": "54776152064", 
       "perma_ref": "en-osm-omt_world", 
       "seq": 95, 
       "title": "World", 
@@ -140,11 +141,11 @@
       "date": "2017-07-03", 
       "north": "84", 
       "east": "180", 
-      "center_lat": "23.0", 
       "south": "-84", 
-      "size": "54776152064"
+      "center_lat": "23.0"
     }, 
     "north_america": {
+      "size": "16846225408", 
       "perma_ref": "en-osm-omt_north_america", 
       "seq": 10, 
       "title": "North America", 
@@ -156,11 +157,11 @@
       "date": "2017-07-03", 
       "north": "84.00", 
       "east": "-2.0", 
-      "center_lat": "55.0", 
       "south": "-2.0", 
-      "size": "16840228864"
+      "center_lat": "55.0"
     }, 
     "north_asia": {
+      "size": "13917319168", 
       "perma_ref": "en-osm-omt_north_asia", 
       "seq": 70, 
       "title": "North Asia", 
@@ -172,9 +173,8 @@
       "date": "2017-07-03", 
       "north": "84.0", 
       "east": "200.0", 
-      "center_lat": "60.0", 
       "south": "34.0", 
-      "size": "13915004928"
+      "center_lat": "60.0"
     }
   }
 }

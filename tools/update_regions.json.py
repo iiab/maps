@@ -45,8 +45,9 @@ with open(REGION_INFO,'r') as region_fp:
       identity = perma_ref + '_' + data['regions'][region]['date'] +'_'\
 		 + MAP_VERSION 
       file_ref = identity + '.zip'
-      data['regions'][region]['perma_ref'] = perma_ref
-      data['regions'][region]['url'] = DOWNLOAD_URL+ '/' + identity + \
+      # the folowing were to get started. Now permit independent region release
+      #data['regions'][region]['perma_ref'] = perma_ref
+      #data['regions'][region]['url'] = DOWNLOAD_URL+ '/' + identity + \
                                        '/' + identity + '.zip'
    outstr = json.dumps(data,indent=2) 
    print(outstr)
