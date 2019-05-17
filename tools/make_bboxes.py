@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# this has turned obsolete as geofabriq uses line string bboxes 
 # create spec for bounding boxes used in IIAB vector map subsets
 
 from geojson import Feature, Point, FeatureCollection, Polygon
@@ -10,7 +9,7 @@ import os
 
 def main():
    features = []
-   input_json = "{{ iiab_dir }}" + '/regions.json'
+   input_json = "../resources/regions.json"
    with open(input_json,'r') as regions:
       reg_str = regions.read()
       info = json.loads(reg_str)
@@ -25,7 +24,7 @@ def main():
         features.append(Feature(geometry=poly,properties={"name":region}))
 
       collection = FeatureCollection(features)
-   bboxes = "{{ doc_root }}/common/assets/bboxes.geojson"
+   bboxes = "../resources/bboxes.geojson"
    with open(bboxes,"w") as bounding_geojson:
       outstr = geojson.dumps(collection, indent=2)
       bounding_geojson.write(outstr)
