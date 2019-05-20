@@ -2,11 +2,7 @@
 # Zip up the bundles and transfer them to location where they will be published
 
 # first check that the environment has been set
-MG=${MR_SSD}
-if [ "$MG" == "" ];then
-   echo "Have you set the environment variables via 'source ./setenv'"
-   exit 1
-fi
+source setenv
 
 pushd $MR_HARD_DISK
 for package in $(ls -d *.zip); do

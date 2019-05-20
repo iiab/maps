@@ -2,6 +2,7 @@
 # Upload the Regional osm-vector maps to InernetArchive
 
 import os,sys
+sys.path.append('/usr/local/lib/python2.7/dist-packages')
 import json
 import shutil
 import subprocess
