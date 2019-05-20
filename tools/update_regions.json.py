@@ -13,6 +13,7 @@ if MAP_VERSION == 'v.999':
 MR_SSD = os.environ.get("MR_SSD",'/root/mapgen')
 REGION_INFO = os.path.join(MR_SSD,'../resources','regions.json')
 DOWNLOAD_URL = os.environ['MAP_DL_URL']
+GENERATED_TILES = MR_SSD + '/output/stage2/'
 
 outstr = ''
 region_list = []
@@ -29,6 +30,20 @@ with open(REGION_INFO,'r') as region_fp:
       if mbtile == '':
          print('problem with planet mbtile')
          sys.exit(1)
+      perma_ref = 'en-osm-omt_' + region
+      identity = perma_ref + '_' + data['regions'][region]['date'] +'_'\
+		 + MAP_VERSION 
+      file_ref = identity + '.zip'
+      # the folowing were to get started. Now permit independent region release
+      #data['regions'][region]['perma_ref'] = perma_ref
+      #data['regions'][region]['url'] = DOWNLOAD_URL+ '/' + identity + \
+#                                       '/' + identity + '.zip'
+      data['regions'][region]['sat_size'] = 790798336
+      identity = perma_ref + '_sat_' + data['regions'][region]['date'] +'_'\
+		 + MAP_VERSION 
+      data['regions'][region]['sat_url'] = DOWNLOAD_URL+ '/' + identity + \
+                                       '/' + identity + '.zip'
+      data['regions'][region]['sat_is_regional'] = False 
       try:
          conn = sqlite3.connect(mbtile)
          c = conn.cursor()
