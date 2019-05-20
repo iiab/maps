@@ -16,6 +16,12 @@ mkdir -p $MR_SSD/output/stage3/bundle
 #  To the problem of preserving SSD space
 unlink $MR_SSD/output/stage4
 ln -s $MR_HARD_DISK $MR_SSD/output/stage4
+mkdir -p $MR_HARD_DISK/common
+# Get the remote resources that are used by more than one region
+SAT_WORLD=$MR_HARD_DISK/common/satellite_z0-z9.mbtiles.zip
+if [ ! -f "$SAT_WORLD" ];then
+   IA_BASE=https://archive.org/download/satellite_z0-z9.mbtiles.zip
+   wget -c  ${IA_BASE}/satellite_z0-z9.mbtiles.zip -P $MR_SSD/output/stage3/bundle/
 
 # Create bundle from the contents of the map repo
 rm -rf $MR_SSD/output/stage3/bundle/*
@@ -31,8 +37,10 @@ pushd  $MR_SSD/output/stage3/bundle
    cp index.html main.js src
    cp -fp build/* .
 popd
-http://download.iiab.io/content/OSM/vector-tiles/maplist/hidden/regional-resources/satellite_z0-z7.mbtiles
-wget -c  $UKIDS_BASE/satellite_z0-z7.mbtiles -P $MR_SSD/output/stage3/bundle/
+#http://download.iiab.io/content/OSM/vector-tiles/maplist/hidden/regional-resources/satellite_z0-z7.mbtiles
+#http://download.iiab.io/content/OSM/vector-tiles/maplist/hidden/regional-resources/satellite_z0-z9.mbtiles
+IA_BASE=https://archive.org/download/satellite_z0-z9.mbtiles.zip
+wget -c  ${IA_BASE}/satellite_z0-z9.mbtiles.zip -P $MR_SSD/output/stage3/bundle/
 wget -c  $UKIDS_BASE/cities1000.sqlite -P $MR_SSD/output/stage3/bundle/
 
 # use python to read the mbtiles metadata, and update regions.json
