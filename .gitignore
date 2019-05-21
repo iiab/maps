@@ -10,7 +10,8 @@ generate-regions/ol-parcel-bundler/dist/
 generate-regions/ol-parcel-bundler/.cache
 generate-regions/tilelive/
 generate-regions/extracts/
-generate-regions/style/
+generate-regions/styles/
+generate-regions/python-mbtiles/
 generate-regions/setenv
 osm-source/base/build
 osm-source/base/dist
