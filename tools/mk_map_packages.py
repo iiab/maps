@@ -47,7 +47,7 @@ with open(REGION_INFO,'r') as region_fp:
             shutil.copy(src_region,target_dir)
             os.chdir(target_dir)
             os.symlink('./' + os.path.basename(src_region),"detail.mbtiles")
-            os.symlink('./satellite_z0-z7.mbtiles' ,"satellite.mbtiles")
+            os.symlink('./satellite_z0-z9.mbtiles' ,"satellite.mbtiles")
    
             # create init.json which sets initial coords and zoom
             init['region'] = region

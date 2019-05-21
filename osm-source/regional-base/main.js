@@ -163,7 +163,7 @@ function ok_zoom(evt){
    var coords = toLonLat(evt.coordinate);
    lat = coords[1];
    lon = coords[0];
-   zoom = map.getView().getZoom() + 1;; 
+   zoom = map.getView().getZoom(); 
    var resp = $.ajax({
       type: 'GET',
       async: true,
