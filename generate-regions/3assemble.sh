@@ -11,23 +11,28 @@ fi
 UKIDS_BASE=http://download.iiab.io/content/OSM/vector-tiles/maplist/hidden/regional-resources
 # make sure the output directory is ready
 mkdir -p $MR_SSD/output/stage3/bundle
+mkdir -p $MR_SSD/output/stage3/common
 
 # I had many revisions before deciding on a symbolic link as cleanest solution
 #  To the problem of preserving SSD space
 unlink $MR_SSD/output/stage4
 ln -s $MR_HARD_DISK $MR_SSD/output/stage4
-mkdir -p $MR_HARD_DISK/common
 # Get the remote resources that are used by more than one region
-SAT_WORLD=$MR_HARD_DISK/common/satellite_z0-z9.mbtiles.zip
+SAT_WORLD=$MR_SSD/output/stage3/common/satellite_z0-z9.mbtiles.zip
 if [ ! -f "$SAT_WORLD" ];then
+   pushd $MR_SSD/output/stage3
    IA_BASE=https://archive.org/download/satellite_z0-z9.mbtiles.zip
-   wget -c  ${IA_BASE}/satellite_z0-z9.mbtiles.zip -P $MR_SSD/output/stage3/bundle/
+   wget -c  ${IA_BASE}/satellite_z0-z9.mbtiles.zip -P ./common/satellite_z0-z9.mbtiles.zip
+   unzip ./common/satellite_z0-z9.mbtiles.zip
+   popd
+fi
 
 # Create bundle from the contents of the map repo
 rm -rf $MR_SSD/output/stage3/bundle/*
 cp -rp $MR_SSD/../osm-source/regional-base/* $MR_SSD/output/stage3/bundle/
 
 # just have one authoritative copy of some resources used everywhere
+$MR_SSD/../tools/make_bboxes.py
 cp -rp $MR_SSD/../resources/bboxes.geojson $MR_SSD/output/stage3/bundle/
 cp -rp $MR_SSD/../resources/regions.json $MR_SSD/output/stage3/bundle/
 
@@ -39,8 +44,7 @@ pushd  $MR_SSD/output/stage3/bundle
 popd
 #http://download.iiab.io/content/OSM/vector-tiles/maplist/hidden/regional-resources/satellite_z0-z7.mbtiles
 #http://download.iiab.io/content/OSM/vector-tiles/maplist/hidden/regional-resources/satellite_z0-z9.mbtiles
-IA_BASE=https://archive.org/download/satellite_z0-z9.mbtiles.zip
-wget -c  ${IA_BASE}/satellite_z0-z9.mbtiles.zip -P $MR_SSD/output/stage3/bundle/
+cp $MR_HARD_DISK/common/satellite_z0-z9.mbtiles $MR_SSD/output/stage3/bundle/ 
 wget -c  $UKIDS_BASE/cities1000.sqlite -P $MR_SSD/output/stage3/bundle/
 
 # use python to read the mbtiles metadata, and update regions.json
