@@ -62,14 +62,15 @@ with open(REGION_INFO,'r') as region_fp:
          # Check is this has already been uploaded
          item = internetarchive.get_item(identifier)
          if item.metadata:
-            item.metadata['zip_md5'] == md5
-            # already uploaded
-            print('Skipping %s -- checksums match'%region)
-            continue
-         if item.metadata:
-            print('md5sums for %s do not match'%region)
+            if item.metadata['zip_md5'] == md5:
+               # already uploaded
+               print('local file md5:%s  metadata md5:%s'%(md5,item.metadata['zip_md5']))
+               print('Skipping %s -- checksums match'%region)
+               continue
+            else:
+               print('md5sums for %s do not match'%region)
          else:
-            print('Archive.org does not have %s'%identifier) 
+            print('Archive.org does not have file with identifier: %s'%identifier) 
          # Debugging information
          print('Uploading %s'%region)
          print('MetaData: %s'%md)
