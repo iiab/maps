@@ -1,9 +1,7 @@
 {
-  "type": "FeatureCollection",
   "features": [
     {
       "geometry": {
-        "type": "Polygon",
         "coordinates": [
           [
             [
@@ -27,16 +25,16 @@
               26.0
             ]
           ]
-        ]
+        ],
+        "type": "Polygon"
       },
-      "type": "Feature",
       "properties": {
         "name": "europe"
-      }
+      },
+      "type": "Feature"
     },
     {
       "geometry": {
-        "type": "Polygon",
         "coordinates": [
           [
             [
@@ -60,16 +58,16 @@
               -84.0
             ]
           ]
-        ]
+        ],
+        "type": "Polygon"
       },
-      "type": "Feature",
       "properties": {
         "name": "oceania"
-      }
+      },
+      "type": "Feature"
     },
     {
       "geometry": {
-        "type": "Polygon",
         "coordinates": [
           [
             [
@@ -93,16 +91,16 @@
               3.0
             ]
           ]
-        ]
+        ],
+        "type": "Polygon"
       },
-      "type": "Feature",
       "properties": {
         "name": "middle_east"
-      }
+      },
+      "type": "Feature"
     },
     {
       "geometry": {
-        "type": "Polygon",
         "coordinates": [
           [
             [
@@ -126,16 +124,16 @@
               34.0
             ]
           ]
-        ]
+        ],
+        "type": "Polygon"
       },
-      "type": "Feature",
       "properties": {
         "name": "north_asia"
-      }
+      },
+      "type": "Feature"
     },
     {
       "geometry": {
-        "type": "Polygon",
         "coordinates": [
           [
             [
@@ -159,16 +157,16 @@
               -84.0
             ]
           ]
-        ]
+        ],
+        "type": "Polygon"
       },
-      "type": "Feature",
       "properties": {
         "name": "south_america"
-      }
+      },
+      "type": "Feature"
     },
     {
       "geometry": {
-        "type": "Polygon",
         "coordinates": [
           [
             [
@@ -192,16 +190,16 @@
               -84.0
             ]
           ]
-        ]
+        ],
+        "type": "Polygon"
       },
-      "type": "Feature",
       "properties": {
         "name": "africa"
-      }
+      },
+      "type": "Feature"
     },
     {
       "geometry": {
-        "type": "Polygon",
         "coordinates": [
           [
             [
@@ -225,16 +223,16 @@
               -2.0
             ]
           ]
-        ]
+        ],
+        "type": "Polygon"
       },
-      "type": "Feature",
       "properties": {
         "name": "central_america"
-      }
+      },
+      "type": "Feature"
     },
     {
       "geometry": {
-        "type": "Polygon",
         "coordinates": [
           [
             [
@@ -258,16 +256,16 @@
               37.23
             ]
           ]
-        ]
+        ],
+        "type": "Polygon"
       },
-      "type": "Feature",
       "properties": {
         "name": "san_jose"
-      }
+      },
+      "type": "Feature"
     },
     {
       "geometry": {
-        "type": "Polygon",
         "coordinates": [
           [
             [
@@ -291,16 +289,16 @@
               -11.0
             ]
           ]
-        ]
+        ],
+        "type": "Polygon"
       },
-      "type": "Feature",
       "properties": {
         "name": "south_asia"
-      }
+      },
+      "type": "Feature"
     },
     {
       "geometry": {
-        "type": "Polygon",
         "coordinates": [
           [
             [
@@ -324,16 +322,16 @@
               -84.0
             ]
           ]
-        ]
+        ],
+        "type": "Polygon"
       },
-      "type": "Feature",
       "properties": {
         "name": "world"
-      }
+      },
+      "type": "Feature"
     },
     {
       "geometry": {
-        "type": "Polygon",
         "coordinates": [
           [
             [
@@ -357,12 +355,14 @@
               -2.0
             ]
           ]
-        ]
+        ],
+        "type": "Polygon"
       },
-      "type": "Feature",
       "properties": {
         "name": "north_america"
-      }
+      },
+      "type": "Feature"
     }
-  ]
+  ],
+  "type": "FeatureCollection"
 }

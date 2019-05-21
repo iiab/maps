@@ -14,6 +14,7 @@ MR_SSD = os.environ.get("MR_SSD",'/root/mapgen')
 REGION_INFO = os.path.join(MR_SSD,'../resources','regions.json')
 DOWNLOAD_URL = os.environ['MAP_DL_URL']
 GENERATED_TILES = MR_SSD + '/output/stage2/'
+BASE_SATELLITE_SIZE = "790798336"
 
 outstr = ''
 region_list = []
@@ -27,6 +28,7 @@ with open(REGION_INFO,'r') as region_fp:
       mbtile = os.path.join(MR_SSD,'output/stage2/',region+'.mbtiles')
       if region == 'world':
          mbtile = os.environ.get('PLANET_MBTILES','')
+         data['regions'][region]['osm_size'] = "54776152064"
       if mbtile == '':
          print('problem with planet mbtile')
          sys.exit(1)
@@ -49,12 +51,15 @@ with open(REGION_INFO,'r') as region_fp:
          sql = 'select value from metadata where name = "filesize"'
          c.execute(sql)
       except:
-         print("ERROR dealing with region:%s"%region)
-         sys.exit(1)
+         print("ERROR -no access to metadata in region:%s"%region)
+         #sys.exit(1)
+         #continue
       row = c.fetchone()
 	   #print(row[0])
       if row:
          data['regions'][region]['osm_size'] = row[0]
+      else:
+         print("No Size data for region:%s"%region)
 
       # There may be a regional SATELLITE .mbtiles
       if data['regions'][region]['sat_is_regional'] == 'True':
@@ -70,16 +75,17 @@ with open(REGION_INFO,'r') as region_fp:
             if row:
                data['regions'][region]['sat_size'] = str(row[0])
             else:
-               data['regions'][region]['sat_size'] = "790798336"
+               data['regions'][region]['sat_size'] = BASE_SATELLITE_SIZE
          except:
-            data['regions'][region]['sat_size'] = "790798336"
+            data['regions'][region]['sat_size'] = BASE_SATELLITE_SIZE
       else:
-         data['regions'][region]['sat_size'] = "790798336"
+         data['regions'][region]['sat_size'] = BASE_SATELLITE_SIZE
 
-   # record combined satellite and OSM size
-   total_size = int(data['regions'][region]['sat_size']) + \
-                int(data['regions'][region]['osm_size'])
-   data['regions'][region]['size'] = str(total_size)
+      # record combined satellite and OSM size
+      total_size = float(data['regions'][region]['sat_size']) + \
+                   float(data['regions'][region]['osm_size'])
+      data['regions'][region]['size'] = str(int(total_size))
+
    outstr = json.dumps(data,indent=2,sort_keys=True) 
    print(outstr)
 
