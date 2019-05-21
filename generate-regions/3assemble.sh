@@ -17,7 +17,6 @@ mkdir -p $MR_SSD/output/stage3/common
 #  To the problem of preserving SSD space
 unlink $MR_SSD/output/stage4
 ln -s $MR_HARD_DISK $MR_SSD/output/stage4
-
 # Get the remote resources that are used by more than one region
 SAT_WORLD=$MR_SSD/output/stage3/common/satellite_z0-z9.mbtiles
 if [ ! -f "$SAT_WORLD" ];then

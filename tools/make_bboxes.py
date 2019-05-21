@@ -26,7 +26,7 @@ def main():
       collection = FeatureCollection(features)
    bboxes = "../resources/bboxes.geojson"
    with open(bboxes,"w") as bounding_geojson:
-      outstr = geojson.dumps(collection, indent=2)
+      outstr = geojson.dumps(collection, indent=2, sort_keys=True)
       bounding_geojson.write(outstr)
 
 if __name__ == '__main__':
