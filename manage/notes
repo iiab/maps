@@ -1,0 +1,4 @@
+### How To Manage Regions ###
+* Get and put in this directory sync with the public regions.json on unleashkids.org. This is the public facing control file for what is displayed on the IIAB Admin Console.
+* "dif" does a vimdiff between the work in process in ../resources/regions.json.The automation which copies regional packages to archive.org is driven by the file in ../resources.
+
