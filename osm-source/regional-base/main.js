@@ -216,11 +216,12 @@ function lat2tile(lat,zoom)  {
 }
 
 function update_overlay(){
-    var locTxt = "Lat: " + lat.toFixed(3) + " Lon: " + lon.toFixed(3); 
+    var locTxt = "Lat: " + lat.toFixed(2) + " Lon: " + lon.toFixed(2); 
     var tilex = long2tile(lon,zoom);
     var tiley = lat2tile(lat,zoom);
     var zoomInfo = ' Zoom: ' + zoom.toFixed(1);
-    locTxt += "   TileX: " + tilex + " TileY: " + tiley + zoomInfo; 
+    //locTxt += "   TileX: " + tilex + " TileY: " + tiley + zoomInfo; 
+    locTxt += zoomInfo; 
     info_overlay.innerHTML = locTxt;
 }
 
