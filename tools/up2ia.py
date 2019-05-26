@@ -7,14 +7,16 @@ import json
 import shutil
 import subprocess
 import internetarchive
+import re
 
 # error out if environment is missing
 MR_SSD = os.environ["MR_SSD"]
 
 REGION_INFO = os.path.join(MR_SSD,'../resources/regions.json')
 REGION_LIST = os.environ.get("REGION_LIST")
+print('Regions to process list:%s'%REGION_LIST)
 PLANET = os.environ.get("PLANET_MBTILES","")
-REGION_LIST = json.loads(REGION_LIST)
+PROCESS_LIST = json.loads(REGION_LIST)
 print('region.list limits processing to: %s'%REGION_LIST)
 
 MR_HARD_DISK = os.environ.get("MR_HARD_DISK",'/hd/mapgen')
@@ -31,11 +33,15 @@ with open(REGION_INFO,'r') as region_fp:
       print("regions.json parse error")
       sys.exit(1)
    for region in data['regions'].keys():
-      if region in REGION_LIST['list']:
+      if region in PROCESS_LIST['list']:
+
+         # pull the version string out of the url for use in identity
+         url = data['regions'][region]['url']
+         match = re.search(r'.*\d{4}-\d{2}-\d{2}_(v\d+\.\d+)\..*',url)
+         version =  match.group(1)
 
          # Fetch the md5 to see if local file needs uploading
-         target_zip = os.path.join(MR_HARD_DISK,
-                  os.path.basename(data['regions'][region]['url']))
+         target_zip = os.path.join(MR_HARD_DISK,os.path.basename(url))
          with open(target_zip + '.md5','r') as md5_fp:
             instr = md5_fp.read()
             md5 = instr.split(' ')[0]
@@ -57,7 +63,7 @@ with open(REGION_INFO,'r') as region_fp:
 
          perma_ref = 'en-osm-omt_' + region
          identifier = perma_ref + '_' + data['regions'][region]['date'] \
-                      + '_' +MAP_VERSION
+                      + '_' + version
 
          # Check is this has already been uploaded
          item = internetarchive.get_item(identifier)
@@ -69,6 +75,7 @@ with open(REGION_INFO,'r') as region_fp:
                continue
             else:
                print('md5sums for %s do not match'%region)
+               r = item.modify_metadata(dict('zip_md5="%s"'%md5))
          else:
             print('Archive.org does not have file with identifier: %s'%identifier) 
          # Debugging information

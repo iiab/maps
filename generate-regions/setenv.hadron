@@ -1,0 +1,54 @@
+#!/bin/bash -x
+# set the environment for mapgen -- not in git -- sets environment variables
+
+# this must be run thusly from the command line before working on mapgen
+# thusly: "source setenv"
+
+
+MR_SSD=/mnt/ssd/ghunt/maps/generate-regions
+#MR_SSD=/root/mapgen
+export MR_SSD
+mkdir -p MR_SSD
+
+# where to put large files
+#MR_HARD_DISK=/mnt/ssd/ghunt/mapgen
+MR_HARD_DISK=$MR_SSD/output/stage4
+export MR_HARD_DISK
+mkdir -p MR_HARD_DISK
+
+PLANET_MBTILES=$MR_SSD/output/stage2/2017-07-03_planet_z0_z14.mbtiles
+export PLANET_MBTILES
+
+CSV_FILE=$MR_SSD/output/stage1/iiab.csv
+export CSV_FILE
+
+BASE_ZOOM="9"
+export BASE_ZOOM
+
+echo $PATH | grep tilelive > /dev/null
+if [ $? -ne 0 ]; then
+   PATH=$MR_SSD/tilelive/node_modules/@mapbox/tilelive/bin:$PATH
+   export PATH
+fi
+
+# the speed of SSD's is needed for map work
+
+# for testing, hand generated, in prodution, derived from regions.json
+REGION_LIST=$(cat $MR_SSD/region.list)
+export REGION_LIST
+
+MAP_VERSION=v0.2
+export MAP_VERSION
+
+MAP_DATE=2017-07-03
+export MAP_DATE
+
+MAP_DL_URL='http://192.168.123.5/content/maps'
+export MAP_DL_URL
+
+MAP_UPLOAD_TARGET=/library/www/html/local_content/maps
+export MAP_UPLOAD_TARGET
+
+#FREE_SSD=true
+FREE_SSD=false
+export FREE_SSD
