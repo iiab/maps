@@ -10,20 +10,16 @@ import internetarchive
 
 # error out if environment is missing
 MR_SSD = os.environ["MR_SSD"]
-if len(sys.argv) < 2:
-   print("Pass the path of the file to upload as first parameter, and category as second")
+if len(sys.argv) < 1:
+   print("Pass the path of the file to upload as first parameter")
    sys.exit()
 FILENAME = os.path.basename(sys.argv[1])
-CATEGORY = sys.argv[2] 
 MR_HARD_DISK = os.environ.get("MR_HARD_DISK",'/hd/mapgen')
 MAP_DATE = os.environ.get("MAP_DATE",'2019-03-09')
 MAP_VERSION = os.environ.get("MAP_VERSION",'v.999')
 if MAP_VERSION == 'v.999':
    print('The environment is not set. Please run "source setenv"') 
    sys.exit(1)
-
-# create the wrapper name for this file
-wrapper = 'IIAB_' + CATEGORY + '_' + FILENAME + '_' + MAP_VERSION
 
 # Fetch the md5 to see if local file needs uploading
 with open(sys.argv[1] + '.md5','r') as md5_fp:
@@ -60,6 +56,5 @@ else:
    print('Archive.org does not have %s'%identifier) 
 # Debugging information
 print('MetaData: %s'%md)
-print('Identifier: %s. Filename: %s'%(wrapper,FILENAME,))
 r = internetarchive.upload(identifier, files=[sys.argv[1]], metadata=md)
 print(r[0].status_code) 

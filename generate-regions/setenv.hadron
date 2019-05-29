@@ -12,12 +12,16 @@ mkdir -p MR_SSD
 
 # where to put large files
 #MR_HARD_DISK=/mnt/ssd/ghunt/mapgen
-MR_HARD_DISK=$MR_SSD/output/stage4
+MR_HARD_DISK=/mnt/data1/ghunt
 export MR_HARD_DISK
 mkdir -p MR_HARD_DISK
 
 PLANET_MBTILES=$MR_SSD/output/stage2/2017-07-03_planet_z0_z14.mbtiles
 export PLANET_MBTILES
+
+# basename for default satellite tile tree for whole world
+SAT_DATA=satellite_z0-z9_v21.mbtiles
+export SAT_DATA
 
 CSV_FILE=$MR_SSD/output/stage1/iiab.csv
 export CSV_FILE
@@ -37,6 +41,7 @@ fi
 REGION_LIST=$(cat $MR_SSD/region.list)
 export REGION_LIST
 
+# Changing the following will cause new release of all regions
 MAP_VERSION=v0.2
 export MAP_VERSION
 
