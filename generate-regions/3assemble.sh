@@ -24,7 +24,7 @@ SAT_WORLD=$MR_SSD/output/stage3/common/$SAT_DATA
 if [ ! -f "$SAT_WORLD" ];then
    pushd $MR_SSD/output/stage3
    IA_BASE=https://archive.org/download/$SAT_DATA
-   wget -c  ${IA_BASE}/$SAT-data -P ./common/
+   wget -c  ${IA_BASE}/$SAT_DATA -P ./common/
    popd
 fi
 if [ ! -f "$MR_SSD/output/stage3/common/cities1000.sqlite" ];then
