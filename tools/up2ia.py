@@ -41,7 +41,7 @@ with open(REGION_INFO,'r') as region_fp:
          version =  match.group(1)
 
          # Fetch the md5 to see if local file needs uploading
-         target_zip = os.path.join(MR_HARD_DISK,os.path.basename(url))
+         target_zip = os.path.join(MR_HARD_DISK,'stage4',os.path.basename(url))
          with open(target_zip + '.md5','r') as md5_fp:
             instr = md5_fp.read()
             md5 = instr.split(' ')[0]

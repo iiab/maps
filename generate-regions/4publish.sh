@@ -4,7 +4,7 @@
 # first check that the environment has been set
 source setenv
 
-pushd $MR_HARD_DISK
+pushd $MR_HARD_DISK/stage4
 for package in $(ls -d *.zip); do
    if [ ! -f "$package.md5" ]; then
       echo creating md5 for $package
