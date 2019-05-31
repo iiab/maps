@@ -67,6 +67,7 @@ with open(REGION_INFO,'r') as region_fp:
 
          # Check is this has already been uploaded
          item = internetarchive.get_item(identifier)
+         print('Identifier: %s. Filename: %s'%(identifier,target_zip,))
          if item.metadata:
             if item.metadata['zip_md5'] == md5:
                # already uploaded
@@ -75,12 +76,11 @@ with open(REGION_INFO,'r') as region_fp:
                continue
             else:
                print('md5sums for %s do not match'%region)
-               r = item.modify_metadata(dict('zip_md5="%s"'%md5))
+               r = item.modify_metadata({"zip_md5":"%s"%md5})
          else:
             print('Archive.org does not have file with identifier: %s'%identifier) 
          # Debugging information
          print('Uploading %s'%region)
          print('MetaData: %s'%md)
-         print('Identifier: %s. Filename: %s'%(identifier,target_zip,))
          r = internetarchive.upload(identifier, files=[target_zip], metadata=md)
          print(r[0].status_code) 
