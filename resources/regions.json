@@ -121,8 +121,8 @@
       "zoom": "3"
     }, 
     "oceania": {
-      "center_lat": "-31.0", 
-      "center_lon": "147.0", 
+      "center_lat": "-56.0", 
+      "center_lon": "164.0", 
       "date": "2017-07-03", 
       "east": "278.0", 
       "north": "6.0", 
@@ -138,7 +138,7 @@
       "url": "https://archive.org/download/en-osm-omt_oceania_2017-07-03_v0.2/en-osm-omt_oceania_2017-07-03_v0.2.zip", 
       "version": "v0.2", 
       "west": "52.0", 
-      "zoom": "4"
+      "zoom": "2"
     }, 
     "san_jose": {
       "center_lat": "37.35", 
