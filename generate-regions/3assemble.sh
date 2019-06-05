@@ -9,7 +9,7 @@ if [ "$MG" == "" ];then
    exit 1
 fi
 UKIDS_BASE=http://download.iiab.io/content/OSM/vector-tiles/maplist/hidden/regional-resources
-SAT_DATA=satellite_z0-z9.mbtiles
+SAT_DATA=satellite_z0-z9_v3.mbtiles
 # make sure the output directory is ready
 mkdir -p $MR_SSD/output/stage3/bundle
 mkdir -p $MR_SSD/output/stage3/common

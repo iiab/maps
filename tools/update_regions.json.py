@@ -14,7 +14,8 @@ MR_SSD = os.environ.get("MR_SSD",'/root/mapgen')
 REGION_INFO = os.path.join(MR_SSD,'../resources','regions.json')
 DOWNLOAD_URL = os.environ['MAP_DL_URL']
 GENERATED_TILES = MR_SSD + '/output/stage2/'
-BASE_SATELLITE_SIZE = "790798336"
+BASE_SATELLITE_SIZE = "976416768"
+BASE_SATELLITE_URL = "https://archive.org/download/satellite_z0-z9_v3.mbtiles/satellite_z0-z9_v3.mbtiles"
 
 outstr = ''
 region_list = []
@@ -80,6 +81,7 @@ with open(REGION_INFO,'r') as region_fp:
             data['regions'][region]['sat_size'] = BASE_SATELLITE_SIZE
       else:
          data['regions'][region]['sat_size'] = BASE_SATELLITE_SIZE
+         data['regions'][region]['sat_url'] = BASE_SATELLITE_URL
 
       # record combined satellite and OSM size
       total_size = float(data['regions'][region]['sat_size']) + \

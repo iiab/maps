@@ -51,7 +51,7 @@ with open(REGION_INFO,'r') as region_fp:
 
          # Gather together the metadata for archive.org
          md = {}
-         md['title'] = "OpenStreetmap Vector Server for %s, runs on Raspberry Pi"%region
+         md['title'] = "OSM Vector Server for %s"%region
          #md['collection'] = "internetinabox"
          md["creator"] = "Internet in a Box" 
          md["subject"] = "rpi" 

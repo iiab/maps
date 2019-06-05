@@ -31,7 +31,7 @@ if len(md5) == 0:
 
 # Gather together the metadata for archive.org
 md = {}
-md['title'] = "Resource for a Vector Map Server which runs on Raspberry Pi"
+md['title'] = "Resource for a Map Server:%s"%FILENAME
 #md['collection'] = "internetinabox"
 md["creator"] = "Internet in a Box" 
 md["subject"] = "rpi" 
