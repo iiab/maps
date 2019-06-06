@@ -179,6 +179,12 @@ function ok_zoom(evt){
          console.log("tile exists=true for zoom:" + zoom);
       }
    })
+   .fail(function( data ) {
+         map.getView().setCenter(evt.coordinate);
+         map.getView().setZoom(zoom);
+         console.log("Exists.php failed to return response");
+   })
+
 };
 
 //////////    BOTTOM LINE OVERLAY FUNCTIONS  ///////////
