@@ -15,8 +15,8 @@
       "size": "11076403200", 
       "south": "-84.0", 
       "title": "Africa", 
-      "url": "https://archive.org/download/en-osm-omt_africa_2017-07-03_v0.2/en-osm-omt_africa_2017-07-03_v0.2.zip", 
-      "version": "v0.2", 
+      "url": "https://archive.org/download/en-osm-omt_africa_2017-07-03_v0.21/en-osm-omt_africa_2017-07-03_v0.21.zip", 
+      "version": "v0.21", 
       "west": "-34.0", 
       "zoom": "3"
     }, 
@@ -35,8 +35,8 @@
       "size": "3953840128", 
       "south": "-2.0", 
       "title": "Central America", 
-      "url": "https://archive.org/download/en-osm-omt_central_america_2017-07-03_v0.2/en-osm-omt_central_america_2017-07-03_v0.21.zip", 
-      "version": "v0.2", 
+      "url": "https://archive.org/download/en-osm-omt_central_america_2017-07-03_v0.22/en-osm-omt_central_america_2017-07-03_v0.22.zip", 
+      "version": "v0.22", 
       "west": "-119.0", 
       "zoom": "4"
     }, 
@@ -75,8 +75,8 @@
       "size": "8037257216", 
       "south": "3.0", 
       "title": "Middle East", 
-      "url": "https://archive.org/download/en-osm-omt_middle_east_2017-07-03_v0.2/en-osm-omt_middle_east_2017-07-03_v0.2.zip", 
-      "version": "v0.2", 
+      "url": "https://archive.org/download/en-osm-omt_middle_east_2017-07-03_v0.21/en-osm-omt_middle_east_2017-07-03_v0.21.zip", 
+      "version": "v0.21", 
       "west": "13.0", 
       "zoom": "3"
     }, 
@@ -155,8 +155,8 @@
       "size": "1767247872", 
       "south": "37.23", 
       "title": "San Jose", 
-      "url": "https://archive.org/download/en-osm-omt_san_jose_2017-07-03_v0.2/en-osm-omt_san_jose_2017-07-03_v0.2.zip", 
-      "version": "v0.2", 
+      "url": "https://archive.org/download/en-osm-omt_san_jose_2017-07-03_v0.21/en-osm-omt_san_jose_2017-07-03_v0.21.zip", 
+      "version": "v0.21", 
       "west": "-122.24", 
       "zoom": "5"
     }, 
