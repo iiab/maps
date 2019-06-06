@@ -4,11 +4,15 @@ generate-regions/pack/build
 generate-regions/pack/assets
 generate-regions/pack/main*
 generate-regions/pack/index*
+generate-regions/pack/hide
+generate-regions/pack/main.js
+generate-regions/pack/inex.html
 generate-regions/ol-parcel-bundler/node_modules/
 generate-regions/ol-browserify
 generate-regions/ol-parcel-bundler/dist/
 generate-regions/ol-parcel-bundler/.cache
 generate-regions/tilelive/
+generate-regions/ol-browserify
 generate-regions/extracts/
 generate-regions/styles/
 generate-regions/python-mbtiles/
