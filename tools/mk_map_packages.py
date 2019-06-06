@@ -11,6 +11,7 @@ MR_SSD = os.environ["MR_SSD"]
 REGION_INFO = os.path.join(MR_SSD,'../resources/regions.json')
 REGION_LIST = os.environ.get("REGION_LIST")
 PLANET = os.environ.get("PLANET_MBTILES","")
+SAT_DATA = 'satellite_z0-z9_v3.mbtiles'
 print('region.list limits processing to: %s'%REGION_LIST)
 REGION_LIST = json.loads(REGION_LIST)
 print(REGION_LIST)
@@ -30,7 +31,7 @@ with open(REGION_INFO,'r') as region_fp:
          init = {}
          print(region)
          # determine if the destination directory already exists
-         target_zip = os.path.join(MR_HARD_DISK,
+         target_zip = os.path.join(MR_HARD_DISK,'stage4',
                   os.path.basename(data['regions'][region]['url']))
          # clip off the zip extension
          target_dir = target_zip[:target_zip.rfind('.zip')]
@@ -47,6 +48,7 @@ with open(REGION_INFO,'r') as region_fp:
             shutil.copy(src_region,target_dir)
             os.chdir(target_dir)
             os.symlink('./' + os.path.basename(src_region),"detail.mbtiles")
+            os.symlink(SAT_DATA ,"satellite.mbtiles")
    
             # create init.json which sets initial coords and zoom
             init['region'] = region

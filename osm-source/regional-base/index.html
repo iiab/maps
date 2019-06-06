@@ -5,6 +5,7 @@
      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
      <meta name="viewport" content="width=device-width, initial-scale=1">
      <link rel="stylesheet" href="./assets/fonts.css" type="text/css">
+    <link rel="stylesheet" href="./assets/ol5-layerswitcher.css" />
     <title>OsmMaps</title>
     <style>
       html, body, #map-container {
@@ -21,7 +22,7 @@
       #info-overlay {
         position: absolute; bottom: 0px; left: 200px; z-index: 99; 
         margin: 0;
-        width: 40%;
+        width: 70%;
         font-family: sans-serif;
       }
       #home {
@@ -36,6 +37,7 @@
            <input id="search" type="text" class="col-md-6 form-control" placeholder="Search cities..." autocomplete="off" />
        </div>
     <div id="info-overlay"></div>
+    <div id="layerswitcher"></div>
 
     <div id="map-container"></div>
     <select id="units">

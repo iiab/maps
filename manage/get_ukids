@@ -1,0 +1,3 @@
+wget http://download.iiab.io/content/OSM/vector-tiles/maplist/hidden/assets/regions.json
+wget http://download.iiab.io/content/OSM/vector-tiles/maplist/hidden/assets/bboxes.geojson
+

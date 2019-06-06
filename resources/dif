@@ -1,0 +1,3 @@
+#!/bin/bash -x
+wget http://download.iiab.io/content/OSM/vector-tiles/maplist/hidden/assets/regions.json -O /tmp/regions.json
+diff regions.json.ukids /tmp/regions.json
