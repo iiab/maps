@@ -13,6 +13,7 @@ generate-regions/extracts/
 generate-regions/styles/
 generate-regions/python-mbtiles/
 generate-regions/setenv
+generate-regions/region.list
 osm-source/base/build
 osm-source/base/dist
 osm-source/test/build
