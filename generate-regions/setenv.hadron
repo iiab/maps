@@ -8,13 +8,13 @@
 MR_SSD=/mnt/ssd/ghunt/maps/generate-regions
 #MR_SSD=/root/mapgen
 export MR_SSD
-mkdir -p MR_SSD
+mkdir -p $MR_SSD
 
 # where to put large files
 #MR_HARD_DISK=/mnt/ssd/ghunt/mapgen
 MR_HARD_DISK=/mnt/data1/ghunt
 export MR_HARD_DISK
-mkdir -p MR_HARD_DISK
+mkdir -p $MR_HARD_DISK
 
 PLANET_MBTILES=$MR_SSD/output/stage2/2017-07-03_planet_z0_z14.mbtiles
 export PLANET_MBTILES
@@ -44,6 +44,10 @@ export REGION_LIST
 # Changing the following will cause new release of all regions
 MAP_VERSION=v0.2
 export MAP_VERSION
+
+# The following controls whether versions are separate by region or unified
+BLAST_VERSION=True
+export BLAST_VERSION
 
 MAP_DATE=2017-07-03
 export MAP_DATE

@@ -8,12 +8,14 @@ import shutil
 import subprocess
 import internetarchive
 import re
+from datetime import datetime
 
 # error out if environment is missing
 MR_SSD = os.environ["MR_SSD"]
 
 REGION_INFO = os.path.join(MR_SSD,'../resources/regions.json')
 REGION_LIST = os.environ.get("REGION_LIST")
+BLAST_VERSION = os.environ.get("BLAST_VERSION")
 print('Regions to process list:%s'%REGION_LIST)
 PLANET = os.environ.get("PLANET_MBTILES","")
 PROCESS_LIST = json.loads(REGION_LIST)
@@ -84,3 +86,7 @@ with open(REGION_INFO,'r') as region_fp:
          print('MetaData: %s'%md)
          r = internetarchive.upload(identifier, files=[target_zip], metadata=md)
          print(r[0].status_code) 
+         with open('./upload.log','a+') as ao_fp:
+            now = datetime.now()
+            date_time = now.strftime("%m/%d/%Y, %H:%M:%S")
+            ao_fp.write('Uploaded %s at %s Status:%s'%(identifier,date_time,r[0].status_code))

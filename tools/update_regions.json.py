@@ -9,6 +9,7 @@ MAP_VERSION = os.environ.get("MAP_VERSION",'v.999')
 if MAP_VERSION == 'v.999':
    print('The environment is not set. Please run "source setenv"') 
    sys.exit(1)
+BLAST_VERSION = os.environ.get("BLAST_VERSION")
 # Variables are being properly defined by environment variables
 MR_SSD = os.environ.get("MR_SSD",'/root/mapgen')
 REGION_INFO = os.path.join(MR_SSD,'../resources','regions.json')
@@ -39,13 +40,14 @@ with open(REGION_INFO,'r') as region_fp:
       file_ref = identity + '.zip'
       # the folowing were to get started. Now permit independent region release
       #data['regions'][region]['perma_ref'] = perma_ref
-      #data['regions'][region]['url'] = DOWNLOAD_URL+ '/' + identity + \
-#                                       '/' + identity + '.zip'
-      identity = perma_ref + '_sat_' + data['regions'][region]['date'] +'_'\
-		 + MAP_VERSION 
-      data['regions'][region]['sat_url'] = DOWNLOAD_URL+ '/' + identity + \
+      if BLAST_VERSION == 'True':
+         data['regions'][region]['url'] = DOWNLOAD_URL+ '/' + identity + \
                                        '/' + identity + '.zip'
-      data['regions'][region]['sat_is_regional'] = 'False' 
+      sat_identity = perma_ref + '_sat_' + data['regions'][region]['date'] +'_'\
+		 + MAP_VERSION 
+      data['regions'][region]['sat_url'] = DOWNLOAD_URL+ '/' + sat_identity + \
+                                       '/' + sat_identity
+      #data['regions'][region]['sat_is_regional'] = 'False' 
       try:
          conn = sqlite3.connect(mbtile)
          c = conn.cursor()

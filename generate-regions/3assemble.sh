@@ -3,8 +3,8 @@
 # 3assemble.sh
 
 # first check that the environment has been set
-MG=${MR_SSD}
-if [ "$MG" == "" ];then
+MR=${MR_SSD}
+if [ "$MR" == "" ];then
    echo "Have you set the environment variables via 'source ./setenv'"
    exit 1
 fi
@@ -17,7 +17,7 @@ mkdir -p $MR_SSD/output/stage3/common
 # I had many revisions before deciding on a symbolic link as cleanest solution
 #  To the problem of preserving SSD space
 unlink $MR_SSD/output/stage4
-ln -s $MR_HARD_DISK $MR_SSD/output/stage4
+ln -s $MR_HARD_DISK/stage4 $MR_SSD/output/stage4
 
 # Get the remote resources that are used by more than one region
 SAT_WORLD=$MR_SSD/output/stage3/common/$SAT_DATA
