@@ -143,14 +143,6 @@ map.on("pointermove", function(evt) {
    update_overlay();
 });
 
-map.on("dblclick", function(evt) {
-     console.log('dblclick event');
-     zoom = map.getView().getZoom(); 
-     evt.stopPropagation();
-     evt.preventDefault();
-     ok_zoom(evt);
-});
-
 sat_layer.on('change:visible', function(evt) {
    console.log("evt.oldValue:" + evt.oldValue);
    if ( evt.oldValue == false )
@@ -160,32 +152,6 @@ sat_layer.on('change:visible', function(evt) {
    set_detail_style(osm_style);
 });
 
-function ok_zoom(evt){
-   var coords = toLonLat(evt.coordinate);
-   lat = coords[1];
-   lon = coords[0];
-   zoom = map.getView().getZoom() + 1; 
-   var resp = $.ajax({
-      type: 'GET',
-      async: true,
-      url: './exists.php',
-      data: 'db=./detail.mbtiles&lon=' + lon + '&lat=' + lat + '&zoom=' + zoom,
-      dataType: 'json'
-   })
-   .done(function( data ) {
-      if ( data['success'] == 'true') {
-         map.getView().setCenter(evt.coordinate);
-         map.getView().setZoom(zoom);
-         console.log("tile exists=true for zoom:" + zoom);
-      }
-   })
-   .fail(function( data ) {
-         map.getView().setCenter(evt.coordinate);
-         map.getView().setZoom(zoom);
-         console.log("Exists.php failed to return response");
-   })
-
-};
 
 //////////    BOTTOM LINE OVERLAY FUNCTIONS  ///////////
 // Configuration of home key in init.json
