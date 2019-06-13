@@ -15,7 +15,7 @@ generate-regions/tilelive/
 generate-regions/ol-browserify
 generate-regions/extracts/
 generate-regions/styles/
-generate-regions/python-mbtiles/
+generate-regions/python_mbtiles/
 generate-regions/setenv
 generate-regions/region.list
 osm-source/regional-base/build/main.js/map
