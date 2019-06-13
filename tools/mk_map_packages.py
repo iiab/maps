@@ -45,6 +45,7 @@ with open(REGION_INFO,'r') as region_fp:
             src_region = os.path.join(MR_SSD,'output/stage2',region + '.mbtiles')
             if region == 'world':
                src_region = PLANET 
+            print('src:%s dest:%s'%(src_region,target_dir))
             shutil.copy(src_region,target_dir)
             os.chdir(target_dir)
             os.symlink('./' + os.path.basename(src_region),"detail.mbtiles")

@@ -84,9 +84,15 @@ with open(REGION_INFO,'r') as region_fp:
          # Debugging information
          print('Uploading %s'%region)
          print('MetaData: %s'%md)
-         r = internetarchive.upload(identifier, files=[target_zip], metadata=md)
-         print(r[0].status_code) 
+         try:
+            r = internetarchive.upload(identifier, files=[target_zip], metadata=md)
+            print(r[0].status_code) 
+            status = r[0].status_code
+         except Exception as e:
+            status = 'error'
+            with open('./upload.log','a+') as ao_fp:
+               ao_fp.write("Exception from internetarchive:%s"%e) 
          with open('./upload.log','a+') as ao_fp:
             now = datetime.now()
             date_time = now.strftime("%m/%d/%Y, %H:%M:%S")
-            ao_fp.write('Uploaded %s at %s Status:%s'%(identifier,date_time,r[0].status_code))
+            ao_fp.write('Uploaded %s at %s Status:%s\n'%(identifier,date_time,status))

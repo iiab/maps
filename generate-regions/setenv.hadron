@@ -42,7 +42,7 @@ REGION_LIST=$(cat $MR_SSD/region.list)
 export REGION_LIST
 
 # Changing the following will cause new release of all regions
-MAP_VERSION=v0.2
+MAP_VERSION=v0.23
 export MAP_VERSION
 
 # The following controls whether versions are separate by region or unified
@@ -52,7 +52,7 @@ export BLAST_VERSION
 MAP_DATE=2017-07-03
 export MAP_DATE
 
-MAP_DL_URL='http://192.168.123.5/content/maps'
+MAP_DL_URL='http://archive.org/download'
 export MAP_DL_URL
 
 MAP_UPLOAD_TARGET=/library/www/html/local_content/maps

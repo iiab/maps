@@ -56,7 +56,7 @@ with open(REGION_INFO,'r') as region_fp:
       except:
          print("ERROR -no access to metadata in region:%s"%region)
          #sys.exit(1)
-         #continue
+         continue
       row = c.fetchone()
 	   #print(row[0])
       if row:

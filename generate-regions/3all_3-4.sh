@@ -7,7 +7,7 @@ if [ "$MR_HARD_DISK" == '' ];then
    echo Please run \"source seten\"
    exit 1
 fi
-rm -rf $MR_HARD_DISK/stage4/*
-./3sassemble.sh | tee -a ./output/step34.log
+#rm -rf $MR_HARD_DISK/stage4/*
+./3assemble.sh | tee -a ./output/step34.log
 
-./4publiish.sh | tee -a ./output/step34.log
+./4publish.sh | tee -a ./output/step34.log
