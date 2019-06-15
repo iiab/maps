@@ -1,0 +1,6 @@
+#!/bin/bash -x
+# define aliases for working with viewer source is inputs for webpack, parcel-bundler
+
+alias put='/bin/cp -f ./main.js ../../osm-source/viewer/main.js;/bin/cp -f ./index.html ../../osm-source/viewer/index.html;/bin/cp -f ./build/* ../../osm-source/viewer/build/'
+alias get='/bin/cp -f ../../osm-source/viewer/index.html ./index.html;/bin/cp -f ../../osm-source/viewer/main.js ./main.js;/bin/cp -f ../../osm-source/viewer/ol5-layerswitcher.js ./ol5-layerswitcher.js'
+alias dif='vimdiff ../../osm-source/viewer/main.js ./main.js'

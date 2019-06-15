@@ -1,5 +1,5 @@
 #!/bin/bash -x
 # copy the ol-parcel-bundle to apache teritory
 
-rsync -a ./build/* /library/www/html/temp
+rsync -a ./build/* /library/www/osm-vector-maps/viewer
 #rsync -a ./site/* /library/www/html/ghboxes
