@@ -96,6 +96,11 @@ if [ ! -d $MR_SSD/extracts ]; then
    git clone https://github.com/georgejhunt/extracts -b iiab
 fi
 
+# the tools for manipulating satellite data was cloned from https://github.com/TimSC/pyMbTiles
+if [ ! -d $MR_SSD/python-mbtiles ]; then
+   git clone https://github.com/georgejhunt/python-mbtiles -b iiab
+fi
+
 # The extract program requires tilelive from mapbox
 if [ ! -d $MR_SSD/tilelive/node_modules ]; then
    mkdir -p $MR_SSD/tilelive

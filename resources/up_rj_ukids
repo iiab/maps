@@ -1,0 +1,3 @@
+#!/bin/bash -x
+scp regions.json.ukids ghunt@unleashkids.org:/var/www/iiab/content/OSM/vector-tiles/maplist/assets/regions.json
+
