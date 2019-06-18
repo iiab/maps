@@ -64,7 +64,7 @@ if (path =='') path = 'maplist'; else {
    console.log('region:' + region);
 }
 var path = '../' + path + '/';
-$.when(readMapCatalog(path).then( function(){
+$.when(readMapCatalog(path).read_mbtiles().then( function(){
    console.log('url:' + mapCatalog[region].url);
    var basename = mapCatalog[region].url.replace(/.*\//, '');
             // Clip off .zip
@@ -73,7 +73,8 @@ $.when(readMapCatalog(path).then( function(){
    detail = new VectorTileLayer({
       source: new VectorTileSource({
          format: new MVT(),
-         url: '../' + basename + './tileserver.php/' + basename + '/{z}/{x}/{y}.pbf',
+         //url: './tileserver_iiab.php/' + basename + '/' + basename + '/{z}/{x}/{y}.pbf',
+         url: './tileserver.php/detail/{z}/{x}/{y}.pbf',
          minZoom: 0,
          maxZoom: 14
       }),
@@ -125,7 +126,7 @@ map.addLayer(sat_layer);
 const boxLayer =  new VectorLayer({
    source: new VectorSource({
      format: new GeoJSON(),
-     url: './bboxes.geojson'
+     url: './assets/bboxes.geojson'
    }),
    style: function(feature) {
      var name = feature.get("name");

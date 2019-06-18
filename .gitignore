@@ -19,6 +19,7 @@ generate-regions/python_mbtiles/
 generate-regions/setenv
 generate-regions/region.list
 osm-source/base/build
+osm-source/viewer/build
 osm-source/base/dist
 osm-source/test/build
 osm-source/test/dist

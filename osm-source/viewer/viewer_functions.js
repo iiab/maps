@@ -50,6 +50,34 @@ function readMapCatalog(path){
   return resp;
 }
 
+function get_item(layer,selector){
+   var retvar = ''
+   $(layer).find('*').each(function(m,child){
+      if (child.nodeName === selector &&
+            child.textContent !== 'default') 
+         retvar = child.textContent;
+   })
+   return(retvar);
+}
+
+function read_mbtiles(){
+   var resp = $.ajax({
+      type: 'GET',
+      async: true,
+      url: './tileserver.php/wmts',
+      dataType: 'xml'
+   })
+   .done(function( xml ) {
+      $(xml).find('Layer').each(function(n,layer){
+         var fname = get_item(layer,'ows:Identifier');
+         var swest = get_item(layer,'ows:LowerCorner');
+         var neast = get_item(layer,'ows:UpperCorner');
+         var format = $(layer).find("Format");
+         //console.log("fn:" + fname + ' swest:' + swest + ' neast:' + neast + ' format' + format[0].textContent);
+         return resp;
+     })
+   })
+}
 function renderRegionList(checkbox) { // generic
 	var html = "";
    // order the regionList by seq number
