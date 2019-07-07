@@ -1,12 +1,13 @@
 ## Offline OpenStreetMap + Regional Vector Map Datasets
 
+### Documentation
+
+- Please see [IIAB Maps](https://github.com/iiab/iiab/wiki/IIAB-Maps) for the latest overview & implementer-focused instructions!
+- Also: ["How do I add zoomable maps for my region?"](http://FAQ.IIAB.IO#How_do_I_add_zoomable_maps_for_my_region.3F) in [FAQ.IIAB.IO](http://FAQ.IIAB.IO)
+
 ### How do I add detailed Zoomable Maps for my region?
 
 . Use Administrative Console, under the 'Install Content' heading, to display the checkboxes for selection of the MAP region for download. In a manner similar to installing Kiwix, or Rachel content modules, the "Install Selected Region" button starts a download process, which will complete in more or less time, based  upon the size of the region, and the speed of your internet connection. The progress of this operation can be monitored by clicking "utilities" in the header, an "Display Job Status" in the left column.
-
-### Cross Reference
-
-See ["How do I add zoomable maps for my region?"](http://FAQ.IIAB.IO#How_do_I_add_zoomable_maps_for_my_region.3F) in [FAQ.IIAB.IO](http://FAQ.IIAB.IO)
 
 ### History And Architecture
 
