@@ -67,6 +67,7 @@ var sat_layer =  new TileLayer({
   //type: 'base',
   //enableOpacitySliders: true,
   source: new XYZSource({
+     cacheSize: 0,
      // -y in the followinng url changes origin form lower left to upper left
      url: './tileserver.php/satellite/{z}/{x}/{-y}.jpeg',
      wrapX: true,
@@ -75,6 +76,7 @@ var sat_layer =  new TileLayer({
    
 var detail = new VectorTileLayer({
    source: new VectorTileSource({
+      cacheSize: 0,
       format: new MVT(),
       url: `./tileserver.php/detail/{z}/{x}/{y}.pbf`,
       minZoom: 0,
