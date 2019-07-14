@@ -210,6 +210,7 @@ var sat_layer =  new ol_layer_Tile__WEBPACK_IMPORTED_MODULE_5__[/* default */ "a
   //type: 'base',
   //enableOpacitySliders: true,
   source: new ol_source_XYZ__WEBPACK_IMPORTED_MODULE_3__[/* default */ "a"]({
+     cacheSize: 0,
      // -y in the followinng url changes origin form lower left to upper left
      url: './tileserver.php/satellite/{z}/{x}/{-y}.jpeg',
      wrapX: true,
@@ -218,6 +219,7 @@ var sat_layer =  new ol_layer_Tile__WEBPACK_IMPORTED_MODULE_5__[/* default */ "a
    
 var detail = new ol_layer_VectorTile__WEBPACK_IMPORTED_MODULE_7__[/* default */ "a"]({
    source: new ol_source_VectorTile__WEBPACK_IMPORTED_MODULE_8__[/* default */ "a"]({
+      cacheSize: 0,
       format: new ol_format_MVT__WEBPACK_IMPORTED_MODULE_11__[/* default */ "a"](),
       url: `./tileserver.php/detail/{z}/{x}/{y}.pbf`,
       minZoom: 0,
