@@ -50,20 +50,30 @@ with open(REGION_INFO,'r') as region_fp:
    #match = re.search(r'.*\d{4}-\d{2}-\d{2}_(v\d+\.\d+)\..*',url)
    #version =  match.group(1)
    version = MAP_VERSION
-   perma_ref = 'en-osm-omt_' + region
-   url = os.path.join(URL_PREAMBLE,perma_ref,perma_ref + '.zip')
+   perma_ref = 'en-osm-omt_' + region 
+   filename = "%s_%s_%s"%(perma_ref,MAP_DATE,MAP_VERSION)
+   url = os.path.join(URL_PREAMBLE,perma_ref,filename + '.zip')
 
    # Fetch the md5 to see if local file needs uploading
-   target_zip = os.path.join(MR_HARD_DISK,'stage4',os.path.basename(url))
+   target_zip = os.path.join(MR_HARD_DISK,os.path.basename(url))
    print(target_zip)
-   sys.exit(1)
 
+   # Get the md5sum for the specified file
+   cmd = 'md5sum %s > /tmp/%s'%(target_zip,filename)
+   print('executing command %s'%cmd)
+   subprocess.check_output(cmd,shell=True)
+   cmd = "awk '{print $1}' /tmp/%s"%filename
+   md5 = subprocess.check_output(cmd,shell=True)
+   print(md5)
+
+   '''
    with open(target_zip + '.md5','r') as md5_fp:
       instr = md5_fp.read()
       md5 = instr.split(' ')[0]
    if len(md5) == 0:
       print('md5 was zero length. ABORTING')
       sys.exit(1)
+   '''
 
    # Gather together the metadata for archive.org
    md = {}
@@ -77,11 +87,8 @@ with open(REGION_INFO,'r') as region_fp:
    md["mediatype"] = "software"
    md["description"] = "This client/server IIAB package makes OpenStreetMap data in vector format browsable from clients running Windows, Android, iOS browsers." 
 
-   perma_ref = 'en-osm-omt_' + region
-   identifier = perma_ref + '_' + data['regions'][region]['date'] \
-                + '_' + version
-
    # Check is this has already been uploaded
+   identifier = filename
    item = internetarchive.get_item(identifier)
    print('Identifier: %s. Filename: %s'%(identifier,target_zip,))
    if item.metadata:
