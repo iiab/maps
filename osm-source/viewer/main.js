@@ -1,4 +1,4 @@
-// main.js for viewer -- regional OSM vector tiles -- param is region
+// main.js for base -- regional OSM vector tiles
 import 'ol/ol.css';
 import Map from 'ol/Map';
 import View from 'ol/View';
@@ -39,110 +39,84 @@ var lon = -122;
 var show = 'min';
 var map;
 var osm_style = './assets/style-sat.json';
-window.mapCatalog = {};
-window.layers = [];
 
 // keep the values set in init.json for home button to use
-var config = [];
-var region;
+var config = {};
 
 // Globals for satellite images
 var projection = getProjection('EPSG:3857');
 var projectionExtent = projection.getExtent();
-var sat_layer;
+var size = getWidth(projectionExtent) / 256;
    
-// One thought was that a parameter would direct the viewer to target.
-function getUrlParameter(name) {
-    name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
-    var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
-    var results = regex.exec(location.search);
-    return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
-}
-var path = getUrlParameter('path');
-if (path =='') path = 'maplist'; else {
-   var ret = /omt_([a-z_]*)_\d{4}/.exec(path);
-   region = ret[1];
-   console.log('region:' + region);
-}
-var path = '../' + path + '/';
-
-map = new Map({ 
-   target: 'map-container',
-      controls: defaultControls({attribution: false}).extend([
-      scaleLineControl,attribution
-   ]),
-   view: new View({
-     center: fromLonLat([-71.06, 42.37]),
-     zoom: 2
-   })
-}) //end of new Map
+map = new Map({ target: 'map-container',
+  controls: defaultControls({attribution: false}).extend([
+    scaleLineControl,attribution
+  ]),
+  view: new View({
+    center: fromLonLat([-71.06, 42.37]),
+    zoom: 2
+  })
+}); //end of new Map
 var view = map.getView();
 
-$.when(read_mbtiles()).then( function(){
-   //console.log('url:' + mapCatalog[region].url);
-   //var basename = mapCatalog[region].url.replace(/.*\//, '');
-   // Clip off .zip
-   //basename = basename.replace(/\.zip/, '');
-   // console.log('basename:' + basename); 
-   var detail;
-   for (var i=0; i < layers.length;i++){
-      if ( layers[i].format === "image/pbf" ){
-         detail = new VectorTileLayer({
-            source: new VectorTileSource({
-               format: new MVT(),
-               //url: './tileserver_iiab.php/' + basename + '/' + basename + '/{z}/{x}/{y}.pbf',
-               url: './tileserver.php/' + layers[i].fname + '/{z}/{x}/{y}.pbf',
-               minZoom: 0,
-               maxZoom: 14
-            }),
-            //type: 'base',
-            title: 'OSM',
-            //enableOpacitySliders: true,
-            declutter: true,
-         })
-         layers[i]['object'] = detail;
-         set_style(detail,osm_style);
-         map.addLayer(detail);
-      } else if ( layers[i].format === "image/jpeg" ){
-        sat_layer =  new TileLayer({
-        opacity: 1,
-        title: 'Satellite',
-        minResolution: 16,
-        //enableOpacitySliders: true,
-        source: new XYZSource({
-           // -y in the followinng url changes origin form lower left to upper left
-           url: './tileserver.php/' + layers[i].fname +'/{z}/{x}/{-y}.jpeg',
-           wrapX: true
-        })
-      })
-      layers[i]['object'] = sat_layer;
-      map.addLayer(sat_layer);
-      sat_layer.on('change:visible', function(evt) {
-         console.log("evt.oldValue:" + evt.oldValue);
-         if ( evt.oldValue == false )
-            osm_style = './assets/style-sat.json'
-         else
-            osm_style = './assets/style-osm.json';
-         set_style(sat_layer,osm_style);
-      });
-
-      } // format decision
-    } // for loop
+var sat_layer =  new TileLayer({
+  opacity: 1,
+  title: 'Satellite',
+  //minResolution: 1000,
+  minResolution: 16,
+  //type: 'base',
+  //enableOpacitySliders: true,
+  source: new XYZSource({
+     // -y in the followinng url changes origin form lower left to upper left
+     url: './tileserver.php/satellite/{z}/{x}/{-y}.jpeg',
+     wrapX: true,
   })
+});
+   
+var detail = new VectorTileLayer({
+   source: new VectorTileSource({
+      format: new MVT(),
+      url: `./tileserver.php/detail/{z}/{x}/{y}.pbf`,
+      minZoom: 11,
+      maxZoom: 14
+   }),
+   //type: 'base',
+   title: 'OSM',
+   //enableOpacitySliders: true,
+   declutter: true,
+});
 
+var base = new VectorTileLayer({
+   source: new VectorTileSource({
+      format: new MVT(),
+      url: `./tileserver.php/base/{z}/{x}/{y}.pbf`,
+      minZoom: 0,
+      maxZoom: 10
+   }),
+   //type: 'base',
+   title: 'OSM',
+   //enableOpacitySliders: true,
+   declutter: true,
+});
 
-function set_style(the_layer,the_style){
+function set_detail_style(the_style){
    fetch(the_style).then(function(response) {
       response.json().then(function(glStyle) {
-        stylefunction(the_layer, glStyle,"openmaptiles");
+        stylefunction(detail, glStyle,"openmaptiles");
+        stylefunction(base, glStyle,"openmaptiles");
       });
    });
 }
 
+set_detail_style(osm_style);
+map.addLayer(sat_layer);
+map.addLayer(base);
+map.addLayer(detail);
+
 const boxLayer =  new VectorLayer({
    source: new VectorSource({
      format: new GeoJSON(),
-     url: './assets/bboxes.geojson'
+     url: './bboxes.geojson'
    }),
    style: function(feature) {
      var name = feature.get("name");
@@ -182,6 +156,15 @@ map.on("pointermove", function(evt) {
    lat = coords[1];
    lon = coords[0];
    update_overlay();
+});
+
+sat_layer.on('change:visible', function(evt) {
+   console.log("evt.oldValue:" + evt.oldValue);
+   if ( evt.oldValue == false )
+      osm_style = './assets/style-sat.json'
+   else
+      osm_style = './assets/style-osm.json';
+   set_detail_style(osm_style);
 });
 
 
