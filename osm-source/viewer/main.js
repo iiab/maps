@@ -1,4 +1,5 @@
-// main.js for base -- regional OSM vector tiles
+
+// temp.js for base -- regional OSM vector tiles
 import 'ol/ol.css';
 import Map from 'ol/Map';
 import View from 'ol/View';
@@ -47,17 +48,14 @@ var config = {};
 var projection = getProjection('EPSG:3857');
 var projectionExtent = projection.getExtent();
 var size = getWidth(projectionExtent) / 256;
-   
-map = new Map({ target: 'map-container',
-  controls: defaultControls({attribution: false}).extend([
-    scaleLineControl,attribution
-  ]),
+
+var map = new Map({ target: 'map-container',
   view: new View({
-    center: fromLonLat([-71.06, 42.37]),
-    zoom: 2
+    center: fromLonLat([-122, 37.35]),
+    zoom: 11
   })
 }); //end of new Map
-var view = map.getView();
+
 
 var sat_layer =  new TileLayer({
   opacity: 1,
@@ -67,31 +65,34 @@ var sat_layer =  new TileLayer({
   //type: 'base',
   //enableOpacitySliders: true,
   source: new XYZSource({
+     cacheSize: 0,
      // -y in the followinng url changes origin form lower left to upper left
-     url: './tileserver.php/satellite/{z}/{x}/{-y}.jpeg',
+     url: './tileserver.php?/satellite/{z}/{x}/{-y}.jpeg',
      wrapX: true,
   })
 });
    
-var detail = new VectorTileLayer({
+var base = new VectorTileLayer({
    source: new VectorTileSource({
+      //cacheSize: 0,
       format: new MVT(),
-      url: `./tileserver.php/detail/{z}/{x}/{y}.pbf`,
-      minZoom: 11,
-      maxZoom: 14
+      url: './tileserver.php?/base/{z}/{x}/{y}.pbf',
+      minResolution: 8,
+      maxZoom: 10
    }),
    //type: 'base',
-   title: 'OSM',
+   //title: 'OSM',
    //enableOpacitySliders: true,
    declutter: true,
 });
 
-var base = new VectorTileLayer({
+var detail = new VectorTileLayer({
    source: new VectorTileSource({
+      //cacheSize: 0,
       format: new MVT(),
-      url: `./tileserver.php/base/{z}/{x}/{y}.pbf`,
-      minZoom: 0,
-      maxZoom: 10
+      url: './tileserver.php?/detail/{z}/{x}/{y}.pbf',
+      minZoom: 10,
+      maxZoom: 14
    }),
    //type: 'base',
    title: 'OSM',
@@ -109,46 +110,21 @@ function set_detail_style(the_style){
 }
 
 set_detail_style(osm_style);
+
 map.addLayer(sat_layer);
 map.addLayer(base);
 map.addLayer(detail);
 
-const boxLayer =  new VectorLayer({
-   source: new VectorSource({
-     format: new GeoJSON(),
-     url: './bboxes.geojson'
-   }),
-   style: function(feature) {
-     var name = feature.get("name");
-     if (typeof show !== 'undefined' &&
-          show != null && name == show) {
-       return new Style({
-         fill: new Fill({
-           color: 'rgba(67, 163, 46, 0)'
-         }),
-         stroke: new Stroke({
-           color: 'rgba(67, 163, 46, 1)',
-           width: 2
-         })
-       })
-     } else {
-       return new Style({
-         fill: new Fill({
-           color: 'rgba(255,255,255,0)'
-         }),
-         stroke: new Stroke({
-           color: 'rgba(255,255,255,0)'
-         })
-       })
-     } 
-   } 
-})
-map.addLayer(boxLayer);    
-
 ////////   MAP EVENTS  ////////////
 map.on("moveend", function() {
-   zoom = map.getView().getZoom(); 
-   update_overlay();
+   var newZoom = map.getView().getZoom();
+   //update_overlay();
+  if (zoom != newZoom) {
+    console.log('zoom end, new zoom: ' + newZoom);
+    zoom = newZoom;
+    if (zoom <= 10) base.setVisible(true); else base.setVisible(false);
+    if (zoom <= 10) detail.setVisible(false); else detail.setVisible(true);
+  }
 });
 
 map.on("pointermove", function(evt) {
@@ -165,32 +141,6 @@ sat_layer.on('change:visible', function(evt) {
    else
       osm_style = './assets/style-osm.json';
    set_detail_style(osm_style);
-});
-
-
-//////////    BOTTOM LINE OVERLAY FUNCTIONS  ///////////
-// Configuration of home key in init.json
-var resp = $.ajax({
-   type: 'GET',
-   async: true,
-   url: './init.json',
-   dataType: 'json'
-})
-.done(function( data ) {
-   config = data;
-   var coord = [parseFloat(config.center_lon),parseFloat(config.center_lat)];
-   console.log(coord + "");
-   var there = fromLonLat(coord);
-   map.getView().setCenter(there);
-   map.getView().setZoom(parseFloat(config["zoom"]));
-   show = config.region;
-   $( '#home' ).on('click', function(){
-      console.log('init.json contents:' + config.center_lat);
-          var there = fromLonLat([parseFloat(config.center_lon),parseFloat(config.center_lat)]);
-          map.getView().setCenter(there);
-          map.getView().setZoom(parseFloat(config.zoom));
-          console.log('going there:' +there + 'zoom: ' + parseFloat(config.zoom));
-   });
 });
 
 // Functions to compute tiles from lat/lon for bottom line
@@ -212,12 +162,6 @@ function update_overlay(){
     info_overlay.innerHTML = locTxt;
 }
 
-/////////  ADD FUNCTIONS  ///////////////
-var layerSwitcher = new LayerSwitcher({
-  tipLabel: 'Légende', // Optional label for button
-  layers:map.getLayers()
-});
-map.addControl(layerSwitcher);
 
 /////////    SEARCH FUNCTION ///////////
 var info_overlay = 1;
@@ -232,49 +176,4 @@ $( document ).ready(function() {
    unitsSelect.addEventListener('change', onChange);
    onChange();
 });
-
-   var selections = Array(50);
-   function go_there(item){
-       for (var i=0;i<selections.length;i++){
-          if (selections[i].geonameid == item.value){
-             var there = fromLonLat([selections[i].lon,selections[i].lat]);
-             map.getView().setCenter(there);
-             map.getView().setZoom(10);
-             console.log(selections[i].lon + ' ' + selections[i].lat);
-          }
-       }
-       $('#search').val('');
-    }
-
-$(function() {
-  $('#search').typeahead({
-      onSelect: function(item) {
-        console.log(item);
-        go_there(item);
-      },
-      ajax: {
-         url: './searchapi.php?searchfor='+$('#search').val(),
-         method: 'get',
-         triggerLength: 1,
-         displayField: 'name',
-         valueField: "geonameid",
-         dataType: "json",
-         preProcess: function (data) {
-          if (data.success === false) {
-            // Hide the list, there was some error
-            return false;
-          }
-          // We good!
-          selections = [];
-          for (var i=0;i<data.length;i++) {
-            data[i].name = data[i].name + ' ' + data[i].country_code + ' pop: ' + data[i].population;
-            var choice = {geonameid:data[i].geonameid,lon:data[i].longitude,lat:data[i].latitude};
-            selections.push(choice);
-          } 
-          return data;
-          }
-      }, // ajax get cities with his prefix
-   }); // typeahead onSelect
-}); // end of search selection
-
 
