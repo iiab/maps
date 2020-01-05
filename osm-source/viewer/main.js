@@ -33,6 +33,17 @@ var scaleLineControl = new ScaleLine();
 var attribution = new Attribution({
    label: "OpenStreetMaps.org, OpenLayers.com"});
 
+// keep the values set in init.json for home button to use
+var config = {};
+
+// Globals for satellite images
+var projection = getProjection('EPSG:3857');
+var projectionExtent = projection.getExtent();
+var size = getWidth(projectionExtent) / 256;
+   
+var osm_style = './assets/style-sat.json';
+
+
 // initial values for on event variables to get through startup
 var zoom = 3;
 var lat = 37;
@@ -41,13 +52,6 @@ var show = 'min';
 var map;
 var osm_style = './assets/style-sat.json';
 
-// keep the values set in init.json for home button to use
-var config = {};
-
-// Globals for satellite images
-var projection = getProjection('EPSG:3857');
-var projectionExtent = projection.getExtent();
-var size = getWidth(projectionExtent) / 256;
 
 var map = new Map({ target: 'map-container',
   view: new View({
@@ -60,8 +64,7 @@ var map = new Map({ target: 'map-container',
 var sat_layer =  new TileLayer({
   opacity: 1,
   title: 'Satellite',
-  //minResolution: 1000,
-  minResolution: 16,
+    minResolution: 25,
   //type: 'base',
   //enableOpacitySliders: true,
   source: new XYZSource({
@@ -77,25 +80,26 @@ var base = new VectorTileLayer({
       //cacheSize: 0,
       format: new MVT(),
       url: './tileserver.php?/base/{z}/{x}/{y}.pbf',
-      minResolution: 8,
+      minZoom:0,
       maxZoom: 10
    }),
    //type: 'base',
-   //title: 'OSM',
+   title: 'OSM',
    //enableOpacitySliders: true,
    declutter: true,
 });
 
 var detail = new VectorTileLayer({
    source: new VectorTileSource({
-      //cacheSize: 0,
+      cacheSize: 0,
       format: new MVT(),
       url: './tileserver.php?/detail/{z}/{x}/{y}.pbf',
-      minZoom: 10,
-      maxZoom: 14
+      //maxResolution: 8,
+      maxZoom: 19,
+      minZoom: 11
    }),
    //type: 'base',
-   title: 'OSM',
+   //title: 'OSM',
    //enableOpacitySliders: true,
    declutter: true,
 });
@@ -110,7 +114,6 @@ function set_detail_style(the_style){
 }
 
 set_detail_style(osm_style);
-
 map.addLayer(sat_layer);
 map.addLayer(base);
 map.addLayer(detail);
@@ -133,7 +136,6 @@ map.on("pointermove", function(evt) {
    lon = coords[0];
    update_overlay();
 });
-
 sat_layer.on('change:visible', function(evt) {
    console.log("evt.oldValue:" + evt.oldValue);
    if ( evt.oldValue == false )
@@ -162,7 +164,6 @@ function update_overlay(){
     info_overlay.innerHTML = locTxt;
 }
 
-
 /////////    SEARCH FUNCTION ///////////
 var info_overlay = 1;
 $( document ).ready(function() {
@@ -176,4 +177,50 @@ $( document ).ready(function() {
    unitsSelect.addEventListener('change', onChange);
    onChange();
 });
+
+   var selections = Array(50);
+   function go_there(item){
+       for (var i=0;i<selections.length;i++){
+          if (selections[i].geonameid == item.value){
+             var there = fromLonLat([selections[i].lon,selections[i].lat]);
+             map.getView().setCenter(there);
+             map.getView().setZoom(10);
+             console.log(selections[i].lon + ' ' + selections[i].lat);
+          }
+       }
+       $('#search').val('');
+    }
+
+$(function() {
+  $('#search').typeahead({
+      onSelect: function(item) {
+        console.log(item);
+        go_there(item);
+      },
+      ajax: {
+         url: './searchapi.php?searchfor='+$('#search').val(),
+         method: 'get',
+         triggerLength: 1,
+         displayField: 'name',
+         valueField: "geonameid",
+         dataType: "json",
+         preProcess: function (data) {
+          if (data.success === false) {
+            // Hide the list, there was some error
+            return false;
+          }
+          // We good!
+          selections = [];
+          for (var i=0;i<data.length;i++) {
+            data[i].name = data[i].name + ' ' + data[i].country_code + ' pop: ' + data[i].population;
+            var choice = {geonameid:data[i].geonameid,lon:data[i].longitude,lat:data[i].latitude};
+            selections.push(choice);
+          } 
+          return data;
+          }
+      }, // ajax get cities with his prefix
+   }); // typeahead onSelect
+}); // end of search selection
+
+
 
