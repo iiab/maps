@@ -180,6 +180,26 @@
       "west": "-179.00", 
       "zoom": "3"
     }, 
+    "spanish_speaking_regions": {
+      "center_lat": "-8.0", 
+      "center_lon": "-70.0", 
+      "date": "2017-07-03", 
+      "east": "-18.0", 
+      "north": "33.00", 
+      "osm_size": "7888969728", 
+      "perma_ref": "en-osm-omt_spanish_speaking_regions", 
+      "sat_is_regional": "False", 
+      "sat_size": "976416768", 
+      "sat_url": "https://archive.org/download/satellite_z0-z9_v3.mbtiles/satellite_z0-z9_v3.mbtiles", 
+      "seq": 25, 
+      "size": "8699784000", 
+      "south": "-84.0", 
+      "title": "Spanish-speaking Regions", 
+      "url": "https://archive.org/download/en-osm-omt_spanish_speaking_regions_2017-07-03_v0.23/en-osm-omt_spanish_speaking_regions_2017-07-03_v0.23.zip", 
+      "version": "v0.23", 
+      "west": "-179.00", 
+      "zoom": "3"
+    }, 
     "south_asia": {
       "center_lat": "23.0", 
       "center_lon": "109.0", 
