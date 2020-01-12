@@ -39,22 +39,11 @@ md["subject"] = "maps"
 md["licenseurl"] = "http://creativecommons.org/licenses/by-sa/4.0/"
 md["zip_md5"] = md5
 md["mediatype"] = "software"
-md["description"] = "This reource is downloaded and assembled into a package which is then downloaded and provides offline vector maps." 
+md["description"] = "This reource is downloaded and assembled into a package which  provides offline vector maps." 
 
 identifier = FILENAME
 
-# Check is this has already been uploaded
-item = internetarchive.get_item(identifier)
-if item.metadata:
-   item.metadata['zip_md5'] == md5
-   # already uploaded
-   print('Skipping %s -- checksums match'%region)
-   sys.exit()
-if item.metadata:
-   print('md5sums for %s do not match'%region)
-else:
-   print('Archive.org does not have %s'%identifier) 
 # Debugging information
-print('MetaData: %s'%md)
+print('Identifier: %s\nMetaData: %s'%(identifier,md))
 r = internetarchive.upload(identifier, files=[sys.argv[1]], metadata=md)
 print(r[0].status_code) 
