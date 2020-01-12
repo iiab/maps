@@ -93,5 +93,6 @@ with open(REGION_INFO,'r') as region_fp:
    outstr = json.dumps(data,indent=2,sort_keys=True) 
    print(outstr)
 
-with open(REGION_INFO,'w') as region_fp:
-   region_fp.write(outstr)
+
+#with open(REGION_INFO,'w') as region_fp:
+#   region_fp.write(outstr)
