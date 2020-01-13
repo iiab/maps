@@ -4,6 +4,7 @@
 import os,sys
 import json
 import sqlite3
+import datetime
 
 MAP_VERSION = os.environ.get("MAP_VERSION",'v.999')
 if MAP_VERSION == 'v.999':
@@ -14,8 +15,10 @@ BLAST_VERSION = os.environ.get("BLAST_VERSION")
 MR_SSD = os.environ.get("MR_SSD",'/root/mapgen')
 REGION_INFO = os.path.join(MR_SSD,'../resources','regions.json')
 DOWNLOAD_URL = os.environ['MAP_DL_URL']
-GENERATED_TILES = MR_SSD + '/output/stage2/'
+#GENERATED_TILES = MR_SSD + '/output/stage2/'
+GENERATED_TILES = '/library/www/html/internetarchive'
 BASE_SATELLITE_SIZE = "976416768"
+BASE_PLANET_SIZE = "1497202688"
 BASE_SATELLITE_URL = "https://archive.org/download/satellite_z0-z9_v3.mbtiles/satellite_z0-z9_v3.mbtiles"
 
 outstr = ''
@@ -27,14 +30,14 @@ with open(REGION_INFO,'r') as region_fp:
       print("json error reading regions.json")
       sys.exit(1)
    for region in data['regions'].keys():
-      mbtile = os.path.join(MR_SSD,'output/stage2/',region+'.mbtiles')
+      mbtile = os.path.join(GENERATED_TILES,region+'_z11-z14_2017.mbtiles')
       if region == 'world':
          mbtile = os.environ.get('PLANET_MBTILES','')
          data['regions'][region]['osm_size'] = "54776152064"
       if mbtile == '':
          print('problem with planet mbtile')
          sys.exit(1)
-      perma_ref = 'en-osm-omt_' + region
+      perma_ref = region
       identity = perma_ref + '_' + data['regions'][region]['date'] +'_'\
 		 + MAP_VERSION 
       file_ref = identity + '.zip'
@@ -47,21 +50,27 @@ with open(REGION_INFO,'r') as region_fp:
 		 + MAP_VERSION 
       data['regions'][region]['sat_url'] = DOWNLOAD_URL+ '/' + sat_identity + \
                                        '/' + sat_identity
+      tile_identity = os.path.basename(mbtile)
+      data['regions'][region]['detail_url'] = DOWNLOAD_URL+ '/' + tile_identity + '/'\
+             + tile_identity 
+      data['regions'][region]['publish'] = "True"
       #data['regions'][region]['sat_is_regional'] = 'False' 
       try:
          conn = sqlite3.connect(mbtile)
          c = conn.cursor()
          sql = 'select value from metadata where name = "filesize"'
          c.execute(sql)
-      except:
+      except Exception as e:
          print("ERROR -no access to metadata in region:%s"%region)
+         print("Path:%s"%mbtile)
+         print("sql error: %s"%e)
          #sys.exit(1)
          continue
       row = c.fetchone()
 	   #print(row[0])
       if row:
          data['regions'][region]['osm_size'] = row[0]
-      else:
+      elif region != "world":
          print("No Size data for region:%s"%region)
 
       # There may be a regional SATELLITE .mbtiles
@@ -87,12 +96,16 @@ with open(REGION_INFO,'r') as region_fp:
 
       # record combined satellite and OSM size
       total_size = float(data['regions'][region]['sat_size']) + \
-                   float(data['regions'][region]['osm_size'])
+                   float(data['regions'][region]['osm_size']) + float(BASE_PLANET_SIZE)
       data['regions'][region]['size'] = str(int(total_size))
 
    outstr = json.dumps(data,indent=2,sort_keys=True) 
    print(outstr)
 
 
-#with open(REGION_INFO,'w') as region_fp:
-#   region_fp.write(outstr)
+now = datetime.datetime.now()
+date_time = now.strftime("%y-%m-%d")
+print(date_time)
+output_filename = "./regions.json.%s"%date_time
+with open(output_filename,'w') as region_fp:
+   region_fp.write(outstr)
