@@ -21,7 +21,7 @@ generate-regions/region.list
 osm-source/base/build
 osm-source/viewer/build
 osm-source/base/dist
-osm-source/test/build
+#osm-source/test/build
 osm-source/test/dist
 osm-source/console/build
 osm-source/ukids/build
