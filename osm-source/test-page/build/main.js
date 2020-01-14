@@ -127,7 +127,7 @@ document.$ = document.jQuery = jquery__WEBPACK_IMPORTED_MODULE_7___default.a;
 
 // a global variable to control which features are shown
 var show = {};
-var mapData = "/osm-vector/viewer/assets";
+var mapData = "/osm-vector-maps/viewer/assets";
 
 var map = new ol_Map__WEBPACK_IMPORTED_MODULE_3__[/* default */ "a"]({
   target: 'map-container',
