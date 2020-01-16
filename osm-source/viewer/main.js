@@ -79,7 +79,8 @@ var base = new VectorTileLayer({
    source: new VectorTileSource({
       //cacheSize: 0,
       format: new MVT(),
-      url: './tileserver.php?/base/{z}/{x}/{y}.pbf',
+      url: './tileserver.php?/osm_planet/{z}/{x}/{y}.pbf',
+
       minZoom:0,
       maxZoom: 10
    }),
@@ -93,7 +94,7 @@ var detail = new VectorTileLayer({
    source: new VectorTileSource({
       cacheSize: 0,
       format: new MVT(),
-      url: './tileserver.php?/detail/{z}/{x}/{y}.pbf',
+      url: './tileserver.php?../tiles/detail/{z}/{x}/{y}.pbf',
       //maxResolution: 8,
       maxZoom: 19,
       minZoom: 11
