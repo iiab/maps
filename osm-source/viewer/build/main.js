@@ -236,7 +236,7 @@ var detail = new ol_layer_VectorTile__WEBPACK_IMPORTED_MODULE_7__[/* default */ 
    source: new ol_source_VectorTile__WEBPACK_IMPORTED_MODULE_8__[/* default */ "a"]({
       cacheSize: 0,
       format: new ol_format_MVT__WEBPACK_IMPORTED_MODULE_11__[/* default */ "a"](),
-      url: './tileserver.php?/detail/{z}/{x}/{y}.pbf',
+      url: './tileserver.php?../tiles/detail/{z}/{x}/{y}.pbf',
       //maxResolution: 8,
       maxZoom: 19,
       minZoom: 11
