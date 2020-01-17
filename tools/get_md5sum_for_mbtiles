@@ -1,0 +1,10 @@
+#!/bin/bash 
+# makes sure there is md5sum file for each *.mbtiles in this directory
+
+for package in $(ls -d *.mbtiles); do
+   if [ ! -f "$package.md5" ]; then
+      echo creating md5 for $package
+      md5sum $package > $package.md5
+   fi
+done
+
