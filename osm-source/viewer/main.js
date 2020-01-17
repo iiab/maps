@@ -96,7 +96,7 @@ var detail = new VectorTileLayer({
       format: new MVT(),
       url: './tileserver.php?tiles/detail/{z}/{x}/{y}.pbf',
       //maxResolution: 8,
-      maxZoom: 19,
+      maxZoom: 14,
       minZoom: 11
    }),
    //type: 'base',
