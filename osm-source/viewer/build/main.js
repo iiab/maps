@@ -222,7 +222,7 @@ var base = new ol_layer_VectorTile__WEBPACK_IMPORTED_MODULE_7__[/* default */ "a
    source: new ol_source_VectorTile__WEBPACK_IMPORTED_MODULE_8__[/* default */ "a"]({
       //cacheSize: 0,
       format: new ol_format_MVT__WEBPACK_IMPORTED_MODULE_11__[/* default */ "a"](),
-      url: './tileserver.php?/osm_planet/{z}/{x}/{y}.pbf',
+      url: './tileserver.php?/planet/{z}/{x}/{y}.pbf',
 
       minZoom:0,
       maxZoom: 10
