@@ -195,6 +195,20 @@ var show = 'min';
 var map;
 var osm_style = './assets/style-sat.json';
 
+// Get list of all files in the tiles directory
+  var resp = $.ajax({
+    type: 'GET',
+    url: './mbtileinfo.php',
+    async: false,
+    dataType: 'text'
+  })
+  .done(function( data ) {
+    var filenames = JSON.parse(data);
+    for(var i = 0;i < filenames.length;i++){
+      console.log('filename:  ' + filenames[i]['basename']);
+    }
+  })
+
 
 var map = new ol_Map__WEBPACK_IMPORTED_MODULE_1__[/* default */ "a"]({ target: 'map-container',
   view: new ol_View__WEBPACK_IMPORTED_MODULE_2__[/* default */ "a"]({
