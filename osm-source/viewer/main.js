@@ -51,7 +51,7 @@ var lon = -122;
 var show = 'min';
 var map;
 var osm_style = './assets/style-sat.json';
-
+var tiledata;
 
 var map = new Map({ target: 'map-container',
   view: new View({
@@ -61,55 +61,62 @@ var map = new Map({ target: 'map-container',
 }); //end of new Map
 
 
-var sat_layer =  new TileLayer({
-  opacity: 1,
-  title: 'Satellite',
-    minResolution: 25,
-  //type: 'base',
-  //enableOpacitySliders: true,
-  source: new XYZSource({
-     cacheSize: 0,
-     // -y in the followinng url changes origin form lower left to upper left
-     url: './tileserver.php?/satellite/{z}/{x}/{-y}.jpeg',
-     wrapX: true,
+// Get list of all files in the tiles directory
+  var resp = $.ajax({
+    type: 'GET',
+    url: './mbtileinfo.php',
+    async: false,
+    dataType: 'text'
   })
-});
-   
-var base = new VectorTileLayer({
-   source: new VectorTileSource({
-      //cacheSize: 0,
-      format: new MVT(),
-      url: './tileserver.php?/planet/{z}/{x}/{y}.pbf',
+  .done(function( data ) {
+    tiledata = JSON.parse(data);
+    for(var i = 0;i < filenames.length;i++){
+      console.log('filename:  ' + filenames[i]['basename']);
+    }
+  })
 
-      minZoom:0,
-      maxZoom: 10
-   }),
-   //type: 'base',
-   title: 'OSM',
-   //enableOpacitySliders: true,
-   declutter: true,
-});
+// The Satellite layer needs to go down first with OSM data on top
+for(var i = 0;i < tiledata.length;i++){
+   if (basename(tiledata[i]['basename']).substr(0,3) == 'sat'){
+      var sat_layer =  new TileLayer({
+        opacity: 1,
+        title: 'Satellite',
+          minResolution: 25,
+        //type: 'base',
+        //enableOpacitySliders: true,
+        source: new XYZSource({
+           cacheSize: 0,
+           // -y in the followinng url changes origin form lower left to upper left
+           url: './tileserver.php?' + tiledata[i]['basename'] + '/{z}/{x}/{-y}.jpeg',
+           wrapX: true,
+        })
+      });
+   }
+}
 
-var detail = new VectorTileLayer({
-   source: new VectorTileSource({
-      cacheSize: 0,
-      format: new MVT(),
-      url: './tileserver.php?tiles/detail/{z}/{x}/{y}.pbf',
-      //maxResolution: 8,
-      maxZoom: 14,
-      minZoom: 11
-   }),
-   //type: 'base',
-   //title: 'OSM',
-   //enableOpacitySliders: true,
-   declutter: true,
-});
+var osmLayerArray;   
+for(var i = 0;i < tiledata.length;i++){
+   if (basename(tiledata[i]['basename']).substr(0,3) != 'sat'){
+      osmLayerArray[] = 'layer' + i;
+      osmLayerArray[i]e = new VectorTileLayer({
+         source: new VectorTileSource({
+            cacheSize: 0,
+            format: new MVT(),
+            url: './tileserver.php?'+ tiledatai[i]['basename'] + '/{z}/{x}/{y}.pbf',
+            minZoom:tiledata[i]['minzoom'],
+            maxZoom: tiledata[i]['maxzoom']
+         }),
+         title: 'OSM',
+         declutter: true,
+      });
+   }
+}
 
 function set_detail_style(the_style){
    fetch(the_style).then(function(response) {
       response.json().then(function(glStyle) {
-        stylefunction(detail, glStyle,"openmaptiles");
-        stylefunction(base, glStyle,"openmaptiles");
+      for(var i = 0;i < osmLayerArray.length;i++){
+        stylefunction(osmLayerArray[i], glStyle,"openmaptiles");
       });
    });
 }
@@ -223,5 +230,11 @@ $(function() {
    }); // typeahead onSelect
 }); // end of search selection
 
+function basename(path) {
+     return path.replace(/.*\//, '');
+}
 
+function dirname(path) {
+     return path.match(/.*\//);
+}
 
