@@ -105,19 +105,30 @@ for(var mbt in tiledata){
    if (mbt.substr(0,3) != 'sat'){
       var url = './tileserver.php?./tiles/' +  mbt + '/{z}/{x}/{y}.pbf';
       console.log('URL:' + url);
-      var maxzoom = tiledata[mbt]['maxzoom'];
-      if (maxzoom == 14) maxzoom = 18;
-      layerDict[mbt] = (new VectorTileLayer({
-         source: new VectorTileSource({
-            cacheSize: 0,
-            format: new MVT(),
-            url: url,
-            minZoom:tiledata[mbt]['minzoom']
-            //maxZoom: maxzoom
-         }),
-         title: 'OSM',
-         declutter: true
-      }));
+      const maxzoom = tiledata[mbt]['maxzoom'];
+      if (maxzoom <11) {
+         layerDict[mbt] = (new VectorTileLayer({
+            source: new VectorTileSource({
+               cacheSize: 0,
+               format: new MVT(),
+               url: url,
+               maxZoom:10 
+            }),
+            title: 'OSM',
+            declutter: true
+         }));
+      } else {
+         layerDict[mbt] = (new VectorTileLayer({
+            source: new VectorTileSource({
+               cacheSize: 0,
+               format: new MVT(),
+               url: url,
+               maxZoom: 14
+            }),
+            title: 'OSM',
+            declutter: true
+         }));
+      }
    }
 }
 

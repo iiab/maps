@@ -248,19 +248,30 @@ for(var mbt in tiledata){
    if (mbt.substr(0,3) != 'sat'){
       var url = './tileserver.php?./tiles/' +  mbt + '/{z}/{x}/{y}.pbf';
       console.log('URL:' + url);
-      var maxzoom = tiledata[mbt]['maxzoom'];
-      if (maxzoom == 14) maxzoom = 18;
-      layerDict[mbt] = (new ol_layer_VectorTile__WEBPACK_IMPORTED_MODULE_7__[/* default */ "a"]({
-         source: new ol_source_VectorTile__WEBPACK_IMPORTED_MODULE_8__[/* default */ "a"]({
-            cacheSize: 0,
-            format: new ol_format_MVT__WEBPACK_IMPORTED_MODULE_11__[/* default */ "a"](),
-            url: url,
-            minZoom:tiledata[mbt]['minzoom']
-            //maxZoom: maxzoom
-         }),
-         title: 'OSM',
-         declutter: true
-      }));
+      const maxzoom = tiledata[mbt]['maxzoom'];
+      if (maxzoom <11) {
+         layerDict[mbt] = (new ol_layer_VectorTile__WEBPACK_IMPORTED_MODULE_7__[/* default */ "a"]({
+            source: new ol_source_VectorTile__WEBPACK_IMPORTED_MODULE_8__[/* default */ "a"]({
+               cacheSize: 0,
+               format: new ol_format_MVT__WEBPACK_IMPORTED_MODULE_11__[/* default */ "a"](),
+               url: url,
+               maxZoom:10 
+            }),
+            title: 'OSM',
+            declutter: true
+         }));
+      } else {
+         layerDict[mbt] = (new ol_layer_VectorTile__WEBPACK_IMPORTED_MODULE_7__[/* default */ "a"]({
+            source: new ol_source_VectorTile__WEBPACK_IMPORTED_MODULE_8__[/* default */ "a"]({
+               cacheSize: 0,
+               format: new ol_format_MVT__WEBPACK_IMPORTED_MODULE_11__[/* default */ "a"](),
+               url: url,
+               maxZoom: 14
+            }),
+            title: 'OSM',
+            declutter: true
+         }));
+      }
    }
 }
 
