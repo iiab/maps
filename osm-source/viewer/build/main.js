@@ -183,9 +183,7 @@ var config = {};
 var projection = Object(ol_proj__WEBPACK_IMPORTED_MODULE_4__[/* get */ "e"])('EPSG:3857');
 var projectionExtent = projection.getExtent();
 var size = Object(ol_extent_js__WEBPACK_IMPORTED_MODULE_16__[/* getWidth */ "E"])(projectionExtent) / 256;
-   
 var osm_style = './assets/style-sat.json';
-
 
 // initial values for on event variables to get through startup
 var zoom = 3;
@@ -194,6 +192,24 @@ var lon = -122;
 var show = 'min';
 var map;
 var osm_style = './assets/style-sat.json';
+var tiledata = {};
+
+function basename(path) {
+     return path.replace(/.*\//, '');
+}
+
+function dirname(path) {
+     return path.match(/.*\//);
+}
+
+var map = new ol_Map__WEBPACK_IMPORTED_MODULE_1__[/* default */ "a"]({ target: 'map-container',
+  view: new ol_View__WEBPACK_IMPORTED_MODULE_2__[/* default */ "a"]({
+    center: Object(ol_proj__WEBPACK_IMPORTED_MODULE_4__[/* fromLonLat */ "d"])([-122, 37.35]),
+    maxZoom: 19,
+    zoom: 11
+  })
+}); //end of new Map
+
 
 // Get list of all files in the tiles directory
   var resp = $.ajax({
@@ -203,88 +219,75 @@ var osm_style = './assets/style-sat.json';
     dataType: 'text'
   })
   .done(function( data ) {
-    var filenames = JSON.parse(data);
-    for(var i = 0;i < filenames.length;i++){
-      console.log('filename:  ' + filenames[i]['basename']);
+    var tilenames = JSON.parse(data);
+    for(var i = 0;i < tilenames.length;i++){
+      console.log('filename:  ' + tilenames[i]['basename']);
+      tiledata[basename(tilenames[i]['basename'])] = tilenames[i];
     }
   })
 
+// The Satellite layer needs to go down first with OSM data on top
+for(var mbt in tiledata){
+   if (mbt.substr(0,3) == 'sat'){
+      var sat_layer =  new ol_layer_Tile__WEBPACK_IMPORTED_MODULE_5__[/* default */ "a"]({
+        opacity: 1,
+        title: 'Satellite',
+          minResolution: 25,
+          source: new ol_source_XYZ__WEBPACK_IMPORTED_MODULE_3__[/* default */ "a"]({
+           cacheSize: 0,
+           // -y in the followinng url changes origin form lower left to upper left
+           url: './tileserver.php?./tiles/' + mbt + '/{z}/{x}/{-y}.jpeg',
+           wrapX: true
+        })
+      });
+   }
+}
 
-var map = new ol_Map__WEBPACK_IMPORTED_MODULE_1__[/* default */ "a"]({ target: 'map-container',
-  view: new ol_View__WEBPACK_IMPORTED_MODULE_2__[/* default */ "a"]({
-    center: Object(ol_proj__WEBPACK_IMPORTED_MODULE_4__[/* fromLonLat */ "d"])([-122, 37.35]),
-    zoom: 11
-  })
-}); //end of new Map
-
-
-var sat_layer =  new ol_layer_Tile__WEBPACK_IMPORTED_MODULE_5__[/* default */ "a"]({
-  opacity: 1,
-  title: 'Satellite',
-    minResolution: 25,
-  //type: 'base',
-  //enableOpacitySliders: true,
-  source: new ol_source_XYZ__WEBPACK_IMPORTED_MODULE_3__[/* default */ "a"]({
-     cacheSize: 0,
-     // -y in the followinng url changes origin form lower left to upper left
-     url: './tileserver.php?/satellite/{z}/{x}/{-y}.jpeg',
-     wrapX: true,
-  })
-});
-   
-var base = new ol_layer_VectorTile__WEBPACK_IMPORTED_MODULE_7__[/* default */ "a"]({
-   source: new ol_source_VectorTile__WEBPACK_IMPORTED_MODULE_8__[/* default */ "a"]({
-      //cacheSize: 0,
-      format: new ol_format_MVT__WEBPACK_IMPORTED_MODULE_11__[/* default */ "a"](),
-      url: './tileserver.php?/planet/{z}/{x}/{y}.pbf',
-
-      minZoom:0,
-      maxZoom: 10
-   }),
-   //type: 'base',
-   title: 'OSM',
-   //enableOpacitySliders: true,
-   declutter: true,
-});
-
-var detail = new ol_layer_VectorTile__WEBPACK_IMPORTED_MODULE_7__[/* default */ "a"]({
-   source: new ol_source_VectorTile__WEBPACK_IMPORTED_MODULE_8__[/* default */ "a"]({
-      cacheSize: 0,
-      format: new ol_format_MVT__WEBPACK_IMPORTED_MODULE_11__[/* default */ "a"](),
-      url: './tileserver.php?tiles/detail/{z}/{x}/{y}.pbf',
-      //maxResolution: 8,
-      maxZoom: 14,
-      minZoom: 11
-   }),
-   //type: 'base',
-   //title: 'OSM',
-   //enableOpacitySliders: true,
-   declutter: true,
-});
+var layerDict = {};   
+for(var mbt in tiledata){
+   if (mbt.substr(0,3) != 'sat'){
+      var url = './tileserver.php?./tiles/' +  mbt + '/{z}/{x}/{y}.pbf';
+      console.log('URL:' + url);
+      var maxzoom = tiledata[mbt]['maxzoom'];
+      if (maxzoom == 14) maxzoom = 18;
+      layerDict[mbt] = (new ol_layer_VectorTile__WEBPACK_IMPORTED_MODULE_7__[/* default */ "a"]({
+         source: new ol_source_VectorTile__WEBPACK_IMPORTED_MODULE_8__[/* default */ "a"]({
+            cacheSize: 0,
+            format: new ol_format_MVT__WEBPACK_IMPORTED_MODULE_11__[/* default */ "a"](),
+            url: url,
+            minZoom:tiledata[mbt]['minzoom']
+            //maxZoom: maxzoom
+         }),
+         title: 'OSM',
+         declutter: true
+      }));
+   }
+}
 
 function set_detail_style(the_style){
    fetch(the_style).then(function(response) {
       response.json().then(function(glStyle) {
-        Object(ol_mapbox_style_stylefunction__WEBPACK_IMPORTED_MODULE_12__[/* default */ "a"])(detail, glStyle,"openmaptiles");
-        Object(ol_mapbox_style_stylefunction__WEBPACK_IMPORTED_MODULE_12__[/* default */ "a"])(base, glStyle,"openmaptiles");
+         for(var mbt in layerDict){
+           Object(ol_mapbox_style_stylefunction__WEBPACK_IMPORTED_MODULE_12__[/* default */ "a"])(layerDict[mbt], glStyle,"openmaptiles");
+         };
       });
    });
 }
 
 set_detail_style(osm_style);
 map.addLayer(sat_layer);
-map.addLayer(base);
-map.addLayer(detail);
-
+for(var mbt in tiledata){
+   if (mbt.substr(0,3) != 'sat'){
+         map.addLayer(layerDict[mbt]);
+   }
+}
 ////////   MAP EVENTS  ////////////
 map.on("moveend", function() {
    var newZoom = map.getView().getZoom();
-   //update_overlay();
   if (zoom != newZoom) {
+    update_overlay();
     console.log('zoom end, new zoom: ' + newZoom);
     zoom = newZoom;
-    if (zoom <= 10) base.setVisible(true); else base.setVisible(false);
-    if (zoom <= 10) detail.setVisible(false); else detail.setVisible(true);
   }
 });
 
@@ -294,6 +297,7 @@ map.on("pointermove", function(evt) {
    lon = coords[0];
    update_overlay();
 });
+
 sat_layer.on('change:visible', function(evt) {
    console.log("evt.oldValue:" + evt.oldValue);
    if ( evt.oldValue == false )
@@ -379,8 +383,6 @@ $(function() {
       }, // ajax get cities with his prefix
    }); // typeahead onSelect
 }); // end of search selection
-
-
 
 
 
