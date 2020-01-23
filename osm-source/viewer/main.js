@@ -40,9 +40,7 @@ var config = {};
 var projection = getProjection('EPSG:3857');
 var projectionExtent = projection.getExtent();
 var size = getWidth(projectionExtent) / 256;
-   
 var osm_style = './assets/style-sat.json';
-
 
 // initial values for on event variables to get through startup
 var zoom = 3;
@@ -51,11 +49,20 @@ var lon = -122;
 var show = 'min';
 var map;
 var osm_style = './assets/style-sat.json';
-var tiledata;
+var tiledata = {};
+
+function basename(path) {
+     return path.replace(/.*\//, '');
+}
+
+function dirname(path) {
+     return path.match(/.*\//);
+}
 
 var map = new Map({ target: 'map-container',
   view: new View({
     center: fromLonLat([-122, 37.35]),
+    maxZoom: 19,
     zoom: 11
   })
 }); //end of new Map
@@ -69,72 +76,75 @@ var map = new Map({ target: 'map-container',
     dataType: 'text'
   })
   .done(function( data ) {
-    tiledata = JSON.parse(data);
-    for(var i = 0;i < filenames.length;i++){
-      console.log('filename:  ' + filenames[i]['basename']);
+    var tilenames = JSON.parse(data);
+    for(var i = 0;i < tilenames.length;i++){
+      console.log('filename:  ' + tilenames[i]['basename']);
+      tiledata[basename(tilenames[i]['basename'])] = tilenames[i];
     }
   })
 
 // The Satellite layer needs to go down first with OSM data on top
-for(var i = 0;i < tiledata.length;i++){
-   if (basename(tiledata[i]['basename']).substr(0,3) == 'sat'){
+for(var mbt in tiledata){
+   if (mbt.substr(0,3) == 'sat'){
       var sat_layer =  new TileLayer({
         opacity: 1,
         title: 'Satellite',
           minResolution: 25,
-        //type: 'base',
-        //enableOpacitySliders: true,
-        source: new XYZSource({
+          source: new XYZSource({
            cacheSize: 0,
            // -y in the followinng url changes origin form lower left to upper left
-           url: './tileserver.php?' + tiledata[i]['basename'] + '/{z}/{x}/{-y}.jpeg',
-           wrapX: true,
+           url: './tileserver.php?./tiles/' + mbt + '/{z}/{x}/{-y}.jpeg',
+           wrapX: true
         })
       });
    }
 }
 
-var osmLayerArray;   
-for(var i = 0;i < tiledata.length;i++){
-   if (basename(tiledata[i]['basename']).substr(0,3) != 'sat'){
-      osmLayerArray[] = 'layer' + i;
-      osmLayerArray[i]e = new VectorTileLayer({
+var layerDict = {};   
+for(var mbt in tiledata){
+   if (mbt.substr(0,3) != 'sat'){
+      var url = './tileserver.php?./tiles/' +  mbt + '/{z}/{x}/{y}.pbf';
+      console.log('URL:' + url);
+      var maxzoom = tiledata[mbt]['maxzoom'];
+      if (maxzoom == 14) maxzoom = 18;
+      layerDict[mbt] = (new VectorTileLayer({
          source: new VectorTileSource({
             cacheSize: 0,
             format: new MVT(),
-            url: './tileserver.php?'+ tiledatai[i]['basename'] + '/{z}/{x}/{y}.pbf',
-            minZoom:tiledata[i]['minzoom'],
-            maxZoom: tiledata[i]['maxzoom']
+            url: url,
+            minZoom:tiledata[mbt]['minzoom']
+            //maxZoom: maxzoom
          }),
          title: 'OSM',
-         declutter: true,
-      });
+         declutter: true
+      }));
    }
 }
 
 function set_detail_style(the_style){
    fetch(the_style).then(function(response) {
       response.json().then(function(glStyle) {
-      for(var i = 0;i < osmLayerArray.length;i++){
-        stylefunction(osmLayerArray[i], glStyle,"openmaptiles");
+         for(var mbt in layerDict){
+           stylefunction(layerDict[mbt], glStyle,"openmaptiles");
+         };
       });
    });
 }
 
 set_detail_style(osm_style);
 map.addLayer(sat_layer);
-map.addLayer(base);
-map.addLayer(detail);
-
+for(var mbt in tiledata){
+   if (mbt.substr(0,3) != 'sat'){
+         map.addLayer(layerDict[mbt]);
+   }
+}
 ////////   MAP EVENTS  ////////////
 map.on("moveend", function() {
    var newZoom = map.getView().getZoom();
-   //update_overlay();
   if (zoom != newZoom) {
+    update_overlay();
     console.log('zoom end, new zoom: ' + newZoom);
     zoom = newZoom;
-    if (zoom <= 10) base.setVisible(true); else base.setVisible(false);
-    if (zoom <= 10) detail.setVisible(false); else detail.setVisible(true);
   }
 });
 
@@ -144,6 +154,7 @@ map.on("pointermove", function(evt) {
    lon = coords[0];
    update_overlay();
 });
+
 sat_layer.on('change:visible', function(evt) {
    console.log("evt.oldValue:" + evt.oldValue);
    if ( evt.oldValue == false )
@@ -229,12 +240,4 @@ $(function() {
       }, // ajax get cities with his prefix
    }); // typeahead onSelect
 }); // end of search selection
-
-function basename(path) {
-     return path.replace(/.*\//, '');
-}
-
-function dirname(path) {
-     return path.match(/.*\//);
-}
 
