@@ -14,7 +14,7 @@ import VectorSource from 'ol/source/Vector';
 import MVT from 'ol/format/MVT';
 import stylefunction from 'ol-mapbox-style/stylefunction';
 import {defaults as defaultControls, ScaleLine,Attribution} from 'ol/control.js';
-import GeoJSON from 'ol/format/GeoJSON';
+import {GPX, GeoJSON, IGC, KML, TopoJSON} from 'ol/format';
 import {Style, Fill, Stroke, Circle, Text} from 'ol/style';
 //import WMTSCapabilities from 'ol/format/WMTSCapabilities.js';
 //import WMTS,{optionsFromCapabilities} from 'ol/source/WMTS.js';
@@ -25,6 +25,7 @@ import LayerSwitcher from './ol5-layerswitcher.js';
 import 'bootstrap';
 import 'bootstrap/dist/css/bootstrap.css';
 import MapBrowserEvent from 'ol/MapBrowserEvent'
+import DragAndDrop from 'ol/interaction/DragAndDrop';
 
 /////////////  GLOBALS /////////////////////////////
 window.$ = window.jQuery = require('jquery');
@@ -141,8 +142,20 @@ function set_detail_style(the_style){
       });
    });
 }
-
 set_detail_style(osm_style);
+
+///////  Drop new layer onto map  //////////////
+const dropsource = new VectorSource();
+const drop = new VectorLayer({
+  source: dropsource
+});
+map.addInteraction(new DragAndDrop({
+  source: dropsource,
+  formatConstructors: [GPX, GeoJSON, IGC, KML, TopoJSON]
+}));
+
+/////   add Layers    /////////////////
+map.addLayer(drop);
 map.addLayer(sat_layer);
 for(var mbt in tiledata){
    if (mbt.substr(0,3) != 'sat'){
