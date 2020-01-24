@@ -115,7 +115,7 @@ for(var mbt in tiledata){
                url: url,
                maxZoom:10 
             }),
-            title: 'OSM',
+            //title: 'OSM',
             declutter: true
          }));
       } else {
@@ -162,6 +162,39 @@ for(var mbt in tiledata){
          map.addLayer(layerDict[mbt]);
    }
 }
+
+const boxLayer =  new VectorLayer({
+   source: new VectorSource({
+     format: new GeoJSON(),
+     url: './bboxes.geojson'
+   }),
+   style: function(feature) {
+     var name = feature.get("name");
+     if (typeof show !== 'undefined' &&
+          show != null && name == show) {
+       return new Style({
+         fill: new Fill({
+           color: 'rgba(67, 163, 46, 0)'
+         }),
+         stroke: new Stroke({
+           color: 'rgba(67, 163, 46, 1)',
+           width: 2
+         })
+       })
+     } else {
+       return new Style({
+         fill: new Fill({
+           color: 'rgba(255,255,255,0)'
+         }),
+         stroke: new Stroke({
+           color: 'rgba(255,255,255,0)'
+         })
+       })
+     } 
+   } 
+})
+map.addLayer(boxLayer);    
+
 ////////   MAP EVENTS  ////////////
 map.on("moveend", function() {
    var newZoom = map.getView().getZoom();
@@ -188,6 +221,31 @@ sat_layer.on('change:visible', function(evt) {
    set_detail_style(osm_style);
 });
 
+//////////    BOTTOM LINE OVERLAY FUNCTIONS  ///////////
+// Configuration of home key in init.json
+var resp = $.ajax({
+   type: 'GET',
+   async: true,
+   url: './init.json',
+   dataType: 'json'
+})
+.done(function( data ) {
+   config = data;
+   var coord = [parseFloat(config.center_lon),parseFloat(config.center_lat)];
+   console.log(coord + "");
+   var there = fromLonLat(coord);
+   map.getView().setCenter(there);
+   map.getView().setZoom(parseFloat(config["zoom"]));
+   show = config.region;
+   $( '#home' ).on('click', function(){
+      console.log('init.json contents:' + config.center_lat);
+          var there = fromLonLat([parseFloat(config.center_lon),parseFloat(config.center_lat)]);
+          map.getView().setCenter(there);
+          map.getView().setZoom(parseFloat(config.zoom));
+          console.log('going there:' +there + 'zoom: ' + parseFloat(config.zoom));
+   });
+});
+
 // Functions to compute tiles from lat/lon for bottom line
 function long2tile(lon,zoom) {
    return (Math.floor((lon+180)/360*Math.pow(2,zoom)));
@@ -206,6 +264,13 @@ function update_overlay(){
     locTxt += zoomInfo; 
     info_overlay.innerHTML = locTxt;
 }
+
+/////////  ADD FUNCTIONS  ///////////////
+var layerSwitcher = new LayerSwitcher({
+  tipLabel: 'Légende', // Optional label for button
+  layers:map.getLayers()
+});
+map.addControl(layerSwitcher);
 
 /////////    SEARCH FUNCTION ///////////
 var info_overlay = 1;
