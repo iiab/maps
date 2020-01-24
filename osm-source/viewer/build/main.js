@@ -259,7 +259,7 @@ for(var mbt in tiledata){
                url: url,
                maxZoom:10 
             }),
-            title: 'OSM',
+            //title: 'OSM',
             declutter: true
          }));
       } else {
@@ -306,6 +306,39 @@ for(var mbt in tiledata){
          map.addLayer(layerDict[mbt]);
    }
 }
+
+const boxLayer =  new ol_layer_Vector__WEBPACK_IMPORTED_MODULE_9__[/* default */ "a"]({
+   source: new ol_source_Vector__WEBPACK_IMPORTED_MODULE_10__[/* default */ "a"]({
+     format: new ol_format__WEBPACK_IMPORTED_MODULE_14__[/* GeoJSON */ "b"](),
+     url: './bboxes.geojson'
+   }),
+   style: function(feature) {
+     var name = feature.get("name");
+     if (typeof show !== 'undefined' &&
+          show != null && name == show) {
+       return new ol_style__WEBPACK_IMPORTED_MODULE_15__[/* Style */ "c"]({
+         fill: new ol_style__WEBPACK_IMPORTED_MODULE_15__[/* Fill */ "a"]({
+           color: 'rgba(67, 163, 46, 0)'
+         }),
+         stroke: new ol_style__WEBPACK_IMPORTED_MODULE_15__[/* Stroke */ "b"]({
+           color: 'rgba(67, 163, 46, 1)',
+           width: 2
+         })
+       })
+     } else {
+       return new ol_style__WEBPACK_IMPORTED_MODULE_15__[/* Style */ "c"]({
+         fill: new ol_style__WEBPACK_IMPORTED_MODULE_15__[/* Fill */ "a"]({
+           color: 'rgba(255,255,255,0)'
+         }),
+         stroke: new ol_style__WEBPACK_IMPORTED_MODULE_15__[/* Stroke */ "b"]({
+           color: 'rgba(255,255,255,0)'
+         })
+       })
+     } 
+   } 
+})
+map.addLayer(boxLayer);    
+
 ////////   MAP EVENTS  ////////////
 map.on("moveend", function() {
    var newZoom = map.getView().getZoom();
@@ -332,6 +365,31 @@ sat_layer.on('change:visible', function(evt) {
    set_detail_style(osm_style);
 });
 
+//////////    BOTTOM LINE OVERLAY FUNCTIONS  ///////////
+// Configuration of home key in init.json
+var resp = $.ajax({
+   type: 'GET',
+   async: true,
+   url: './init.json',
+   dataType: 'json'
+})
+.done(function( data ) {
+   config = data;
+   var coord = [parseFloat(config.center_lon),parseFloat(config.center_lat)];
+   console.log(coord + "");
+   var there = Object(ol_proj__WEBPACK_IMPORTED_MODULE_4__[/* fromLonLat */ "d"])(coord);
+   map.getView().setCenter(there);
+   map.getView().setZoom(parseFloat(config["zoom"]));
+   show = config.region;
+   $( '#home' ).on('click', function(){
+      console.log('init.json contents:' + config.center_lat);
+          var there = Object(ol_proj__WEBPACK_IMPORTED_MODULE_4__[/* fromLonLat */ "d"])([parseFloat(config.center_lon),parseFloat(config.center_lat)]);
+          map.getView().setCenter(there);
+          map.getView().setZoom(parseFloat(config.zoom));
+          console.log('going there:' +there + 'zoom: ' + parseFloat(config.zoom));
+   });
+});
+
 // Functions to compute tiles from lat/lon for bottom line
 function long2tile(lon,zoom) {
    return (Math.floor((lon+180)/360*Math.pow(2,zoom)));
@@ -350,6 +408,13 @@ function update_overlay(){
     locTxt += zoomInfo; 
     info_overlay.innerHTML = locTxt;
 }
+
+/////////  ADD FUNCTIONS  ///////////////
+var layerSwitcher = new _ol5_layerswitcher_js__WEBPACK_IMPORTED_MODULE_17__[/* default */ "a"]({
+  tipLabel: 'Légende', // Optional label for button
+  layers:map.getLayers()
+});
+map.addControl(layerSwitcher);
 
 /////////    SEARCH FUNCTION ///////////
 var info_overlay = 1;
@@ -93831,6 +93896,7 @@ RBush.prototype.concat = function concat (rbush) {
   !*** ./node_modules/ol/style.js ***!
   \**********************************/
 /*! exports provided: Atlas, AtlasManager, Circle, Fill, Icon, IconImage, Image, RegularShape, Stroke, Style, Text */
+/*! exports used: Fill, Stroke, Style */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -93838,12 +93904,18 @@ RBush.prototype.concat = function concat (rbush) {
 /* harmony import */ var _style_AtlasManager_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./style/AtlasManager.js */ "./node_modules/ol/style/AtlasManager.js");
 /* harmony import */ var _style_Circle_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./style/Circle.js */ "./node_modules/ol/style/Circle.js");
 /* harmony import */ var _style_Fill_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./style/Fill.js */ "./node_modules/ol/style/Fill.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _style_Fill_js__WEBPACK_IMPORTED_MODULE_3__["a"]; });
+
 /* harmony import */ var _style_Icon_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./style/Icon.js */ "./node_modules/ol/style/Icon.js");
 /* harmony import */ var _style_IconImage_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./style/IconImage.js */ "./node_modules/ol/style/IconImage.js");
 /* harmony import */ var _style_Image_js__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./style/Image.js */ "./node_modules/ol/style/Image.js");
 /* harmony import */ var _style_RegularShape_js__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./style/RegularShape.js */ "./node_modules/ol/style/RegularShape.js");
 /* harmony import */ var _style_Stroke_js__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./style/Stroke.js */ "./node_modules/ol/style/Stroke.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "b", function() { return _style_Stroke_js__WEBPACK_IMPORTED_MODULE_8__["a"]; });
+
 /* harmony import */ var _style_Style_js__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./style/Style.js */ "./node_modules/ol/style/Style.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "c", function() { return _style_Style_js__WEBPACK_IMPORTED_MODULE_9__["c"]; });
+
 /* harmony import */ var _style_Text_js__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./style/Text.js */ "./node_modules/ol/style/Text.js");
 /**
  * @module ol/style
@@ -104556,10 +104628,11 @@ module.exports = g;
   !*** ./ol5-layerswitcher.js ***!
   \******************************/
 /*! exports provided: default */
+/*! exports used: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* unused harmony export default */
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return LayerSwitcher; });
 /* harmony import */ var ol_control_Control__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ol/control/Control */ "./node_modules/ol/control/Control.js");
 /* harmony import */ var ol_Observable__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ol/Observable */ "./node_modules/ol/Observable.js");
 
