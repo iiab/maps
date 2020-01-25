@@ -18,8 +18,9 @@ DOWNLOAD_URL = os.environ['MAP_DL_URL']
 #GENERATED_TILES = MR_SSD + '/output/stage2/'
 GENERATED_TILES = '/library/www/html/internetarchive'
 BASE_SATELLITE_SIZE = "976416768"
-BASE_PLANET_SIZE = "1497202688"
 BASE_SATELLITE_URL = "https://archive.org/download/satellite_z0-z9_v3.mbtiles/satellite_z0-z9_v3.mbtiles"
+BASE_PLANET_SIZE = "1870077952"
+BASE_PLANET_URL = "https://archive.org/download/osm-planet_z0-z10_2019.mbtiles/osm-planet_z0-z10_2019.mbtiles"
 
 outstr = ''
 region_list = []
@@ -30,7 +31,7 @@ with open(REGION_INFO,'r') as region_fp:
       print("json error reading regions.json")
       sys.exit(1)
    for region in data['regions'].keys():
-      mbtile = os.path.join(GENERATED_TILES,region+'_z11-z14_2017.mbtiles')
+      mbtile = os.path.join(GENERATED_TILES,region+'_z11-z14_2019.mbtiles')
       if region == 'world':
          mbtile = os.environ.get('PLANET_MBTILES','')
          data['regions'][region]['osm_size'] = "54776152064"
@@ -64,7 +65,7 @@ with open(REGION_INFO,'r') as region_fp:
          print("ERROR -no access to metadata in region:%s"%region)
          print("Path:%s"%mbtile)
          print("sql error: %s"%e)
-         #sys.exit(1)
+         sys.exit(1)
          continue
       row = c.fetchone()
 	   #print(row[0])
