@@ -10,6 +10,7 @@ MAP_VERSION = os.environ.get("MAP_VERSION",'v.999')
 if MAP_VERSION == 'v.999':
    print('The environment is not set. Please run "source setenv"') 
    sys.exit(1)
+MAP_DATE = os.environ.get("MAP_DATE",'v.999')
 BLAST_VERSION = os.environ.get("BLAST_VERSION")
 # Variables are being properly defined by environment variables
 MR_SSD = os.environ.get("MR_SSD",'/root/mapgen')
@@ -99,6 +100,7 @@ with open(REGION_INFO,'r') as region_fp:
       total_size = float(data['regions'][region]['sat_size']) + \
                    float(data['regions'][region]['osm_size']) + float(BASE_PLANET_SIZE)
       data['regions'][region]['size'] = str(int(total_size))
+      data['regions'][region]['date'] = MAP_DATE
 
    outstr = json.dumps(data,indent=2,sort_keys=True) 
    print(outstr)
