@@ -26,6 +26,7 @@ import 'bootstrap';
 import 'bootstrap/dist/css/bootstrap.css';
 import MapBrowserEvent from 'ol/MapBrowserEvent'
 import DragAndDrop from 'ol/interaction/DragAndDrop';
+import sync from 'ol-hashed';
 
 /////////////  GLOBALS /////////////////////////////
 window.$ = window.jQuery = require('jquery');
@@ -68,6 +69,7 @@ var map = new Map({ target: 'map-container',
   })
 }); //end of new Map
 
+sync(map);
 
 // Get list of all files in the tiles directory
   var resp = $.ajax({

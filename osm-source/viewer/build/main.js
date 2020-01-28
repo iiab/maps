@@ -142,6 +142,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var bootstrap_dist_css_bootstrap_css__WEBPACK_IMPORTED_MODULE_19___default = /*#__PURE__*/__webpack_require__.n(bootstrap_dist_css_bootstrap_css__WEBPACK_IMPORTED_MODULE_19__);
 /* harmony import */ var ol_MapBrowserEvent__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! ol/MapBrowserEvent */ "./node_modules/ol/MapBrowserEvent.js");
 /* harmony import */ var ol_interaction_DragAndDrop__WEBPACK_IMPORTED_MODULE_21__ = __webpack_require__(/*! ol/interaction/DragAndDrop */ "./node_modules/ol/interaction/DragAndDrop.js");
+/* harmony import */ var ol_hashed__WEBPACK_IMPORTED_MODULE_22__ = __webpack_require__(/*! ol-hashed */ "./node_modules/ol-hashed/index.js");
 
 // temp.js for base -- regional OSM vector tiles
 
@@ -163,6 +164,7 @@ __webpack_require__.r(__webpack_exports__);
 //import WMTSCapabilities from 'ol/format/WMTSCapabilities.js';
 //import WMTS,{optionsFromCapabilities} from 'ol/source/WMTS.js';
 //import WMTSTileGrid from 'ol/tilegrid/WMTS.js';
+
 
 
 
@@ -212,6 +214,7 @@ var map = new ol_Map__WEBPACK_IMPORTED_MODULE_1__[/* default */ "a"]({ target: '
   })
 }); //end of new Map
 
+Object(ol_hashed__WEBPACK_IMPORTED_MODULE_22__[/* default */ "a"])(map);
 
 // Get list of all files in the tiles directory
   var resp = $.ajax({
@@ -21092,6 +21095,752 @@ function toComment(sourceMap) {
 
 /***/ }),
 
+/***/ "./node_modules/hashed/lib/deserializers.js":
+/*!**************************************************!*\
+  !*** ./node_modules/hashed/lib/deserializers.js ***!
+  \**************************************************/
+/*! no static exports found */
+/*! all exports used */
+/***/ (function(module, exports, __webpack_require__) {
+
+const util = __webpack_require__(/*! ./util */ "./node_modules/hashed/lib/util.js");
+
+const dec = decodeURIComponent;
+
+const noop = function() {};
+
+const deserializers = {
+  string: function(str) {
+    if (!str || typeof str !== 'string') {
+      throw new Error('Expected string to deserialize: ' + str);
+    }
+    return dec(str);
+  },
+  number: function(str) {
+    if (!str || typeof str !== 'string') {
+      throw new Error('Expected string to deserialize: ' + str);
+    }
+    const num = Number(dec(str));
+    if (isNaN(num)) {
+      throw new Error('Expected to deserialize a number: ' + str);
+    }
+    return num;
+  },
+  boolean: function(str) {
+    if (!str || typeof str !== 'string') {
+      throw new Error('Expected string to deserialize: ' + str);
+    }
+    let bool;
+    if (str === '1') {
+      bool = true;
+    } else if (str === '0') {
+      bool = false;
+    } else {
+      throw new Error('Expected "1" or "0" for boolean: ' + str);
+    }
+    return bool;
+  },
+  date: function(str) {
+    if (!str || typeof str !== 'string') {
+      throw new Error('Expected string to deserialize: ' + str);
+    }
+    const date = new Date(dec(str));
+    if (isNaN(date.getTime())) {
+      throw new Error('Expected to deserialize a date: ' + str);
+    }
+    return date;
+  },
+  array: function(str) {
+    if (!str || typeof str !== 'string') {
+      throw new Error('Expected string to deserialize: ' + str);
+    }
+    let array;
+    try {
+      array = JSON.parse(dec(str));
+    } catch (err) {
+      noop();
+    }
+    if (!array || util.typeOf(array) !== 'array') {
+      throw new Error('Expected to deserialize an array: ' + str);
+    }
+    return array;
+  },
+  object: function(str) {
+    if (!str || typeof str !== 'string') {
+      throw new Error('Expected string to deserialize: ' + str);
+    }
+    let obj;
+    try {
+      obj = JSON.parse(dec(str));
+    } catch (err) {
+      noop();
+    }
+    if (!obj || util.typeOf(obj) !== 'object') {
+      throw new Error('Expected to deserialize an object: ' + str);
+    }
+    return obj;
+  }
+};
+
+/**
+ * Get a deserializer for a value of the given type.
+ * @param {string} type Value type.
+ * @return {function(string): *} Function that deserializes a string to a value.
+ */
+exports.get = function(type) {
+  if (!(type in deserializers)) {
+    throw new Error('Unable to deserialize type: ' + type);
+  }
+  return deserializers[type];
+};
+
+
+/***/ }),
+
+/***/ "./node_modules/hashed/lib/field.js":
+/*!******************************************!*\
+  !*** ./node_modules/hashed/lib/field.js ***!
+  \******************************************/
+/*! no static exports found */
+/*! all exports used */
+/***/ (function(module, exports, __webpack_require__) {
+
+const util = __webpack_require__(/*! ./util */ "./node_modules/hashed/lib/util.js");
+
+const serializers = __webpack_require__(/*! ./serializers */ "./node_modules/hashed/lib/serializers.js");
+const deserializers = __webpack_require__(/*! ./deserializers */ "./node_modules/hashed/lib/deserializers.js");
+
+/**
+ * Create a new field.  A field must have a default value (`default`) and is
+ * capable of serializing and deserializing values.
+ * @param {Object} config Field configuration.  Must have a `default` property
+ *     with a default value.  May have optional `serialize` and `deserialize`
+ *     functions.  As a shorthand for providing a config object with a `default`
+ *     property, a default value may be provided directly.
+ * @constructor
+ */
+exports.Field = function(config) {
+  if (util.typeOf(config) !== 'object') {
+    this.default = config;
+  } else if (!('default' in config)) {
+    throw new Error('Missing default');
+  } else {
+    this.default = config.default;
+  }
+
+  const type = util.typeOf(this.default);
+  this.serialize = config.serialize || serializers.get(type);
+  this.deserialize = config.deserialize || deserializers.get(type);
+};
+
+
+/***/ }),
+
+/***/ "./node_modules/hashed/lib/hash.js":
+/*!*****************************************!*\
+  !*** ./node_modules/hashed/lib/hash.js ***!
+  \*****************************************/
+/*! no static exports found */
+/*! all exports used */
+/***/ (function(module, exports, __webpack_require__) {
+
+const util = __webpack_require__(/*! ./util */ "./node_modules/hashed/lib/util.js");
+
+/**
+ * Get values from a hash string.
+ * @param {string} hash The hash string (e.g. '#/foo/bar').
+ * @return {Object} The string values (e.g. {foo: 'bar'}).
+ */
+function deserialize(hash) {
+  let zipped;
+  if (hash.length > 2) {
+    const path = hash.substring(2);
+    zipped = path.split('/');
+  } else {
+    zipped = [];
+  }
+  return util.unzip(zipped);
+}
+
+/**
+ * Serialize values for the hash.
+ * @param {Object} values The values to serialize.
+ * @return {string} The hash string.
+ */
+function serialize(values) {
+  let path = '#';
+  const parts = util.zip(values);
+  if (parts.length > 0) {
+    path = '#/' + parts.join('/');
+  }
+  return path;
+}
+
+exports.deserialize = deserialize;
+exports.serialize = serialize;
+
+
+/***/ }),
+
+/***/ "./node_modules/hashed/lib/index.js":
+/*!******************************************!*\
+  !*** ./node_modules/hashed/lib/index.js ***!
+  \******************************************/
+/*! no static exports found */
+/*! exports used: default */
+/***/ (function(module, exports, __webpack_require__) {
+
+const Store = __webpack_require__(/*! ./store */ "./node_modules/hashed/lib/store.js").Store;
+const hash = __webpack_require__(/*! ./hash */ "./node_modules/hashed/lib/hash.js");
+
+let store;
+
+function reset() {
+  if (store) {
+    window.removeEventListener('popstate', update);
+  }
+  window.addEventListener('popstate', update);
+  store = new Store(hash.deserialize(location.hash), function(
+    values,
+    defaults
+  ) {
+    const nonDefaults = {};
+    for (const key in values) {
+      if (values[key] !== defaults[key]) {
+        nonDefaults[key] = values[key];
+      }
+    }
+    history.pushState(values, '', hash.serialize(nonDefaults));
+  });
+}
+
+function update() {
+  store.update(hash.deserialize(location.hash));
+}
+
+/**
+ * Register a new state provider.
+ * @param {Object} config Schema config.
+ * @param {function(Object)} callback Called immediately with initial state.
+ * @return {function(Object)} Call this function with any updates to the state.
+ */
+exports.register = function(config, callback) {
+  return store.register(config, callback);
+};
+
+/**
+ * Unregister an existing state provider.
+ * @param {function(Object)} callback Callback registered by the provider.
+ */
+exports.unregister = function(callback) {
+  store.unregister(callback);
+};
+
+/**
+ * Serialize values as they would be represented in the hash.
+ * @param {Object} values An object with values to be serialized.
+ * @return {string} The values as they would be represented in the hash.
+ */
+exports.serialize = function(values) {
+  return hash.serialize(store.serialize(values));
+};
+
+exports.reset = reset;
+
+reset();
+
+
+/***/ }),
+
+/***/ "./node_modules/hashed/lib/schema.js":
+/*!*******************************************!*\
+  !*** ./node_modules/hashed/lib/schema.js ***!
+  \*******************************************/
+/*! no static exports found */
+/*! all exports used */
+/***/ (function(module, exports, __webpack_require__) {
+
+const Field = __webpack_require__(/*! ./field */ "./node_modules/hashed/lib/field.js").Field;
+const util = __webpack_require__(/*! ./util */ "./node_modules/hashed/lib/util.js");
+
+/**
+ * Create a new schema.  A schema is a collection of field definitions.
+ * @param {Object} config Keys are field names, values are field configs.
+ * @constructor
+ */
+const Schema = (exports.Schema = function(config) {
+  config = util.extend({}, config);
+  const fields = {};
+  let prefix;
+  if ('_' in config) {
+    prefix = config._;
+    delete config._;
+  }
+  for (const key in config) {
+    fields[key] = new Field(config[key]);
+  }
+  this._prefix = prefix;
+  this._fields = fields;
+});
+
+/**
+ * Get the prefixed version of a key.
+ * @param {string} key The key.
+ * @return {string} The prefixed key.
+ */
+Schema.prototype.getPrefixed = function(key) {
+  return this._prefix ? this._prefix + '.' + key : key;
+};
+
+/**
+ * Call a callback for each field key.
+ * @param {function(string, number)} callback Called with a local field key and
+ *     a prefixed key.
+ * @param {Object} thisArg This argument for the callback.
+ */
+Schema.prototype.forEachKey = function(callback, thisArg) {
+  let more;
+  for (const key in this._fields) {
+    more = callback.call(thisArg, key, this.getPrefixed(key));
+    if (more === false) {
+      return;
+    }
+  }
+};
+
+/**
+ * Serialize a value.
+ * @param {string} key The key or field name.
+ * @param {*} value The value to serialize.
+ * @param {Object} values Additional values for providers to use when serializing.
+ * @return {string} The serialized value.
+ */
+Schema.prototype.serialize = function(key, value, values) {
+  if (!(key in this._fields)) {
+    throw new Error('Unknown key: ' + key);
+  }
+  return this._fields[key].serialize(value, values);
+};
+
+/**
+ * Deserialize a value.
+ * @param {string} key The key or field name.
+ * @param {string} str The serialized value.
+ * @return {*} The deserialized value.
+ */
+Schema.prototype.deserialize = function(key, str) {
+  if (!(key in this._fields)) {
+    throw new Error('Unknown key: ' + key);
+  }
+  return this._fields[key].deserialize(str);
+};
+
+/**
+ * Get the default value for a particular field.
+ * @param {string} key The key or field name.
+ * @return {*} The default value.
+ */
+Schema.prototype.getDefault = function(key) {
+  if (!(key in this._fields)) {
+    throw new Error('Unknown key: ' + key);
+  }
+  return this._fields[key].default;
+};
+
+/**
+ * Determine if one schema conflicts with another.  Two schemas conflict if
+ * any of their prefixed keys are the same.
+ * @param {Schema} other The other schema.
+ * @return {boolean|string} This schema conflicts with the other.  If the two
+ *     schemas conflict, the return will be the first conflicting key (with
+ *     any prefix).
+ */
+Schema.prototype.conflicts = function(other) {
+  const thisPrefixedKeys = {};
+  for (const key in this._fields) {
+    thisPrefixedKeys[this.getPrefixed(key)] = true;
+  }
+
+  let conflicts = false;
+  other.forEachKey(function(_, prefixed) {
+    if (prefixed in thisPrefixedKeys) {
+      conflicts = prefixed;
+    }
+    return !conflicts;
+  });
+  return conflicts;
+};
+
+
+/***/ }),
+
+/***/ "./node_modules/hashed/lib/serializers.js":
+/*!************************************************!*\
+  !*** ./node_modules/hashed/lib/serializers.js ***!
+  \************************************************/
+/*! no static exports found */
+/*! all exports used */
+/***/ (function(module, exports, __webpack_require__) {
+
+const util = __webpack_require__(/*! util */ "./node_modules/util/util.js");
+
+const enc = encodeURIComponent;
+
+const serializers = {
+  string: function(str) {
+    if (typeof str !== 'string') {
+      throw new Error('Expected string to serialize: ' + str);
+    }
+    return enc(str);
+  },
+  number: function(num) {
+    if (typeof num !== 'number') {
+      throw new Error('Expected number to serialize: ' + num);
+    }
+    return enc(String(num));
+  },
+  boolean: function(bool) {
+    if (typeof bool !== 'boolean') {
+      throw new Error('Expected boolean to serialize: ' + bool);
+    }
+    return bool ? '1' : '0';
+  },
+  date: function(date) {
+    if (!util.isDate(date)) {
+      throw new Error('Expected date to serialize: ' + date);
+    }
+    return enc(date.toISOString());
+  },
+  array: function(array) {
+    if (!util.isArray(array)) {
+      throw new Error('Expected array to serialize: ' + array);
+    }
+    return enc(JSON.stringify(array));
+  },
+  object: function(obj) {
+    return enc(JSON.stringify(obj));
+  }
+};
+
+/**
+ * Get a serializer for a value of the given type.
+ * @param {string} type Value type.
+ * @return {function(*): string} Function that serializes a value to a string.
+ */
+exports.get = function(type) {
+  if (!(type in serializers)) {
+    throw new Error('Unable to serialize type: ' + type);
+  }
+  return serializers[type];
+};
+
+
+/***/ }),
+
+/***/ "./node_modules/hashed/lib/store.js":
+/*!******************************************!*\
+  !*** ./node_modules/hashed/lib/store.js ***!
+  \******************************************/
+/*! no static exports found */
+/*! all exports used */
+/***/ (function(module, exports, __webpack_require__) {
+
+const Schema = __webpack_require__(/*! ./schema */ "./node_modules/hashed/lib/schema.js").Schema;
+const util = __webpack_require__(/*! ./util */ "./node_modules/hashed/lib/util.js");
+const serializers = __webpack_require__(/*! ./serializers */ "./node_modules/hashed/lib/serializers.js");
+
+/**
+ * An object backed store of string values.  Allows registering multiple state
+ * providers.
+ * @param {Object} values Initial serialized values.
+ * @param {function(Object)} callback Called with an object of serialized
+ *     values and defaults whenever a provider updates state.
+ * @constructor
+ */
+const Store = (exports.Store = function(values, callback) {
+  this._values = values;
+  this._defaults = {};
+  this._providers = [];
+  this._callback = callback;
+  this._callbackTimer = null;
+});
+
+Store.prototype._scheduleCallback = function() {
+  if (this._callbackTimer) {
+    clearTimeout(this._callbackTimer);
+  }
+  this._callbackTimer = setTimeout(this._debouncedCallback.bind(this));
+};
+
+Store.prototype._debouncedCallback = function() {
+  this._callbackTimer = null;
+  this._callback(this._values, this._defaults);
+};
+
+Store.prototype.update = function(values) {
+  if (this._updateTimer) {
+    clearTimeout(this._updateTimer);
+  }
+  this._updateTimer = setTimeout(this._debouncedUpdate.bind(this, values));
+};
+
+Store.prototype._debouncedUpdate = function(newValues) {
+  this._updateTimer = null;
+  const values = this._values;
+  const providers = this._providers.slice(); // callbacks may unregister providers
+  for (let i = providers.length - 1; i >= 0; --i) {
+    const provider = providers[i];
+    const schema = provider.schema;
+    let changed = false;
+    const state = {};
+    schema.forEachKey(function(key, prefixed) {
+      let deserialized;
+      if (!(prefixed in newValues)) {
+        deserialized = schema.getDefault(key);
+        const serializedDefault = schema.serialize(key, deserialized);
+        if (values[prefixed] !== serializedDefault) {
+          changed = true;
+          values[prefixed] = serializedDefault;
+          state[key] = deserialized;
+        }
+      } else if (values[prefixed] !== newValues[prefixed]) {
+        try {
+          deserialized = schema.deserialize(key, newValues[prefixed]);
+          values[prefixed] = newValues[prefixed];
+          state[key] = deserialized;
+          changed = true;
+        } catch (err) {
+          // invalid value, pass
+        }
+      }
+    });
+    if (changed && this._providers.indexOf(provider) >= 0) {
+      provider.callback(state);
+    }
+  }
+};
+
+/**
+ * Unregister a provider.  Deletes the provider's values from the underlying
+ * store and calls the store's callback.
+ * @param {Function} callback The provider's callback.
+ */
+Store.prototype.unregister = function(callback) {
+  let removedProvider;
+  this._providers = this._providers.filter(function(provider) {
+    const remove = provider.callback === callback;
+    if (remove) {
+      removedProvider = provider;
+    }
+    return !remove;
+  });
+  if (!removedProvider) {
+    throw new Error('Unable to unregister hashed state provider');
+  }
+  const values = this._values;
+  const defaults = this._defaults;
+  removedProvider.schema.forEachKey(function(key, prefixed) {
+    delete values[prefixed];
+    delete defaults[prefixed];
+  });
+  this._scheduleCallback();
+};
+
+/**
+ * Register a new state provider.
+ * @param {Object} config Schema config.
+ * @param {function(Object)} callback Called by the store on state changes.
+ * @return {function(Object)} Called by the provider on state changes.
+ */
+Store.prototype.register = function(config, callback) {
+  const provider = {
+    schema: new Schema(config),
+    callback: callback
+  };
+
+  // ensure there are no conflicts with existing providers
+  for (let i = 0, ii = this._providers.length; i < ii; ++i) {
+    const conflicts = provider.schema.conflicts(this._providers[i].schema);
+    if (conflicts) {
+      throw new Error(
+        'Provider already registered using the same name: ' + conflicts
+      );
+    }
+    if (provider.callback === this._providers[i].callback) {
+      throw new Error('Provider already registered with the same callback');
+    }
+  }
+
+  this._providers.push(provider);
+  this._initializeProvider(provider);
+
+  return function update(state) {
+    if (this._providers.indexOf(provider) === -1) {
+      throw new Error('Unregistered provider attempting to update state');
+    }
+    const schema = provider.schema;
+    let changed = false;
+    const values = this._values;
+    schema.forEachKey(function(key, prefixed) {
+      if (key in state) {
+        const serializedValue = schema.serialize(key, state[key], state);
+        if (values[prefixed] !== serializedValue) {
+          changed = true;
+          values[prefixed] = serializedValue;
+        }
+      }
+    });
+    if (changed) {
+      this._scheduleCallback();
+    }
+  }.bind(this);
+};
+
+/**
+ * Call provider with initial values.
+ * @param {Object} provider Provider to be initialized.
+ */
+Store.prototype._initializeProvider = function(provider) {
+  const state = {};
+  const defaults = {};
+  const values = this._values;
+  provider.schema.forEachKey(function(key, prefixed) {
+    let deserializedValue;
+    const deserializedDefault = provider.schema.getDefault(key);
+    const serializedDefault = provider.schema.serialize(
+      key,
+      deserializedDefault
+    );
+    if (prefixed in values) {
+      try {
+        deserializedValue = provider.schema.deserialize(key, values[prefixed]);
+      } catch (err) {
+        deserializedValue = deserializedDefault;
+      }
+    } else {
+      deserializedValue = deserializedDefault;
+    }
+    state[key] = deserializedValue;
+    defaults[prefixed] = serializedDefault;
+    values[prefixed] = provider.schema.serialize(key, deserializedValue);
+  });
+  for (const prefixed in defaults) {
+    this._defaults[prefixed] = defaults[prefixed];
+  }
+  provider.callback(state);
+};
+
+/**
+ * Serialize values with provider serializers where available.
+ * @param {Object} values Values to be serialized.
+ * @return {Object} The serialized values.
+ */
+Store.prototype.serialize = function(values) {
+  const serialized = {};
+  for (let i = 0, ii = this._providers.length; i < ii; ++i) {
+    const provider = this._providers[i];
+    provider.schema.forEachKey(function(key, prefixed) {
+      if (prefixed in values) {
+        serialized[prefixed] = provider.schema.serialize(
+          key,
+          values[prefixed],
+          values
+        );
+      }
+    });
+  }
+  for (const key in values) {
+    if (!(key in serialized)) {
+      const value = values[key];
+      const type = util.typeOf(value);
+      const serializer = serializers.get(type);
+      serialized[key] = serializer(value);
+    }
+  }
+  return serialized;
+};
+
+
+/***/ }),
+
+/***/ "./node_modules/hashed/lib/util.js":
+/*!*****************************************!*\
+  !*** ./node_modules/hashed/lib/util.js ***!
+  \*****************************************/
+/*! no static exports found */
+/*! all exports used */
+/***/ (function(module, exports, __webpack_require__) {
+
+const util = __webpack_require__(/*! util */ "./node_modules/util/util.js");
+
+/**
+ * Get the type of a value.
+ * @param {*} value The value.
+ * @return {string} The type.
+ */
+exports.typeOf = function typeOf(value) {
+  let type = typeof value;
+  if (type === 'object') {
+    if (value === null) {
+      type = 'null';
+    } else if (util.isArray(value)) {
+      type = 'array';
+    } else if (util.isDate(value)) {
+      type = 'date';
+    } else if (util.isRegExp(value)) {
+      type = 'regexp';
+    } else if (util.isError(value)) {
+      type = 'error';
+    }
+  }
+  return type;
+};
+
+/**
+ * Copy properties from one object to another.
+ * @param {Object} dest The destination object.
+ * @param {Object} source The source object.
+ * @return {Object} The destination object.
+ */
+exports.extend = function(dest, source) {
+  for (const key in source) {
+    dest[key] = source[key];
+  }
+  return dest;
+};
+
+/**
+ * Generate an array of alternating name, value from an object's properties.
+ * @param {Object} object The object to zip.
+ * @return {Array} The array of name, value [, name, value]*.
+ */
+exports.zip = function(object) {
+  const zipped = [];
+  let count = 0;
+  for (const key in object) {
+    zipped[2 * count] = key;
+    zipped[2 * count + 1] = object[key];
+    ++count;
+  }
+  return zipped;
+};
+
+/**
+ * Generate an object from an array of alternating name, value items.
+ * @param {Array} array The array of name, value [, name, value]*.
+ * @return {Object} The zipped up object.
+ */
+exports.unzip = function(array) {
+  const object = {};
+  for (let i = 0, ii = array.length; i < ii; i += 2) {
+    object[array[i]] = array[i + 1];
+  }
+  return object;
+};
+
+
+/***/ }),
+
 /***/ "./node_modules/ieee754/index.js":
 /*!***************************************!*\
   !*** ./node_modules/ieee754/index.js ***!
@@ -21183,6 +21932,41 @@ exports.write = function (buffer, value, offset, isLE, mLen, nBytes) {
   for (; eLen > 0; buffer[offset + i] = e & 0xff, i += d, e /= 256, eLen -= 8) {}
 
   buffer[offset + i - d] |= s * 128
+}
+
+
+/***/ }),
+
+/***/ "./node_modules/inherits/inherits_browser.js":
+/*!***************************************************!*\
+  !*** ./node_modules/inherits/inherits_browser.js ***!
+  \***************************************************/
+/*! no static exports found */
+/*! all exports used */
+/***/ (function(module, exports) {
+
+if (typeof Object.create === 'function') {
+  // implementation from standard node.js 'util' module
+  module.exports = function inherits(ctor, superCtor) {
+    ctor.super_ = superCtor
+    ctor.prototype = Object.create(superCtor.prototype, {
+      constructor: {
+        value: ctor,
+        enumerable: false,
+        writable: true,
+        configurable: true
+      }
+    });
+  };
+} else {
+  // old school shim for old browsers
+  module.exports = function inherits(ctor, superCtor) {
+    ctor.super_ = superCtor
+    var TempCtor = function () {}
+    TempCtor.prototype = superCtor.prototype
+    ctor.prototype = new TempCtor()
+    ctor.prototype.constructor = ctor
+  }
 }
 
 
@@ -31899,6 +32683,135 @@ module.exports = function(fonts, size, lineHeight) {
   }
   return cssData[0] + sp + cssData[1] + sp + size + 'px' + (lineHeight ? '/' + lineHeight : '') + sp + cssData[2];
 }
+
+
+/***/ }),
+
+/***/ "./node_modules/ol-hashed/index.js":
+/*!*****************************************!*\
+  !*** ./node_modules/ol-hashed/index.js ***!
+  \*****************************************/
+/*! exports provided: default */
+/*! exports used: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var hashed__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! hashed */ "./node_modules/hashed/lib/index.js");
+/* harmony import */ var hashed__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(hashed__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var ol_proj__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ol/proj */ "./node_modules/ol/proj.js");
+
+
+
+function toPrecision(value, precision) {
+  const factor = Math.pow(10, precision);
+  return (Math.round(value * factor) / factor).toString();
+}
+
+function synchronize(map, options) {
+  options = options || {};
+  let animate;
+  if ('animate' in options) {
+    animate = options.animate;
+  } else {
+    animate = {duration: 250};
+  }
+
+  const view = map.getView();
+  const projection = view.getProjection().getCode();
+
+  let zoom, center, rotation;
+  if (view.isDef()) {
+    zoom = view.getZoom();
+    center = view.getCenter();
+    rotation = view.getRotation();
+  } else {
+    const viewport = map.getViewport();
+    if (viewport) {
+      zoom = Math.LOG2E * Math.log(viewport.clientWidth / 256);
+    } else {
+      zoom = 0;
+    }
+    center = [0, 0];
+    rotation = 0;
+  }
+
+  const config = {
+    center: {
+      default: center,
+      serialize: function(coord, state) {
+        let precision;
+        if (state && 'zoom' in state) {
+          precision = Math.max(0, Math.ceil(Math.log(state.zoom) / Math.LN2));
+        } else {
+          precision = 3;
+        }
+        coord = Object(ol_proj__WEBPACK_IMPORTED_MODULE_1__[/* transform */ "k"])(coord, projection, 'EPSG:4326');
+        return (
+          toPrecision(coord[0], precision) +
+          ',' +
+          toPrecision(coord[1], precision)
+        );
+      },
+      deserialize: function(str) {
+        const parts = str.split(',');
+        if (parts.length !== 2) {
+          throw new Error('Expected lon,lat but got ' + str);
+        }
+        const coord = [parseFloat(parts[0]), parseFloat(parts[1])];
+        return Object(ol_proj__WEBPACK_IMPORTED_MODULE_1__[/* transform */ "k"])(coord, 'EPSG:4326', projection);
+      }
+    },
+    zoom: {
+      default: zoom,
+      serialize: function(value) {
+        return toPrecision(value, 1);
+      },
+      deserialize: Number
+    },
+    rotation: {
+      default: rotation,
+      serialize: function(value) {
+        return toPrecision(value, 2);
+      },
+      deserialize: Number
+    }
+  };
+
+  function hashHandler(state) {
+    if (view.isDef() && animate) {
+      view.animate(Object.assign({}, state, animate));
+      return;
+    }
+    if ('center' in state) {
+      view.setCenter(state.center);
+    }
+    if ('zoom' in state) {
+      view.setZoom(state.zoom);
+    }
+    if ('rotation' in state) {
+      view.setRotation(state.rotation);
+    }
+  }
+
+  const update = hashed__WEBPACK_IMPORTED_MODULE_0___default.a.register(config, hashHandler);
+
+  function onMoveEnd() {
+    update({
+      center: view.getCenter(),
+      zoom: view.getZoom(),
+      rotation: view.getRotation()
+    });
+  }
+
+  map.on('moveend', onMoveEnd);
+
+  return function unregister() {
+    map.un('moveend', onMoveEnd);
+    hashed__WEBPACK_IMPORTED_MODULE_0___default.a.unregister(hashHandler);
+  };
+}
+
+/* harmony default export */ __webpack_exports__["a"] = (synchronize);
 
 
 /***/ }),
@@ -103431,6 +104344,202 @@ Popper.Defaults = Defaults;
 
 /***/ }),
 
+/***/ "./node_modules/process/browser.js":
+/*!*****************************************!*\
+  !*** ./node_modules/process/browser.js ***!
+  \*****************************************/
+/*! no static exports found */
+/*! all exports used */
+/***/ (function(module, exports) {
+
+// shim for using process in browser
+var process = module.exports = {};
+
+// cached from whatever global is present so that test runners that stub it
+// don't break things.  But we need to wrap it in a try catch in case it is
+// wrapped in strict mode code which doesn't define any globals.  It's inside a
+// function because try/catches deoptimize in certain engines.
+
+var cachedSetTimeout;
+var cachedClearTimeout;
+
+function defaultSetTimout() {
+    throw new Error('setTimeout has not been defined');
+}
+function defaultClearTimeout () {
+    throw new Error('clearTimeout has not been defined');
+}
+(function () {
+    try {
+        if (typeof setTimeout === 'function') {
+            cachedSetTimeout = setTimeout;
+        } else {
+            cachedSetTimeout = defaultSetTimout;
+        }
+    } catch (e) {
+        cachedSetTimeout = defaultSetTimout;
+    }
+    try {
+        if (typeof clearTimeout === 'function') {
+            cachedClearTimeout = clearTimeout;
+        } else {
+            cachedClearTimeout = defaultClearTimeout;
+        }
+    } catch (e) {
+        cachedClearTimeout = defaultClearTimeout;
+    }
+} ())
+function runTimeout(fun) {
+    if (cachedSetTimeout === setTimeout) {
+        //normal enviroments in sane situations
+        return setTimeout(fun, 0);
+    }
+    // if setTimeout wasn't available but was latter defined
+    if ((cachedSetTimeout === defaultSetTimout || !cachedSetTimeout) && setTimeout) {
+        cachedSetTimeout = setTimeout;
+        return setTimeout(fun, 0);
+    }
+    try {
+        // when when somebody has screwed with setTimeout but no I.E. maddness
+        return cachedSetTimeout(fun, 0);
+    } catch(e){
+        try {
+            // When we are in I.E. but the script has been evaled so I.E. doesn't trust the global object when called normally
+            return cachedSetTimeout.call(null, fun, 0);
+        } catch(e){
+            // same as above but when it's a version of I.E. that must have the global object for 'this', hopfully our context correct otherwise it will throw a global error
+            return cachedSetTimeout.call(this, fun, 0);
+        }
+    }
+
+
+}
+function runClearTimeout(marker) {
+    if (cachedClearTimeout === clearTimeout) {
+        //normal enviroments in sane situations
+        return clearTimeout(marker);
+    }
+    // if clearTimeout wasn't available but was latter defined
+    if ((cachedClearTimeout === defaultClearTimeout || !cachedClearTimeout) && clearTimeout) {
+        cachedClearTimeout = clearTimeout;
+        return clearTimeout(marker);
+    }
+    try {
+        // when when somebody has screwed with setTimeout but no I.E. maddness
+        return cachedClearTimeout(marker);
+    } catch (e){
+        try {
+            // When we are in I.E. but the script has been evaled so I.E. doesn't  trust the global object when called normally
+            return cachedClearTimeout.call(null, marker);
+        } catch (e){
+            // same as above but when it's a version of I.E. that must have the global object for 'this', hopfully our context correct otherwise it will throw a global error.
+            // Some versions of I.E. have different rules for clearTimeout vs setTimeout
+            return cachedClearTimeout.call(this, marker);
+        }
+    }
+
+
+
+}
+var queue = [];
+var draining = false;
+var currentQueue;
+var queueIndex = -1;
+
+function cleanUpNextTick() {
+    if (!draining || !currentQueue) {
+        return;
+    }
+    draining = false;
+    if (currentQueue.length) {
+        queue = currentQueue.concat(queue);
+    } else {
+        queueIndex = -1;
+    }
+    if (queue.length) {
+        drainQueue();
+    }
+}
+
+function drainQueue() {
+    if (draining) {
+        return;
+    }
+    var timeout = runTimeout(cleanUpNextTick);
+    draining = true;
+
+    var len = queue.length;
+    while(len) {
+        currentQueue = queue;
+        queue = [];
+        while (++queueIndex < len) {
+            if (currentQueue) {
+                currentQueue[queueIndex].run();
+            }
+        }
+        queueIndex = -1;
+        len = queue.length;
+    }
+    currentQueue = null;
+    draining = false;
+    runClearTimeout(timeout);
+}
+
+process.nextTick = function (fun) {
+    var args = new Array(arguments.length - 1);
+    if (arguments.length > 1) {
+        for (var i = 1; i < arguments.length; i++) {
+            args[i - 1] = arguments[i];
+        }
+    }
+    queue.push(new Item(fun, args));
+    if (queue.length === 1 && !draining) {
+        runTimeout(drainQueue);
+    }
+};
+
+// v8 likes predictible objects
+function Item(fun, array) {
+    this.fun = fun;
+    this.array = array;
+}
+Item.prototype.run = function () {
+    this.fun.apply(null, this.array);
+};
+process.title = 'browser';
+process.browser = true;
+process.env = {};
+process.argv = [];
+process.version = ''; // empty string to avoid regexp issues
+process.versions = {};
+
+function noop() {}
+
+process.on = noop;
+process.addListener = noop;
+process.once = noop;
+process.off = noop;
+process.removeListener = noop;
+process.removeAllListeners = noop;
+process.emit = noop;
+process.prependListener = noop;
+process.prependOnceListener = noop;
+
+process.listeners = function (name) { return [] }
+
+process.binding = function (name) {
+    throw new Error('process.binding is not supported');
+};
+
+process.cwd = function () { return '/' };
+process.chdir = function (dir) {
+    throw new Error('process.chdir is not supported');
+};
+process.umask = function() { return 0; };
+
+
+/***/ }),
+
 /***/ "./node_modules/quickselect/quickselect.js":
 /*!*************************************************!*\
   !*** ./node_modules/quickselect/quickselect.js ***!
@@ -104588,6 +105697,739 @@ module.exports = function (css) {
 	return fixedCss;
 };
 
+
+/***/ }),
+
+/***/ "./node_modules/util/support/isBufferBrowser.js":
+/*!******************************************************!*\
+  !*** ./node_modules/util/support/isBufferBrowser.js ***!
+  \******************************************************/
+/*! no static exports found */
+/*! all exports used */
+/***/ (function(module, exports) {
+
+module.exports = function isBuffer(arg) {
+  return arg && typeof arg === 'object'
+    && typeof arg.copy === 'function'
+    && typeof arg.fill === 'function'
+    && typeof arg.readUInt8 === 'function';
+}
+
+/***/ }),
+
+/***/ "./node_modules/util/util.js":
+/*!***********************************!*\
+  !*** ./node_modules/util/util.js ***!
+  \***********************************/
+/*! no static exports found */
+/*! all exports used */
+/***/ (function(module, exports, __webpack_require__) {
+
+/* WEBPACK VAR INJECTION */(function(process) {// Copyright Joyent, Inc. and other Node contributors.
+//
+// Permission is hereby granted, free of charge, to any person obtaining a
+// copy of this software and associated documentation files (the
+// "Software"), to deal in the Software without restriction, including
+// without limitation the rights to use, copy, modify, merge, publish,
+// distribute, sublicense, and/or sell copies of the Software, and to permit
+// persons to whom the Software is furnished to do so, subject to the
+// following conditions:
+//
+// The above copyright notice and this permission notice shall be included
+// in all copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+// OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
+// NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+// OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
+// USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+var getOwnPropertyDescriptors = Object.getOwnPropertyDescriptors ||
+  function getOwnPropertyDescriptors(obj) {
+    var keys = Object.keys(obj);
+    var descriptors = {};
+    for (var i = 0; i < keys.length; i++) {
+      descriptors[keys[i]] = Object.getOwnPropertyDescriptor(obj, keys[i]);
+    }
+    return descriptors;
+  };
+
+var formatRegExp = /%[sdj%]/g;
+exports.format = function(f) {
+  if (!isString(f)) {
+    var objects = [];
+    for (var i = 0; i < arguments.length; i++) {
+      objects.push(inspect(arguments[i]));
+    }
+    return objects.join(' ');
+  }
+
+  var i = 1;
+  var args = arguments;
+  var len = args.length;
+  var str = String(f).replace(formatRegExp, function(x) {
+    if (x === '%%') return '%';
+    if (i >= len) return x;
+    switch (x) {
+      case '%s': return String(args[i++]);
+      case '%d': return Number(args[i++]);
+      case '%j':
+        try {
+          return JSON.stringify(args[i++]);
+        } catch (_) {
+          return '[Circular]';
+        }
+      default:
+        return x;
+    }
+  });
+  for (var x = args[i]; i < len; x = args[++i]) {
+    if (isNull(x) || !isObject(x)) {
+      str += ' ' + x;
+    } else {
+      str += ' ' + inspect(x);
+    }
+  }
+  return str;
+};
+
+
+// Mark that a method should not be used.
+// Returns a modified function which warns once by default.
+// If --no-deprecation is set, then it is a no-op.
+exports.deprecate = function(fn, msg) {
+  if (typeof process !== 'undefined' && process.noDeprecation === true) {
+    return fn;
+  }
+
+  // Allow for deprecating things in the process of starting up.
+  if (typeof process === 'undefined') {
+    return function() {
+      return exports.deprecate(fn, msg).apply(this, arguments);
+    };
+  }
+
+  var warned = false;
+  function deprecated() {
+    if (!warned) {
+      if (process.throwDeprecation) {
+        throw new Error(msg);
+      } else if (process.traceDeprecation) {
+        console.trace(msg);
+      } else {
+        console.error(msg);
+      }
+      warned = true;
+    }
+    return fn.apply(this, arguments);
+  }
+
+  return deprecated;
+};
+
+
+var debugs = {};
+var debugEnviron;
+exports.debuglog = function(set) {
+  if (isUndefined(debugEnviron))
+    debugEnviron = process.env.NODE_DEBUG || '';
+  set = set.toUpperCase();
+  if (!debugs[set]) {
+    if (new RegExp('\\b' + set + '\\b', 'i').test(debugEnviron)) {
+      var pid = process.pid;
+      debugs[set] = function() {
+        var msg = exports.format.apply(exports, arguments);
+        console.error('%s %d: %s', set, pid, msg);
+      };
+    } else {
+      debugs[set] = function() {};
+    }
+  }
+  return debugs[set];
+};
+
+
+/**
+ * Echos the value of a value. Trys to print the value out
+ * in the best way possible given the different types.
+ *
+ * @param {Object} obj The object to print out.
+ * @param {Object} opts Optional options object that alters the output.
+ */
+/* legacy: obj, showHidden, depth, colors*/
+function inspect(obj, opts) {
+  // default options
+  var ctx = {
+    seen: [],
+    stylize: stylizeNoColor
+  };
+  // legacy...
+  if (arguments.length >= 3) ctx.depth = arguments[2];
+  if (arguments.length >= 4) ctx.colors = arguments[3];
+  if (isBoolean(opts)) {
+    // legacy...
+    ctx.showHidden = opts;
+  } else if (opts) {
+    // got an "options" object
+    exports._extend(ctx, opts);
+  }
+  // set default options
+  if (isUndefined(ctx.showHidden)) ctx.showHidden = false;
+  if (isUndefined(ctx.depth)) ctx.depth = 2;
+  if (isUndefined(ctx.colors)) ctx.colors = false;
+  if (isUndefined(ctx.customInspect)) ctx.customInspect = true;
+  if (ctx.colors) ctx.stylize = stylizeWithColor;
+  return formatValue(ctx, obj, ctx.depth);
+}
+exports.inspect = inspect;
+
+
+// http://en.wikipedia.org/wiki/ANSI_escape_code#graphics
+inspect.colors = {
+  'bold' : [1, 22],
+  'italic' : [3, 23],
+  'underline' : [4, 24],
+  'inverse' : [7, 27],
+  'white' : [37, 39],
+  'grey' : [90, 39],
+  'black' : [30, 39],
+  'blue' : [34, 39],
+  'cyan' : [36, 39],
+  'green' : [32, 39],
+  'magenta' : [35, 39],
+  'red' : [31, 39],
+  'yellow' : [33, 39]
+};
+
+// Don't use 'blue' not visible on cmd.exe
+inspect.styles = {
+  'special': 'cyan',
+  'number': 'yellow',
+  'boolean': 'yellow',
+  'undefined': 'grey',
+  'null': 'bold',
+  'string': 'green',
+  'date': 'magenta',
+  // "name": intentionally not styling
+  'regexp': 'red'
+};
+
+
+function stylizeWithColor(str, styleType) {
+  var style = inspect.styles[styleType];
+
+  if (style) {
+    return '\u001b[' + inspect.colors[style][0] + 'm' + str +
+           '\u001b[' + inspect.colors[style][1] + 'm';
+  } else {
+    return str;
+  }
+}
+
+
+function stylizeNoColor(str, styleType) {
+  return str;
+}
+
+
+function arrayToHash(array) {
+  var hash = {};
+
+  array.forEach(function(val, idx) {
+    hash[val] = true;
+  });
+
+  return hash;
+}
+
+
+function formatValue(ctx, value, recurseTimes) {
+  // Provide a hook for user-specified inspect functions.
+  // Check that value is an object with an inspect function on it
+  if (ctx.customInspect &&
+      value &&
+      isFunction(value.inspect) &&
+      // Filter out the util module, it's inspect function is special
+      value.inspect !== exports.inspect &&
+      // Also filter out any prototype objects using the circular check.
+      !(value.constructor && value.constructor.prototype === value)) {
+    var ret = value.inspect(recurseTimes, ctx);
+    if (!isString(ret)) {
+      ret = formatValue(ctx, ret, recurseTimes);
+    }
+    return ret;
+  }
+
+  // Primitive types cannot have properties
+  var primitive = formatPrimitive(ctx, value);
+  if (primitive) {
+    return primitive;
+  }
+
+  // Look up the keys of the object.
+  var keys = Object.keys(value);
+  var visibleKeys = arrayToHash(keys);
+
+  if (ctx.showHidden) {
+    keys = Object.getOwnPropertyNames(value);
+  }
+
+  // IE doesn't make error fields non-enumerable
+  // http://msdn.microsoft.com/en-us/library/ie/dww52sbt(v=vs.94).aspx
+  if (isError(value)
+      && (keys.indexOf('message') >= 0 || keys.indexOf('description') >= 0)) {
+    return formatError(value);
+  }
+
+  // Some type of object without properties can be shortcutted.
+  if (keys.length === 0) {
+    if (isFunction(value)) {
+      var name = value.name ? ': ' + value.name : '';
+      return ctx.stylize('[Function' + name + ']', 'special');
+    }
+    if (isRegExp(value)) {
+      return ctx.stylize(RegExp.prototype.toString.call(value), 'regexp');
+    }
+    if (isDate(value)) {
+      return ctx.stylize(Date.prototype.toString.call(value), 'date');
+    }
+    if (isError(value)) {
+      return formatError(value);
+    }
+  }
+
+  var base = '', array = false, braces = ['{', '}'];
+
+  // Make Array say that they are Array
+  if (isArray(value)) {
+    array = true;
+    braces = ['[', ']'];
+  }
+
+  // Make functions say that they are functions
+  if (isFunction(value)) {
+    var n = value.name ? ': ' + value.name : '';
+    base = ' [Function' + n + ']';
+  }
+
+  // Make RegExps say that they are RegExps
+  if (isRegExp(value)) {
+    base = ' ' + RegExp.prototype.toString.call(value);
+  }
+
+  // Make dates with properties first say the date
+  if (isDate(value)) {
+    base = ' ' + Date.prototype.toUTCString.call(value);
+  }
+
+  // Make error with message first say the error
+  if (isError(value)) {
+    base = ' ' + formatError(value);
+  }
+
+  if (keys.length === 0 && (!array || value.length == 0)) {
+    return braces[0] + base + braces[1];
+  }
+
+  if (recurseTimes < 0) {
+    if (isRegExp(value)) {
+      return ctx.stylize(RegExp.prototype.toString.call(value), 'regexp');
+    } else {
+      return ctx.stylize('[Object]', 'special');
+    }
+  }
+
+  ctx.seen.push(value);
+
+  var output;
+  if (array) {
+    output = formatArray(ctx, value, recurseTimes, visibleKeys, keys);
+  } else {
+    output = keys.map(function(key) {
+      return formatProperty(ctx, value, recurseTimes, visibleKeys, key, array);
+    });
+  }
+
+  ctx.seen.pop();
+
+  return reduceToSingleString(output, base, braces);
+}
+
+
+function formatPrimitive(ctx, value) {
+  if (isUndefined(value))
+    return ctx.stylize('undefined', 'undefined');
+  if (isString(value)) {
+    var simple = '\'' + JSON.stringify(value).replace(/^"|"$/g, '')
+                                             .replace(/'/g, "\\'")
+                                             .replace(/\\"/g, '"') + '\'';
+    return ctx.stylize(simple, 'string');
+  }
+  if (isNumber(value))
+    return ctx.stylize('' + value, 'number');
+  if (isBoolean(value))
+    return ctx.stylize('' + value, 'boolean');
+  // For some reason typeof null is "object", so special case here.
+  if (isNull(value))
+    return ctx.stylize('null', 'null');
+}
+
+
+function formatError(value) {
+  return '[' + Error.prototype.toString.call(value) + ']';
+}
+
+
+function formatArray(ctx, value, recurseTimes, visibleKeys, keys) {
+  var output = [];
+  for (var i = 0, l = value.length; i < l; ++i) {
+    if (hasOwnProperty(value, String(i))) {
+      output.push(formatProperty(ctx, value, recurseTimes, visibleKeys,
+          String(i), true));
+    } else {
+      output.push('');
+    }
+  }
+  keys.forEach(function(key) {
+    if (!key.match(/^\d+$/)) {
+      output.push(formatProperty(ctx, value, recurseTimes, visibleKeys,
+          key, true));
+    }
+  });
+  return output;
+}
+
+
+function formatProperty(ctx, value, recurseTimes, visibleKeys, key, array) {
+  var name, str, desc;
+  desc = Object.getOwnPropertyDescriptor(value, key) || { value: value[key] };
+  if (desc.get) {
+    if (desc.set) {
+      str = ctx.stylize('[Getter/Setter]', 'special');
+    } else {
+      str = ctx.stylize('[Getter]', 'special');
+    }
+  } else {
+    if (desc.set) {
+      str = ctx.stylize('[Setter]', 'special');
+    }
+  }
+  if (!hasOwnProperty(visibleKeys, key)) {
+    name = '[' + key + ']';
+  }
+  if (!str) {
+    if (ctx.seen.indexOf(desc.value) < 0) {
+      if (isNull(recurseTimes)) {
+        str = formatValue(ctx, desc.value, null);
+      } else {
+        str = formatValue(ctx, desc.value, recurseTimes - 1);
+      }
+      if (str.indexOf('\n') > -1) {
+        if (array) {
+          str = str.split('\n').map(function(line) {
+            return '  ' + line;
+          }).join('\n').substr(2);
+        } else {
+          str = '\n' + str.split('\n').map(function(line) {
+            return '   ' + line;
+          }).join('\n');
+        }
+      }
+    } else {
+      str = ctx.stylize('[Circular]', 'special');
+    }
+  }
+  if (isUndefined(name)) {
+    if (array && key.match(/^\d+$/)) {
+      return str;
+    }
+    name = JSON.stringify('' + key);
+    if (name.match(/^"([a-zA-Z_][a-zA-Z_0-9]*)"$/)) {
+      name = name.substr(1, name.length - 2);
+      name = ctx.stylize(name, 'name');
+    } else {
+      name = name.replace(/'/g, "\\'")
+                 .replace(/\\"/g, '"')
+                 .replace(/(^"|"$)/g, "'");
+      name = ctx.stylize(name, 'string');
+    }
+  }
+
+  return name + ': ' + str;
+}
+
+
+function reduceToSingleString(output, base, braces) {
+  var numLinesEst = 0;
+  var length = output.reduce(function(prev, cur) {
+    numLinesEst++;
+    if (cur.indexOf('\n') >= 0) numLinesEst++;
+    return prev + cur.replace(/\u001b\[\d\d?m/g, '').length + 1;
+  }, 0);
+
+  if (length > 60) {
+    return braces[0] +
+           (base === '' ? '' : base + '\n ') +
+           ' ' +
+           output.join(',\n  ') +
+           ' ' +
+           braces[1];
+  }
+
+  return braces[0] + base + ' ' + output.join(', ') + ' ' + braces[1];
+}
+
+
+// NOTE: These type checking functions intentionally don't use `instanceof`
+// because it is fragile and can be easily faked with `Object.create()`.
+function isArray(ar) {
+  return Array.isArray(ar);
+}
+exports.isArray = isArray;
+
+function isBoolean(arg) {
+  return typeof arg === 'boolean';
+}
+exports.isBoolean = isBoolean;
+
+function isNull(arg) {
+  return arg === null;
+}
+exports.isNull = isNull;
+
+function isNullOrUndefined(arg) {
+  return arg == null;
+}
+exports.isNullOrUndefined = isNullOrUndefined;
+
+function isNumber(arg) {
+  return typeof arg === 'number';
+}
+exports.isNumber = isNumber;
+
+function isString(arg) {
+  return typeof arg === 'string';
+}
+exports.isString = isString;
+
+function isSymbol(arg) {
+  return typeof arg === 'symbol';
+}
+exports.isSymbol = isSymbol;
+
+function isUndefined(arg) {
+  return arg === void 0;
+}
+exports.isUndefined = isUndefined;
+
+function isRegExp(re) {
+  return isObject(re) && objectToString(re) === '[object RegExp]';
+}
+exports.isRegExp = isRegExp;
+
+function isObject(arg) {
+  return typeof arg === 'object' && arg !== null;
+}
+exports.isObject = isObject;
+
+function isDate(d) {
+  return isObject(d) && objectToString(d) === '[object Date]';
+}
+exports.isDate = isDate;
+
+function isError(e) {
+  return isObject(e) &&
+      (objectToString(e) === '[object Error]' || e instanceof Error);
+}
+exports.isError = isError;
+
+function isFunction(arg) {
+  return typeof arg === 'function';
+}
+exports.isFunction = isFunction;
+
+function isPrimitive(arg) {
+  return arg === null ||
+         typeof arg === 'boolean' ||
+         typeof arg === 'number' ||
+         typeof arg === 'string' ||
+         typeof arg === 'symbol' ||  // ES6 symbol
+         typeof arg === 'undefined';
+}
+exports.isPrimitive = isPrimitive;
+
+exports.isBuffer = __webpack_require__(/*! ./support/isBuffer */ "./node_modules/util/support/isBufferBrowser.js");
+
+function objectToString(o) {
+  return Object.prototype.toString.call(o);
+}
+
+
+function pad(n) {
+  return n < 10 ? '0' + n.toString(10) : n.toString(10);
+}
+
+
+var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep',
+              'Oct', 'Nov', 'Dec'];
+
+// 26 Feb 16:19:34
+function timestamp() {
+  var d = new Date();
+  var time = [pad(d.getHours()),
+              pad(d.getMinutes()),
+              pad(d.getSeconds())].join(':');
+  return [d.getDate(), months[d.getMonth()], time].join(' ');
+}
+
+
+// log is just a thin wrapper to console.log that prepends a timestamp
+exports.log = function() {
+  console.log('%s - %s', timestamp(), exports.format.apply(exports, arguments));
+};
+
+
+/**
+ * Inherit the prototype methods from one constructor into another.
+ *
+ * The Function.prototype.inherits from lang.js rewritten as a standalone
+ * function (not on Function.prototype). NOTE: If this file is to be loaded
+ * during bootstrapping this function needs to be rewritten using some native
+ * functions as prototype setup using normal JavaScript does not work as
+ * expected during bootstrapping (see mirror.js in r114903).
+ *
+ * @param {function} ctor Constructor function which needs to inherit the
+ *     prototype.
+ * @param {function} superCtor Constructor function to inherit prototype from.
+ */
+exports.inherits = __webpack_require__(/*! inherits */ "./node_modules/inherits/inherits_browser.js");
+
+exports._extend = function(origin, add) {
+  // Don't do anything if add isn't an object
+  if (!add || !isObject(add)) return origin;
+
+  var keys = Object.keys(add);
+  var i = keys.length;
+  while (i--) {
+    origin[keys[i]] = add[keys[i]];
+  }
+  return origin;
+};
+
+function hasOwnProperty(obj, prop) {
+  return Object.prototype.hasOwnProperty.call(obj, prop);
+}
+
+var kCustomPromisifiedSymbol = typeof Symbol !== 'undefined' ? Symbol('util.promisify.custom') : undefined;
+
+exports.promisify = function promisify(original) {
+  if (typeof original !== 'function')
+    throw new TypeError('The "original" argument must be of type Function');
+
+  if (kCustomPromisifiedSymbol && original[kCustomPromisifiedSymbol]) {
+    var fn = original[kCustomPromisifiedSymbol];
+    if (typeof fn !== 'function') {
+      throw new TypeError('The "util.promisify.custom" argument must be of type Function');
+    }
+    Object.defineProperty(fn, kCustomPromisifiedSymbol, {
+      value: fn, enumerable: false, writable: false, configurable: true
+    });
+    return fn;
+  }
+
+  function fn() {
+    var promiseResolve, promiseReject;
+    var promise = new Promise(function (resolve, reject) {
+      promiseResolve = resolve;
+      promiseReject = reject;
+    });
+
+    var args = [];
+    for (var i = 0; i < arguments.length; i++) {
+      args.push(arguments[i]);
+    }
+    args.push(function (err, value) {
+      if (err) {
+        promiseReject(err);
+      } else {
+        promiseResolve(value);
+      }
+    });
+
+    try {
+      original.apply(this, args);
+    } catch (err) {
+      promiseReject(err);
+    }
+
+    return promise;
+  }
+
+  Object.setPrototypeOf(fn, Object.getPrototypeOf(original));
+
+  if (kCustomPromisifiedSymbol) Object.defineProperty(fn, kCustomPromisifiedSymbol, {
+    value: fn, enumerable: false, writable: false, configurable: true
+  });
+  return Object.defineProperties(
+    fn,
+    getOwnPropertyDescriptors(original)
+  );
+}
+
+exports.promisify.custom = kCustomPromisifiedSymbol
+
+function callbackifyOnRejected(reason, cb) {
+  // `!reason` guard inspired by bluebird (Ref: https://goo.gl/t5IS6M).
+  // Because `null` is a special error value in callbacks which means "no error
+  // occurred", we error-wrap so the callback consumer can distinguish between
+  // "the promise rejected with null" or "the promise fulfilled with undefined".
+  if (!reason) {
+    var newReason = new Error('Promise was rejected with a falsy value');
+    newReason.reason = reason;
+    reason = newReason;
+  }
+  return cb(reason);
+}
+
+function callbackify(original) {
+  if (typeof original !== 'function') {
+    throw new TypeError('The "original" argument must be of type Function');
+  }
+
+  // We DO NOT return the promise as it gives the user a false sense that
+  // the promise is actually somehow related to the callback's execution
+  // and that the callback throwing will reject the promise.
+  function callbackified() {
+    var args = [];
+    for (var i = 0; i < arguments.length; i++) {
+      args.push(arguments[i]);
+    }
+
+    var maybeCb = args.pop();
+    if (typeof maybeCb !== 'function') {
+      throw new TypeError('The last argument must be of type Function');
+    }
+    var self = this;
+    var cb = function() {
+      return maybeCb.apply(self, arguments);
+    };
+    // In true node style we process the callback on `nextTick` with all the
+    // implications (stack, `uncaughtException`, `async_hooks`)
+    original.apply(this, args)
+      .then(function(ret) { process.nextTick(cb, null, ret) },
+            function(rej) { process.nextTick(callbackifyOnRejected, rej, cb) });
+  }
+
+  Object.setPrototypeOf(callbackified, Object.getPrototypeOf(original));
+  Object.defineProperties(callbackified,
+                          getOwnPropertyDescriptors(original));
+  return callbackified;
+}
+exports.callbackify = callbackify;
+
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../process/browser.js */ "./node_modules/process/browser.js")))
 
 /***/ }),
 
