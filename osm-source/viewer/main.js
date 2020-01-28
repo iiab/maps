@@ -166,7 +166,7 @@ for(var mbt in tiledata){
 const boxLayer =  new VectorLayer({
    source: new VectorSource({
      format: new GeoJSON(),
-     url: './bboxes.geojson'
+     url: './assets/bboxes.geojson'
    }),
    style: function(feature) {
      var name = feature.get("name");

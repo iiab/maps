@@ -310,7 +310,7 @@ for(var mbt in tiledata){
 const boxLayer =  new ol_layer_Vector__WEBPACK_IMPORTED_MODULE_9__[/* default */ "a"]({
    source: new ol_source_Vector__WEBPACK_IMPORTED_MODULE_10__[/* default */ "a"]({
      format: new ol_format__WEBPACK_IMPORTED_MODULE_14__[/* GeoJSON */ "b"](),
-     url: './bboxes.geojson'
+     url: './assets/bboxes.geojson'
    }),
    style: function(feature) {
      var name = feature.get("name");
