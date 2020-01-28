@@ -34,6 +34,7 @@
     "bootstrap": "^4.4.1",
     "jquery": "^3.4.1",
     "ol": "^5.3.3",
+    "ol-hashed": "^2.0.0",
     "ol-mapbox-style": "^4.2.1",
     "popper.js": "^1.16.0"
   }
