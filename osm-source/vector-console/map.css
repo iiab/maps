@@ -1,0 +1,20 @@
+
+#osmRegionSelection{
+   display: flex;
+}
+#map-container{
+  /*background-color: #b2d3f8; */
+  width: 50vw;
+  right: 10px;
+  height: 250px;
+}
+.grower{
+   flex-grow: 1;
+}
+#satellite{
+   width: 50vw;
+   display: flex;
+}
+body {
+  padding: 40px;
+}
