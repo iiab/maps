@@ -128,6 +128,8 @@ document.$ = document.jQuery = jquery__WEBPACK_IMPORTED_MODULE_7___default.a;
 // a global variable to control which features are shown
 var show = {};
 var mapData = "/osm-vector-maps/maplist/assets";
+var mapList = [];
+var mapCatalogDir = './assets/';
 
 var map = new ol_Map__WEBPACK_IMPORTED_MODULE_3__[/* default */ "a"]({
   target: 'map-container',
@@ -204,6 +206,122 @@ jquery__WEBPACK_IMPORTED_MODULE_7___default()( document ).on("mouseout",".extrac
   boxLayer.changed();
 });
 
+// copy in the essential code fragments to make list from map-catalog.json
+function readableSize(kbytes) {
+  if (kbytes == 0)
+  return "0";
+  var bytes = 1024 * kbytes;
+  var s = ['bytes', 'kB', 'MB', 'GB', 'TB', 'PB'];
+  var e = Math.floor(Math.log(bytes) / Math.log(1024));
+  return (bytes / Math.pow(1024, e)).toFixed(2) + " " + s[e];
+}
+
+function readMapCatalog(){
+	//console.log ("in readMapCalalog");
+	// read map-catalog.json from common/assets in case osm vectors not installed
+  mapList = [];
+  var resp = jquery__WEBPACK_IMPORTED_MODULE_7___default.a.ajax({
+    type: 'GET',
+    url: mapCatalogDir + 'map-catalog.json',
+    dataType: 'json'
+  })
+  .done(function( data ) {
+  	 var mapJson = data;
+    var mapCatalog = mapJson['maps'];
+    for(var key in mapCatalog){
+      //console.log(key + '  ' + mapCatalog[key]['title']);
+      mapCatalog[key]['name'] = key;
+      mapList.push(mapCatalog[key]);
+    }
+  });
+  return resp;
+}
+
+function renderMapList(checkbox) { // generic
+	var html = "";
+   // order the mapList by seq number
+   var regions = mapList;
+	console.log ("in renderMapList");
+
+	// sort on basis of seq
+  regions = mapList.sort(function(a,b){
+    if (a.seq < b.seq) return -1;
+    else return 1;
+    });
+  console.log(regions);
+	// render each region
+   html += '<form>';
+	regions.forEach((region, index) => { // now render the html
+      //console.log(region.title + " " +region.seq);
+      html += genMapItem(region,checkbox);
+  });
+  html += '</form>';
+  //console.log(html);
+  jquery__WEBPACK_IMPORTED_MODULE_7___default()( "#mapList" ).html(html);
+  activateTooltip();
+}
+
+function map_is_installed(mapname){
+  for (var key in map_idx)
+    if (key && map_idx[key].file_name == basename(mapname)) return true
+  return false;
+}
+
+function genMapItem(region,checkbox) {
+  var html = "";
+  var colorClass = "";
+  console.log("in genMapItem: " + region.name);
+  var itemId = region.title;
+  var ksize = region.size / 1000;
+  // is this region already insalled?
+  // if (map_is_installed(region.detail_url)) colorClass = 'installed';
+  html += '<div class="extract" data-region={"name":"' + region.region + '"}> ';
+  html += '<label>';
+  if ( checkbox ) {
+    if (selectedMapItems.indexOf(region.name) != -1)
+      checked = 'checked';
+    else
+      checked = '';
+      html += '<input type="checkbox" name="' + region.detail_url + '"';
+      html += ' onChange="updateMapSpace(this)" ' + checked + '> ';
+      html += '</input>';;
+  }
+  html += '</label>'; // end input
+  var mapToolTip = genMapTooltip(region);
+  html += '<span class="map-desc ' + colorClass + '"' + mapToolTip + '>&nbsp;&nbsp;' + itemId + '</span>';
+  html += ' ' + readableSize(ksize);
+  html += '</div>';
+  //console.log(html);
+
+  return html;
+}
+function basename(path) {
+     return path.replace(/.*\//, '');
+}
+
+function activateTooltip() {
+    jquery__WEBPACK_IMPORTED_MODULE_7___default()('[data-toggle="tooltip"]').tooltip({
+      animation: true,
+      delay: {show: 500, hide: 100}
+    });
+}
+
+function genMapTooltip(region) {
+  var mapToolTip = ' data-toggle="tooltip" data-placement="top" data-html="true" ';
+  var re = /^.*_(v[0-9]+\.[0-9]+)\.zip/;
+  var url = region.url;
+  var version = url.replace(re,'$1');
+  mapToolTip += 'title="';
+  mapToolTip += 'Date: ' + region.date + "  Version: " + version + '<br>';
+  mapToolTip += 'File: ' + basename(region.detail_url) +'"';
+  //mapToolTip += 'title="<em><b>' + zim.description + '</b><BR>some more text that is rather long"';
+  console.log(mapToolTip);
+  return mapToolTip;
+}
+
+jquery__WEBPACK_IMPORTED_MODULE_7___default.a.when(readMapCatalog()).done(function() {
+                     renderMapList(false);
+               });
 
 
 /***/ }),
