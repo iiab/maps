@@ -32,7 +32,24 @@
                   <div id="map-container"></div>
 
               </div>
-            <div id='mapList'>placeholdr</div>
+            <div id='regionlist'>placeholdr</div>
 				</div> <!--  End instOsmRegion Submenu Option Pane -->
+            <script>
+               function readableSize(kbytes) {
+                 if (kbytes == 0)
+                 return "0";
+                 var bytes = 1024 * kbytes;
+                 var s = ['bytes', 'kB', 'MB', 'GB', 'TB', 'PB'];
+                 var e = Math.floor(Math.log(bytes) / Math.log(1024));
+                 return (bytes / Math.pow(1024, e)).toFixed(2) + " " + s[e];
+               }
+            </script>
+            <script src="/osm-vector/assets/osm_functions.js"></script>
+            <script>
+               window.$ = window.$ = jQuery;
+               $.when(readOsmCatalog()).done(function() {
+                     renderRegionList(false);
+               });
+            </script>
 </body>
 </html>
