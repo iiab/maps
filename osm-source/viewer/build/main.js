@@ -207,6 +207,9 @@ function dirname(path) {
 }
 
 var map = new ol_Map__WEBPACK_IMPORTED_MODULE_1__[/* default */ "a"]({ target: 'map-container',
+  controls: Object(ol_control_js__WEBPACK_IMPORTED_MODULE_13__[/* defaults */ "c"])({attribution: false}).extend([
+    scaleLineControl,attribution
+  ]),
   view: new ol_View__WEBPACK_IMPORTED_MODULE_2__[/* default */ "a"]({
     center: Object(ol_proj__WEBPACK_IMPORTED_MODULE_4__[/* fromLonLat */ "d"])([-122, 37.35]),
     maxZoom: 19,
@@ -41759,7 +41762,7 @@ function asColorLike(color) {
   !*** ./node_modules/ol/control.js ***!
   \************************************/
 /*! exports provided: Attribution, Control, FullScreen, MousePosition, OverviewMap, Rotate, ScaleLine, Zoom, ZoomSlider, ZoomToExtent, defaults */
-/*! exports used: Attribution, ScaleLine */
+/*! exports used: Attribution, ScaleLine, defaults */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -41778,6 +41781,8 @@ function asColorLike(color) {
 /* harmony import */ var _control_ZoomSlider_js__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./control/ZoomSlider.js */ "./node_modules/ol/control/ZoomSlider.js");
 /* harmony import */ var _control_ZoomToExtent_js__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./control/ZoomToExtent.js */ "./node_modules/ol/control/ZoomToExtent.js");
 /* harmony import */ var _control_util_js__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./control/util.js */ "./node_modules/ol/control/util.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "c", function() { return _control_util_js__WEBPACK_IMPORTED_MODULE_10__["a"]; });
+
 /**
  * @module ol/control
  */
