@@ -62,6 +62,9 @@ function dirname(path) {
 }
 
 var map = new Map({ target: 'map-container',
+  controls: defaultControls({attribution: false}).extend([
+    scaleLineControl,attribution
+  ]),
   view: new View({
     center: fromLonLat([-122, 37.35]),
     maxZoom: 19,
