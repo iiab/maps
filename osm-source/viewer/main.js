@@ -1,12 +1,12 @@
 // right click branch working towards adding points and data to maps
 var ContextMenu = require('./ol-contextmenu.js');
-var ol = require('ol');
+//var ol = require('ol');
 // temp.js for base -- regional OSM vector tiles
 import 'ol/ol.css';
 import Map from 'ol/Map';
 import View from 'ol/View';
 import XYZSource from 'ol/source/XYZ';
-import {fromLonLat,toLonLat} from 'ol/proj';
+import {fromLonLat,toLonLat,transform} from 'ol/proj';
 import TileLayer from 'ol/layer/Tile';
 import TileImage from 'ol/source/TileImage';
 import VectorTileLayer from 'ol/layer/VectorTile';
@@ -17,7 +17,10 @@ import MVT from 'ol/format/MVT';
 import stylefunction from 'ol-mapbox-style/stylefunction';
 import {defaults as defaultControls, ScaleLine,Attribution} from 'ol/control.js';
 import {GPX, GeoJSON, IGC, KML, TopoJSON} from 'ol/format';
-import {Style, Fill, Stroke, Circle, Text} from 'ol/style';
+import {Style, Fill, Stroke, Circle, Icon, Text} from 'ol/style';
+import Point from 'ol/geom/Point';
+import Feature from 'ol/Feature';
+import {format} from 'ol/coordinate';
 //import WMTSCapabilities from 'ol/format/WMTSCapabilities.js';
 //import WMTS,{optionsFromCapabilities} from 'ol/source/WMTS.js';
 //import WMTSTileGrid from 'ol/tilegrid/WMTS.js';
@@ -63,7 +66,8 @@ function dirname(path) {
      return path.match(/.*\//);
 }
 
-var map = new Map({ target: 'map-container',
+var map = new Map({ 
+  target: 'map-container',
   controls: defaultControls({attribution: false}).extend([
     scaleLineControl,attribution
   ]),
@@ -72,6 +76,7 @@ var map = new Map({ target: 'map-container',
     maxZoom: 19,
     zoom: 11
   })
+  //overlays: [overlay]
 }); //end of new Map
 
 sync(map);
@@ -162,7 +167,6 @@ map.addInteraction(new DragAndDrop({
 }));
 
 /////   add Layers    /////////////////
-map.addLayer(drop);
 map.addLayer(sat_layer);
 for(var mbt in tiledata){
    if (mbt.substr(0,3) != 'sat'){
@@ -201,6 +205,7 @@ const boxLayer =  new VectorLayer({
    } 
 })
 map.addLayer(boxLayer);    
+map.addLayer(drop);
 
 ////////   MAP EVENTS  ////////////
 map.on("moveend", function() {
@@ -343,7 +348,7 @@ var contextmenu_items = [
    {
      text: 'Add Data',
      icon: 'img/pin_drop.png',
-     callback: marker,
+     callback: popData,
    },
   {
     text: 'View Data',
@@ -414,43 +419,79 @@ map.on('pointermove', function(e) {
   map.getTargetElement().style.cursor = hit ? 'pointer' : '';
 });
 
-// from https://github.com/DmitryBaranovskiy/raphael
-function elastic(t) {
-  return (
-    Math.pow(2, -10 * t) * Math.sin(((t - 0.075) * (2 * Math.PI)) / 0.3) + 1
-  );
-}
-
-function center(obj) {
-  view.animate({
-    duration: 700,
-    easing: elastic,
-    center: obj.coordinate,
-  });
-}
-
 function removeMarker(obj) {
-  vectorLayer.getSource().removeFeature(obj.data.marker);
+  drop.getSource().removeFeature(obj.data.marker);
 }
 
 function marker(obj) {
-  var coord4326 = ol.proj.transform(obj.coordinate, 'EPSG:3857', 'EPSG:4326'),
+  var coord4326 = transform(obj.coordinate, 'EPSG:3857', 'EPSG:4326'),
     template = 'Coordinate is ({x} | {y})',
-    iconStyle = new ol.style.Style({
-      image: new ol.style.Icon({ scale: 0.6, src: 'img/pin_drop.png' }),
-      text: new ol.style.Text({
+    iconStyle = new Style({
+      image: new Icon({ scale: 0.6, src: 'img/pin_drop.png' }),
+      text: new Text({
         offsetY: 25,
-        text: ol.coordinate.format(coord4326, template, 2),
+        text: format(coord4326, template, 2),
         font: '15px Open Sans,sans-serif',
-        fill: new ol.style.Fill({ color: '#111' }),
-        stroke: new ol.style.Stroke({ color: '#eee', width: 2 }),
+        fill: new Fill({ color: '#111' }),
+        stroke: new Stroke({ color: '#eee', width: 2 }),
       }),
     }),
-    feature = new ol.Feature({
+    feature = new Feature({
       type: 'removable',
-      geometry: new ol.geom.Point(obj.coordinate),
+      geometry: new Point(obj.coordinate),
     });
 
   feature.setStyle(iconStyle);
   drop.getSource().addFeature(feature);
 }
+////////////////     below is popup stuff  ///////////////////////
+import 'ol/ol.css';
+import Overlay from 'ol/Overlay';
+import {toStringHDMS} from 'ol/coordinate';
+
+/**
+ * Elements that make up the popup.
+ */
+var container = document.getElementById('popup');
+var content = document.getElementById('popup-textarea');
+var closer = document.getElementById('popup-closer');
+var title = document.getElementById('popup-title');
+
+/**
+ * Create an overlay to anchor the popup to the map.
+ */
+var overlay = new Overlay({
+  element: container,
+  autoPan: true,
+  autoPanAnimation: {
+    duration: 250
+  }
+});
+
+map.addOverlay(overlay);
+
+/**
+ * Add a click handler to hide the popup.
+ * @return {boolean} Don't follow the href.
+ */
+closer.onclick = function() {
+  overlay.setPosition(undefined);
+  closer.blur();
+  return false;
+};
+
+
+
+/**
+ * Add a click handler to the map to render the popup.
+ */
+function popData(obj) {
+  var coordinate = obj.coordinate;
+  //var hdms = toStringHDMS(toLonLat(coordinate));
+
+  //content.innerHTML = '<p>You clicked here:</p><code>' + hdms +
+      '</code>';
+  title.value="hi George";
+  content.value="Text Area Content";
+  overlay.setPosition(coordinate);
+};

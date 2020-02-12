@@ -7,6 +7,7 @@
      <link rel="stylesheet" href="./assets/fonts.css" type="text/css">
     <link rel="stylesheet" href="./assets/ol5-layerswitcher.css" />
     <link rel="stylesheet" href="./ol-contextmenu.css" />
+    <link rel="stylesheet" href="./popup.css" />
     <title>OsmMaps</title>
     <style>
       html, body, #map-container {
@@ -41,6 +42,15 @@
     <div id="layerswitcher"></div>
 
     <div id="map-container"></div>
+    <div id="map" class="map"></div>
+    <div id="popup" class="ol-popup">
+      <form>
+      <a href="#" id="popup-closer" class="ol-popup-closer"></a>
+      <div><input  id="popup-title" type="text" size="50" ></textbox></div>
+      <div id="popup-content"><textarea id='popup-textarea' rows="4" cols="50"></textarea></div>
+      <div id="popup-save"><button id='save' type="button">Save</button></div>
+      </form>
+    </div>
     <select id="units">
       <option value="degrees">degrees</option>
       <option value="imperial">imperial inch</option>
