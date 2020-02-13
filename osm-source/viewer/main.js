@@ -344,55 +344,44 @@ $(function() {
 
 
 ////////////////     below is context menu stuff  ///////////////////////
-var contextmenu_items = [
+var contextmenu_no_point = [
    {
-     text: 'Add Data',
+     text: 'Add Data Point',
      icon: 'img/pin_drop.png',
-     callback: popData,
+     //callback: marker,
+     callback: popUp,
    },
   {
-    text: 'View Data',
+    text: 'Download Points',
     classname: 'bold',
     icon: 'img/center.png',
     //callback: center,
+  }
+]
+
+var contextmenu_point = [
+  {
+    text: 'View Data at Point',
+    classname: 'bold',
+    icon: 'img/center.png',
+    callback: fetchData,
   },
   {
-    text: 'Save As ..',
+    text: 'Download Points',
     classname: 'bold',
     icon: 'img/center.png',
     //callback: center,
-  },
-  {
-    text: 'Save',
-    classname: 'bold',
-    icon: 'img/center.png',
-    //callback: center,
-  },
-/*    text: 'Some Actions',
-    icon: 'img/view_list.png',
-    items: [
-      {
-        text: 'Center map here',
-        icon: 'img/center.png',
-        callback: center,
-      },
-    ],
-  },
-*/
- // '-', // this is a separator
-];
-var removeMarkerItem = {
-  text: 'Remove this Marker',
-  classname: 'marker',
-  callback: removeMarker,
-};
+  }
+]
 
 var contextmenu = new ContextMenu({
   width: 180,
-  items: contextmenu_items,
+  items: contextmenu_point,
 });
 map.addControl(contextmenu);
 
+var dropFeature = null;
+var removeMarkerItem = {};
 contextmenu.on('open', function(evt) {
   var feature = map.forEachFeatureAtPixel(evt.pixel, function(ft, l) {
     return ft;
@@ -400,12 +389,14 @@ contextmenu.on('open', function(evt) {
   if (feature && feature.get('type') === 'removable') {
     contextmenu.clear();
     removeMarkerItem.data = {
-      marker: feature,
+       marker: feature,
     };
-    contextmenu.push(removeMarkerItem);
+    dropFeature = feature;
+    contextmenu.extend(contextmenu_point);
   } else {
+    dropFeature = null;
     contextmenu.clear();
-    contextmenu.extend(contextmenu_items);
+    contextmenu.extend(contextmenu_no_point);
     //contextmenu.extend(contextmenu.getDefaultItems());
   }
 });
@@ -443,6 +434,7 @@ function marker(obj) {
 
   feature.setStyle(iconStyle);
   drop.getSource().addFeature(feature);
+  dropFeature = feature;
 }
 ////////////////     below is popup stuff  ///////////////////////
 import 'ol/ol.css';
@@ -455,6 +447,7 @@ import {toStringHDMS} from 'ol/coordinate';
 var container = document.getElementById('popup');
 var content = document.getElementById('popup-textarea');
 var closer = document.getElementById('popup-closer');
+var save = document.getElementById('popup-save');
 var title = document.getElementById('popup-title');
 
 /**
@@ -480,18 +473,47 @@ closer.onclick = function() {
   return false;
 };
 
+save.onclick = function(){
+  //if ( dropFeature !== null ) {
+     console.log('feature is not null');
+     marker(dataPlace);
+     dropFeature.set('title',title.value);
+     dropFeature.set('content',content.value);
+  //}
+  overlay.setPosition(undefined);
+  closer.blur();
+  return false;
+};
 
 
 /**
  * Add a click handler to the map to render the popup.
  */
-function popData(obj) {
-  var coordinate = obj.coordinate;
+var dataPlace;
+var dataCoordinate;
+function popUp(obj) {
+  dataPlace = obj;
+  dataCoordinate = obj.coordinate;
   //var hdms = toStringHDMS(toLonLat(coordinate));
 
   //content.innerHTML = '<p>You clicked here:</p><code>' + hdms +
       '</code>';
   title.value="hi George";
   content.value="Text Area Content";
-  overlay.setPosition(coordinate);
+  overlay.setPosition(dataCoordinate);
+};
+
+function fetchData(obj) {
+  var feature = dropFeature;
+  if ( ! feature) alert('no reature');
+  if (feature && feature.get('type') === 'removable') {
+     var coordinate = feature.getGeometry().getCoordinates();
+     //var hdms = toStringHDMS(toLonLat(coordinate));
+
+     //content.innerHTML = '<p>You clicked here:</p><code>' + hdms +
+         '</code>';
+     title.value = feature.get('title');
+     content.value = feature.get('content');
+     overlay.setPosition(coordinate);
+  };
 };
