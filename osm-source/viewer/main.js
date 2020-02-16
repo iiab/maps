@@ -157,12 +157,12 @@ function set_detail_style(the_style){
 set_detail_style(osm_style);
 
 ///////  Drop new layer onto map  //////////////
-const dropsource = new VectorSource();
+const dropSource = new VectorSource();
 const drop = new VectorLayer({
-  source: dropsource
+  source: dropSource
 });
 map.addInteraction(new DragAndDrop({
-  source: dropsource,
+  source: dropSource,
   formatConstructors: [GPX, GeoJSON, IGC, KML, TopoJSON]
 }));
 
@@ -351,12 +351,22 @@ var contextmenu_no_point = [
      //callback: marker,
      callback: popUp,
    },
+   {
+     text: 'Clear Map Points',
+     icon: 'img/pin_drop.png',
+     callback: clear,
+   },
+   {
+     text: 'Import Map Points',
+     icon: 'img/pin_drop.png',
+     callback: pasteMap,
+   },
   {
-    text: 'Download Points',
+    text: 'Export Points',
     classname: 'bold',
     icon: 'img/center.png',
-    //callback: center,
-  }
+    callback: download,
+  },
 ]
 
 var contextmenu_point = [
@@ -366,12 +376,11 @@ var contextmenu_point = [
     icon: 'img/center.png',
     callback: fetchData,
   },
-  {
-    text: 'Download Points',
-    classname: 'bold',
-    icon: 'img/center.png',
-    //callback: center,
-  }
+   {
+     text: 'Paste Image',
+     icon: 'img/pin_drop.png',
+     //callback: marker,
+   }
 ]
 
 var contextmenu = new ContextMenu({
@@ -516,4 +525,19 @@ function fetchData(obj) {
      content.value = feature.get('content');
      overlay.setPosition(coordinate);
   };
+};
+ function clear(){
+   dropSource.clear();
+};
+function download(){
+   const format = new GeoJSON({featureProjection: 'EPSG:3857'});
+   const features = dropSource.getFeatures();
+   const json = format.writeFeatures(features);
+   var link=document.createElement('a');
+   link.href = 'data:text/json;charset=utf-8,' + json;
+   link.download = 'features.json';
+   link.click();
+};
+function pasteMap(){
+   document.execCommand('paste');
 };

@@ -306,12 +306,12 @@ function set_detail_style(the_style){
 set_detail_style(osm_style);
 
 ///////  Drop new layer onto map  //////////////
-const dropsource = new ol_source_Vector__WEBPACK_IMPORTED_MODULE_10__[/* default */ "a"]();
+const dropSource = new ol_source_Vector__WEBPACK_IMPORTED_MODULE_10__[/* default */ "a"]();
 const drop = new ol_layer_Vector__WEBPACK_IMPORTED_MODULE_9__[/* default */ "a"]({
-  source: dropsource
+  source: dropSource
 });
 map.addInteraction(new ol_interaction_DragAndDrop__WEBPACK_IMPORTED_MODULE_24__[/* default */ "a"]({
-  source: dropsource,
+  source: dropSource,
   formatConstructors: [ol_format__WEBPACK_IMPORTED_MODULE_14__[/* GPX */ "a"], ol_format__WEBPACK_IMPORTED_MODULE_14__[/* GeoJSON */ "b"], ol_format__WEBPACK_IMPORTED_MODULE_14__[/* IGC */ "c"], ol_format__WEBPACK_IMPORTED_MODULE_14__[/* KML */ "d"], ol_format__WEBPACK_IMPORTED_MODULE_14__[/* TopoJSON */ "e"]]
 }));
 
@@ -500,12 +500,22 @@ var contextmenu_no_point = [
      //callback: marker,
      callback: popUp,
    },
+   {
+     text: 'Clear Map Points',
+     icon: 'img/pin_drop.png',
+     callback: clear,
+   },
+   {
+     text: 'Import Map Points',
+     icon: 'img/pin_drop.png',
+     callback: pasteMap,
+   },
   {
-    text: 'Download Points',
+    text: 'Export Points',
     classname: 'bold',
     icon: 'img/center.png',
-    //callback: center,
-  }
+    callback: download,
+  },
 ]
 
 var contextmenu_point = [
@@ -515,12 +525,11 @@ var contextmenu_point = [
     icon: 'img/center.png',
     callback: fetchData,
   },
-  {
-    text: 'Download Points',
-    classname: 'bold',
-    icon: 'img/center.png',
-    //callback: center,
-  }
+   {
+     text: 'Paste Image',
+     icon: 'img/pin_drop.png',
+     //callback: marker,
+   }
 ]
 
 var contextmenu = new ContextMenu({
@@ -665,6 +674,21 @@ function fetchData(obj) {
      content.value = feature.get('content');
      overlay.setPosition(coordinate);
   };
+};
+ function clear(){
+   dropSource.clear();
+};
+function download(){
+   const format = new ol_format__WEBPACK_IMPORTED_MODULE_14__[/* GeoJSON */ "b"]({featureProjection: 'EPSG:3857'});
+   const features = dropSource.getFeatures();
+   const json = format.writeFeatures(features);
+   var link=document.createElement('a');
+   link.href = 'data:text/json;charset=utf-8,' + json;
+   link.download = 'features.json';
+   link.click();
+};
+function pasteMap(){
+   document.execCommand('paste');
 };
 
 

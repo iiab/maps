@@ -3,3 +3,5 @@
 
 rsync -a ./build/* /library/www/osm-vector-maps/viewer
 #rsync -a ./site/* /library/www/html/ghboxes
+cp popup.css /library/www/osm-vector-maps/viewer
+
