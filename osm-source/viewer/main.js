@@ -458,6 +458,7 @@ var content = document.getElementById('popup-textarea');
 var closer = document.getElementById('popup-closer');
 var save = document.getElementById('popup-save');
 var title = document.getElementById('popup-title');
+var importJson = document.getElementById('import-json');
 
 /**
  * Create an overlay to anchor the popup to the map.
@@ -539,5 +540,50 @@ function download(){
    link.click();
 };
 function pasteMap(){
-   document.execCommand('paste');
+   // click on a hidden input File element, which in turn fetches the points, and calls addPoints
+   importJson.click();
 };
+
+importJson.addEventListener('change',importFeatures);
+// need a Global for import function
+var dataURL;
+function importFeatures(evt){
+   const fr = new FileReader();
+   console.log(importJson.files[0]);
+   fr.onload = function(){
+      dataURL = fr.result;
+      addPoints(dataURL);
+      console.log(dataURL);
+    };
+   //var url = URL.createObjectURL(evt);
+   var feature_json = fr.readAsDataURL(importJson.files[0]);
+}
+
+function addPoints(data){
+   var json = atob(data.split(',')[1]);
+   console.log(json);
+   var points = JSON.parse(json);
+   console.log('json object:' + points);
+   for (var i=0; i<points['features'].length; i++){
+      var feat = points['features'][i];
+      var coord4326 = transform(feat.geometry.coordinates, 'EPSG:4326', 'EPSG:3857'),
+      iconStyle = new Style({
+         image: new Icon({ scale: 0.6, src: 'img/pin_drop.png' }),
+         text: feat.properties.title,
+         font: '15px Open Sans,sans-serif',
+         fill: new Fill({ color: '#111' }),
+         stroke: new Stroke({ color: '#eee', width: 2 })
+      }),
+      feature = new Feature({
+         title: feat.properties.title,
+         content: feat.properties.content,
+         type: 'removable',
+         geometry: new Point(coord4326),
+      });
+
+     feature.setStyle(iconStyle);
+     drop.getSource().addFeature(feature);
+     console.log(feat.properties.title + coord4326);
+   }
+}
+
