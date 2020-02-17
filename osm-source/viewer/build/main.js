@@ -718,10 +718,13 @@ function addPoints(data){
       var coord4326 = Object(ol_proj__WEBPACK_IMPORTED_MODULE_4__[/* transform */ "k"])(feat.geometry.coordinates, 'EPSG:4326', 'EPSG:3857'),
       iconStyle = new ol_style__WEBPACK_IMPORTED_MODULE_15__[/* Style */ "d"]({
          image: new ol_style__WEBPACK_IMPORTED_MODULE_15__[/* Icon */ "b"]({ scale: 0.6, src: 'img/pin_drop.png' }),
-         text: feat.properties.title,
-         font: '15px Open Sans,sans-serif',
-         fill: new ol_style__WEBPACK_IMPORTED_MODULE_15__[/* Fill */ "a"]({ color: '#111' }),
-         stroke: new ol_style__WEBPACK_IMPORTED_MODULE_15__[/* Stroke */ "c"]({ color: '#eee', width: 2 })
+         text: new ol_style__WEBPACK_IMPORTED_MODULE_15__[/* Text */ "e"]({
+            offsetY: 25,
+            text: feat.properties.title,
+            font: '15px Open Sans,sans-serif',
+            fill: new ol_style__WEBPACK_IMPORTED_MODULE_15__[/* Fill */ "a"]({ color: '#111' }),
+            stroke: new ol_style__WEBPACK_IMPORTED_MODULE_15__[/* Stroke */ "c"]({ color: '#eee', width: 2 })
+         })
       }),
       feature = new ol_Feature__WEBPACK_IMPORTED_MODULE_17__[/* default */ "a"]({
          title: feat.properties.title,

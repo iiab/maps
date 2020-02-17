@@ -569,10 +569,13 @@ function addPoints(data){
       var coord4326 = transform(feat.geometry.coordinates, 'EPSG:4326', 'EPSG:3857'),
       iconStyle = new Style({
          image: new Icon({ scale: 0.6, src: 'img/pin_drop.png' }),
-         text: feat.properties.title,
-         font: '15px Open Sans,sans-serif',
-         fill: new Fill({ color: '#111' }),
-         stroke: new Stroke({ color: '#eee', width: 2 })
+         text: new Text({
+            offsetY: 25,
+            text: feat.properties.title,
+            font: '15px Open Sans,sans-serif',
+            fill: new Fill({ color: '#111' }),
+            stroke: new Stroke({ color: '#eee', width: 2 })
+         })
       }),
       feature = new Feature({
          title: feat.properties.title,
