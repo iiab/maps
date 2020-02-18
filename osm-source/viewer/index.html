@@ -19,6 +19,8 @@
       #map-container { position: relative;}
       #search {
         position: absolute; top: 10px; left: 40px; z-index: 99; }
+      #picture {
+        position: absolute; top: 100px; left: 40px; z-index: 99; }
       #hamburger {
         position: absolute; top: 10px; right: 10px; z-index: 99; }
       #info-overlay {
@@ -52,21 +54,27 @@
        </div>
     <div id="info-overlay"></div>
     <div id="layerswitcher"></div>
+    <div id="picture"></div>
 
     <div id="map-container"></div>
     <div id="map" class="map"></div>
     <div id="popup" class="ol-popup" ondragover='dragover_handler(event)' ondrop='drop_handler(event)'>
       <form>
       <a href="#" id="popup-closer" class="ol-popup-closer"></a>
-      <div><input  id="popup-title" type="text" size="50" ></textbox></div>
-      <div id="popup-content"><textarea id='popup-textarea' rows="4" cols="50"></textarea></div>
-      <span class="line">
-      <div id="popup-save"><button id='save' type="button">Save</button></div>
-      <div id="popup-delete"><button id='deletinline-block' type="button">Delete</button></div>
-      </span>
+      <div><input  id="popup-title" type="text" size="50" placeholder="Title"></textbox></div>
+      <div style='dispay:none'<input id='seq'>1</div>
+      <div id='thumbnails'>
+      </div>
+      <div id="popup-content"><textarea id='popup-textarea' rows="4" cols="50" placeholder="Description"></textarea></div>
+      <div class="line">
+      <div id="popup-save" class='pbut'><button id='save' type="button">Done</button></div>
+      <div id="popup-img-add" class='pbut'><button id='img-add' type="button">Add Image</button></div>
+      <div id="popup-delete" class='pbut'><button id='deletinline-block' type="button">Delete Point</button></div>
+      </div>
       </form>
     </div>
     <input type="file" id="import-json"  style="display:none">
+    <input type="file" id="import-jpeg"  >
 
     <select id="units">
       <option value="degrees">degrees</option>

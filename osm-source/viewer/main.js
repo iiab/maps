@@ -348,7 +348,6 @@ var contextmenu_no_point = [
    {
      text: 'Add Data Point',
      icon: 'img/pin_drop.png',
-     //callback: marker,
      callback: popUp,
    },
    {
@@ -397,16 +396,15 @@ contextmenu.on('open', function(evt) {
   });
   if (feature && feature.get('type') === 'removable') {
     contextmenu.clear();
-    removeMarkerItem.data = {
-       marker: feature,
-    };
+    //removeMarkerItem.data = {
+    //   marker: feature,
+    //};
     dropFeature = feature;
     contextmenu.extend(contextmenu_point);
   } else {
     dropFeature = null;
     contextmenu.clear();
     contextmenu.extend(contextmenu_no_point);
-    //contextmenu.extend(contextmenu.getDefaultItems());
   }
 });
 
@@ -419,8 +417,72 @@ map.on('pointermove', function(e) {
   map.getTargetElement().style.cursor = hit ? 'pointer' : '';
 });
 
-function removeMarker(obj) {
-  drop.getSource().removeFeature(obj.data.marker);
+////////////////     below is popup stuff  ///////////////////////
+import 'ol/ol.css';
+import Overlay from 'ol/Overlay';
+import {toStringHDMS} from 'ol/coordinate';
+
+/**
+ * Elements that make up the popup.
+ */
+var container = document.getElementById('popup');
+var content = document.getElementById('popup-textarea');
+var closer = document.getElementById('popup-closer');
+var save = document.getElementById('popup-save');
+var title = document.getElementById('popup-title');
+var deleteFeature = document.getElementById('popup-delete');
+var importJson = document.getElementById('import-json');
+var importJpeg = document.getElementById('import-jpeg');
+var imgAdd = document.getElementById('img-add');
+var seq = document.getElementById('seq');
+var pictureElement = document.getElementById('picture');
+var dataPlace;
+var dataCoordinate;
+
+function popUp(obj) {
+  dataPlace = obj;
+  dataCoordinate = obj.coordinate;
+  overlay.setPosition(dataCoordinate);
+  title.value="";
+  content.value="";
+  seq.value=1;
+};
+
+/**
+ * Create an overlay to anchor the popup to the map.
+ */
+var overlay = new Overlay({
+  element: container,
+  autoPan: true,
+  autoPanAnimation: {
+    duration: 250
+  }
+});
+
+
+map.addOverlay(overlay);
+
+/**
+ * Add a click handler to hide the popup.
+ * @return {boolean} Don't follow the href.
+ */
+closer.onclick = function() {
+  overlay.setPosition(undefined);
+  closer.blur();
+  return false;
+};
+
+deleteFeature.onclick = function() {
+  removeMarker();
+  overlay.setPosition(undefined);
+  closer.blur();
+  return false;
+};
+
+function removeMarker() {
+  if (dropFeature)
+      drop.getSource().removeFeature(dropFeature);
+
 }
 
 function marker(obj) {
@@ -445,43 +507,6 @@ function marker(obj) {
   drop.getSource().addFeature(feature);
   dropFeature = feature;
 }
-////////////////     below is popup stuff  ///////////////////////
-import 'ol/ol.css';
-import Overlay from 'ol/Overlay';
-import {toStringHDMS} from 'ol/coordinate';
-
-/**
- * Elements that make up the popup.
- */
-var container = document.getElementById('popup');
-var content = document.getElementById('popup-textarea');
-var closer = document.getElementById('popup-closer');
-var save = document.getElementById('popup-save');
-var title = document.getElementById('popup-title');
-var importJson = document.getElementById('import-json');
-
-/**
- * Create an overlay to anchor the popup to the map.
- */
-var overlay = new Overlay({
-  element: container,
-  autoPan: true,
-  autoPanAnimation: {
-    duration: 250
-  }
-});
-
-map.addOverlay(overlay);
-
-/**
- * Add a click handler to hide the popup.
- * @return {boolean} Don't follow the href.
- */
-closer.onclick = function() {
-  overlay.setPosition(undefined);
-  closer.blur();
-  return false;
-};
 
 save.onclick = function(){
   //if ( dropFeature !== null ) {
@@ -489,29 +514,19 @@ save.onclick = function(){
      marker(dataPlace);
      dropFeature.set('title',title.value);
      dropFeature.set('content',content.value);
+     dropFeature.set('seq',seq.value);
+     dropFeature.getStyle().getText().text = title.value;
   //}
   overlay.setPosition(undefined);
   closer.blur();
+  bigimg.style.display = 'none';
+  bigimg.src = undefined;
   return false;
 };
 
-
-/**
- * Add a click handler to the map to render the popup.
- */
-var dataPlace;
-var dataCoordinate;
-function popUp(obj) {
-  dataPlace = obj;
-  dataCoordinate = obj.coordinate;
-  //var hdms = toStringHDMS(toLonLat(coordinate));
-
-  //content.innerHTML = '<p>You clicked here:</p><code>' + hdms +
-      '</code>';
-  title.value="hi George";
-  content.value="Text Area Content";
-  overlay.setPosition(dataCoordinate);
-};
+imgAdd.onclick = function(){
+   importJpeg.click();
+}
 
 function fetchData(obj) {
   var feature = dropFeature;
@@ -545,6 +560,8 @@ function pasteMap(){
 };
 
 importJson.addEventListener('change',importFeatures);
+importJpeg.addEventListener('change',importImage);
+
 // need a Global for import function
 var dataURL;
 function importFeatures(evt){
@@ -557,6 +574,31 @@ function importFeatures(evt){
     };
    //var url = URL.createObjectURL(evt);
    var feature_json = fr.readAsDataURL(importJson.files[0]);
+}
+
+// need a Global for import Image function
+map.on('singleclick',function(){
+   bigimg.style.display = 'none';
+   bigimg.src = undefined;
+});
+
+var imgURL;
+var bigimg;
+function importImage(evt){
+   const fr = new FileReader();
+   console.log(importJpeg.files[0]);
+   fr.onload = function(){
+      imgURL = fr.result;
+      var jpeg = atob(imgURL.split(',')[1]);
+      console.log(jpeg);
+      bigimg = document.createElement("IMG");
+      bigimg.style.display = 'block';
+      bigimg.src = imgURL;
+      picture.appendChild(bigimg);
+      //addPoints(imgURL);
+      console.log(imgURL);
+    };
+   var imageData = fr.readAsDataURL(importJpeg.files[0]);
 }
 
 function addPoints(data){
