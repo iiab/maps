@@ -537,7 +537,6 @@ var contextmenu = new ContextMenu({
 });
 map.addControl(contextmenu);
 
-var dropFeature = null;
 var removeMarkerItem = {};
 contextmenu.on('open', function(evt) {
   var feature = map.forEachFeatureAtPixel(evt.pixel, function(ft, l) {
@@ -584,9 +583,12 @@ var importJson = document.getElementById('import-json');
 var importJpeg = document.getElementById('import-jpeg');
 var imgAdd = document.getElementById('img-add');
 var seq = document.getElementById('seq');
+var thumbnails = document.getElementById('thumbnails');
 var pictureElement = document.getElementById('picture');
+
 var dataPlace;
 var dataCoordinate;
+var dropFeature = null;
 
 function popUp(obj) {
   dataPlace = obj;
@@ -594,7 +596,12 @@ function popUp(obj) {
   overlay.setPosition(dataCoordinate);
   title.value="";
   content.value="";
-  seq.value=1;
+  // Create a geojson feature to hold everything
+  dropFeature = new ol_Feature__WEBPACK_IMPORTED_MODULE_17__[/* default */ "a"]({
+      type: 'removable',
+      geometry: new ol_geom_Point__WEBPACK_IMPORTED_MODULE_16__[/* default */ "a"](obj.coordinate),
+  });
+  dropFeature.set('seq',1);  // index into the associated pictures for this feature
 };
 
 /**
@@ -636,12 +643,12 @@ function removeMarker() {
 
 function marker(obj) {
   var coord4326 = Object(ol_proj__WEBPACK_IMPORTED_MODULE_4__[/* transform */ "k"])(obj.coordinate, 'EPSG:3857', 'EPSG:4326'),
-    template = 'Coordinate is ({x} | {y})',
+    //template = 'Coordinate is ({x} | {y})',
     iconStyle = new ol_style__WEBPACK_IMPORTED_MODULE_15__[/* Style */ "d"]({
       image: new ol_style__WEBPACK_IMPORTED_MODULE_15__[/* Icon */ "b"]({ scale: 0.6, src: 'img/pin_drop.png' }),
       text: new ol_style__WEBPACK_IMPORTED_MODULE_15__[/* Text */ "e"]({
         offsetY: 25,
-        text: Object(ol_coordinate__WEBPACK_IMPORTED_MODULE_18__[/* format */ "f"])(coord4326, template, 2),
+        text: title.value,
         font: '15px Open Sans,sans-serif',
         fill: new ol_style__WEBPACK_IMPORTED_MODULE_15__[/* Fill */ "a"]({ color: '#111' }),
         stroke: new ol_style__WEBPACK_IMPORTED_MODULE_15__[/* Stroke */ "c"]({ color: '#eee', width: 2 }),
@@ -652,9 +659,8 @@ function marker(obj) {
       geometry: new ol_geom_Point__WEBPACK_IMPORTED_MODULE_16__[/* default */ "a"](obj.coordinate),
     });
 
-  feature.setStyle(iconStyle);
-  drop.getSource().addFeature(feature);
-  dropFeature = feature;
+  dropFeature.setStyle(iconStyle);
+  drop.getSource().addFeature(dropFeature);
 }
 
 save.onclick = function(){
@@ -663,13 +669,12 @@ save.onclick = function(){
      marker(dataPlace);
      dropFeature.set('title',title.value);
      dropFeature.set('content',content.value);
-     dropFeature.set('seq',seq.value);
      dropFeature.getStyle().getText().text = title.value;
   //}
   overlay.setPosition(undefined);
   closer.blur();
   bigimg.style.display = 'none';
-  bigimg.src = undefined;
+  //bigimg.src = undefined;
   return false;
 };
 
@@ -679,16 +684,28 @@ imgAdd.onclick = function(){
 
 function fetchData(obj) {
   var feature = dropFeature;
-  if ( ! feature) alert('no reature');
+  if ( ! feature) {
+      alert('no feature');
+      return false;
+  };
   if (feature && feature.get('type') === 'removable') {
      var coordinate = feature.getGeometry().getCoordinates();
-     //var hdms = toStringHDMS(toLonLat(coordinate));
-
-     //content.innerHTML = '<p>You clicked here:</p><code>' + hdms +
-         '</code>';
      title.value = feature.get('title');
      content.value = feature.get('content');
      overlay.setPosition(coordinate);
+     // if there are any images, create the thumbnails
+     while (thumbnails.hasChildNodes()) {
+         thumbnails.removeChild(thumbnails.firstChild);
+     }
+     for (var i=0; i<dropFeature.get('seq'); i++){
+         var imageName = 'img-'+i;
+         var elem = document.createElement('IMG');
+         elem.id = imageName;
+         elem.src = dropFeature.get(imageName);
+         elem.class = 'thumb';
+         thumbnails.addChild(elem);
+         
+     }
   };
 };
  function clear(){
@@ -715,7 +732,7 @@ importJpeg.addEventListener('change',importImage);
 var dataURL;
 function importFeatures(evt){
    const fr = new FileReader();
-   console.log(importJson.files[0]);
+   //console.log(importJson.files[0]);
    fr.onload = function(){
       dataURL = fr.result;
       addPoints(dataURL);
@@ -725,27 +742,31 @@ function importFeatures(evt){
    var feature_json = fr.readAsDataURL(importJson.files[0]);
 }
 
-// need a Global for import Image function
 map.on('singleclick',function(){
-   bigimg.style.display = 'none';
-   bigimg.src = undefined;
+   picture.removeChild(bigimg);
 });
 
 var imgURL;
+// need a Global for import Image function
 var bigimg;
 function importImage(evt){
    const fr = new FileReader();
-   console.log(importJpeg.files[0]);
+   //console.log(importJpeg.files[0]);
    fr.onload = function(){
       imgURL = fr.result;
       var jpeg = atob(imgURL.split(',')[1]);
-      console.log(jpeg);
+      //console.log(jpeg);
       bigimg = document.createElement("IMG");
       bigimg.style.display = 'block';
       bigimg.src = imgURL;
       picture.appendChild(bigimg);
+      // seq is stored as an integer
+      var seq = dropFeature.get('seq');
+      dropFeature.set('seq', seq + 1);
+      var imgName = 'img-' + seq;
+      dropFeature.set(imgName,imgURL); // stores as base64 with "data:image" prefix
       //addPoints(imgURL);
-      console.log(imgURL);
+      //console.log(imgURL);
     };
    var imageData = fr.readAsDataURL(importJpeg.files[0]);
 }
@@ -40621,7 +40642,7 @@ var View = /*@__PURE__*/(function (BaseObject) {
     var currentCenter = this.getCenter();
     if (currentCenter !== undefined) {
       center = [currentCenter[0] - anchor[0], currentCenter[1] - anchor[1]];
-      Object(_coordinate_js__WEBPACK_IMPORTED_MODULE_11__[/* rotate */ "g"])(center, rotation - this.getRotation());
+      Object(_coordinate_js__WEBPACK_IMPORTED_MODULE_11__[/* rotate */ "f"])(center, rotation - this.getRotation());
       Object(_coordinate_js__WEBPACK_IMPORTED_MODULE_11__[/* add */ "a"])(center, anchor);
     }
     return center;
@@ -43743,7 +43764,7 @@ var OverviewMap = /*@__PURE__*/(function (Control) {
         coordinate[0] - currentCenter[0],
         coordinate[1] - currentCenter[1]
       ];
-      Object(_coordinate_js__WEBPACK_IMPORTED_MODULE_10__[/* rotate */ "g"])(coordinateRotate, rotation);
+      Object(_coordinate_js__WEBPACK_IMPORTED_MODULE_10__[/* rotate */ "f"])(coordinateRotate, rotation);
       Object(_coordinate_js__WEBPACK_IMPORTED_MODULE_10__[/* add */ "a"])(coordinateRotate, currentCenter);
     }
     return coordinateRotate;
@@ -45151,7 +45172,7 @@ function defaults(opt_options) {
   !*** ./node_modules/ol/coordinate.js ***!
   \***************************************/
 /*! exports provided: add, closestOnCircle, closestOnSegment, createStringXY, degreesToStringHDMS, format, equals, rotate, scale, squaredDistance, distance, squaredDistanceToSegment, toStringHDMS, toStringXY */
-/*! exports used: add, closestOnCircle, closestOnSegment, distance, equals, format, rotate, scale, squaredDistance, squaredDistanceToSegment */
+/*! exports used: add, closestOnCircle, closestOnSegment, distance, equals, rotate, scale, squaredDistance, squaredDistanceToSegment */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -45160,13 +45181,13 @@ function defaults(opt_options) {
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return closestOnSegment; });
 /* unused harmony export createStringXY */
 /* unused harmony export degreesToStringHDMS */
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "f", function() { return format; });
+/* unused harmony export format */
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "e", function() { return equals; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "g", function() { return rotate; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "h", function() { return scale; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "i", function() { return squaredDistance; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "f", function() { return rotate; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "g", function() { return scale; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "h", function() { return squaredDistance; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return distance; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "j", function() { return squaredDistanceToSegment; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "i", function() { return squaredDistanceToSegment; });
 /* unused harmony export toStringHDMS */
 /* unused harmony export toStringXY */
 /* harmony import */ var _math_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./math.js */ "./node_modules/ol/math.js");
@@ -69970,8 +69991,8 @@ var DragPan = /*@__PURE__*/(function (PointerInteraction) {
         var map = mapBrowserEvent.map;
         var view = map.getView();
         var center = [deltaX, deltaY];
-        Object(_coordinate_js__WEBPACK_IMPORTED_MODULE_1__[/* scale */ "h"])(center, view.getResolution());
-        Object(_coordinate_js__WEBPACK_IMPORTED_MODULE_1__[/* rotate */ "g"])(center, view.getRotation());
+        Object(_coordinate_js__WEBPACK_IMPORTED_MODULE_1__[/* scale */ "g"])(center, view.getResolution());
+        Object(_coordinate_js__WEBPACK_IMPORTED_MODULE_1__[/* rotate */ "f"])(center, view.getRotation());
         Object(_coordinate_js__WEBPACK_IMPORTED_MODULE_1__[/* add */ "a"])(center, view.getCenter());
         center = view.constrainCenter(center);
         view.setCenter(center);
@@ -70824,7 +70845,7 @@ var Draw = /*@__PURE__*/(function (PointerInteraction) {
         geometryFunction = function(coordinates, opt_geometry) {
           var circle = opt_geometry ? /** @type {Circle} */ (opt_geometry) :
             new _geom_Circle_js__WEBPACK_IMPORTED_MODULE_11__[/* default */ "a"]([NaN, NaN]);
-          var squaredLength = Object(_coordinate_js__WEBPACK_IMPORTED_MODULE_5__[/* squaredDistance */ "i"])(
+          var squaredLength = Object(_coordinate_js__WEBPACK_IMPORTED_MODULE_5__[/* squaredDistance */ "h"])(
             coordinates[0], coordinates[1]);
           circle.setCenterAndRadius(coordinates[0], Math.sqrt(squaredLength));
           return circle;
@@ -71504,7 +71525,7 @@ function createRegularPolygon(opt_sides, opt_angle) {
     var center = /** @type {LineCoordType} */ (coordinates)[0];
     var end = /** @type {LineCoordType} */ (coordinates)[1];
     var radius = Math.sqrt(
-      Object(_coordinate_js__WEBPACK_IMPORTED_MODULE_5__[/* squaredDistance */ "i"])(center, end));
+      Object(_coordinate_js__WEBPACK_IMPORTED_MODULE_5__[/* squaredDistance */ "h"])(center, end));
     var geometry = opt_geometry ? /** @type {Polygon} */ (opt_geometry) :
       Object(_geom_Polygon_js__WEBPACK_IMPORTED_MODULE_19__[/* fromCircle */ "b"])(new _geom_Circle_js__WEBPACK_IMPORTED_MODULE_11__[/* default */ "a"](center), opt_sides);
     var angle = opt_angle;
@@ -71784,8 +71805,8 @@ var ExtentInteraction = /*@__PURE__*/(function (PointerInteraction) {
   ExtentInteraction.prototype.snapToVertex_ = function snapToVertex_ (pixel, map) {
     var pixelCoordinate = map.getCoordinateFromPixel(pixel);
     var sortByDistance = function(a, b) {
-      return Object(_coordinate_js__WEBPACK_IMPORTED_MODULE_2__[/* squaredDistanceToSegment */ "j"])(pixelCoordinate, a) -
-          Object(_coordinate_js__WEBPACK_IMPORTED_MODULE_2__[/* squaredDistanceToSegment */ "j"])(pixelCoordinate, b);
+      return Object(_coordinate_js__WEBPACK_IMPORTED_MODULE_2__[/* squaredDistanceToSegment */ "i"])(pixelCoordinate, a) -
+          Object(_coordinate_js__WEBPACK_IMPORTED_MODULE_2__[/* squaredDistanceToSegment */ "i"])(pixelCoordinate, b);
     };
     var extent = this.getExtent();
     if (extent) {
@@ -71803,8 +71824,8 @@ var ExtentInteraction = /*@__PURE__*/(function (PointerInteraction) {
         //test if we should further snap to a vertex
         var pixel1 = map.getPixelFromCoordinate(closestSegment[0]);
         var pixel2 = map.getPixelFromCoordinate(closestSegment[1]);
-        var squaredDist1 = Object(_coordinate_js__WEBPACK_IMPORTED_MODULE_2__[/* squaredDistance */ "i"])(vertexPixel, pixel1);
-        var squaredDist2 = Object(_coordinate_js__WEBPACK_IMPORTED_MODULE_2__[/* squaredDistance */ "i"])(vertexPixel, pixel2);
+        var squaredDist1 = Object(_coordinate_js__WEBPACK_IMPORTED_MODULE_2__[/* squaredDistance */ "h"])(vertexPixel, pixel1);
+        var squaredDist2 = Object(_coordinate_js__WEBPACK_IMPORTED_MODULE_2__[/* squaredDistance */ "h"])(vertexPixel, pixel2);
         var dist = Math.sqrt(Math.min(squaredDist1, squaredDist2));
         this.snappedToVertex_ = dist <= this.pixelTolerance_;
         if (this.snappedToVertex_) {
@@ -72491,7 +72512,7 @@ function handleEvent(mapBrowserEvent) {
         deltaY = mapUnitsDelta;
       }
       var delta = [deltaX, deltaY];
-      Object(_coordinate_js__WEBPACK_IMPORTED_MODULE_0__[/* rotate */ "g"])(delta, view.getRotation());
+      Object(_coordinate_js__WEBPACK_IMPORTED_MODULE_0__[/* rotate */ "f"])(delta, view.getRotation());
       Object(_Interaction_js__WEBPACK_IMPORTED_MODULE_4__[/* pan */ "b"])(view, delta, this.duration_);
       mapBrowserEvent.preventDefault();
       stopEvent = true;
@@ -73560,8 +73581,8 @@ var Modify = /*@__PURE__*/(function (PointerInteraction) {
         } else {
           var pixel1 = map.getPixelFromCoordinate(closestSegment[0]);
           var pixel2 = map.getPixelFromCoordinate(closestSegment[1]);
-          var squaredDist1 = Object(_coordinate_js__WEBPACK_IMPORTED_MODULE_6__[/* squaredDistance */ "i"])(vertexPixel, pixel1);
-          var squaredDist2 = Object(_coordinate_js__WEBPACK_IMPORTED_MODULE_6__[/* squaredDistance */ "i"])(vertexPixel, pixel2);
+          var squaredDist1 = Object(_coordinate_js__WEBPACK_IMPORTED_MODULE_6__[/* squaredDistance */ "h"])(vertexPixel, pixel1);
+          var squaredDist2 = Object(_coordinate_js__WEBPACK_IMPORTED_MODULE_6__[/* squaredDistance */ "h"])(vertexPixel, pixel2);
           dist = Math.sqrt(Math.min(squaredDist1, squaredDist2));
           this.snappedToVertex_ = dist <= this.pixelTolerance_;
           if (this.snappedToVertex_) {
@@ -73852,13 +73873,13 @@ function pointDistanceToSegmentDataSquared(pointCoordinates, segmentData) {
 
     if (segmentData.index === CIRCLE_CIRCUMFERENCE_INDEX) {
       var distanceToCenterSquared =
-            Object(_coordinate_js__WEBPACK_IMPORTED_MODULE_6__[/* squaredDistance */ "i"])(circleGeometry.getCenter(), pointCoordinates);
+            Object(_coordinate_js__WEBPACK_IMPORTED_MODULE_6__[/* squaredDistance */ "h"])(circleGeometry.getCenter(), pointCoordinates);
       var distanceToCircumference =
             Math.sqrt(distanceToCenterSquared) - circleGeometry.getRadius();
       return distanceToCircumference * distanceToCircumference;
     }
   }
-  return Object(_coordinate_js__WEBPACK_IMPORTED_MODULE_6__[/* squaredDistanceToSegment */ "j"])(pointCoordinates, segmentData.segment);
+  return Object(_coordinate_js__WEBPACK_IMPORTED_MODULE_6__[/* squaredDistanceToSegment */ "i"])(pointCoordinates, segmentData.segment);
 }
 
 /**
@@ -75835,8 +75856,8 @@ var Snap = /*@__PURE__*/(function (PointerInteraction) {
       if (this.vertex_ && !this.edge_) {
         pixel1 = map.getPixelFromCoordinate(closestSegment[0]);
         pixel2 = map.getPixelFromCoordinate(closestSegment[1]);
-        squaredDist1 = Object(_coordinate_js__WEBPACK_IMPORTED_MODULE_2__[/* squaredDistance */ "i"])(pixel, pixel1);
-        squaredDist2 = Object(_coordinate_js__WEBPACK_IMPORTED_MODULE_2__[/* squaredDistance */ "i"])(pixel, pixel2);
+        squaredDist1 = Object(_coordinate_js__WEBPACK_IMPORTED_MODULE_2__[/* squaredDistance */ "h"])(pixel, pixel1);
+        squaredDist2 = Object(_coordinate_js__WEBPACK_IMPORTED_MODULE_2__[/* squaredDistance */ "h"])(pixel, pixel2);
         dist = Math.sqrt(Math.min(squaredDist1, squaredDist2));
         snappedToVertex = dist <= this.pixelTolerance_;
         if (snappedToVertex) {
@@ -75857,8 +75878,8 @@ var Snap = /*@__PURE__*/(function (PointerInteraction) {
           if (this.vertex_ && !isCircle) {
             pixel1 = map.getPixelFromCoordinate(closestSegment[0]);
             pixel2 = map.getPixelFromCoordinate(closestSegment[1]);
-            squaredDist1 = Object(_coordinate_js__WEBPACK_IMPORTED_MODULE_2__[/* squaredDistance */ "i"])(vertexPixel, pixel1);
-            squaredDist2 = Object(_coordinate_js__WEBPACK_IMPORTED_MODULE_2__[/* squaredDistance */ "i"])(vertexPixel, pixel2);
+            squaredDist1 = Object(_coordinate_js__WEBPACK_IMPORTED_MODULE_2__[/* squaredDistance */ "h"])(vertexPixel, pixel1);
+            squaredDist2 = Object(_coordinate_js__WEBPACK_IMPORTED_MODULE_2__[/* squaredDistance */ "h"])(vertexPixel, pixel2);
             dist = Math.sqrt(Math.min(squaredDist1, squaredDist2));
             snappedToVertex = dist <= this.pixelTolerance_;
             if (snappedToVertex) {
@@ -76046,8 +76067,8 @@ var Snap = /*@__PURE__*/(function (PointerInteraction) {
  * @this {Snap}
  */
 function sortByDistance(a, b) {
-  var deltaA = Object(_coordinate_js__WEBPACK_IMPORTED_MODULE_2__[/* squaredDistanceToSegment */ "j"])(this.pixelCoordinate_, a.segment);
-  var deltaB = Object(_coordinate_js__WEBPACK_IMPORTED_MODULE_2__[/* squaredDistanceToSegment */ "j"])(this.pixelCoordinate_, b.segment);
+  var deltaA = Object(_coordinate_js__WEBPACK_IMPORTED_MODULE_2__[/* squaredDistanceToSegment */ "i"])(this.pixelCoordinate_, a.segment);
+  var deltaB = Object(_coordinate_js__WEBPACK_IMPORTED_MODULE_2__[/* squaredDistanceToSegment */ "i"])(this.pixelCoordinate_, b.segment);
   return deltaA - deltaB;
 }
 
@@ -87594,7 +87615,7 @@ var IntermediateCanvasRenderer = /*@__PURE__*/(function (CanvasLayerRenderer) {
     }
 
     var pixel = Object(_transform_js__WEBPACK_IMPORTED_MODULE_5__[/* apply */ "a"])(this.coordinateToCanvasPixelTransform, coordinate.slice());
-    Object(_coordinate_js__WEBPACK_IMPORTED_MODULE_1__[/* scale */ "h"])(pixel, frameState.viewState.resolution / this.renderedResolution);
+    Object(_coordinate_js__WEBPACK_IMPORTED_MODULE_1__[/* scale */ "g"])(pixel, frameState.viewState.resolution / this.renderedResolution);
 
     if (!this.hitCanvasContext_) {
       this.hitCanvasContext_ = Object(_dom_js__WEBPACK_IMPORTED_MODULE_2__[/* createCanvasContext2D */ "a"])(1, 1);

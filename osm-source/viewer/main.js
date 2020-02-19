@@ -388,7 +388,6 @@ var contextmenu = new ContextMenu({
 });
 map.addControl(contextmenu);
 
-var dropFeature = null;
 var removeMarkerItem = {};
 contextmenu.on('open', function(evt) {
   var feature = map.forEachFeatureAtPixel(evt.pixel, function(ft, l) {
@@ -435,9 +434,12 @@ var importJson = document.getElementById('import-json');
 var importJpeg = document.getElementById('import-jpeg');
 var imgAdd = document.getElementById('img-add');
 var seq = document.getElementById('seq');
+var thumbnails = document.getElementById('thumbnails');
 var pictureElement = document.getElementById('picture');
+
 var dataPlace;
 var dataCoordinate;
+var dropFeature = null;
 
 function popUp(obj) {
   dataPlace = obj;
@@ -445,7 +447,12 @@ function popUp(obj) {
   overlay.setPosition(dataCoordinate);
   title.value="";
   content.value="";
-  seq.value=1;
+  // Create a geojson feature to hold everything
+  dropFeature = new Feature({
+      type: 'removable',
+      geometry: new Point(obj.coordinate),
+  });
+  dropFeature.set('seq',1);  // index into the associated pictures for this feature
 };
 
 /**
@@ -487,12 +494,12 @@ function removeMarker() {
 
 function marker(obj) {
   var coord4326 = transform(obj.coordinate, 'EPSG:3857', 'EPSG:4326'),
-    template = 'Coordinate is ({x} | {y})',
+    //template = 'Coordinate is ({x} | {y})',
     iconStyle = new Style({
       image: new Icon({ scale: 0.6, src: 'img/pin_drop.png' }),
       text: new Text({
         offsetY: 25,
-        text: format(coord4326, template, 2),
+        text: title.value,
         font: '15px Open Sans,sans-serif',
         fill: new Fill({ color: '#111' }),
         stroke: new Stroke({ color: '#eee', width: 2 }),
@@ -503,9 +510,8 @@ function marker(obj) {
       geometry: new Point(obj.coordinate),
     });
 
-  feature.setStyle(iconStyle);
-  drop.getSource().addFeature(feature);
-  dropFeature = feature;
+  dropFeature.setStyle(iconStyle);
+  drop.getSource().addFeature(dropFeature);
 }
 
 save.onclick = function(){
@@ -514,13 +520,12 @@ save.onclick = function(){
      marker(dataPlace);
      dropFeature.set('title',title.value);
      dropFeature.set('content',content.value);
-     dropFeature.set('seq',seq.value);
      dropFeature.getStyle().getText().text = title.value;
   //}
   overlay.setPosition(undefined);
   closer.blur();
   bigimg.style.display = 'none';
-  bigimg.src = undefined;
+  //bigimg.src = undefined;
   return false;
 };
 
@@ -530,16 +535,28 @@ imgAdd.onclick = function(){
 
 function fetchData(obj) {
   var feature = dropFeature;
-  if ( ! feature) alert('no reature');
+  if ( ! feature) {
+      alert('no feature');
+      return false;
+  };
   if (feature && feature.get('type') === 'removable') {
      var coordinate = feature.getGeometry().getCoordinates();
-     //var hdms = toStringHDMS(toLonLat(coordinate));
-
-     //content.innerHTML = '<p>You clicked here:</p><code>' + hdms +
-         '</code>';
      title.value = feature.get('title');
      content.value = feature.get('content');
      overlay.setPosition(coordinate);
+     // if there are any images, create the thumbnails
+     while (thumbnails.hasChildNodes()) {
+         thumbnails.removeChild(thumbnails.firstChild);
+     }
+     for (var i=0; i<dropFeature.get('seq'); i++){
+         var imageName = 'img-'+i;
+         var elem = document.createElement('IMG');
+         elem.id = imageName;
+         elem.src = dropFeature.get(imageName);
+         elem.class = 'thumb';
+         thumbnails.addChild(elem);
+         
+     }
   };
 };
  function clear(){
@@ -566,7 +583,7 @@ importJpeg.addEventListener('change',importImage);
 var dataURL;
 function importFeatures(evt){
    const fr = new FileReader();
-   console.log(importJson.files[0]);
+   //console.log(importJson.files[0]);
    fr.onload = function(){
       dataURL = fr.result;
       addPoints(dataURL);
@@ -576,27 +593,31 @@ function importFeatures(evt){
    var feature_json = fr.readAsDataURL(importJson.files[0]);
 }
 
-// need a Global for import Image function
 map.on('singleclick',function(){
-   bigimg.style.display = 'none';
-   bigimg.src = undefined;
+   picture.removeChild(bigimg);
 });
 
 var imgURL;
+// need a Global for import Image function
 var bigimg;
 function importImage(evt){
    const fr = new FileReader();
-   console.log(importJpeg.files[0]);
+   //console.log(importJpeg.files[0]);
    fr.onload = function(){
       imgURL = fr.result;
       var jpeg = atob(imgURL.split(',')[1]);
-      console.log(jpeg);
+      //console.log(jpeg);
       bigimg = document.createElement("IMG");
       bigimg.style.display = 'block';
       bigimg.src = imgURL;
       picture.appendChild(bigimg);
+      // seq is stored as an integer
+      var seq = dropFeature.get('seq');
+      dropFeature.set('seq', seq + 1);
+      var imgName = 'img-' + seq;
+      dropFeature.set(imgName,imgURL); // stores as base64 with "data:image" prefix
       //addPoints(imgURL);
-      console.log(imgURL);
+      //console.log(imgURL);
     };
    var imageData = fr.readAsDataURL(importJpeg.files[0]);
 }
