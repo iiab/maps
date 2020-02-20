@@ -522,7 +522,7 @@ var contextmenu_point = [
     text: 'View Data at Point',
     classname: 'bold',
     icon: 'img/center.png',
-    callback: fetchData,
+    callback: displayData,
   },
    {
      text: 'Paste Image',
@@ -585,6 +585,7 @@ var imgAdd = document.getElementById('img-add');
 var seq = document.getElementById('seq');
 var thumbnails = document.getElementById('thumbnails');
 var pictureElement = document.getElementById('picture');
+var bigImg = document.getElementById('bigImg');
 
 var dataPlace;
 var dataCoordinate;
@@ -682,35 +683,49 @@ imgAdd.onclick = function(){
    importJpeg.click();
 }
 
-function fetchData(obj) {
+function displayData(obj) {
   var feature = dropFeature;
   if ( ! feature) {
       alert('no feature');
       return false;
   };
-  if (feature && feature.get('type') === 'removable') {
-     var coordinate = feature.getGeometry().getCoordinates();
+  if (feature.get('type') === 'removable') {
      title.value = feature.get('title');
-     content.value = feature.get('content');
-     overlay.setPosition(coordinate);
      // if there are any images, create the thumbnails
      while (thumbnails.hasChildNodes()) {
          thumbnails.removeChild(thumbnails.firstChild);
      }
-     for (var i=0; i<dropFeature.get('seq'); i++){
+     for (var i=1; i<dropFeature.get('seq'); i++){
          var imageName = 'img-'+i;
-         var elem = document.createElement('IMG');
+         var url = dropFeature.get(imageName);
+         if ( url === '') continue;
+         var elem = document.createElement('DIV');
          elem.id = imageName;
-         elem.src = dropFeature.get(imageName);
-         elem.class = 'thumb';
-         thumbnails.addChild(elem);
+         elem.className = ' thumb';
+         var img = document.createElement('IMG');
+         img.onclick = large;
+         img.src = url;
+         img.alt = '';
+         img.setAttribute('data-name', imageName);
+         elem.appendChild(img);
+         thumbnails.appendChild(elem);
          
      }
+     content.value = feature.get('content');
+     var coordinate = feature.getGeometry().getCoordinates();
+     overlay.setPosition(coordinate);
   };
 };
  function clear(){
    dropSource.clear();
 };
+
+function large(elem){
+   console.log("function large");
+   var imgName = elem.toElement.dataset.name;
+   bigImg.src  = dropFeature.get(imgName);
+}
+   
 function download(){
    const format = new ol_format__WEBPACK_IMPORTED_MODULE_14__[/* GeoJSON */ "b"]({featureProjection: 'EPSG:3857'});
    const features = dropSource.getFeatures();
@@ -743,7 +758,7 @@ function importFeatures(evt){
 }
 
 map.on('singleclick',function(){
-   picture.removeChild(bigimg);
+   bigImg.src = '';
 });
 
 var imgURL;
@@ -756,10 +771,7 @@ function importImage(evt){
       imgURL = fr.result;
       var jpeg = atob(imgURL.split(',')[1]);
       //console.log(jpeg);
-      bigimg = document.createElement("IMG");
-      bigimg.style.display = 'block';
-      bigimg.src = imgURL;
-      picture.appendChild(bigimg);
+      bigImg.src = imgURL;
       // seq is stored as an integer
       var seq = dropFeature.get('seq');
       dropFeature.set('seq', seq + 1);
@@ -767,6 +779,7 @@ function importImage(evt){
       dropFeature.set(imgName,imgURL); // stores as base64 with "data:image" prefix
       //addPoints(imgURL);
       //console.log(imgURL);
+      displayData();
     };
    var imageData = fr.readAsDataURL(importJpeg.files[0]);
 }
