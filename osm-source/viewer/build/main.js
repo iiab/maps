@@ -523,12 +523,7 @@ var contextmenu_point = [
     classname: 'bold',
     icon: 'img/center.png',
     callback: displayData,
-  },
-   {
-     text: 'Paste Image',
-     icon: 'img/pin_drop.png',
-     //callback: marker,
-   }
+  }
 ]
 
 var contextmenu = new ContextMenu({
@@ -576,7 +571,7 @@ map.on('pointermove', function(e) {
 var container = document.getElementById('popup');
 var content = document.getElementById('popup-textarea');
 var closer = document.getElementById('popup-closer');
-var save = document.getElementById('popup-save');
+var done = document.getElementById('popup-done');
 var title = document.getElementById('popup-title');
 var deleteFeature = document.getElementById('popup-delete');
 var importJson = document.getElementById('import-json');
@@ -595,6 +590,16 @@ function popUp(obj) {
   dataPlace = obj;
   dataCoordinate = obj.coordinate;
   overlay.setPosition(dataCoordinate);
+  var iconStyle = new ol_style__WEBPACK_IMPORTED_MODULE_15__[/* Style */ "d"]({
+    image: new ol_style__WEBPACK_IMPORTED_MODULE_15__[/* Icon */ "b"]({ scale: 0.6, src: 'img/pin_drop.png' }),
+    text: new ol_style__WEBPACK_IMPORTED_MODULE_15__[/* Text */ "e"]({
+        offsetY: 25,
+        text: title.value,
+        font: '15px Open Sans,sans-serif',
+        fill: new ol_style__WEBPACK_IMPORTED_MODULE_15__[/* Fill */ "a"]({ color: '#111' }),
+        stroke: new ol_style__WEBPACK_IMPORTED_MODULE_15__[/* Stroke */ "c"]({ color: '#eee', width: 2 }),
+      }),
+    });
   title.value="";
   content.value="";
   // Create a geojson feature to hold everything
@@ -602,6 +607,8 @@ function popUp(obj) {
       type: 'removable',
       geometry: new ol_geom_Point__WEBPACK_IMPORTED_MODULE_16__[/* default */ "a"](obj.coordinate),
   });
+  dropFeature.setStyle(iconStyle);
+  drop.getSource().addFeature(dropFeature);
   dropFeature.set('seq',1);  // index into the associated pictures for this feature
 };
 
@@ -643,39 +650,30 @@ function removeMarker() {
 }
 
 function marker(obj) {
-  var coord4326 = Object(ol_proj__WEBPACK_IMPORTED_MODULE_4__[/* transform */ "k"])(obj.coordinate, 'EPSG:3857', 'EPSG:4326'),
-    //template = 'Coordinate is ({x} | {y})',
-    iconStyle = new ol_style__WEBPACK_IMPORTED_MODULE_15__[/* Style */ "d"]({
-      image: new ol_style__WEBPACK_IMPORTED_MODULE_15__[/* Icon */ "b"]({ scale: 0.6, src: 'img/pin_drop.png' }),
-      text: new ol_style__WEBPACK_IMPORTED_MODULE_15__[/* Text */ "e"]({
-        offsetY: 25,
-        text: title.value,
-        font: '15px Open Sans,sans-serif',
-        fill: new ol_style__WEBPACK_IMPORTED_MODULE_15__[/* Fill */ "a"]({ color: '#111' }),
-        stroke: new ol_style__WEBPACK_IMPORTED_MODULE_15__[/* Stroke */ "c"]({ color: '#eee', width: 2 }),
-      }),
-    }),
-    feature = new ol_Feature__WEBPACK_IMPORTED_MODULE_17__[/* default */ "a"]({
-      type: 'removable',
-      geometry: new ol_geom_Point__WEBPACK_IMPORTED_MODULE_16__[/* default */ "a"](obj.coordinate),
-    });
+  var coord4326 = Object(ol_proj__WEBPACK_IMPORTED_MODULE_4__[/* transform */ "k"])(obj.coordinate, 'EPSG:3857', 'EPSG:4326');
+    //feature = new Feature({
+    //  type: 'removable',
+    //  geometry: new Point(obj.coordinate),
+    //});
 
-  dropFeature.setStyle(iconStyle);
-  drop.getSource().addFeature(dropFeature);
+  //dropFeature.setStyle(iconStyle);
+  //drop.getSource().addFeature(dropFeature);
 }
 
-save.onclick = function(){
-  //if ( dropFeature !== null ) {
+done.onclick = function(){
+  console.log('done.onclik');
+  if ( dropFeature !== null ) {
      console.log('feature is not null');
-     marker(dataPlace);
+     //marker(dataPlace);
      dropFeature.set('title',title.value);
      dropFeature.set('content',content.value);
      dropFeature.getStyle().getText().text = title.value;
-  //}
+  } else {
+      alert('feature is null. . .Quitting');
+  }
   overlay.setPosition(undefined);
   closer.blur();
-  bigimg.style.display = 'none';
-  //bigimg.src = undefined;
+  bigImg.src = '';
   return false;
 };
 
