@@ -148,6 +148,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var ol_hashed__WEBPACK_IMPORTED_MODULE_25__ = __webpack_require__(/*! ol-hashed */ "./node_modules/ol-hashed/index.js");
 /* harmony import */ var ol_Overlay__WEBPACK_IMPORTED_MODULE_26__ = __webpack_require__(/*! ol/Overlay */ "./node_modules/ol/Overlay.js");
 // right click branch working towards adding points and data to maps
+//////////////////s1 Imports ///////////////////////////////////////////////////
 var ContextMenu = __webpack_require__(/*! ./ol-contextmenu.js */ "./ol-contextmenu.js");
 //var ol = require('ol');
 // temp.js for base -- regional OSM vector tiles
@@ -182,7 +183,7 @@ var ContextMenu = __webpack_require__(/*! ./ol-contextmenu.js */ "./ol-contextme
 
 
 
-/////////////  GLOBALS /////////////////////////////
+//////////////////s2  GLOBALS /////////////////////////////
 window.$ = window.jQuery = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
 const typeahead = __webpack_require__(/*! ./assets/bootstrap-typeahead.min.js */ "./assets/bootstrap-typeahead.min.js");
 var scaleLineControl = new ol_control_js__WEBPACK_IMPORTED_MODULE_13__[/* ScaleLine */ "b"]();
@@ -207,6 +208,7 @@ var map;
 var osm_style = './assets/style-sat.json';
 var tiledata = {};
 
+//////////////////s3 Functions /////////////////////////////////////////////////
 function basename(path) {
      return path.replace(/.*\//, '');
 }
@@ -215,6 +217,7 @@ function dirname(path) {
      return path.match(/.*\//);
 }
 
+//////////////////s4 MAPS ///////////////////////////////////////////////////
 var map = new ol_Map__WEBPACK_IMPORTED_MODULE_1__[/* default */ "a"]({ 
   target: 'map-container',
   controls: Object(ol_control_js__WEBPACK_IMPORTED_MODULE_13__[/* defaults */ "c"])({attribution: false}).extend([
@@ -310,6 +313,7 @@ const dropSource = new ol_source_Vector__WEBPACK_IMPORTED_MODULE_10__[/* default
 const drop = new ol_layer_Vector__WEBPACK_IMPORTED_MODULE_9__[/* default */ "a"]({
   source: dropSource
 });
+
 map.addInteraction(new ol_interaction_DragAndDrop__WEBPACK_IMPORTED_MODULE_24__[/* default */ "a"]({
   source: dropSource,
   formatConstructors: [ol_format__WEBPACK_IMPORTED_MODULE_14__[/* GPX */ "a"], ol_format__WEBPACK_IMPORTED_MODULE_14__[/* GeoJSON */ "b"], ol_format__WEBPACK_IMPORTED_MODULE_14__[/* IGC */ "c"], ol_format__WEBPACK_IMPORTED_MODULE_14__[/* KML */ "d"], ol_format__WEBPACK_IMPORTED_MODULE_14__[/* TopoJSON */ "e"]]
@@ -356,7 +360,7 @@ const boxLayer =  new ol_layer_Vector__WEBPACK_IMPORTED_MODULE_9__[/* default */
 map.addLayer(boxLayer);    
 map.addLayer(drop);
 
-////////   MAP EVENTS  ////////////
+////////s5   MAP EVENTS  ////////////
 map.on("moveend", function() {
    var newZoom = map.getView().getZoom();
   if (zoom != newZoom) {
@@ -382,7 +386,7 @@ sat_layer.on('change:visible', function(evt) {
    set_detail_style(osm_style);
 });
 
-//////////    BOTTOM LINE OVERLAY FUNCTIONS  ///////////
+//////////s6    BOTTOM LINE OVERLAY FUNCTIONS  ///////////
 // Configuration of home key in init.json
 var resp = $.ajax({
    type: 'GET',
@@ -426,14 +430,12 @@ function update_overlay(){
     info_overlay.innerHTML = locTxt;
 }
 
-/////////  ADD FUNCTIONS  ///////////////
 var layerSwitcher = new _ol5_layerswitcher_js__WEBPACK_IMPORTED_MODULE_20__[/* default */ "a"]({
   tipLabel: 'Légende', // Optional label for button
   layers:map.getLayers()
 });
 map.addControl(layerSwitcher);
 
-/////////    SEARCH FUNCTION ///////////
 var info_overlay = 1;
 $( document ).ready(function() {
    // typeahead has (window.jQuery) at the end of its definition
@@ -492,7 +494,7 @@ $(function() {
 }); // end of search selection
 
 
-////////////////     below is context menu stuff  ///////////////////////
+////////////////s6     below is context menu stuff  ///////////////////////
 var contextmenu_no_point = [
    {
      text: 'Add Data Point',
@@ -532,16 +534,12 @@ var contextmenu = new ContextMenu({
 });
 map.addControl(contextmenu);
 
-var removeMarkerItem = {};
 contextmenu.on('open', function(evt) {
   var feature = map.forEachFeatureAtPixel(evt.pixel, function(ft, l) {
     return ft;
   });
   if (feature && feature.get('type') === 'removable') {
     contextmenu.clear();
-    //removeMarkerItem.data = {
-    //   marker: feature,
-    //};
     dropFeature = feature;
     contextmenu.extend(contextmenu_point);
   } else {
@@ -550,6 +548,10 @@ contextmenu.on('open', function(evt) {
     contextmenu.extend(contextmenu_no_point);
   }
 });
+
+ function clear(){
+   dropSource.clear();
+};
 
 map.on('pointermove', function(e) {
   var pixel = map.getEventPixel(e.originalEvent);
@@ -560,7 +562,7 @@ map.on('pointermove', function(e) {
   map.getTargetElement().style.cursor = hit ? 'pointer' : '';
 });
 
-////////////////     below is popup stuff  ///////////////////////
+////////////////s7     below is popup stuff  ///////////////////////
 
 
 
@@ -569,48 +571,23 @@ map.on('pointermove', function(e) {
  * Elements that make up the popup.
  */
 var container = document.getElementById('popup');
+var title = document.getElementById('popup-title');
+var thumbnails = document.getElementById('thumbnails');
 var content = document.getElementById('popup-textarea');
 var closer = document.getElementById('popup-closer');
 var done = document.getElementById('popup-done');
-var title = document.getElementById('popup-title');
+var imgAdd = document.getElementById('img-add');
 var deleteFeature = document.getElementById('popup-delete');
 var importJson = document.getElementById('import-json');
+
 var importJpeg = document.getElementById('import-jpeg');
-var imgAdd = document.getElementById('img-add');
 var seq = document.getElementById('seq');
-var thumbnails = document.getElementById('thumbnails');
 var pictureElement = document.getElementById('picture');
 var bigImg = document.getElementById('bigImg');
 
 var dataPlace;
 var dataCoordinate;
 var dropFeature = null;
-
-function popUp(obj) {
-  dataPlace = obj;
-  dataCoordinate = obj.coordinate;
-  overlay.setPosition(dataCoordinate);
-  var iconStyle = new ol_style__WEBPACK_IMPORTED_MODULE_15__[/* Style */ "d"]({
-    image: new ol_style__WEBPACK_IMPORTED_MODULE_15__[/* Icon */ "b"]({ scale: 0.6, src: 'img/pin_drop.png' }),
-    text: new ol_style__WEBPACK_IMPORTED_MODULE_15__[/* Text */ "e"]({
-        offsetY: 25,
-        text: title.value,
-        font: '15px Open Sans,sans-serif',
-        fill: new ol_style__WEBPACK_IMPORTED_MODULE_15__[/* Fill */ "a"]({ color: '#111' }),
-        stroke: new ol_style__WEBPACK_IMPORTED_MODULE_15__[/* Stroke */ "c"]({ color: '#eee', width: 2 }),
-      }),
-    });
-  title.value="";
-  content.value="";
-  // Create a geojson feature to hold everything
-  dropFeature = new ol_Feature__WEBPACK_IMPORTED_MODULE_17__[/* default */ "a"]({
-      type: 'removable',
-      geometry: new ol_geom_Point__WEBPACK_IMPORTED_MODULE_16__[/* default */ "a"](obj.coordinate),
-  });
-  dropFeature.setStyle(iconStyle);
-  drop.getSource().addFeature(dropFeature);
-  dropFeature.set('seq',1);  // index into the associated pictures for this feature
-};
 
 /**
  * Create an overlay to anchor the popup to the map.
@@ -622,64 +599,36 @@ var overlay = new ol_Overlay__WEBPACK_IMPORTED_MODULE_26__[/* default */ "a"]({
     duration: 250
   }
 });
-
-
 map.addOverlay(overlay);
 
-/**
- * Add a click handler to hide the popup.
- * @return {boolean} Don't follow the href.
- */
-closer.onclick = function() {
-  overlay.setPosition(undefined);
-  closer.blur();
-  return false;
-};
-
-deleteFeature.onclick = function() {
-  removeMarker();
-  overlay.setPosition(undefined);
-  closer.blur();
-  return false;
-};
-
-function removeMarker() {
-  if (dropFeature)
-      drop.getSource().removeFeature(dropFeature);
-
-}
-
-function marker(obj) {
-  var coord4326 = Object(ol_proj__WEBPACK_IMPORTED_MODULE_4__[/* transform */ "k"])(obj.coordinate, 'EPSG:3857', 'EPSG:4326');
-    //feature = new Feature({
-    //  type: 'removable',
-    //  geometry: new Point(obj.coordinate),
-    //});
-
-  //dropFeature.setStyle(iconStyle);
-  //drop.getSource().addFeature(dropFeature);
-}
-
-done.onclick = function(){
-  console.log('done.onclik');
-  if ( dropFeature !== null ) {
-     console.log('feature is not null');
-     //marker(dataPlace);
-     dropFeature.set('title',title.value);
-     dropFeature.set('content',content.value);
-     dropFeature.getStyle().getText().text = title.value;
-  } else {
-      alert('feature is null. . .Quitting');
+function popUp(obj) {
+  dataPlace = obj;
+  dataCoordinate = obj.coordinate;
+  overlay.setPosition(dataCoordinate);
+  title.value="";
+  content.value="";
+  var iconStyle = new ol_style__WEBPACK_IMPORTED_MODULE_15__[/* Style */ "d"]({
+    image: new ol_style__WEBPACK_IMPORTED_MODULE_15__[/* Icon */ "b"]({ scale: 0.6, src: 'img/pin_drop.png' }),
+    text: new ol_style__WEBPACK_IMPORTED_MODULE_15__[/* Text */ "e"]({
+        offsetY: 25,
+        text: title.value,
+        font: '15px Open Sans,sans-serif',
+        fill: new ol_style__WEBPACK_IMPORTED_MODULE_15__[/* Fill */ "a"]({ color: '#111' }),
+        stroke: new ol_style__WEBPACK_IMPORTED_MODULE_15__[/* Stroke */ "c"]({ color: '#eee', width: 2 }),
+      })
+    });
+  while (thumbnails.hasChildNodes()) {
+      thumbnails.removeChild(thumbnails.firstChild);
   }
-  overlay.setPosition(undefined);
-  closer.blur();
-  bigImg.src = '';
-  return false;
+  // Create a geojson feature to hold everything
+  dropFeature = new ol_Feature__WEBPACK_IMPORTED_MODULE_17__[/* default */ "a"]({
+      type: 'removable',
+      geometry: new ol_geom_Point__WEBPACK_IMPORTED_MODULE_16__[/* default */ "a"](obj.coordinate),
+  });
+  dropFeature.setStyle(iconStyle);
+  drop.getSource().addFeature(dropFeature);
+  dropFeature.set('seq','1');  // index into the pictures for this feature
 };
-
-imgAdd.onclick = function(){
-   importJpeg.click();
-}
 
 function displayData(obj) {
   var feature = dropFeature;
@@ -693,7 +642,8 @@ function displayData(obj) {
      while (thumbnails.hasChildNodes()) {
          thumbnails.removeChild(thumbnails.firstChild);
      }
-     for (var i=1; i<dropFeature.get('seq'); i++){
+     var nextImageNumber = Number(dropFeature.get('seq'));
+     for (var i=1; i<nextImageNumber; i++){
          var imageName = 'img-'+i;
          var url = dropFeature.get(imageName);
          if ( url === '') continue;
@@ -714,8 +664,40 @@ function displayData(obj) {
      overlay.setPosition(coordinate);
   };
 };
- function clear(){
-   dropSource.clear();
+/**
+ * Add a click handler to hide the popup.
+ * @return {boolean} Don't follow the href.
+ */
+closer.onclick = function() {
+  overlay.setPosition(undefined);
+  closer.blur();
+  return false;
+};
+
+///////////////////s8  Fuctions used by Point Overlay  //////////////////////////
+deleteFeature.onclick = function() {
+  if (dropFeature)
+      drop.getSource().removeFeature(dropFeature);
+  overlay.setPosition(undefined);
+  closer.blur();
+  return false;
+};
+
+done.onclick = function(){
+  console.log('done.onclik');
+  if ( dropFeature !== null ) {
+     console.log('feature is not null');
+     dropFeature.set('title',title.value);
+     dropFeature.set('content',content.value);
+     var iconText = dropFeature.getStyle().getText();
+     iconText.setText(title.value);
+  } else {
+      alert('feature is null. . .Quitting');
+  }
+  overlay.setPosition(undefined);
+  closer.blur();
+  bigImg.src = '';
+  return false;
 };
 
 function large(elem){
@@ -724,6 +706,12 @@ function large(elem){
    bigImg.src  = dropFeature.get(imgName);
 }
    
+map.on('singleclick',function(){
+   // hide the large image which displays via click on thumbnail
+   bigImg.src = '';
+});
+
+/////////////////////s9  Import and Export points  //////////////////////////////
 function download(){
    const format = new ol_format__WEBPACK_IMPORTED_MODULE_14__[/* GeoJSON */ "b"]({featureProjection: 'EPSG:3857'});
    const features = dropSource.getFeatures();
@@ -733,15 +721,20 @@ function download(){
    link.download = 'features.json';
    link.click();
 };
+
 function pasteMap(){
-   // click on a hidden input File element, which in turn fetches the points, and calls addPoints
+   // click on a hidden input File element, which in turn fetches the points
    importJson.click();
 };
+importJson.addEventListener('change',importFeatures); // fired by file chooser
 
-importJson.addEventListener('change',importFeatures);
+imgAdd.onclick = function(){
+   // import image uses a hidden input tag to open a local client file chooser
+   importJpeg.click();
+}
 importJpeg.addEventListener('change',importImage);
 
-// need a Global for import function
+// need a Global for import Features
 var dataURL;
 function importFeatures(evt){
    const fr = new FileReader();
@@ -749,42 +742,15 @@ function importFeatures(evt){
    fr.onload = function(){
       dataURL = fr.result;
       addPoints(dataURL);
-      console.log(dataURL);
+      //console.log(dataURL);
     };
    //var url = URL.createObjectURL(evt);
    var feature_json = fr.readAsDataURL(importJson.files[0]);
 }
 
-map.on('singleclick',function(){
-   bigImg.src = '';
-});
-
-var imgURL;
-// need a Global for import Image function
-var bigimg;
-function importImage(evt){
-   const fr = new FileReader();
-   //console.log(importJpeg.files[0]);
-   fr.onload = function(){
-      imgURL = fr.result;
-      var jpeg = atob(imgURL.split(',')[1]);
-      //console.log(jpeg);
-      bigImg.src = imgURL;
-      // seq is stored as an integer
-      var seq = dropFeature.get('seq');
-      dropFeature.set('seq', seq + 1);
-      var imgName = 'img-' + seq;
-      dropFeature.set(imgName,imgURL); // stores as base64 with "data:image" prefix
-      //addPoints(imgURL);
-      //console.log(imgURL);
-      displayData();
-    };
-   var imageData = fr.readAsDataURL(importJpeg.files[0]);
-}
-
 function addPoints(data){
    var json = atob(data.split(',')[1]);
-   console.log(json);
+   console.log('addPoints');
    var points = JSON.parse(json);
    console.log('json object:' + points);
    for (var i=0; i<points['features'].length; i++){
@@ -804,13 +770,41 @@ function addPoints(data){
          title: feat.properties.title,
          content: feat.properties.content,
          type: 'removable',
+         seq: feat.properties.seq,
+         
          geometry: new ol_geom_Point__WEBPACK_IMPORTED_MODULE_16__[/* default */ "a"](coord4326),
       });
-
+      for (var j=1; j<Number(feat.properties.seq); j++){
+         var imageName = 'img-'+j;
+         if (feat.properties.imageName == '') continue;
+         var URL = feat.properties[imageName];
+         feature.set(imageName,feat.properties[imageName]);
+      }
      feature.setStyle(iconStyle);
      drop.getSource().addFeature(feature);
      console.log(feat.properties.title + coord4326);
    }
+}
+
+var imgURL;
+// need a Global for import Image function
+var bigimg;
+function importImage(evt){
+   const fr = new FileReader();
+   //console.log(importJpeg.files[0]);
+   fr.onload = function(){
+      imgURL = fr.result;
+      var jpeg = atob(imgURL.split(',')[1]);
+      //console.log(jpeg);
+      bigImg.src = imgURL;
+      var seq = dropFeature.get('seq');
+      var num = Number(seq) + 1;
+      dropFeature.set('seq', num.toString());
+      var imgName = 'img-' + seq;
+      dropFeature.set(imgName,imgURL); // stores as base64 with "data:image" prefix
+      displayData();
+    };
+   var imageData = fr.readAsDataURL(importJpeg.files[0]);
 }
 
 

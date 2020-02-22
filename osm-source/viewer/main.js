@@ -164,6 +164,7 @@ const dropSource = new VectorSource();
 const drop = new VectorLayer({
   source: dropSource
 });
+
 map.addInteraction(new DragAndDrop({
   source: dropSource,
   formatConstructors: [GPX, GeoJSON, IGC, KML, TopoJSON]
@@ -455,6 +456,8 @@ function popUp(obj) {
   dataPlace = obj;
   dataCoordinate = obj.coordinate;
   overlay.setPosition(dataCoordinate);
+  title.value="";
+  content.value="";
   var iconStyle = new Style({
     image: new Icon({ scale: 0.6, src: 'img/pin_drop.png' }),
     text: new Text({
@@ -463,10 +466,8 @@ function popUp(obj) {
         font: '15px Open Sans,sans-serif',
         fill: new Fill({ color: '#111' }),
         stroke: new Stroke({ color: '#eee', width: 2 }),
-      }),
+      })
     });
-  title.value="";
-  content.value="";
   while (thumbnails.hasChildNodes()) {
       thumbnails.removeChild(thumbnails.firstChild);
   }
@@ -477,7 +478,7 @@ function popUp(obj) {
   });
   dropFeature.setStyle(iconStyle);
   drop.getSource().addFeature(dropFeature);
-  dropFeature.set('seq',1);  // index into the pictures for this feature
+  dropFeature.set('seq','1');  // index into the pictures for this feature
 };
 
 function displayData(obj) {
@@ -492,7 +493,8 @@ function displayData(obj) {
      while (thumbnails.hasChildNodes()) {
          thumbnails.removeChild(thumbnails.firstChild);
      }
-     for (var i=1; i<dropFeature.get('seq'); i++){
+     var nextImageNumber = Number(dropFeature.get('seq'));
+     for (var i=1; i<nextImageNumber; i++){
          var imageName = 'img-'+i;
          var url = dropFeature.get(imageName);
          if ( url === '') continue;
@@ -538,7 +540,8 @@ done.onclick = function(){
      console.log('feature is not null');
      dropFeature.set('title',title.value);
      dropFeature.set('content',content.value);
-     dropFeature.getStyle().getText().text = title.value;
+     var iconText = dropFeature.getStyle().getText();
+     iconText.setText(title.value);
   } else {
       alert('feature is null. . .Quitting');
   }
@@ -618,9 +621,16 @@ function addPoints(data){
          title: feat.properties.title,
          content: feat.properties.content,
          type: 'removable',
+         seq: feat.properties.seq,
+         
          geometry: new Point(coord4326),
       });
-
+      for (var j=1; j<Number(feat.properties.seq); j++){
+         var imageName = 'img-'+j;
+         if (feat.properties.imageName == '') continue;
+         var URL = feat.properties[imageName];
+         feature.set(imageName,feat.properties[imageName]);
+      }
      feature.setStyle(iconStyle);
      drop.getSource().addFeature(feature);
      console.log(feat.properties.title + coord4326);
@@ -638,13 +648,11 @@ function importImage(evt){
       var jpeg = atob(imgURL.split(',')[1]);
       //console.log(jpeg);
       bigImg.src = imgURL;
-      // seq is stored as an integer
       var seq = dropFeature.get('seq');
-      dropFeature.set('seq', seq + 1);
+      var num = Number(seq) + 1;
+      dropFeature.set('seq', num.toString());
       var imgName = 'img-' + seq;
       dropFeature.set(imgName,imgURL); // stores as base64 with "data:image" prefix
-      //addPoints(imgURL);
-      //console.log(imgURL);
       displayData();
     };
    var imageData = fr.readAsDataURL(importJpeg.files[0]);
