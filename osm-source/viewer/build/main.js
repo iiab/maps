@@ -498,23 +498,23 @@ $(function() {
 var contextmenu_no_point = [
    {
      text: 'Add Data Point',
-     icon: 'img/pin_drop.png',
+     icon: 'assets/pin_drop.png',
      callback: popUp,
    },
    {
      text: 'Clear Map Points',
-     icon: 'img/pin_drop.png',
+     icon: 'assets/pin_drop.png',
      callback: clear,
    },
    {
      text: 'Import Map Points',
-     icon: 'img/pin_drop.png',
+     icon: 'assets/pin_drop.png',
      callback: pasteMap,
    },
   {
     text: 'Export Points',
     classname: 'bold',
-    icon: 'img/center.png',
+    icon: 'assets/center.png',
     callback: download,
   },
 ]
@@ -523,7 +523,7 @@ var contextmenu_point = [
   {
     text: 'View Data at Point',
     classname: 'bold',
-    icon: 'img/center.png',
+    icon: 'assets/center.png',
     callback: displayData,
   }
 ]
@@ -608,7 +608,7 @@ function popUp(obj) {
   title.value="";
   content.value="";
   var iconStyle = new ol_style__WEBPACK_IMPORTED_MODULE_15__[/* Style */ "d"]({
-    image: new ol_style__WEBPACK_IMPORTED_MODULE_15__[/* Icon */ "b"]({ scale: 0.6, src: 'img/pin_drop.png' }),
+    image: new ol_style__WEBPACK_IMPORTED_MODULE_15__[/* Icon */ "b"]({ scale: 0.6, src: 'assets/pin_drop.png' }),
     text: new ol_style__WEBPACK_IMPORTED_MODULE_15__[/* Text */ "e"]({
         offsetY: 25,
         text: title.value,
@@ -757,7 +757,7 @@ function addPoints(data){
       var feat = points['features'][i];
       var coord4326 = Object(ol_proj__WEBPACK_IMPORTED_MODULE_4__[/* transform */ "k"])(feat.geometry.coordinates, 'EPSG:4326', 'EPSG:3857'),
       iconStyle = new ol_style__WEBPACK_IMPORTED_MODULE_15__[/* Style */ "d"]({
-         image: new ol_style__WEBPACK_IMPORTED_MODULE_15__[/* Icon */ "b"]({ scale: 0.6, src: 'img/pin_drop.png' }),
+         image: new ol_style__WEBPACK_IMPORTED_MODULE_15__[/* Icon */ "b"]({ scale: 0.6, src: 'assets/pin_drop.png' }),
          text: new ol_style__WEBPACK_IMPORTED_MODULE_15__[/* Text */ "e"]({
             offsetY: 25,
             text: feat.properties.title,
