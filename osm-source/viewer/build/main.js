@@ -276,10 +276,10 @@ for(var mbt in tiledata){
             source: new ol_source_VectorTile__WEBPACK_IMPORTED_MODULE_8__[/* default */ "a"]({
                cacheSize: 0,
                format: new ol_format_MVT__WEBPACK_IMPORTED_MODULE_11__[/* default */ "a"](),
-               url: url,
-               maxZoom:10 
+               url: url
             }),
             //title: 'OSM',
+            maxZoom:10, 
             declutter: true
          }));
       } else {
@@ -288,7 +288,7 @@ for(var mbt in tiledata){
                cacheSize: 0,
                format: new ol_format_MVT__WEBPACK_IMPORTED_MODULE_11__[/* default */ "a"](),
                url: url,
-               maxZoom: 14
+               maxZoom: 14,
             }),
             title: 'OSM',
             declutter: true
@@ -334,28 +334,33 @@ const boxLayer =  new ol_layer_Vector__WEBPACK_IMPORTED_MODULE_9__[/* default */
    }),
    style: function(feature) {
      var name = feature.get("name");
-     if (typeof show !== 'undefined' &&
-          show != null && name == show) {
-       return new ol_style__WEBPACK_IMPORTED_MODULE_15__[/* Style */ "d"]({
-         fill: new ol_style__WEBPACK_IMPORTED_MODULE_15__[/* Fill */ "a"]({
-           color: 'rgba(67, 163, 46, 0)'
-         }),
-         stroke: new ol_style__WEBPACK_IMPORTED_MODULE_15__[/* Stroke */ "c"]({
-           color: 'rgba(67, 163, 46, 1)',
-           width: 2
+     var found = false;
+     for(var mbt in tiledata){
+       console.log('name:' + name + 'mbt:' + mbt);
+       if (mbt.startsWith(name)) found = true;
+     }
+     if (found){
+          return new ol_style__WEBPACK_IMPORTED_MODULE_15__[/* Style */ "d"]({
+            fill: new ol_style__WEBPACK_IMPORTED_MODULE_15__[/* Fill */ "a"]({
+              color: 'rgba(67, 163, 46, 0)'
+            }),
+            stroke: new ol_style__WEBPACK_IMPORTED_MODULE_15__[/* Stroke */ "c"]({
+              color: 'rgba(67, 163, 46, 1)',
+              width: 2
+            })
          })
-       })
-     } else {
-       return new ol_style__WEBPACK_IMPORTED_MODULE_15__[/* Style */ "d"]({
-         fill: new ol_style__WEBPACK_IMPORTED_MODULE_15__[/* Fill */ "a"]({
-           color: 'rgba(255,255,255,0)'
-         }),
-         stroke: new ol_style__WEBPACK_IMPORTED_MODULE_15__[/* Stroke */ "c"]({
-           color: 'rgba(255,255,255,0)'
-         })
-       })
+       } else {
+          return new ol_style__WEBPACK_IMPORTED_MODULE_15__[/* Style */ "d"]({
+            fill: new ol_style__WEBPACK_IMPORTED_MODULE_15__[/* Fill */ "a"]({
+              color: 'rgba(255,255,255,0)'
+            }),
+            stroke: new ol_style__WEBPACK_IMPORTED_MODULE_15__[/* Stroke */ "c"]({
+              color: 'rgba(255,255,255,0)'
+            })
+          })
+       } 
      } 
-   } 
+   
 })
 map.addLayer(boxLayer);    
 map.addLayer(drop);

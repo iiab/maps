@@ -127,10 +127,10 @@ for(var mbt in tiledata){
             source: new VectorTileSource({
                cacheSize: 0,
                format: new MVT(),
-               url: url,
-               maxZoom:10 
+               url: url
             }),
             //title: 'OSM',
+            maxZoom:10, 
             declutter: true
          }));
       } else {
@@ -139,7 +139,7 @@ for(var mbt in tiledata){
                cacheSize: 0,
                format: new MVT(),
                url: url,
-               maxZoom: 14
+               maxZoom: 14,
             }),
             title: 'OSM',
             declutter: true
@@ -185,28 +185,32 @@ const boxLayer =  new VectorLayer({
    }),
    style: function(feature) {
      var name = feature.get("name");
-     if (typeof show !== 'undefined' &&
-          show != null && name == show) {
-       return new Style({
-         fill: new Fill({
-           color: 'rgba(67, 163, 46, 0)'
-         }),
-         stroke: new Stroke({
-           color: 'rgba(67, 163, 46, 1)',
-           width: 2
+     var found = false;
+     for(var mbt in tiledata){
+       if (mbt.startsWith(name)) found = true;
+     }
+     if (found){
+          return new Style({
+            fill: new Fill({
+              color: 'rgba(67, 163, 46, 0)'
+            }),
+            stroke: new Stroke({
+              color: 'rgba(67, 163, 46, 1)',
+              width: 2
+            })
          })
-       })
-     } else {
-       return new Style({
-         fill: new Fill({
-           color: 'rgba(255,255,255,0)'
-         }),
-         stroke: new Stroke({
-           color: 'rgba(255,255,255,0)'
-         })
-       })
+       } else {
+          return new Style({
+            fill: new Fill({
+              color: 'rgba(255,255,255,0)'
+            }),
+            stroke: new Stroke({
+              color: 'rgba(255,255,255,0)'
+            })
+          })
+       } 
      } 
-   } 
+   
 })
 map.addLayer(boxLayer);    
 map.addLayer(drop);
