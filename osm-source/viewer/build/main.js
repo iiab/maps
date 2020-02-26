@@ -336,7 +336,6 @@ const boxLayer =  new ol_layer_Vector__WEBPACK_IMPORTED_MODULE_9__[/* default */
      var name = feature.get("name");
      var found = false;
      for(var mbt in tiledata){
-       console.log('name:' + name + 'mbt:' + mbt);
        if (mbt.startsWith(name)) found = true;
      }
      if (found){
@@ -618,7 +617,7 @@ function popUp(obj) {
         offsetY: 25,
         text: title.value,
         font: '15px Open Sans,sans-serif',
-        fill: new ol_style__WEBPACK_IMPORTED_MODULE_15__[/* Fill */ "a"]({ color: '#111' }),
+        fill: new ol_style__WEBPACK_IMPORTED_MODULE_15__[/* Fill */ "a"]({ color: 'rgba(67, 163, 46)' }),
         stroke: new ol_style__WEBPACK_IMPORTED_MODULE_15__[/* Stroke */ "c"]({ color: '#eee', width: 2 }),
       })
     });
@@ -702,6 +701,7 @@ done.onclick = function(){
   overlay.setPosition(undefined);
   closer.blur();
   bigImg.src = '';
+  picture.style = 'display:none';
   return false;
 };
 
@@ -709,11 +709,13 @@ function large(elem){
    console.log("function large");
    var imgName = elem.toElement.dataset.name;
    bigImg.src  = dropFeature.get(imgName);
+  picture.style = 'display:block';
 }
    
 map.on('singleclick',function(){
    // hide the large image which displays via click on thumbnail
    bigImg.src = '';
+   picture.style = 'display:none';
 });
 
 /////////////////////s9  Import and Export points  //////////////////////////////

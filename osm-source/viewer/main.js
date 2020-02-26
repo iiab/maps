@@ -468,7 +468,7 @@ function popUp(obj) {
         offsetY: 25,
         text: title.value,
         font: '15px Open Sans,sans-serif',
-        fill: new Fill({ color: '#111' }),
+        fill: new Fill({ color: 'rgba(67, 163, 46)' }),
         stroke: new Stroke({ color: '#eee', width: 2 }),
       })
     });
@@ -552,6 +552,7 @@ done.onclick = function(){
   overlay.setPosition(undefined);
   closer.blur();
   bigImg.src = '';
+  picture.style = 'display:none';
   return false;
 };
 
@@ -559,11 +560,13 @@ function large(elem){
    console.log("function large");
    var imgName = elem.toElement.dataset.name;
    bigImg.src  = dropFeature.get(imgName);
+  picture.style = 'display:block';
 }
    
 map.on('singleclick',function(){
    // hide the large image which displays via click on thumbnail
    bigImg.src = '';
+   picture.style = 'display:none';
 });
 
 /////////////////////s9  Import and Export points  //////////////////////////////
