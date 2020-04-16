@@ -31,7 +31,7 @@ if len(md5) == 0:
 
 # Gather together the metadata for archive.org
 md = {}
-md['title'] = "Resource for a Map Server:%s"%FILENAME
+md['title'] = "Vector tiles for %s"%FILENAME
 #md['collection'] = "internetinabox"
 md["creator"] = "Internet in a Box" 
 md["subject"] = "rpi" 
@@ -39,7 +39,7 @@ md["subject"] = "maps"
 md["licenseurl"] = "http://creativecommons.org/licenses/by-sa/4.0/"
 md["zip_md5"] = md5
 md["mediatype"] = "software"
-md["description"] = "This reource is downloaded and assembled into a package which  provides offline vector maps." 
+md["description"] = "This provides offline vector tiles for a region drawn from https://archive.org/download/osm-vector-mbtiles/`" 
 
 identifier = FILENAME
 
