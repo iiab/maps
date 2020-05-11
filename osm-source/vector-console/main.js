@@ -34,7 +34,7 @@ initMap();
 var detail = new VectorTileLayer({
    source: new VectorTileSource({
       format: new MVT(),
-      url: `./tileserver.php/detail/{z}/{x}/{y}.pbf`,
+      url: `./tileserver.php?./detail/{z}/{x}/{y}.pbf`,
       minZoom: 0,
       attributions: ['&copy <a href="https://openstreetmap.org">OpenStreetMaps, </a> <a href="https://openmaptiles.com"> &copy OpenMapTiles</a>'
       ],

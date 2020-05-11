@@ -148,7 +148,7 @@ initMap();
 var detail = new ol_layer_VectorTile__WEBPACK_IMPORTED_MODULE_4__[/* default */ "a"]({
    source: new ol_source_VectorTile__WEBPACK_IMPORTED_MODULE_5__[/* default */ "a"]({
       format: new ol_format_MVT__WEBPACK_IMPORTED_MODULE_6__[/* default */ "a"](),
-      url: `./tileserver.php/detail/{z}/{x}/{y}.pbf`,
+      url: `./tileserver.php?./detail/{z}/{x}/{y}.pbf`,
       minZoom: 0,
       attributions: ['&copy <a href="https://openstreetmap.org">OpenStreetMaps, </a> <a href="https://openmaptiles.com"> &copy OpenMapTiles</a>'
       ],
