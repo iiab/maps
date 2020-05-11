@@ -23,9 +23,10 @@ var mapData = "/admin/map";
 var zoom = 3;
 var lat = 37;
 var lon = -122;
-var radius = 50000;
+var radius = 50;
 var boxcoords = [[[0,0],[0,1],[1,1],[1,0],[0,0]]];
 var ptrcoords = [0,0];
+var cmdline = '';
 
 // load the regions checkbox
 initMap();
@@ -96,7 +97,7 @@ function get_box_coords(radius,lon,lat){
    var south = (lat_rad - deltaY) * 180 / Math.PI;
    var east = (lon_rad + deltaX) * 180 / Math.PI
    var north = (lat_rad + deltaY) * 180 / Math.PI
-   console.log('west:'+west+'south:'+south+'east:'+east+'north;'+north)
+   //console.log('west:'+west+'south:'+south+'east:'+east+'north;'+north)
    var sw = [west,south];
    var se = [east,south];
    var ne = [east,north];
@@ -105,15 +106,15 @@ function get_box_coords(radius,lon,lat){
    se = fromLonLat(se);
    ne = fromLonLat(ne);
    nw = fromLonLat(nw);
-   console.log('box x:' + sw[0]-se[0] + 'box y:' + ne[1]-se[1]);
+   //console.log('box x:' + sw[0]-se[0] + 'box y:' + ne[1]-se[1]);
    boxcoords = [nw,sw,se,ne,nw];   
-   console.log(boxcoords + 'boxcoords');
+   //console.log(boxcoords + 'boxcoords');
    return(boxcoords);
 }
-var box_spec = get_box_coords(radius,-122.24,37.45);
+var box_spec = get_box_coords(radius*1000,-122.24,37.45);
 
 function getBoxSource(){
-   var box_spec = get_box_coords(radius,lon,lat);
+   var box_spec = get_box_coords(radius * 1000.0,lon,lat);
    var boxFeature = new Feature({
       geometry: new Polygon([box_spec])
    });
@@ -179,13 +180,14 @@ map.on("pointermove", function(evt) {
 
 $( document ).on('change','#area-choice',function(elem){
    if ( elem.target.value == 'small' )
-      radius = 50000; 
+      radius = 50; 
    else if (elem.target.value == 'medium')
-      radius = 150000
+      radius = 150
    else if (elem.target.value == 'large')
-      radius = 500000;;
+      radius = 500;
    satLayer.setSource(getBoxSource());
    satLayer.changed();  
+   document.getElementById('cmdline_element').innerHTML = "extend_sat.py --lon " + lon.toFixed(4) + ' --lat ' + lat.toFixed(4) + ' --radius ' + radius;
    console.log("radius changed");
 });
 
@@ -195,25 +197,13 @@ map.on("click", function(evt) {
    lon = coords[0];
    satLayer.setSource(getBoxSource());
    satLayer.changed();  
-   console.log("center changed to lon:" + lon.toFixed(2) + '  lat:' + lat.toFixed(2));
-});
+   //console.log("center changed to lon:" + lon.toFixed(2) + '  lat:' + lat.toFixed(2));
+   document.getElementById('cmdline_element').innerHTML = "extend_sat.py --lon " + lon.toFixed(4) + ' --lat ' + lat.toFixed(4) + ' --radius ' + radius;
 
-var resp = $.ajax({
-   type: 'GET',
-   async: true,
-   url: '/common/assets/vector-map-idx.json',
-   dataType: 'json'
-})
-.done(function( data ) {
-   var sel = document.getElementById('installed_maps');
-   for (var key in data) {
-    if (data.hasOwnProperty(key)) {           
-      console.log(key, data[key],data[key]['region']);
-      var opt = document.createElement('option');
-      opt.appendChild( document.createTextNode( data[key]['region'] ));
-      opt.value = key; 
-      sel.appendChild(opt); 
-    }
-  }
 });
-
+var cmdline_element = {};
+$( document ).ready(function() {
+    console.log( "ready!" );
+    document.getElementById('cmdline_element').innerHTML = "extend_sat.py";
+    document.getElementById('instr').innerHTML = "<br><br>Copy the above instructions, become root, and paste them into a terminal window.";
+});

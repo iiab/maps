@@ -22,12 +22,7 @@
                   <div id="map-container"></div>
                      <div class='grower'></div>
                      <span> <!-- Title line -->
-                     <h3>Increase Satellite Resolution in A Region</h3>
-                     Add Satellite data to: &nbsp
-                     <select id='installed_maps'>
-                          <option value="none">Choose one of these Installed Regions</option>
-
-                     </select>
+                     <h3>Increase Satellite Resolution in Your Selected Area</h3>
                      <div id='area-choice'>
                      <div>
                      <input type='radio' id='small' name='size' checked value='small'>
@@ -42,8 +37,10 @@
                      <label>500 KM Radius ~ 24 Hrs 1Gb</lable>
                      </div>
                      </span>   
+                     <div id='cmdline_element'></div>
+                     <div id='instr'></div>
                      <div class='grower'></div>
-                     <div class="col-sm-2"><button id="DNLD-SAT" type="button" class="btn btn-lg btn-primary">Download More Satellite Data</button></div>
+                     <!--<div class="col-sm-2"><button id="DNLD-SAT" type="button" class="btn btn-lg btn-primary">Download More Satellite Data</button></div>-->
                   </div> <!--id='rside' -->
               </div>
 				</div> <!--  End instOsmRegion Submenu Option Pane -->
@@ -57,6 +54,7 @@
                  return (bytes / Math.pow(1024, e)).toFixed(2) + " " + s[e];
                }
             </script>
-            <script src="./map_functions.js"></script>
+            <script src="/admin/js/admin_console.js"></script>
+            <script src="/admin/js/map_functions.js"></script>
 </body>
 </html>
