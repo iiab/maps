@@ -105,7 +105,7 @@ for(var mbt in tiledata){
       var sat_layer =  new TileLayer({
         opacity: 1,
         title: 'Satellite',
-          minResolution: 25,
+          //minResolution: 25,
           source: new XYZSource({
            cacheSize: 0,
            // -y in the followinng url changes origin form lower left to upper left
@@ -186,8 +186,20 @@ const boxLayer =  new VectorLayer({
    style: function(feature) {
      var name = feature.get("name");
      var found = false;
+      if (name.startsWith('sat')) {
+       return new Style({
+         fill: new Fill({
+           color: 'rgba(67, 163, 46, 0)'
+         }),
+         stroke: new Stroke({
+           color: 'rgba(250, 200, 20, 1)',
+           width: 2
+         })
+      })
+     }
      for(var mbt in tiledata){
-       if (mbt.startsWith(name)) found = true;
+       if (mbt.startsWith(name) &&
+       ! name.startsWith('sat')) found = true;
      }
      if (found){
           return new Style({
@@ -208,7 +220,8 @@ const boxLayer =  new VectorLayer({
               color: 'rgba(255,255,255,0)'
             })
           })
-       } 
+       }
+      
      } 
    
 })

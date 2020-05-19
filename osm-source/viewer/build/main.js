@@ -254,7 +254,7 @@ for(var mbt in tiledata){
       var sat_layer =  new ol_layer_Tile__WEBPACK_IMPORTED_MODULE_5__[/* default */ "a"]({
         opacity: 1,
         title: 'Satellite',
-          minResolution: 25,
+          //minResolution: 25,
           source: new ol_source_XYZ__WEBPACK_IMPORTED_MODULE_3__[/* default */ "a"]({
            cacheSize: 0,
            // -y in the followinng url changes origin form lower left to upper left
@@ -335,8 +335,20 @@ const boxLayer =  new ol_layer_Vector__WEBPACK_IMPORTED_MODULE_9__[/* default */
    style: function(feature) {
      var name = feature.get("name");
      var found = false;
+      if (name.startsWith('sat')) {
+       return new ol_style__WEBPACK_IMPORTED_MODULE_15__[/* Style */ "d"]({
+         fill: new ol_style__WEBPACK_IMPORTED_MODULE_15__[/* Fill */ "a"]({
+           color: 'rgba(67, 163, 46, 0)'
+         }),
+         stroke: new ol_style__WEBPACK_IMPORTED_MODULE_15__[/* Stroke */ "c"]({
+           color: 'rgba(250, 200, 20, 1)',
+           width: 2
+         })
+      })
+     }
      for(var mbt in tiledata){
-       if (mbt.startsWith(name)) found = true;
+       if (mbt.startsWith(name) &&
+       ! name.startsWith('sat')) found = true;
      }
      if (found){
           return new ol_style__WEBPACK_IMPORTED_MODULE_15__[/* Style */ "d"]({
@@ -357,7 +369,8 @@ const boxLayer =  new ol_layer_Vector__WEBPACK_IMPORTED_MODULE_9__[/* default */
               color: 'rgba(255,255,255,0)'
             })
           })
-       } 
+       }
+      
      } 
    
 })
