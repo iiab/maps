@@ -1,7 +1,0 @@
-#!/bin/bash -x
-# define aliases for working with test-page source is inputs for webpack, parcel-bundler
-
-alias put='/bin/cp -f ./main.js ../../osm-source/test-page/test.js;/bin/cp -f ./index.html ../../osm-source/test-page/test-index.html'
-alias get='/bin/cp -f ../../osm-source/test-page/test-index.html ./index.html;/bin/cp -f ../../osm-source/test-page/test.js ./main.js'
-alias dif='vimdiff ../../osm-source/test-page/test.js ./main.js'
-alias pub='scp ./build/main.js ghunt@unleashkids.org:/home/ghunt'
