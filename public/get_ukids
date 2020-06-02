@@ -1,3 +1,5 @@
-wget http://download.iiab.io/content/OSM/vector-tiles/maplist/hidden/assets/regions.json
-wget http://download.iiab.io/content/OSM/vector-tiles/maplist/hidden/assets/bboxes.geojson
+#!/bin/bash -x
+echo Getting regions.json and bboxes.geojson to current directory with .ukids suffix
+wget http://download.iiab.io/content/OSM/vector-tiles/maplist/hidden/assets/regions.json -O regions.json.ukids
+wget http://download.iiab.io/content/OSM/vector-tiles/maplist/hidden/assets/bboxes.geojson -O bboxes.geojson.ukids
 
