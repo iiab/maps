@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>ol-hashed</title>
+    <style>
+      body {
+        font-family: sans-serif;
+        margin: 2rem;
+      }
+    </style>
+  </head>
+  <body>
+    <h2>ol-hashed examples</h2>
+    <ul>
+    <% var examples = htmlWebpackPlugin.options.examples %>
+    <% for(var i=0; i<examples.length; i++) {%>
+       <li><a href="./<%= examples[i] %>.html"><%= examples[i] %></a></li>
+    <% } %>
+    </ul>
+  </body>
+</html>
