@@ -827,6 +827,16 @@ function importImage(evt){
    var imageData = fr.readAsDataURL(importJpeg.files[0]);
 }
 
+var pubLIbUrl = './data/geojson/shapequery.geojson';
+var pubLIbLayer = new ol_layer_Vector__WEBPACK_IMPORTED_MODULE_9__[/* default */ "a"]({
+  source: new ol_source_Vector__WEBPACK_IMPORTED_MODULE_10__[/* default */ "a"]({
+  url: pubLIbUrl,
+  format: new ol_format__WEBPACK_IMPORTED_MODULE_14__[/* GeoJSON */ "b"]()
+  })
+  });
+
+  map.addLayer(pubLIbLayer);
+
 
 
 /***/ }),

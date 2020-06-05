@@ -678,3 +678,13 @@ function importImage(evt){
    var imageData = fr.readAsDataURL(importJpeg.files[0]);
 }
 
+var pubLIbUrl = './data/geojson/shapequery.geojson';
+var pubLIbLayer = new VectorLayer({
+  source: new VectorSource({
+  url: pubLIbUrl,
+  format: new GeoJSON()
+  })
+  });
+
+  map.addLayer(pubLIbLayer);
+
