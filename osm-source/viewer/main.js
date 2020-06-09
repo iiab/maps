@@ -15,7 +15,7 @@ import VectorTileSource from 'ol/source/VectorTile';
 import VectorLayer from 'ol/layer/Vector';
 import VectorSource from 'ol/source/Vector';
 import MVT from 'ol/format/MVT';
-import stylefunction from 'ol-mapbox-style/stylefunction';
+import stylefunction from 'ol-mapbox-style/dist/stylefunction';
 import {defaults as defaultControls, ScaleLine,Attribution} from 'ol/control.js';
 import {GPX, GeoJSON, IGC, KML, TopoJSON} from 'ol/format';
 import {Style, Fill, Stroke, Circle, Icon, Text} from 'ol/style';
@@ -677,4 +677,14 @@ function importImage(evt){
     };
    var imageData = fr.readAsDataURL(importJpeg.files[0]);
 }
+
+var pubLIbUrl = './data/geojson/shapequery.geojson';
+var pubLIbLayer = new VectorLayer({
+  source: new VectorSource({
+  url: pubLIbUrl,
+  format: new GeoJSON()
+  })
+  });
+
+  map.addLayer(pubLIbLayer);
 
