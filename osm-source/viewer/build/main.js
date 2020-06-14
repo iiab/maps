@@ -835,14 +835,13 @@ var pathdata = {};
 var i =0;
 var out = $.ajax({
   type: 'GET',
-  url: './new.php',
-  async: false,
+  url: './jsonserver.php',
   dataType: 'text'
 })
 .done(function(data) {
-  var filenames = JSON.parse(data);
-  for(i = 0;i<filenames.length;i++){
-    var url = filenames[i];
+  var jsonnames = JSON.parse(data);
+  for(i = 0;i<jsonnames.length;i++){
+    var url = jsonnames[i];
     layerjson[i] = (new ol_layer_Vector__WEBPACK_IMPORTED_MODULE_9__[/* default */ "a"]({
     source: new ol_source_Vector__WEBPACK_IMPORTED_MODULE_10__[/* default */ "a"]({
       url: url,
@@ -850,13 +849,13 @@ var out = $.ajax({
     })
   }))
   //console.log(layerjson);
-  console.log(filenames[i]);
+  console.log(jsonnames[i]);
   console.log(url);
   console.log(layerjson[i]);
   }
 
   //add layer
-  for(i=0;i<filenames.length;i++)
+  for(i=0;i<jsonnames.length;i++)
   map.addLayer(layerjson[i]);
   
 });

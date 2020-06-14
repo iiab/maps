@@ -1,7 +1,7 @@
 <?php
 
-$file = glob('./data/geojson/*.geojson');
-echo json_encode($file);    
+$files = glob('./data/geojson/*.geojson');
+echo json_encode($files);    
 
 
 ?>

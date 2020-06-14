@@ -686,14 +686,13 @@ var pathdata = {};
 var i =0;
 var out = $.ajax({
   type: 'GET',
-  url: './new.php',
-  async: false,
+  url: './jsonserver.php',
   dataType: 'text'
 })
 .done(function(data) {
-  var filenames = JSON.parse(data);
-  for(i = 0;i<filenames.length;i++){
-    var url = filenames[i];
+  var jsonnames = JSON.parse(data);
+  for(i = 0;i<jsonnames.length;i++){
+    var url = jsonnames[i];
     layerjson[i] = (new VectorLayer({
     source: new VectorSource({
       url: url,
@@ -701,13 +700,13 @@ var out = $.ajax({
     })
   }))
   //console.log(layerjson);
-  console.log(filenames[i]);
+  console.log(jsonnames[i]);
   console.log(url);
   console.log(layerjson[i]);
   }
 
   //add layer
-  for(i=0;i<filenames.length;i++)
+  for(i=0;i<jsonnames.length;i++)
   map.addLayer(layerjson[i]);
   
 });
