@@ -678,13 +678,74 @@ function importImage(evt){
    var imageData = fr.readAsDataURL(importJpeg.files[0]);
 }
 
-var pubLIbUrl = './data/geojson/shapequery.geojson';
-var pubLIbLayer = new VectorLayer({
-  source: new VectorSource({
-  url: pubLIbUrl,
-  format: new GeoJSON()
-  })
-  });
+//looping through multiple geojson files and displaying them on osm
+var layerjson = {};
+var jsonlayer = {};
+var pathdata = {};
+// var filenames = {};
+var i =0;
+var out = $.ajax({
+  type: 'GET',
+  url: './new.php',
+  async: false,
+  dataType: 'text'
+})
+.done(function(data) {
+  var filenames = JSON.parse(data);
+  for(i = 0;i<filenames.length;i++){
+    var url = filenames[i];
+    layerjson[i] = (new VectorLayer({
+    source: new VectorSource({
+      url: url,
+      format: new GeoJSON()
+    })
+  }))
+  //console.log(layerjson);
+  console.log(filenames[i]);
+  console.log(url);
+  console.log(layerjson[i]);
+  }
 
-  map.addLayer(pubLIbLayer);
+  //add layer
+  for(i=0;i<filenames.length;i++)
+  map.addLayer(layerjson[i]);
+  
+});
+
+//displaying single geojson file on osm
+// var layerjson = {};
+// var jsonlayer = {};
+// var pathdata = {};
+// // var filenames = {};
+// var j =0;
+// var out = $.ajax({
+//   type: 'GET',
+//   url: './new.php',
+//   async: false,
+//   dataType: 'text'
+// })
+// .done(function(data) {
+//   var filenames = JSON.parse(data);
+//   var url = filenames[0];
+//   layerjson = (new VectorLayer({
+//     source: new VectorSource({
+//       url: url,
+//       format: new GeoJSON()
+//     })
+//   }))
+//   console.log(layerjson);
+// });
+// map.addLayer(layerjson);
+
+
+//displaying hard-coded geojson on osm
+// var pubLIbUrl = './data/geojson/shapequery.geojson';
+// var pubLIbLayer = new VectorLayer({
+// source: new VectorSource({
+// url: pubLIbUrl,
+// format: new GeoJSON()
+// })
+// });
+// map.addLayer(pubLIbLayer)
+
 
