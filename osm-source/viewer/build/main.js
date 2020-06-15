@@ -827,15 +827,75 @@ function importImage(evt){
    var imageData = fr.readAsDataURL(importJpeg.files[0]);
 }
 
-var pubLIbUrl = './data/geojson/shapequery.geojson';
-var pubLIbLayer = new ol_layer_Vector__WEBPACK_IMPORTED_MODULE_9__[/* default */ "a"]({
-  source: new ol_source_Vector__WEBPACK_IMPORTED_MODULE_10__[/* default */ "a"]({
-  url: pubLIbUrl,
-  format: new ol_format__WEBPACK_IMPORTED_MODULE_14__[/* GeoJSON */ "b"]()
-  })
-  });
+//looping through multiple geojson files and displaying them on osm
+var layerjson = {};
+var jsonlayer = {};
+var pathdata = {};
+// var filenames = {};
+var i =0;
+var out = $.ajax({
+  type: 'GET',
+  url: './jsonserver.php',
+  dataType: 'text'
+})
+.done(function(data) {
+  var jsonnames = JSON.parse(data);
+  for(i = 0;i<jsonnames.length;i++){
+    var url = jsonnames[i];
+    layerjson[i] = (new ol_layer_Vector__WEBPACK_IMPORTED_MODULE_9__[/* default */ "a"]({
+    source: new ol_source_Vector__WEBPACK_IMPORTED_MODULE_10__[/* default */ "a"]({
+      url: url,
+      format: new ol_format__WEBPACK_IMPORTED_MODULE_14__[/* GeoJSON */ "b"]()
+    })
+  }))
+  //console.log(layerjson);
+  console.log(jsonnames[i]);
+  console.log(url);
+  console.log(layerjson[i]);
+  }
 
-  map.addLayer(pubLIbLayer);
+  //add layer
+  for(i=0;i<jsonnames.length;i++)
+  map.addLayer(layerjson[i]);
+  
+});
+
+//displaying single geojson file on osm
+// var layerjson = {};
+// var jsonlayer = {};
+// var pathdata = {};
+// // var filenames = {};
+// var j =0;
+// var out = $.ajax({
+//   type: 'GET',
+//   url: './new.php',
+//   async: false,
+//   dataType: 'text'
+// })
+// .done(function(data) {
+//   var filenames = JSON.parse(data);
+//   var url = filenames[0];
+//   layerjson = (new VectorLayer({
+//     source: new VectorSource({
+//       url: url,
+//       format: new GeoJSON()
+//     })
+//   }))
+//   console.log(layerjson);
+// });
+// map.addLayer(layerjson);
+
+
+//displaying hard-coded geojson on osm
+// var pubLIbUrl = './data/geojson/shapequery.geojson';
+// var pubLIbLayer = new VectorLayer({
+// source: new VectorSource({
+// url: pubLIbUrl,
+// format: new GeoJSON()
+// })
+// });
+// map.addLayer(pubLIbLayer)
+
 
 
 
@@ -1513,10 +1573,16 @@ var layout_fill = {
 		doc: "Sorts features in ascending order based on this value. Features with a higher sort key will appear above features with a lower sort key.",
 		"sdk-support": {
 			"basic functionality": {
-				js: "1.2.0"
+				js: "1.2.0",
+				android: "9.1.0",
+				ios: "5.8.0",
+				macos: "0.15.0"
 			},
 			"data-driven styling": {
-				js: "1.2.0"
+				js: "1.2.0",
+				android: "9.1.0",
+				ios: "5.8.0",
+				macos: "0.15.0"
 			}
 		},
 		expression: {
@@ -1557,10 +1623,16 @@ var layout_circle = {
 		doc: "Sorts features in ascending order based on this value. Features with a higher sort key will appear above features with a lower sort key.",
 		"sdk-support": {
 			"basic functionality": {
-				js: "1.2.0"
+				js: "1.2.0",
+				android: "9.2.0",
+				ios: "5.9.0",
+				macos: "0.16.0"
 			},
 			"data-driven styling": {
-				js: "1.2.0"
+				js: "1.2.0",
+				android: "9.2.0",
+				ios: "5.9.0",
+				macos: "0.16.0"
 			}
 		},
 		expression: {
@@ -1744,10 +1816,16 @@ var layout_line = {
 		doc: "Sorts features in ascending order based on this value. Features with a higher sort key will appear above features with a lower sort key.",
 		"sdk-support": {
 			"basic functionality": {
-				js: "1.2.0"
+				js: "1.2.0",
+				android: "9.1.0",
+				ios: "5.8.0",
+				macos: "0.15.0"
 			},
 			"data-driven styling": {
-				js: "1.2.0"
+				js: "1.2.0",
+				android: "9.1.0",
+				ios: "5.8.0",
+				macos: "0.15.0"
 			}
 		},
 		expression: {
@@ -1897,17 +1975,17 @@ var layout_symbol = {
 		type: "enum",
 		values: {
 			auto: {
-				doc: "If `symbol-sort-key` is set, sort based on that. Otherwise sort symbols by their y-position relative to the viewport."
+				doc: "Sorts symbols by `symbol-sort-key` if set. Otherwise, sorts symbols by their y-position relative to the viewport if `icon-allow-overlap` or `text-allow-overlap` is set to `true` or `icon-ignore-placement` or `text-ignore-placement` is `false`."
 			},
 			"viewport-y": {
-				doc: "Symbols will be sorted by their y-position relative to the viewport."
+				doc: "Sorts symbols by their y-position relative to the viewport if `icon-allow-overlap` or `text-allow-overlap` is set to `true` or `icon-ignore-placement` or `text-ignore-placement` is `false`."
 			},
 			source: {
-				doc: "Symbols will be rendered in the same order as the source data with no sorting applied."
+				doc: "Sorts symbols by `symbol-sort-key` if set. Otherwise, no sorting is applied; symbols are rendered in the same order as the source data."
 			}
 		},
 		"default": "auto",
-		doc: "Controls the order in which overlapping symbols in the same layer are rendered",
+		doc: "Determines whether overlapping symbols in the same layer are rendered in the order that they appear in the data source or by their y-position relative to the viewport. To control the order and prioritization of symbols otherwise, use `symbol-sort-key`.",
 		"sdk-support": {
 			"basic functionality": {
 				js: "0.49.0",
@@ -2094,6 +2172,12 @@ var layout_symbol = {
 				android: "4.2.0",
 				ios: "3.4.0",
 				macos: "0.2.1"
+			},
+			"stretchable icons": {
+				js: "1.6.0",
+				android: "9.2.0",
+				ios: "5.8.0",
+				macos: "0.15.0"
 			}
 		},
 		expression: {
@@ -2903,7 +2987,7 @@ var layout_symbol = {
 				js: "1.3.0",
 				android: "8.3.0",
 				ios: "5.3.0",
-				macos: "0.14.0"
+				macos: "0.15.0"
 			}
 		},
 		expression: {
@@ -3270,6 +3354,9 @@ var filter_operator = {
 		},
 		"!has": {
 			doc: "`[\"!has\", key]` `feature[key]` does not exist"
+		},
+		within: {
+			doc: "`[\"within\", object]` feature geometry is within object geometry"
 		}
 	},
 	doc: "The filter operator."
@@ -3375,7 +3462,28 @@ var expression_name = {
 			group: "Lookup",
 			"sdk-support": {
 				"basic functionality": {
-					js: "1.6.0"
+					js: "1.6.0",
+					android: "9.1.0",
+					ios: "5.8.0",
+					macos: "0.15.0"
+				}
+			}
+		},
+		"index-of": {
+			doc: "Returns the first position at which an item can be found in an array or a substring can be found in a string, or `-1` if the input cannot be found. Accepts an optional index from where to begin the search.",
+			group: "Lookup",
+			"sdk-support": {
+				"basic functionality": {
+					js: "1.10.0"
+				}
+			}
+		},
+		slice: {
+			doc: "Returns an item from an array or a substring from a string from a specified start index, or between a start index and an end index if set. The return value is inclusive of the start index but not of the end index.",
+			group: "Lookup",
+			"sdk-support": {
+				"basic functionality": {
+					js: "1.10.0"
 				}
 			}
 		},
@@ -3392,7 +3500,7 @@ var expression_name = {
 			}
 		},
 		match: {
-			doc: "Selects the output whose label value matches the input value, or the fallback value if no match is found. The input can be any expression (e.g. `[\"get\", \"building_type\"]`). Each label must be either:\n * a single literal value; or\n * an array of literal values, whose values must be all strings or all numbers (e.g. `[100, 101]` or `[\"c\", \"b\"]`). The input matches if any of the values in the array matches, similar to the `\"in\"` operator.\n\nEach label must be unique. If the input type does not match the type of the labels, the result will be the fallback value.",
+			doc: "Selects the output whose label value matches the input value, or the fallback value if no match is found. The input can be any expression (e.g. `[\"get\", \"building_type\"]`). Each label must be either:\n - a single literal value; or\n - an array of literal values, whose values must be all strings or all numbers (e.g. `[100, 101]` or `[\"c\", \"b\"]`). The input matches if any of the values in the array matches, similar to the `\"in\"` operator.\nEach label must be unique. If the input type does not match the type of the labels, the result will be the fallback value.",
 			group: "Decision",
 			"sdk-support": {
 				"basic functionality": {
@@ -3428,7 +3536,7 @@ var expression_name = {
 			}
 		},
 		interpolate: {
-			doc: "Produces continuous, smooth results by interpolating between pairs of input and output values (\"stops\"). The `input` may be any numeric expression (e.g., `[\"get\", \"population\"]`). Stop inputs must be numeric literals in strictly ascending order. The output type must be `number`, `array<number>`, or `color`.\n\nInterpolation types:\n- `[\"linear\"]`: interpolates linearly between the pair of stops just less than and just greater than the input.\n- `[\"exponential\", base]`: interpolates exponentially between the stops just less than and just greater than the input. `base` controls the rate at which the output increases: higher values make the output increase more towards the high end of the range. With values close to 1 the output increases linearly.\n- `[\"cubic-bezier\", x1, y1, x2, y2]`: interpolates using the cubic bezier curve defined by the given control points.",
+			doc: "Produces continuous, smooth results by interpolating between pairs of input and output values (\"stops\"). The `input` may be any numeric expression (e.g., `[\"get\", \"population\"]`). Stop inputs must be numeric literals in strictly ascending order. The output type must be `number`, `array<number>`, or `color`.\n\nInterpolation types:\n- `[\"linear\"]`: Interpolates linearly between the pair of stops just less than and just greater than the input.\n- `[\"exponential\", base]`: Interpolates exponentially between the stops just less than and just greater than the input. `base` controls the rate at which the output increases: higher values make the output increase more towards the high end of the range. With values close to 1 the output increases linearly.\n- `[\"cubic-bezier\", x1, y1, x2, y2]`: Interpolates using the cubic bezier curve defined by the given control points.",
 			group: "Ramps, scales, curves",
 			"sdk-support": {
 				"basic functionality": {
@@ -3566,7 +3674,7 @@ var expression_name = {
 			}
 		},
 		format: {
-			doc: "Returns `formatted` text containing annotations for use in mixed-format `text-field` entries. For a `text-field` entries of a string type, following option object's properties are supported: If set, the `text-font` value overrides the font specified by the root layout properties. If set, the `font-scale` value specifies a scaling factor relative to the `text-size` specified in the root layout properties. If set, the `text-color` value overrides the color specified by the root paint properties for this layer.",
+			doc: "Returns a `formatted` string for displaying mixed-format text in the `text-field` property. The input may contain a string literal or expression, including an [`'image'`](#types-image) expression. Strings may be followed by a style override object that supports the following properties:\n- `\"text-font\"`: Overrides the font stack specified by the root layout property.\n- `\"text-color\"`: Overrides the color specified by the root paint property.\n- `\"font-scale\"`: Applies a scaling factor on `text-size` as specified by the root layout property.",
 			group: "Types",
 			"sdk-support": {
 				"basic functionality": {
@@ -3594,7 +3702,10 @@ var expression_name = {
 					macos: "0.14.0"
 				},
 				image: {
-					js: "1.6.0"
+					js: "1.6.0",
+					android: "8.6.0",
+					ios: "5.7.0",
+					macos: "0.15.0"
 				}
 			}
 		},
@@ -3605,7 +3716,8 @@ var expression_name = {
 				"basic functionality": {
 					js: "1.4.0",
 					android: "8.6.0",
-					ios: "5.6.0"
+					ios: "5.7.0",
+					macos: "0.15.0"
 				}
 			}
 		},
@@ -3760,7 +3872,7 @@ var expression_name = {
 			}
 		},
 		"geometry-type": {
-			doc: "Gets the feature's geometry type: Point, MultiPoint, LineString, MultiLineString, Polygon, MultiPolygon.",
+			doc: "Gets the feature's geometry type: `Point`, `MultiPoint`, `LineString`, `MultiLineString`, `Polygon`, `MultiPolygon`.",
 			group: "Feature data",
 			"sdk-support": {
 				"basic functionality": {
@@ -4092,6 +4204,17 @@ var expression_name = {
 				}
 			}
 		},
+		distance: {
+			doc: "Returns the shortest distance in meters between the evaluated feature and the input geometry. The input value can be a valid GeoJSON of type `Point`, `MultiPoint`, `LineString`, `MultiLineString`, `Polygon`, `MultiPolygon`, `Feature`, or `FeatureCollection`. Distance values returned may vary in precision due to loss in precision from encoding geometries, particularly below zoom level 13.",
+			group: "Math",
+			"sdk-support": {
+				"basic functionality": {
+					android: "9.2.0",
+					ios: "5.9.0",
+					macos: "0.16.0"
+				}
+			}
+		},
 		"==": {
 			doc: "Returns `true` if the input values are equal, `false` otherwise. The comparison is strictly typed: values of different runtime types are always considered unequal. Cases where the types are known to be different at parse time are considered invalid and will produce a parse error. Accepts an optional `collator` argument to control locale-dependent string comparisons.",
 			group: "Decision",
@@ -4237,11 +4360,14 @@ var expression_name = {
 			}
 		},
 		within: {
-			doc: "Returns `true` if the feature being evaluated is inside the pre-defined geometry boundary, `false` otherwise. The expression has one argument which must be a valid GeoJSON Polygon/Multi-Polygon object. The expression only evaluates on `Point` or `LineString` feature. For `Point` feature, The expression will return false if any point of the feature is on the boundary or outside the boundary. For `LineString` feature, the expression will return false if the line is fully outside the boundary, or the line is partially intersecting the boundary, which means either part of the line is outside of the boundary, or end point of the line lies on the boundary.",
+			doc: "Returns `true` if the evaluated feature is fully contained inside a boundary of the input geometry, `false` otherwise. The input value can be a valid GeoJSON of type `Polygon`, `MultiPolygon`, `Feature`, or `FeatureCollection`. Supported features for evaluation:\n- `Point`: Returns `false` if a point is on the boundary or falls outside the boundary.\n- `LineString`: Returns `false` if any part of a line falls outside the boundary, the line intersects the boundary, or a line's endpoint is on the boundary.",
 			group: "Decision",
 			"sdk-support": {
 				"basic functionality": {
-					js: "1.9.0"
+					js: "1.9.0",
+					android: "9.1.0",
+					ios: "5.8.0",
+					macos: "0.15.0"
 				}
 			}
 		},
@@ -8538,6 +8664,24 @@ function checkSubtype(expected, t) {
     }
     return 'Expected ' + toString(expected) + ' but found ' + toString(t) + ' instead.';
 }
+function isValidType(provided, allowedTypes) {
+    return allowedTypes.some(function (t) {
+        return t.kind === provided.kind;
+    });
+}
+function isValidNativeType(provided, allowedTypes) {
+    return allowedTypes.some(function (t) {
+        if (t === 'null') {
+            return provided === null;
+        } else if (t === 'array') {
+            return Array.isArray(provided);
+        } else if (t === 'object') {
+            return provided && !Array.isArray(provided) && typeof provided === 'object';
+        } else {
+            return t === typeof provided;
+        }
+    });
+}
 
 var csscolorparser = createCommonjsModule(function (module, exports) {
 // (c) Dean McNamee <dean@gmail.com>, 2012.
@@ -9611,716 +9755,18 @@ CollatorExpression.prototype.serialize = function serialize() {
     ];
 };
 
-/*
- * Copyright (C) 2008 Apple Inc. All Rights Reserved.
- *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
- * 1. Redistributions of source code must retain the above copyright
- *    notice, this list of conditions and the following disclaimer.
- * 2. Redistributions in binary form must reproduce the above copyright
- *    notice, this list of conditions and the following disclaimer in the
- *    documentation and/or other materials provided with the distribution.
- *
- * THIS SOFTWARE IS PROVIDED BY APPLE INC. ``AS IS'' AND ANY
- * EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
- * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
- * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL APPLE INC. OR
- * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
- * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
- * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
- * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY
- * OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
- * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
- * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
- *
- * Ported from Webkit
- * http://svn.webkit.org/repository/webkit/trunk/Source/WebCore/platform/graphics/UnitBezier.h
- */
-
-var unitbezier = UnitBezier;
-
-function UnitBezier(p1x, p1y, p2x, p2y) {
-    // Calculate the polynomial coefficients, implicit first and last control points are (0,0) and (1,1).
-    this.cx = 3.0 * p1x;
-    this.bx = 3.0 * (p2x - p1x) - this.cx;
-    this.ax = 1.0 - this.cx - this.bx;
-
-    this.cy = 3.0 * p1y;
-    this.by = 3.0 * (p2y - p1y) - this.cy;
-    this.ay = 1.0 - this.cy - this.by;
-
-    this.p1x = p1x;
-    this.p1y = p2y;
-    this.p2x = p2x;
-    this.p2y = p2y;
-}
-
-UnitBezier.prototype.sampleCurveX = function(t) {
-    // `ax t^3 + bx t^2 + cx t' expanded using Horner's rule.
-    return ((this.ax * t + this.bx) * t + this.cx) * t;
-};
-
-UnitBezier.prototype.sampleCurveY = function(t) {
-    return ((this.ay * t + this.by) * t + this.cy) * t;
-};
-
-UnitBezier.prototype.sampleCurveDerivativeX = function(t) {
-    return (3.0 * this.ax * t + 2.0 * this.bx) * t + this.cx;
-};
-
-UnitBezier.prototype.solveCurveX = function(x, epsilon) {
-    if (typeof epsilon === 'undefined') { epsilon = 1e-6; }
-
-    var t0, t1, t2, x2, i;
-
-    // First try a few iterations of Newton's method -- normally very fast.
-    for (t2 = x, i = 0; i < 8; i++) {
-
-        x2 = this.sampleCurveX(t2) - x;
-        if (Math.abs(x2) < epsilon) { return t2; }
-
-        var d2 = this.sampleCurveDerivativeX(t2);
-        if (Math.abs(d2) < 1e-6) { break; }
-
-        t2 = t2 - x2 / d2;
-    }
-
-    // Fall back to the bisection method for reliability.
-    t0 = 0.0;
-    t1 = 1.0;
-    t2 = x;
-
-    if (t2 < t0) { return t0; }
-    if (t2 > t1) { return t1; }
-
-    while (t0 < t1) {
-
-        x2 = this.sampleCurveX(t2);
-        if (Math.abs(x2 - x) < epsilon) { return t2; }
-
-        if (x > x2) {
-            t0 = t2;
-        } else {
-            t1 = t2;
-        }
-
-        t2 = (t1 - t0) * 0.5 + t0;
-    }
-
-    // Failure.
-    return t2;
-};
-
-UnitBezier.prototype.solve = function(x, epsilon) {
-    return this.sampleCurveY(this.solveCurveX(x, epsilon));
-};
-
-function deepEqual(a, b) {
-    if (Array.isArray(a)) {
-        if (!Array.isArray(b) || a.length !== b.length) {
-            return false;
-        }
-        for (var i = 0; i < a.length; i++) {
-            if (!deepEqual(a[i], b[i])) {
-                return false;
-            }
-        }
-        return true;
-    }
-    if (typeof a === 'object' && a !== null && b !== null) {
-        if (!(typeof b === 'object')) {
-            return false;
-        }
-        var keys = Object.keys(a);
-        if (keys.length !== Object.keys(b).length) {
-            return false;
-        }
-        for (var key in a) {
-            if (!deepEqual(a[key], b[key])) {
-                return false;
-            }
-        }
-        return true;
-    }
-    return a === b;
-}
-
-//      
-
-/**
- * constrain n to the given range, excluding the minimum, via modular arithmetic
- *
- * @param n value
- * @param min the minimum value to be returned, exclusive
- * @param max the maximum value to be returned, inclusive
- * @returns constrained number
- * @private
- */
-function wrap(n        , min        , max        )         {
-    var d = max - min;
-    var w = ((n - min) % d + d) % d + min;
-    return (w === min) ? max : w;
-}
-
-//      
-
-                                          
-
-/**
- * A `LngLatBounds` object represents a geographical bounding box,
- * defined by its southwest and northeast points in longitude and latitude.
- *
- * If no arguments are provided to the constructor, a `null` bounding box is created.
- *
- * Note that any Mapbox GL method that accepts a `LngLatBounds` object as an argument or option
- * can also accept an `Array` of two {@link LngLatLike} constructs and will perform an implicit conversion.
- * This flexible type is documented as {@link LngLatBoundsLike}.
- *
- * @param {LngLatLike} [sw] The southwest corner of the bounding box.
- * @param {LngLatLike} [ne] The northeast corner of the bounding box.
- * @example
- * var sw = new mapboxgl.LngLat(-73.9876, 40.7661);
- * var ne = new mapboxgl.LngLat(-73.9397, 40.8002);
- * var llb = new mapboxgl.LngLatBounds(sw, ne);
- */
-var LngLatBounds = function LngLatBounds(sw , ne ) {
-    if (!sw) ; else if (ne) {
-        this.setSouthWest(sw).setNorthEast(ne);
-    } else if (sw.length === 4) {
-        this.setSouthWest([sw[0], sw[1]]).setNorthEast([sw[2], sw[3]]);
-    } else {
-        this.setSouthWest(sw[0]).setNorthEast(sw[1]);
-    }
-};
-
-/**
- * Set the northeast corner of the bounding box
- *
- * @param {LngLatLike} ne a {@link LngLatLike} object describing the northeast corner of the bounding box.
- * @returns {LngLatBounds} `this`
- */
-LngLatBounds.prototype.setNorthEast = function setNorthEast (ne        ) {
-    this._ne = ne instanceof LngLat ? new LngLat(ne.lng, ne.lat) : LngLat.convert(ne);
-    return this;
-};
-
-/**
- * Set the southwest corner of the bounding box
- *
- * @param {LngLatLike} sw a {@link LngLatLike} object describing the southwest corner of the bounding box.
- * @returns {LngLatBounds} `this`
- */
-LngLatBounds.prototype.setSouthWest = function setSouthWest (sw        ) {
-    this._sw = sw instanceof LngLat ? new LngLat(sw.lng, sw.lat) : LngLat.convert(sw);
-    return this;
-};
-
-/**
- * Extend the bounds to include a given LngLatLike or LngLatBoundsLike.
- *
- * @param {LngLatLike|LngLatBoundsLike} obj object to extend to
- * @returns {LngLatBounds} `this`
- */
-LngLatBounds.prototype.extend = function extend (obj                           ) {
-    var sw = this._sw,
-        ne = this._ne;
-    var sw2, ne2;
-
-    if (obj instanceof LngLat) {
-        sw2 = obj;
-        ne2 = obj;
-
-    } else if (obj instanceof LngLatBounds) {
-        sw2 = obj._sw;
-        ne2 = obj._ne;
-
-        if (!sw2 || !ne2) { return this; }
-
-    } else {
-        if (Array.isArray(obj)) {
-            if (obj.length === 4 || obj.every(Array.isArray)) {
-                var lngLatBoundsObj = ((obj )              );
-                return this.extend(LngLatBounds.convert(lngLatBoundsObj));
-            } else {
-                var lngLatObj = ((obj )        );
-                return this.extend(LngLat.convert(lngLatObj));
-            }
-        }
-        return this;
-    }
-
-    if (!sw && !ne) {
-        this._sw = new LngLat(sw2.lng, sw2.lat);
-        this._ne = new LngLat(ne2.lng, ne2.lat);
-
-    } else {
-        sw.lng = Math.min(sw2.lng, sw.lng);
-        sw.lat = Math.min(sw2.lat, sw.lat);
-        ne.lng = Math.max(ne2.lng, ne.lng);
-        ne.lat = Math.max(ne2.lat, ne.lat);
-    }
-
-    return this;
-};
-
-/**
- * Returns the geographical coordinate equidistant from the bounding box's corners.
- *
- * @returns {LngLat} The bounding box's center.
- * @example
- * var llb = new mapboxgl.LngLatBounds([-73.9876, 40.7661], [-73.9397, 40.8002]);
- * llb.getCenter(); // = LngLat {lng: -73.96365, lat: 40.78315}
- */
-LngLatBounds.prototype.getCenter = function getCenter ()     {
-    return new LngLat((this._sw.lng + this._ne.lng) / 2, (this._sw.lat + this._ne.lat) / 2);
-};
-
-/**
- * Returns the southwest corner of the bounding box.
- *
- * @returns {LngLat} The southwest corner of the bounding box.
- */
-LngLatBounds.prototype.getSouthWest = function getSouthWest ()     { return this._sw; };
-
-/**
-* Returns the northeast corner of the bounding box.
-*
-* @returns {LngLat} The northeast corner of the bounding box.
- */
-LngLatBounds.prototype.getNorthEast = function getNorthEast ()     { return this._ne; };
-
-/**
-* Returns the northwest corner of the bounding box.
-*
-* @returns {LngLat} The northwest corner of the bounding box.
- */
-LngLatBounds.prototype.getNorthWest = function getNorthWest ()     { return new LngLat(this.getWest(), this.getNorth()); };
-
-/**
-* Returns the southeast corner of the bounding box.
-*
-* @returns {LngLat} The southeast corner of the bounding box.
- */
-LngLatBounds.prototype.getSouthEast = function getSouthEast ()     { return new LngLat(this.getEast(), this.getSouth()); };
-
-/**
-* Returns the west edge of the bounding box.
-*
-* @returns {number} The west edge of the bounding box.
- */
-LngLatBounds.prototype.getWest = function getWest ()     { return this._sw.lng; };
-
-/**
-* Returns the south edge of the bounding box.
-*
-* @returns {number} The south edge of the bounding box.
- */
-LngLatBounds.prototype.getSouth = function getSouth ()     { return this._sw.lat; };
-
-/**
-* Returns the east edge of the bounding box.
-*
-* @returns {number} The east edge of the bounding box.
- */
-LngLatBounds.prototype.getEast = function getEast ()     { return this._ne.lng; };
-
-/**
-* Returns the north edge of the bounding box.
-*
-* @returns {number} The north edge of the bounding box.
- */
-LngLatBounds.prototype.getNorth = function getNorth ()     { return this._ne.lat; };
-
-/**
- * Returns the bounding box represented as an array.
- *
- * @returns {Array<Array<number>>} The bounding box represented as an array, consisting of the
- *   southwest and northeast coordinates of the bounding represented as arrays of numbers.
- * @example
- * var llb = new mapboxgl.LngLatBounds([-73.9876, 40.7661], [-73.9397, 40.8002]);
- * llb.toArray(); // = [[-73.9876, 40.7661], [-73.9397, 40.8002]]
- */
-LngLatBounds.prototype.toArray = function toArray () {
-    return [this._sw.toArray(), this._ne.toArray()];
-};
-
-/**
- * Return the bounding box represented as a string.
- *
- * @returns {string} The bounding box represents as a string of the format
- *   `'LngLatBounds(LngLat(lng, lat), LngLat(lng, lat))'`.
- * @example
- * var llb = new mapboxgl.LngLatBounds([-73.9876, 40.7661], [-73.9397, 40.8002]);
- * llb.toString(); // = "LngLatBounds(LngLat(-73.9876, 40.7661), LngLat(-73.9397, 40.8002))"
- */
-LngLatBounds.prototype.toString = function toString () {
-    return ("LngLatBounds(" + (this._sw.toString()) + ", " + (this._ne.toString()) + ")");
-};
-
-/**
- * Check if the bounding box is an empty/`null`-type box.
- *
- * @returns {boolean} True if bounds have been defined, otherwise false.
- */
-LngLatBounds.prototype.isEmpty = function isEmpty () {
-    return !(this._sw && this._ne);
-};
-
-/**
-* Check if the point is within the bounding box.
-*
-* @param {LngLatLike} lnglat geographic point to check against.
-* @returns {boolean} True if the point is within the bounding box.
-*/
-LngLatBounds.prototype.contains = function contains (lnglat        ) {
-    var ref = LngLat.convert(lnglat);
-        var lng = ref.lng;
-        var lat = ref.lat;
-
-    var containsLatitude = this._sw.lat <= lat && lat <= this._ne.lat;
-    var containsLongitude = this._sw.lng <= lng && lng <= this._ne.lng;
-    if (this._sw.lng > this._ne.lng) { // wrapped coordinates
-        containsLongitude = this._sw.lng >= lng && lng >= this._ne.lng;
-    }
-
-    return containsLatitude && containsLongitude;
-};
-
-/**
- * Converts an array to a `LngLatBounds` object.
- *
- * If a `LngLatBounds` object is passed in, the function returns it unchanged.
- *
- * Internally, the function calls `LngLat#convert` to convert arrays to `LngLat` values.
- *
- * @param {LngLatBoundsLike} input An array of two coordinates to convert, or a `LngLatBounds` object to return.
- * @returns {LngLatBounds} A new `LngLatBounds` object, if a conversion occurred, or the original `LngLatBounds` object.
- * @example
- * var arr = [[-73.9876, 40.7661], [-73.9397, 40.8002]];
- * var llb = mapboxgl.LngLatBounds.convert(arr);
- * llb;   // = LngLatBounds {_sw: LngLat {lng: -73.9876, lat: 40.7661}, _ne: LngLat {lng: -73.9397, lat: 40.8002}}
- */
-LngLatBounds.convert = function convert (input              )           {
-    if (!input || input instanceof LngLatBounds) { return input; }
-    return new LngLatBounds(input);
-};
-
-//      
-
-/*
-* Approximate radius of the earth in meters.
-* Uses the WGS-84 approximation. The radius at the equator is ~6378137 and at the poles is ~6356752. https://en.wikipedia.org/wiki/World_Geodetic_System#WGS84
-* 6371008.8 is one published "average radius" see https://en.wikipedia.org/wiki/Earth_radius#Mean_radius, or ftp://athena.fsv.cvut.cz/ZFG/grs80-Moritz.pdf p.4
-*/
-var earthRadius = 6371008.8;
-
-/**
- * A `LngLat` object represents a given longitude and latitude coordinate, measured in degrees.
- *
- * Mapbox GL uses longitude, latitude coordinate order (as opposed to latitude, longitude) to match GeoJSON.
- *
- * Note that any Mapbox GL method that accepts a `LngLat` object as an argument or option
- * can also accept an `Array` of two numbers and will perform an implicit conversion.
- * This flexible type is documented as {@link LngLatLike}.
- *
- * @param {number} lng Longitude, measured in degrees.
- * @param {number} lat Latitude, measured in degrees.
- * @example
- * var ll = new mapboxgl.LngLat(-73.9749, 40.7736);
- * @see [Get coordinates of the mouse pointer](https://www.mapbox.com/mapbox-gl-js/example/mouse-position/)
- * @see [Display a popup](https://www.mapbox.com/mapbox-gl-js/example/popup/)
- * @see [Highlight features within a bounding box](https://www.mapbox.com/mapbox-gl-js/example/using-box-queryrenderedfeatures/)
- * @see [Create a timeline animation](https://www.mapbox.com/mapbox-gl-js/example/timeline-animation/)
- */
-var LngLat = function LngLat(lng    , lat    ) {
-    if (isNaN(lng) || isNaN(lat)) {
-        throw new Error(("Invalid LngLat object: (" + lng + ", " + lat + ")"));
-    }
-    this.lng = +lng;
-    this.lat = +lat;
-    if (this.lat > 90 || this.lat < -90) {
-        throw new Error('Invalid LngLat latitude value: must be between -90 and 90');
-    }
-};
-
-/**
- * Returns a new `LngLat` object whose longitude is wrapped to the range (-180, 180).
- *
- * @returns {LngLat} The wrapped `LngLat` object.
- * @example
- * var ll = new mapboxgl.LngLat(286.0251, 40.7736);
- * var wrapped = ll.wrap();
- * wrapped.lng; // = -73.9749
- */
-LngLat.prototype.wrap = function wrap$1 () {
-    return new LngLat(wrap(this.lng, -180, 180), this.lat);
-};
-
-/**
- * Returns the coordinates represented as an array of two numbers.
- *
- * @returns {Array<number>} The coordinates represeted as an array of longitude and latitude.
- * @example
- * var ll = new mapboxgl.LngLat(-73.9749, 40.7736);
- * ll.toArray(); // = [-73.9749, 40.7736]
- */
-LngLat.prototype.toArray = function toArray () {
-    return [this.lng, this.lat];
-};
-
-/**
- * Returns the coordinates represent as a string.
- *
- * @returns {string} The coordinates represented as a string of the format `'LngLat(lng, lat)'`.
- * @example
- * var ll = new mapboxgl.LngLat(-73.9749, 40.7736);
- * ll.toString(); // = "LngLat(-73.9749, 40.7736)"
- */
-LngLat.prototype.toString = function toString () {
-    return ("LngLat(" + (this.lng) + ", " + (this.lat) + ")");
-};
-
-/**
- * Returns the approximate distance between a pair of coordinates in meters
- * Uses the Haversine Formula (from R.W. Sinnott, "Virtues of the Haversine", Sky and Telescope, vol. 68, no. 2, 1984, p. 159)
- *
- * @param {LngLat} lngLat coordinates to compute the distance to
- * @returns {number} Distance in meters between the two coordinates.
- * @example
- * var new_york = new mapboxgl.LngLat(-74.0060, 40.7128);
- * var los_angeles = new mapboxgl.LngLat(-118.2437, 34.0522);
- * new_york.distanceTo(los_angeles); // = 3935751.690893987, "true distance" using a non-spherical approximation is ~3966km
- */
-LngLat.prototype.distanceTo = function distanceTo (lngLat    ) {
-    var rad = Math.PI / 180;
-    var lat1 = this.lat * rad;
-    var lat2 = lngLat.lat * rad;
-    var a = Math.sin(lat1) * Math.sin(lat2) + Math.cos(lat1) * Math.cos(lat2) * Math.cos((lngLat.lng - this.lng) * rad);
-
-    var maxMeters = earthRadius * Math.acos(Math.min(a, 1));
-    return maxMeters;
-};
-
-/**
- * Returns a `LngLatBounds` from the coordinates extended by a given `radius`. The returned `LngLatBounds` completely contains the `radius`.
- *
- * @param {number} [radius=0] Distance in meters from the coordinates to extend the bounds.
- * @returns {LngLatBounds} A new `LngLatBounds` object representing the coordinates extended by the `radius`.
- * @example
- * var ll = new mapboxgl.LngLat(-73.9749, 40.7736);
- * ll.toBounds(100).toArray(); // = [[-73.97501862141328, 40.77351016847229], [-73.97478137858673, 40.77368983152771]]
- */
-LngLat.prototype.toBounds = function toBounds (radius) {
-        if ( radius === void 0 ) radius      = 0;
-
-    var earthCircumferenceInMetersAtEquator = 40075017;
-    var latAccuracy = 360 * radius / earthCircumferenceInMetersAtEquator,
-        lngAccuracy = latAccuracy / Math.cos((Math.PI / 180) * this.lat);
-
-    return new LngLatBounds(new LngLat(this.lng - lngAccuracy, this.lat - latAccuracy),
-        new LngLat(this.lng + lngAccuracy, this.lat + latAccuracy));
-};
-
-/**
- * Converts an array of two numbers or an object with `lng` and `lat` or `lon` and `lat` properties
- * to a `LngLat` object.
- *
- * If a `LngLat` object is passed in, the function returns it unchanged.
- *
- * @param {LngLatLike} input An array of two numbers or object to convert, or a `LngLat` object to return.
- * @returns {LngLat} A new `LngLat` object, if a conversion occurred, or the original `LngLat` object.
- * @example
- * var arr = [-73.9749, 40.7736];
- * var ll = mapboxgl.LngLat.convert(arr);
- * ll;   // = LngLat {lng: -73.9749, lat: 40.7736}
- */
-LngLat.convert = function convert (input        )     {
-    if (input instanceof LngLat) {
-        return input;
-    }
-    if (Array.isArray(input) && (input.length === 2 || input.length === 3)) {
-        return new LngLat(Number(input[0]), Number(input[1]));
-    }
-    if (!Array.isArray(input) && typeof input === 'object' && input !== null) {
-        return new LngLat(
-            // flow can't refine this to have one of lng or lat, so we have to cast to any
-            Number('lng' in input ? (input ).lng : (input ).lon),
-            Number(input.lat)
-        );
-    }
-    throw new Error("`LngLatLike` argument must be specified as a LngLat instance, an object {lng: <lng>, lat: <lat>}, an object {lon: <lng>, lat: <lat>}, or an array of [<lng>, <lat>]");
-};
-
-//      
-                                               
-
-/*
- * The average circumference of the world in meters.
- */
-var earthCircumfrence = 2 * Math.PI * earthRadius; // meters
-
-/*
- * The circumference at a line of latitude in meters.
- */
-function circumferenceAtLatitude(latitude        ) {
-    return earthCircumfrence * Math.cos(latitude * Math.PI / 180);
-}
-
-function mercatorXfromLng(lng        ) {
-    return (180 + lng) / 360;
-}
-
-function mercatorYfromLat(lat        ) {
-    return (180 - (180 / Math.PI * Math.log(Math.tan(Math.PI / 4 + lat * Math.PI / 360)))) / 360;
-}
-
-function mercatorZfromAltitude(altitude        , lat        ) {
-    return altitude / circumferenceAtLatitude(lat);
-}
-
-function lngFromMercatorX(x        ) {
-    return x * 360 - 180;
-}
-
-function latFromMercatorY(y        ) {
-    var y2 = 180 - y * 360;
-    return 360 / Math.PI * Math.atan(Math.exp(y2 * Math.PI / 180)) - 90;
-}
-
-function altitudeFromMercatorZ(z        , y        ) {
-    return z * circumferenceAtLatitude(latFromMercatorY(y));
-}
-
-/**
- * Determine the Mercator scale factor for a given latitude, see
- * https://en.wikipedia.org/wiki/Mercator_projection#Scale_factor
- *
- * At the equator the scale factor will be 1, which increases at higher latitudes.
- *
- * @param {number} lat Latitude
- * @returns {number} scale factor
- * @private
- */
-function mercatorScale(lat        ) {
-    return 1 / Math.cos(lat * Math.PI / 180);
-}
-
-/**
- * A `MercatorCoordinate` object represents a projected three dimensional position.
- *
- * `MercatorCoordinate` uses the web mercator projection ([EPSG:3857](https://epsg.io/3857)) with slightly different units:
- * - the size of 1 unit is the width of the projected world instead of the "mercator meter"
- * - the origin of the coordinate space is at the north-west corner instead of the middle
- *
- * For example, `MercatorCoordinate(0, 0, 0)` is the north-west corner of the mercator world and
- * `MercatorCoordinate(1, 1, 0)` is the south-east corner. If you are familiar with
- * [vector tiles](https://github.com/mapbox/vector-tile-spec) it may be helpful to think
- * of the coordinate space as the `0/0/0` tile with an extent of `1`.
- *
- * The `z` dimension of `MercatorCoordinate` is conformal. A cube in the mercator coordinate space would be rendered as a cube.
- *
- * @param {number} x The x component of the position.
- * @param {number} y The y component of the position.
- * @param {number} z The z component of the position.
- * @example
- * var nullIsland = new mapboxgl.MercatorCoordinate(0.5, 0.5, 0);
- *
- * @see [Add a custom style layer](https://www.mapbox.com/mapbox-gl-js/example/custom-style-layer/)
- */
-var MercatorCoordinate = function MercatorCoordinate(x    , y    , z) {
-    if ( z === void 0 ) z     = 0;
-
-    this.x = +x;
-    this.y = +y;
-    this.z = +z;
-};
-
-/**
- * Project a `LngLat` to a `MercatorCoordinate`.
- *
- * @param {LngLatLike} lngLatLike The location to project.
- * @param {number} altitude The altitude in meters of the position.
- * @returns {MercatorCoordinate} The projected mercator coordinate.
- * @example
- * var coord = mapboxgl.MercatorCoordinate.fromLngLat({ lng: 0, lat: 0}, 0);
- * coord; // MercatorCoordinate(0.5, 0.5, 0)
- */
-MercatorCoordinate.fromLngLat = function fromLngLat (lngLatLike        , altitude) {
-        if ( altitude === void 0 ) altitude     = 0;
-
-    var lngLat = LngLat.convert(lngLatLike);
-
-    return new MercatorCoordinate(
-            mercatorXfromLng(lngLat.lng),
-            mercatorYfromLat(lngLat.lat),
-            mercatorZfromAltitude(altitude, lngLat.lat));
-};
-
-/**
- * Returns the `LngLat` for the coordinate.
- *
- * @returns {LngLat} The `LngLat` object.
- * @example
- * var coord = new mapboxgl.MercatorCoordinate(0.5, 0.5, 0);
- * var latLng = coord.toLngLat(); // LngLat(0, 0)
- */
-MercatorCoordinate.prototype.toLngLat = function toLngLat () {
-    return new LngLat(
-            lngFromMercatorX(this.x),
-            latFromMercatorY(this.y));
-};
-
-/**
- * Returns the altitude in meters of the coordinate.
- *
- * @returns {number} The altitude in meters.
- * @example
- * var coord = new mapboxgl.MercatorCoordinate(0, 0, 0.02);
- * coord.toAltitude(); // 6914.281956295339
- */
-MercatorCoordinate.prototype.toAltitude = function toAltitude () {
-    return altitudeFromMercatorZ(this.z, this.y);
-};
-
-/**
- * Returns the distance of 1 meter in `MercatorCoordinate` units at this latitude.
- *
- * For coordinates in real world units using meters, this naturally provides the scale
- * to transform into `MercatorCoordinate`s.
- *
- * @returns {number} Distance of 1 meter in `MercatorCoordinate` units.
- */
-MercatorCoordinate.prototype.meterInMercatorCoordinateUnits = function meterInMercatorCoordinateUnits () {
-    // 1 meter / circumference at equator in meters * Mercator projection scale factor at this latitude
-    return 1 / earthCircumfrence * mercatorScale(latFromMercatorY(this.y));
-};
-
-//      
-
-/**
- * The maximum value of a coordinate in the internal tile coordinate system. Coordinates of
- * all source features normalized to this extent upon load.
- *
- * The value is a consequence of the following:
- *
- * * Vertex buffer store positions as signed 16 bit integers.
- * * One bit is lost for signedness to support tile buffers.
- * * One bit is lost because the line vertex buffer used to pack 1 bit of other data into the int.
- * * One bit is lost to support features extending past the extent on the right edge of the tile.
- * * This leaves us with 2^13 = 8192
- *
- * @private
- * @readonly
- */
 var EXTENT = 8192;
-
 function updateBBox(bbox, coord) {
     bbox[0] = Math.min(bbox[0], coord[0]);
     bbox[1] = Math.min(bbox[1], coord[1]);
     bbox[2] = Math.max(bbox[2], coord[0]);
     bbox[3] = Math.max(bbox[3], coord[1]);
+}
+function mercatorXfromLng(lng) {
+    return (180 + lng) / 360;
+}
+function mercatorYfromLat(lat) {
+    return (180 - 180 / Math.PI * Math.log(Math.tan(Math.PI / 4 + lat * Math.PI / 360))) / 360;
 }
 function boxWithinBox(bbox1, bbox2) {
     if (bbox1[0] <= bbox2[0]) {
@@ -10338,14 +9784,12 @@ function boxWithinBox(bbox1, bbox2) {
     return true;
 }
 function getTileCoordinates(p, canonical) {
-    var coord = MercatorCoordinate.fromLngLat({
-        lng: p[0],
-        lat: p[1]
-    }, 0);
+    var x = mercatorXfromLng(p[0]);
+    var y = mercatorYfromLat(p[1]);
     var tilesAtZoom = Math.pow(2, canonical.z);
     return [
-        Math.round(coord.x * tilesAtZoom * EXTENT),
-        Math.round(coord.y * tilesAtZoom * EXTENT)
+        Math.round(x * tilesAtZoom * EXTENT),
+        Math.round(y * tilesAtZoom * EXTENT)
     ];
 }
 function onBoundary(p, p1, p2) {
@@ -10391,7 +9835,9 @@ function twoSided(p1, p2, q1, q2) {
     var y2 = p2[1] - q1[1];
     var x3 = q2[0] - q1[0];
     var y3 = q2[1] - q1[1];
-    if ((x1 * y3 - x3 * y1) * (x2 * y3 - x3 * y2) < 0) {
+    var det1 = x1 * y3 - x3 * y1;
+    var det2 = x2 * y3 - x3 * y2;
+    if (det1 > 0 && det2 < 0 || det1 < 0 && det2 > 0) {
         return true;
     }
     return false;
@@ -10466,6 +9912,75 @@ function getTilePolygons(coordinates, bbox, canonical) {
     }
     return polygons;
 }
+function updatePoint(p, bbox, polyBBox, worldSize) {
+    if (p[0] < polyBBox[0] || p[0] > polyBBox[2]) {
+        var halfWorldSize = worldSize * 0.5;
+        var shift = p[0] - polyBBox[0] > halfWorldSize ? -worldSize : polyBBox[0] - p[0] > halfWorldSize ? worldSize : 0;
+        if (shift === 0) {
+            shift = p[0] - polyBBox[2] > halfWorldSize ? -worldSize : polyBBox[2] - p[0] > halfWorldSize ? worldSize : 0;
+        }
+        p[0] += shift;
+    }
+    updateBBox(bbox, p);
+}
+function resetBBox(bbox) {
+    bbox[0] = bbox[1] = Infinity;
+    bbox[2] = bbox[3] = -Infinity;
+}
+function getTilePoints(geometry, pointBBox, polyBBox, canonical) {
+    var worldSize = Math.pow(2, canonical.z) * EXTENT;
+    var shifts = [
+        canonical.x * EXTENT,
+        canonical.y * EXTENT
+    ];
+    var tilePoints = [];
+    for (var i$1 = 0, list$1 = geometry; i$1 < list$1.length; i$1 += 1) {
+        var points = list$1[i$1];
+        for (var i = 0, list = points; i < list.length; i += 1) {
+            var point = list[i];
+            var p = [
+                point.x + shifts[0],
+                point.y + shifts[1]
+            ];
+            updatePoint(p, pointBBox, polyBBox, worldSize);
+            tilePoints.push(p);
+        }
+    }
+    return tilePoints;
+}
+function getTileLines(geometry, lineBBox, polyBBox, canonical) {
+    var worldSize = Math.pow(2, canonical.z) * EXTENT;
+    var shifts = [
+        canonical.x * EXTENT,
+        canonical.y * EXTENT
+    ];
+    var tileLines = [];
+    for (var i$1 = 0, list$1 = geometry; i$1 < list$1.length; i$1 += 1) {
+        var line = list$1[i$1];
+        var tileLine = [];
+        for (var i = 0, list = line; i < list.length; i += 1) {
+            var point = list[i];
+            var p = [
+                point.x + shifts[0],
+                point.y + shifts[1]
+            ];
+            updateBBox(lineBBox, p);
+            tileLine.push(p);
+        }
+        tileLines.push(tileLine);
+    }
+    if (lineBBox[2] - lineBBox[0] <= worldSize / 2) {
+        resetBBox(lineBBox);
+        for (var i$3 = 0, list$3 = tileLines; i$3 < list$3.length; i$3 += 1) {
+            var line$1 = list$3[i$3];
+            for (var i$2 = 0, list$2 = line$1; i$2 < list$2.length; i$2 += 1) {
+                var p$1 = list$2[i$2];
+                updatePoint(p$1, lineBBox, polyBBox, worldSize);
+            }
+        }
+    }
+    return tileLines;
+}
 function pointsWithinPolygons(ctx, polygonGeometry) {
     var pointBBox = [
         Infinity,
@@ -10480,43 +9995,28 @@ function pointsWithinPolygons(ctx, polygonGeometry) {
         -Infinity
     ];
     var canonical = ctx.canonicalID();
-    var shifts = [
-        canonical.x * EXTENT,
-        canonical.y * EXTENT
-    ];
-    var tilePoints = [];
-    for (var i$1 = 0, list$1 = ctx.geometry(); i$1 < list$1.length; i$1 += 1) {
-        var points = list$1[i$1];
-        for (var i = 0, list = points; i < list.length; i += 1) {
-            var point = list[i];
-            var p = [
-                point.x + shifts[0],
-                point.y + shifts[1]
-            ];
-            updateBBox(pointBBox, p);
-            tilePoints.push(p);
-        }
-    }
     if (polygonGeometry.type === 'Polygon') {
         var tilePolygon = getTilePolygon(polygonGeometry.coordinates, polyBBox, canonical);
+        var tilePoints = getTilePoints(ctx.geometry(), pointBBox, polyBBox, canonical);
         if (!boxWithinBox(pointBBox, polyBBox)) {
             return false;
         }
-        for (var i$2 = 0, list$2 = tilePoints; i$2 < list$2.length; i$2 += 1) {
-            var point$1 = list$2[i$2];
-            if (!pointWithinPolygon(point$1, tilePolygon)) {
+        for (var i = 0, list = tilePoints; i < list.length; i += 1) {
+            var point = list[i];
+            if (!pointWithinPolygon(point, tilePolygon)) {
                 return false;
             }
         }
     }
     if (polygonGeometry.type === 'MultiPolygon') {
         var tilePolygons = getTilePolygons(polygonGeometry.coordinates, polyBBox, canonical);
+        var tilePoints$1 = getTilePoints(ctx.geometry(), pointBBox, polyBBox, canonical);
         if (!boxWithinBox(pointBBox, polyBBox)) {
             return false;
         }
-        for (var i$3 = 0, list$3 = tilePoints; i$3 < list$3.length; i$3 += 1) {
-            var point$2 = list$3[i$3];
-            if (!pointWithinPolygons(point$2, tilePolygons)) {
+        for (var i$1 = 0, list$1 = tilePoints$1; i$1 < list$1.length; i$1 += 1) {
+            var point$1 = list$1[i$1];
+            if (!pointWithinPolygons(point$1, tilePolygons)) {
                 return false;
             }
         }
@@ -10537,45 +10037,28 @@ function linesWithinPolygons(ctx, polygonGeometry) {
         -Infinity
     ];
     var canonical = ctx.canonicalID();
-    var shifts = [
-        canonical.x * EXTENT,
-        canonical.y * EXTENT
-    ];
-    var tileLines = [];
-    for (var i$1 = 0, list$1 = ctx.geometry(); i$1 < list$1.length; i$1 += 1) {
-        var line = list$1[i$1];
-        var tileLine = [];
-        for (var i = 0, list = line; i < list.length; i += 1) {
-            var point = list[i];
-            var p = [
-                point.x + shifts[0],
-                point.y + shifts[1]
-            ];
-            updateBBox(lineBBox, p);
-            tileLine.push(p);
-        }
-        tileLines.push(tileLine);
-    }
     if (polygonGeometry.type === 'Polygon') {
         var tilePolygon = getTilePolygon(polygonGeometry.coordinates, polyBBox, canonical);
+        var tileLines = getTileLines(ctx.geometry(), lineBBox, polyBBox, canonical);
         if (!boxWithinBox(lineBBox, polyBBox)) {
             return false;
         }
-        for (var i$2 = 0, list$2 = tileLines; i$2 < list$2.length; i$2 += 1) {
-            var line$1 = list$2[i$2];
-            if (!lineStringWithinPolygon(line$1, tilePolygon)) {
+        for (var i = 0, list = tileLines; i < list.length; i += 1) {
+            var line = list[i];
+            if (!lineStringWithinPolygon(line, tilePolygon)) {
                 return false;
             }
         }
     }
     if (polygonGeometry.type === 'MultiPolygon') {
         var tilePolygons = getTilePolygons(polygonGeometry.coordinates, polyBBox, canonical);
+        var tileLines$1 = getTileLines(ctx.geometry(), lineBBox, polyBBox, canonical);
         if (!boxWithinBox(lineBBox, polyBBox)) {
             return false;
         }
-        for (var i$3 = 0, list$3 = tileLines; i$3 < list$3.length; i$3 += 1) {
-            var line$2 = list$3[i$3];
-            if (!lineStringWithinPolygons(line$2, tilePolygons)) {
+        for (var i$1 = 0, list$1 = tileLines$1; i$1 < list$1.length; i$1 += 1) {
+            var line$1 = list$1[i$1];
+            if (!lineStringWithinPolygons(line$1, tilePolygons)) {
                 return false;
             }
         }
@@ -10970,6 +10453,112 @@ Step.prototype.serialize = function serialize() {
         serialized.push(this.outputs[i].serialize());
     }
     return serialized;
+};
+
+/*
+ * Copyright (C) 2008 Apple Inc. All Rights Reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions
+ * are met:
+ * 1. Redistributions of source code must retain the above copyright
+ *    notice, this list of conditions and the following disclaimer.
+ * 2. Redistributions in binary form must reproduce the above copyright
+ *    notice, this list of conditions and the following disclaimer in the
+ *    documentation and/or other materials provided with the distribution.
+ *
+ * THIS SOFTWARE IS PROVIDED BY APPLE INC. ``AS IS'' AND ANY
+ * EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL APPLE INC. OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY
+ * OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+ * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ * Ported from Webkit
+ * http://svn.webkit.org/repository/webkit/trunk/Source/WebCore/platform/graphics/UnitBezier.h
+ */
+
+var unitbezier = UnitBezier;
+
+function UnitBezier(p1x, p1y, p2x, p2y) {
+    // Calculate the polynomial coefficients, implicit first and last control points are (0,0) and (1,1).
+    this.cx = 3.0 * p1x;
+    this.bx = 3.0 * (p2x - p1x) - this.cx;
+    this.ax = 1.0 - this.cx - this.bx;
+
+    this.cy = 3.0 * p1y;
+    this.by = 3.0 * (p2y - p1y) - this.cy;
+    this.ay = 1.0 - this.cy - this.by;
+
+    this.p1x = p1x;
+    this.p1y = p2y;
+    this.p2x = p2x;
+    this.p2y = p2y;
+}
+
+UnitBezier.prototype.sampleCurveX = function(t) {
+    // `ax t^3 + bx t^2 + cx t' expanded using Horner's rule.
+    return ((this.ax * t + this.bx) * t + this.cx) * t;
+};
+
+UnitBezier.prototype.sampleCurveY = function(t) {
+    return ((this.ay * t + this.by) * t + this.cy) * t;
+};
+
+UnitBezier.prototype.sampleCurveDerivativeX = function(t) {
+    return (3.0 * this.ax * t + 2.0 * this.bx) * t + this.cx;
+};
+
+UnitBezier.prototype.solveCurveX = function(x, epsilon) {
+    if (typeof epsilon === 'undefined') { epsilon = 1e-6; }
+
+    var t0, t1, t2, x2, i;
+
+    // First try a few iterations of Newton's method -- normally very fast.
+    for (t2 = x, i = 0; i < 8; i++) {
+
+        x2 = this.sampleCurveX(t2) - x;
+        if (Math.abs(x2) < epsilon) { return t2; }
+
+        var d2 = this.sampleCurveDerivativeX(t2);
+        if (Math.abs(d2) < 1e-6) { break; }
+
+        t2 = t2 - x2 / d2;
+    }
+
+    // Fall back to the bisection method for reliability.
+    t0 = 0.0;
+    t1 = 1.0;
+    t2 = x;
+
+    if (t2 < t0) { return t0; }
+    if (t2 > t1) { return t1; }
+
+    while (t0 < t1) {
+
+        x2 = this.sampleCurveX(t2);
+        if (Math.abs(x2 - x) < epsilon) { return t2; }
+
+        if (x > x2) {
+            t0 = t2;
+        } else {
+            t1 = t2;
+        }
+
+        t2 = (t1 - t0) * 0.5 + t0;
+    }
+
+    // Failure.
+    return t2;
+};
+
+UnitBezier.prototype.solve = function(x, epsilon) {
+    return this.sampleCurveY(this.solveCurveX(x, epsilon));
 };
 
 function number(a, b, t) {
@@ -11433,15 +11022,6 @@ At.prototype.serialize = function serialize() {
     ];
 };
 
-function isComparableType(type) {
-    return type.kind === 'boolean' || type.kind === 'string' || type.kind === 'number' || type.kind === 'null' || type.kind === 'value';
-}
-function isComparableRuntimeValue(needle) {
-    return typeof needle === 'boolean' || typeof needle === 'string' || typeof needle === 'number';
-}
-function isSearchableRuntimeValue(haystack) {
-    return Array.isArray(haystack) || typeof haystack === 'string';
-}
 var In = function In(needle, haystack) {
     this.type = BooleanType;
     this.needle = needle;
@@ -11456,7 +11036,13 @@ In.parse = function parse(args, context) {
     if (!needle || !haystack) {
         return null;
     }
-    if (!isComparableType(needle.type)) {
+    if (!isValidType(needle.type, [
+            BooleanType,
+            StringType,
+            NumberType,
+            NullType,
+            ValueType
+        ])) {
         return context.error('Expected first argument to be of type boolean, string, number or null, but found ' + toString(needle.type) + ' instead');
     }
     return new In(needle, haystack);
@@ -11464,13 +11050,21 @@ In.parse = function parse(args, context) {
 In.prototype.evaluate = function evaluate(ctx) {
     var needle = this.needle.evaluate(ctx);
     var haystack = this.haystack.evaluate(ctx);
-    if (needle == null || !haystack) {
+    if (!haystack) {
         return false;
     }
-    if (!isComparableRuntimeValue(needle)) {
-        throw new RuntimeError('Expected first argument to be of type boolean, string or number, but found ' + toString(typeOf(needle)) + ' instead.');
+    if (!isValidNativeType(needle, [
+            'boolean',
+            'string',
+            'number',
+            'null'
+        ])) {
+        throw new RuntimeError('Expected first argument to be of type boolean, string, number or null, but found ' + toString(typeOf(needle)) + ' instead.');
     }
-    if (!isSearchableRuntimeValue(haystack)) {
+    if (!isValidNativeType(haystack, [
+            'string',
+            'array'
+        ])) {
         throw new RuntimeError('Expected second argument to be of type array or string, but found ' + toString(typeOf(haystack)) + ' instead.');
     }
     return haystack.indexOf(needle) >= 0;
@@ -11485,6 +11079,90 @@ In.prototype.outputDefined = function outputDefined() {
 In.prototype.serialize = function serialize() {
     return [
         'in',
+        this.needle.serialize(),
+        this.haystack.serialize()
+    ];
+};
+
+var IndexOf = function IndexOf(needle, haystack, fromIndex) {
+    this.type = NumberType;
+    this.needle = needle;
+    this.haystack = haystack;
+    this.fromIndex = fromIndex;
+};
+IndexOf.parse = function parse(args, context) {
+    if (args.length <= 2 || args.length >= 5) {
+        return context.error('Expected 3 or 4 arguments, but found ' + (args.length - 1) + ' instead.');
+    }
+    var needle = context.parse(args[1], 1, ValueType);
+    var haystack = context.parse(args[2], 2, ValueType);
+    if (!needle || !haystack) {
+        return null;
+    }
+    if (!isValidType(needle.type, [
+            BooleanType,
+            StringType,
+            NumberType,
+            NullType,
+            ValueType
+        ])) {
+        return context.error('Expected first argument to be of type boolean, string, number or null, but found ' + toString(needle.type) + ' instead');
+    }
+    if (args.length === 4) {
+        var fromIndex = context.parse(args[3], 3, NumberType);
+        if (!fromIndex) {
+            return null;
+        }
+        return new IndexOf(needle, haystack, fromIndex);
+    } else {
+        return new IndexOf(needle, haystack);
+    }
+};
+IndexOf.prototype.evaluate = function evaluate(ctx) {
+    var needle = this.needle.evaluate(ctx);
+    var haystack = this.haystack.evaluate(ctx);
+    if (!isValidNativeType(needle, [
+            'boolean',
+            'string',
+            'number',
+            'null'
+        ])) {
+        throw new RuntimeError('Expected first argument to be of type boolean, string, number or null, but found ' + toString(typeOf(needle)) + ' instead.');
+    }
+    if (!isValidNativeType(haystack, [
+            'string',
+            'array'
+        ])) {
+        throw new RuntimeError('Expected second argument to be of type array or string, but found ' + toString(typeOf(haystack)) + ' instead.');
+    }
+    if (this.fromIndex) {
+        var fromIndex = this.fromIndex.evaluate(ctx);
+        return haystack.indexOf(needle, fromIndex);
+    }
+    return haystack.indexOf(needle);
+};
+IndexOf.prototype.eachChild = function eachChild(fn) {
+    fn(this.needle);
+    fn(this.haystack);
+    if (this.fromIndex) {
+        fn(this.fromIndex);
+    }
+};
+IndexOf.prototype.outputDefined = function outputDefined() {
+    return false;
+};
+IndexOf.prototype.serialize = function serialize() {
+    if (this.fromIndex != null && this.fromIndex !== undefined) {
+        var fromIndex = this.fromIndex.serialize();
+        return [
+            'index-of',
+            this.needle.serialize(),
+            this.haystack.serialize(),
+            fromIndex
+        ];
+    }
+    return [
+        'index-of',
         this.needle.serialize(),
         this.haystack.serialize()
     ];
@@ -11689,7 +11367,81 @@ Case.prototype.serialize = function serialize() {
     return serialized;
 };
 
-function isComparableType$1(op, type) {
+var Slice = function Slice(type, input, beginIndex, endIndex) {
+    this.type = type;
+    this.input = input;
+    this.beginIndex = beginIndex;
+    this.endIndex = endIndex;
+};
+Slice.parse = function parse(args, context) {
+    if (args.length <= 2 || args.length >= 5) {
+        return context.error('Expected 3 or 4 arguments, but found ' + (args.length - 1) + ' instead.');
+    }
+    var input = context.parse(args[1], 1, ValueType);
+    var beginIndex = context.parse(args[2], 2, NumberType);
+    if (!input || !beginIndex) {
+        return null;
+    }
+    if (!isValidType(input.type, [
+            array(ValueType),
+            StringType,
+            ValueType
+        ])) {
+        return context.error('Expected first argument to be of type array or string, but found ' + toString(input.type) + ' instead');
+    }
+    if (args.length === 4) {
+        var endIndex = context.parse(args[3], 3, NumberType);
+        if (!endIndex) {
+            return null;
+        }
+        return new Slice(input.type, input, beginIndex, endIndex);
+    } else {
+        return new Slice(input.type, input, beginIndex);
+    }
+};
+Slice.prototype.evaluate = function evaluate(ctx) {
+    var input = this.input.evaluate(ctx);
+    var beginIndex = this.beginIndex.evaluate(ctx);
+    if (!isValidNativeType(input, [
+            'string',
+            'array'
+        ])) {
+        throw new RuntimeError('Expected first argument to be of type array or string, but found ' + toString(typeOf(input)) + ' instead.');
+    }
+    if (this.endIndex) {
+        var endIndex = this.endIndex.evaluate(ctx);
+        return input.slice(beginIndex, endIndex);
+    }
+    return input.slice(beginIndex);
+};
+Slice.prototype.eachChild = function eachChild(fn) {
+    fn(this.input);
+    fn(this.beginIndex);
+    if (this.endIndex) {
+        fn(this.endIndex);
+    }
+};
+Slice.prototype.outputDefined = function outputDefined() {
+    return false;
+};
+Slice.prototype.serialize = function serialize() {
+    if (this.endIndex != null && this.endIndex !== undefined) {
+        var endIndex = this.endIndex.serialize();
+        return [
+            'slice',
+            this.input.serialize(),
+            this.beginIndex.serialize(),
+            endIndex
+        ];
+    }
+    return [
+        'slice',
+        this.input.serialize(),
+        this.beginIndex.serialize()
+    ];
+};
+
+function isComparableType(op, type) {
     if (op === '==' || op === '!=') {
         return type.kind === 'boolean' || type.kind === 'string' || type.kind === 'number' || type.kind === 'null' || type.kind === 'value';
     } else {
@@ -11751,14 +11503,14 @@ function makeComparison(op, compareBasic, compareWithCollator) {
             if (!lhs) {
                 return null;
             }
-            if (!isComparableType$1(op, lhs.type)) {
+            if (!isComparableType(op, lhs.type)) {
                 return context.concat(1).error('"' + op + '" comparisons are not supported for type \'' + toString(lhs.type) + '\'.');
             }
             var rhs = context.parse(args[2], 2, ValueType);
             if (!rhs) {
                 return null;
             }
-            if (!isComparableType$1(op, rhs.type)) {
+            if (!isComparableType(op, rhs.type)) {
                 return context.concat(2).error('"' + op + '" comparisons are not supported for type \'' + toString(rhs.type) + '\'.');
             }
             if (lhs.type.kind !== rhs.type.kind && lhs.type.kind !== 'value' && rhs.type.kind !== 'value') {
@@ -11983,6 +11735,7 @@ var expressions = {
     'format': FormatExpression,
     'image': ImageExpression,
     'in': In,
+    'index-of': IndexOf,
     'interpolate': Interpolate,
     'interpolate-hcl': Interpolate,
     'interpolate-lab': Interpolate,
@@ -11993,6 +11746,7 @@ var expressions = {
     'number': Assertion,
     'number-format': NumberFormat,
     'object': Assertion,
+    'slice': Slice,
     'step': Step,
     'string': Assertion,
     'to-boolean': Coercion,
@@ -13560,7 +13314,7 @@ function createFilter(filter) {
             return err.key + ': ' + err.message;
         }).join(', '));
     } else {
-        var needGeometry = Array.isArray(filter) && filter.length !== 0 && filter[0] === 'within';
+        var needGeometry = geometryNeeded(filter);
         return {
             filter: function (globalProperties, feature, canonical) {
                 return compiled.value.evaluate(globalProperties, feature, {}, canonical);
@@ -13572,6 +13326,20 @@ function createFilter(filter) {
 function compare(a, b) {
     return a < b ? -1 : a > b ? 1 : 0;
 }
+function geometryNeeded(filter) {
+    if (!Array.isArray(filter)) {
+        return false;
+    }
+    if (filter[0] === 'within') {
+        return true;
+    }
+    for (var index = 1; index < filter.length; index++) {
+        if (geometryNeeded(filter[index])) {
+            return true;
+        }
+    }
+    return false;
+}
 function convertFilter(filter) {
     if (!filter) {
         return true;
@@ -13580,7 +13348,7 @@ function convertFilter(filter) {
     if (filter.length <= 1) {
         return op !== 'any';
     }
-    var converted = op === '==' ? convertComparisonOp(filter[1], filter[2], '==') : op === '!=' ? convertNegation(convertComparisonOp(filter[1], filter[2], '==')) : op === '<' || op === '>' || op === '<=' || op === '>=' ? convertComparisonOp(filter[1], filter[2], op) : op === 'any' ? convertDisjunctionOp(filter.slice(1)) : op === 'all' ? ['all'].concat(filter.slice(1).map(convertFilter)) : op === 'none' ? ['all'].concat(filter.slice(1).map(convertFilter).map(convertNegation)) : op === 'in' ? convertInOp(filter[1], filter.slice(2)) : op === '!in' ? convertNegation(convertInOp(filter[1], filter.slice(2))) : op === 'has' ? convertHasOp(filter[1]) : op === '!has' ? convertNegation(convertHasOp(filter[1])) : true;
+    var converted = op === '==' ? convertComparisonOp(filter[1], filter[2], '==') : op === '!=' ? convertNegation(convertComparisonOp(filter[1], filter[2], '==')) : op === '<' || op === '>' || op === '<=' || op === '>=' ? convertComparisonOp(filter[1], filter[2], op) : op === 'any' ? convertDisjunctionOp(filter.slice(1)) : op === 'all' ? ['all'].concat(filter.slice(1).map(convertFilter)) : op === 'none' ? ['all'].concat(filter.slice(1).map(convertFilter).map(convertNegation)) : op === 'in' ? convertInOp(filter[1], filter.slice(2)) : op === '!in' ? convertNegation(convertInOp(filter[1], filter.slice(2))) : op === 'has' ? convertHasOp(filter[1]) : op === '!has' ? convertNegation(convertHasOp(filter[1])) : op === 'within' ? filter : true;
     return converted;
 }
 function convertComparisonOp(property, value, op) {
@@ -13996,6 +13764,36 @@ function derefLayers(layers) {
         }
     }
     return layers;
+}
+
+function deepEqual(a, b) {
+    if (Array.isArray(a)) {
+        if (!Array.isArray(b) || a.length !== b.length) {
+            return false;
+        }
+        for (var i = 0; i < a.length; i++) {
+            if (!deepEqual(a[i], b[i])) {
+                return false;
+            }
+        }
+        return true;
+    }
+    if (typeof a === 'object' && a !== null && b !== null) {
+        if (!(typeof b === 'object')) {
+            return false;
+        }
+        var keys = Object.keys(a);
+        if (keys.length !== Object.keys(b).length) {
+            return false;
+        }
+        for (var key in a) {
+            if (!deepEqual(a[key], b[key])) {
+                return false;
+            }
+        }
+        return true;
+    }
+    return a === b;
 }
 
 var operations = {
@@ -14837,6 +14635,14 @@ function validateNonExpressionFilter(options) {
             errors.push(new ValidationError(key + '[1]', value[1], 'string expected, ' + type + ' found'));
         }
         break;
+    case 'within':
+        type = getType(value[1]);
+        if (value.length !== 2) {
+            errors.push(new ValidationError(key, value, 'filter array for "' + value[0] + '" operator must have 2 elements'));
+        } else if (type !== 'object') {
+            errors.push(new ValidationError(key + '[1]', value[1], 'object expected, ' + type + ' found'));
+        }
+        break;
     }
     return errors;
 }
@@ -15496,7 +15302,7 @@ parse: function parse(input) {
             }
             return token;
         }
-    var symbol, preErrorSymbol, state, action, r, yyval = {}, p, len, newState, expected;
+    var symbol, state, action, r, yyval = {}, p, len, newState, expected;
     while (true) {
         state = stack[stack.length - 1];
         if (this.defaultActions[state]) {
@@ -15538,14 +15344,11 @@ parse: function parse(input) {
             lstack.push(lexer.yylloc);
             stack.push(action[1]);
             symbol = null;
-            if (!preErrorSymbol) {
+            {
                 yyleng = lexer.yyleng;
                 yytext = lexer.yytext;
                 yylineno = lexer.yylineno;
                 yyloc = lexer.yylloc;
-            } else {
-                symbol = preErrorSymbol;
-                preErrorSymbol = null;
             }
             break;
         case 2:
@@ -16085,6 +15888,7 @@ function validateMapboxApiSupported(style) {
 var expression$1 = {
     StyleExpression: StyleExpression,
     isExpression: isExpression,
+    isExpressionFilter: isExpressionFilter,
     createExpression: createExpression,
     createPropertyExpression: createPropertyExpression,
     normalizePropertyExpression: normalizePropertyExpression,
@@ -35993,12 +35797,12 @@ function fromTemplate(text, properties) {
                             if (type == 2) {
                                 var geom = feature.getGeometry();
                                 // ol package and ol-debug.js only
-                                if (geom.getFlatMidpoint) {
+                                if (geom.getFlatMidpoint || geom.getFlatMidpoints) {
                                     var extent = geom.getExtent();
                                     var size = Math.sqrt(Math.max(Math.pow((extent[2] - extent[0]) / resolution, 2), Math.pow((extent[3] - extent[1]) / resolution, 2)));
                                     if (size > 150) {
                                         //FIXME Do not hard-code a size of 150
-                                        var midpoint = geom.getFlatMidpoint();
+                                        var midpoint = geom.getType() === 'MultiLineString' ? geom.getFlatMidpoints() : geom.getFlatMidpoint();
                                         if (!renderFeature) {
                                             renderFeatureCoordinates = [NaN, NaN];
                                             renderFeature = new ol_render_Feature__WEBPACK_IMPORTED_MODULE_6__[/* default */ "a"]('Point', renderFeatureCoordinates, [], {}, null);
@@ -36279,9 +36083,14 @@ var defaultResolutions = (function () {
     }
     return resolutions;
 })();
+/**
+ * @param {number} width Width of the canvas.
+ * @param {number} height Height of the canvas.
+ * @return {HTMLCanvasElement} Canvas.
+ */
 function createCanvas(width, height) {
     if (typeof WorkerGlobalScope !== 'undefined' && self instanceof WorkerGlobalScope && typeof OffscreenCanvas !== 'undefined') { // eslint-disable-line
-        return new OffscreenCanvas(width, height);
+        return /** @type {?} */ (new OffscreenCanvas(width, height));
     }
     else {
         var canvas = document.createElement('canvas');
@@ -36386,7 +36195,6 @@ function wrapText(text, font, em, letterSpacing) {
                     else {
                         lines[i] = line_1 + ' ' + lines[i];
                     }
-                    lines.length -= 1;
                 }
             }
             // Pass 3 - try to fill 80% of maxWidth for each line

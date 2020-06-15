@@ -1,7 +1,7 @@
 {
   "name": "pack",
   "version": "1.0.0",
-  "description": "",
+  "description": "To get the required files :  ``` chmod u+x installscript.sh ``` Then Execute the script ``` ./installscript.sh ``` Then finally, run  ``` ./up.sh ```",
   "main": "main.js",
   "scripts": {
     "babel": "babel --presets es2015 ./main.js -o ./build/main.bundle.js",
