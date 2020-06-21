@@ -183,6 +183,10 @@ var ContextMenu = __webpack_require__(/*! ./ol-contextmenu.js */ "./ol-contextme
 
 
 
+
+
+
+
 //////////////////s2  GLOBALS /////////////////////////////
 window.$ = window.jQuery = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
 const typeahead = __webpack_require__(/*! ./assets/bootstrap-typeahead.min.js */ "./assets/bootstrap-typeahead.min.js");
@@ -512,353 +516,359 @@ $(function() {
 
 
 ////////////////s6     below is context menu stuff  ///////////////////////
-var contextmenu_no_point = [
-   {
-     text: 'Add Data Point',
-     icon: 'assets/pin_drop.png',
-     callback: popUp,
-   },
-   {
-     text: 'Clear Map Points',
-     icon: 'assets/pin_drop.png',
-     callback: clear,
-   },
-   {
-     text: 'Import Map Points',
-     icon: 'assets/pin_drop.png',
-     callback: pasteMap,
-   },
-  {
-    text: 'Export Points',
-    classname: 'bold',
-    icon: 'assets/center.png',
-    callback: download,
-  },
-]
+// var contextmenu_no_point = [
+//    {
+//      text: 'Add Data Point',
+//      icon: 'assets/pin_drop.png',
+//      callback: popUp,
+//    },
+//    {
+//      text: 'Clear Map Points',
+//      icon: 'assets/pin_drop.png',
+//      callback: clear,
+//    },
+//    {
+//      text: 'Import Map Points',
+//      icon: 'assets/pin_drop.png',
+//      callback: pasteMap,
+//    },
+//   {
+//     text: 'Export Points',
+//     classname: 'bold',
+//     icon: 'assets/center.png',
+//     callback: download,
+//   },
+// ]
 
-var contextmenu_point = [
-  {
-    text: 'View Data at Point',
-    classname: 'bold',
-    icon: 'assets/center.png',
-    callback: displayData,
-  }
-]
+// var contextmenu_point = [
+//   {
+//     text: 'View Data at Point',
+//     classname: 'bold',
+//     icon: 'assets/center.png',
+//     callback: displayData,
+//   }
+// ]
 
-var contextmenu = new ContextMenu({
-  width: 180,
-  items: contextmenu_point,
-});
-map.addControl(contextmenu);
+// var contextmenu = new ContextMenu({
+//   width: 180,
+//   items: contextmenu_point,
+// });
+// map.addControl(contextmenu);
 
-contextmenu.on('open', function(evt) {
-  var feature = map.forEachFeatureAtPixel(evt.pixel, function(ft, l) {
-    return ft;
-  });
-  if (feature && feature.get('type') === 'removable') {
-    contextmenu.clear();
-    dropFeature = feature;
-    contextmenu.extend(contextmenu_point);
-  } else {
-    dropFeature = null;
-    contextmenu.clear();
-    contextmenu.extend(contextmenu_no_point);
-  }
-});
+// contextmenu.on('open', function(evt) {
+//   var feature = map.forEachFeatureAtPixel(evt.pixel, function(ft, l) {
+//     return ft;
+//   });
+//   if (feature && feature.get('type') === 'removable') {
+//     contextmenu.clear();
+//     dropFeature = feature;
+//     contextmenu.extend(contextmenu_point);
+//   } else {
+//     dropFeature = null;
+//     contextmenu.clear();
+//     contextmenu.extend(contextmenu_no_point);
+//   }
+// });
 
- function clear(){
-   dropSource.clear();
-};
+//  function clear(){
+//    dropSource.clear();
+// };
 
-map.on('pointermove', function(e) {
-  var pixel = map.getEventPixel(e.originalEvent);
-  var hit = map.hasFeatureAtPixel(pixel);
+// map.on('pointermove', function(e) {
+//   var pixel = map.getEventPixel(e.originalEvent);
+//   var hit = map.hasFeatureAtPixel(pixel);
 
-  if (e.dragging) return;
+//   if (e.dragging) return;
 
-  map.getTargetElement().style.cursor = hit ? 'pointer' : '';
-});
+//   map.getTargetElement().style.cursor = hit ? 'pointer' : '';
+// });
 
-////////////////s7     below is popup stuff  ///////////////////////
+// ////////////////s7     below is popup stuff  ///////////////////////
+// import 'ol/ol.css';
+// import Overlay from 'ol/Overlay';
+// import {toStringHDMS} from 'ol/coordinate';
 
+// /**
+//  * Elements that make up the popup.
+//  */
+// var container = document.getElementById('popup');
+// var title = document.getElementById('popup-title');
+// var thumbnails = document.getElementById('thumbnails');
+// var content = document.getElementById('popup-textarea');
+// var closer = document.getElementById('popup-closer');
+// var done = document.getElementById('popup-done');
+// var imgAdd = document.getElementById('img-add');
+// var deleteFeature = document.getElementById('popup-delete');
+// var importJson = document.getElementById('import-json');
 
+// var importJpeg = document.getElementById('import-jpeg');
+// var seq = document.getElementById('seq');
+// var pictureElement = document.getElementById('picture');
+// var bigImg = document.getElementById('bigImg');
 
+// var dataPlace;
+// var dataCoordinate;
+// var dropFeature = null;
 
-/**
- * Elements that make up the popup.
- */
-var container = document.getElementById('popup');
-var title = document.getElementById('popup-title');
-var thumbnails = document.getElementById('thumbnails');
-var content = document.getElementById('popup-textarea');
-var closer = document.getElementById('popup-closer');
-var done = document.getElementById('popup-done');
-var imgAdd = document.getElementById('img-add');
-var deleteFeature = document.getElementById('popup-delete');
-var importJson = document.getElementById('import-json');
+// /**
+//  * Create an overlay to anchor the popup to the map.
+//  */
+// var overlay = new Overlay({
+//   element: container,
+//   autoPan: true,
+//   autoPanAnimation: {
+//     duration: 250
+//   }
+// });
+// map.addOverlay(overlay);
 
-var importJpeg = document.getElementById('import-jpeg');
-var seq = document.getElementById('seq');
-var pictureElement = document.getElementById('picture');
-var bigImg = document.getElementById('bigImg');
+// function popUp(obj) {
+//   dataPlace = obj;
+//   dataCoordinate = obj.coordinate;
+//   overlay.setPosition(dataCoordinate);
+//   title.value="";
+//   content.value="";
+//   var iconStyle = new Style({
+//     image: new Icon({ scale: 0.6, src: 'assets/pin_drop.png' }),
+//     text: new Text({
+//         offsetY: 25,
+//         text: title.value,
+//         font: '15px Open Sans,sans-serif',
+//         fill: new Fill({ color: 'rgba(67, 163, 46)' }),
+//         stroke: new Stroke({ color: '#eee', width: 2 }),
+//       })
+//     });
+//   while (thumbnails.hasChildNodes()) {
+//       thumbnails.removeChild(thumbnails.firstChild);
+//   }
+//   // Create a geojson feature to hold everything
+//   dropFeature = new Feature({
+//       type: 'removable',
+//       geometry: new Point(obj.coordinate),
+//   });
+//   dropFeature.setStyle(iconStyle);
+//   drop.getSource().addFeature(dropFeature);
+//   dropFeature.set('seq','1');  // index into the pictures for this feature
+// };
 
-var dataPlace;
-var dataCoordinate;
-var dropFeature = null;
-
-/**
- * Create an overlay to anchor the popup to the map.
- */
-var overlay = new ol_Overlay__WEBPACK_IMPORTED_MODULE_26__[/* default */ "a"]({
-  element: container,
-  autoPan: true,
-  autoPanAnimation: {
-    duration: 250
-  }
-});
-map.addOverlay(overlay);
-
-function popUp(obj) {
-  dataPlace = obj;
-  dataCoordinate = obj.coordinate;
-  overlay.setPosition(dataCoordinate);
-  title.value="";
-  content.value="";
-  var iconStyle = new ol_style__WEBPACK_IMPORTED_MODULE_15__[/* Style */ "d"]({
-    image: new ol_style__WEBPACK_IMPORTED_MODULE_15__[/* Icon */ "b"]({ scale: 0.6, src: 'assets/pin_drop.png' }),
-    text: new ol_style__WEBPACK_IMPORTED_MODULE_15__[/* Text */ "e"]({
-        offsetY: 25,
-        text: title.value,
-        font: '15px Open Sans,sans-serif',
-        fill: new ol_style__WEBPACK_IMPORTED_MODULE_15__[/* Fill */ "a"]({ color: 'rgba(67, 163, 46)' }),
-        stroke: new ol_style__WEBPACK_IMPORTED_MODULE_15__[/* Stroke */ "c"]({ color: '#eee', width: 2 }),
-      })
-    });
-  while (thumbnails.hasChildNodes()) {
-      thumbnails.removeChild(thumbnails.firstChild);
-  }
-  // Create a geojson feature to hold everything
-  dropFeature = new ol_Feature__WEBPACK_IMPORTED_MODULE_17__[/* default */ "a"]({
-      type: 'removable',
-      geometry: new ol_geom_Point__WEBPACK_IMPORTED_MODULE_16__[/* default */ "a"](obj.coordinate),
-  });
-  dropFeature.setStyle(iconStyle);
-  drop.getSource().addFeature(dropFeature);
-  dropFeature.set('seq','1');  // index into the pictures for this feature
-};
-
-function displayData(obj) {
-  var feature = dropFeature;
-  if ( ! feature) {
-      alert('no feature');
-      return false;
-  };
-  if (feature.get('type') === 'removable') {
-     title.value = feature.get('title');
-     // if there are any images, create the thumbnails
-     while (thumbnails.hasChildNodes()) {
-         thumbnails.removeChild(thumbnails.firstChild);
-     }
-     var nextImageNumber = Number(dropFeature.get('seq'));
-     for (var i=1; i<nextImageNumber; i++){
-         var imageName = 'img-'+i;
-         var url = dropFeature.get(imageName);
-         if ( url === '') continue;
-         var elem = document.createElement('DIV');
-         elem.id = imageName;
-         elem.className = ' thumb';
-         var img = document.createElement('IMG');
-         img.onclick = large;
-         img.src = url;
-         img.alt = '';
-         img.setAttribute('data-name', imageName);
-         elem.appendChild(img);
-         thumbnails.appendChild(elem);
+// function displayData(obj) {
+//   var feature = dropFeature;
+//   if ( ! feature) {
+//       alert('no feature');
+//       return false;
+//   };
+//   if (feature.get('type') === 'removable') {
+//      title.value = feature.get('title');
+//      // if there are any images, create the thumbnails
+//      while (thumbnails.hasChildNodes()) {
+//          thumbnails.removeChild(thumbnails.firstChild);
+//      }
+//      var nextImageNumber = Number(dropFeature.get('seq'));
+//      for (var i=1; i<nextImageNumber; i++){
+//          var imageName = 'img-'+i;
+//          var url = dropFeature.get(imageName);
+//          if ( url === '') continue;
+//          var elem = document.createElement('DIV');
+//          elem.id = imageName;
+//          elem.className = ' thumb';
+//          var img = document.createElement('IMG');
+//          img.onclick = large;
+//          img.src = url;
+//          img.alt = '';
+//          img.setAttribute('data-name', imageName);
+//          elem.appendChild(img);
+//          thumbnails.appendChild(elem);
          
-     }
-     content.value = feature.get('content');
-     var coordinate = feature.getGeometry().getCoordinates();
-     overlay.setPosition(coordinate);
-  };
-};
-/**
- * Add a click handler to hide the popup.
- * @return {boolean} Don't follow the href.
- */
-closer.onclick = function() {
-  overlay.setPosition(undefined);
-  closer.blur();
-  return false;
-};
+//      }
+//      content.value = feature.get('content');
+//      var coordinate = feature.getGeometry().getCoordinates();
+//      overlay.setPosition(coordinate);
+//   };
+// };
+// /**
+//  * Add a click handler to hide the popup.
+//  * @return {boolean} Don't follow the href.
+//  */
+// closer.onclick = function() {
+//   overlay.setPosition(undefined);
+//   closer.blur();
+//   return false;
+// };
 
-///////////////////s8  Fuctions used by Point Overlay  //////////////////////////
-deleteFeature.onclick = function() {
-  if (dropFeature)
-      drop.getSource().removeFeature(dropFeature);
-  overlay.setPosition(undefined);
-  closer.blur();
-  return false;
-};
+// ///////////////////s8  Fuctions used by Point Overlay  //////////////////////////
+// deleteFeature.onclick = function() {
+//   if (dropFeature)
+//       drop.getSource().removeFeature(dropFeature);
+//   overlay.setPosition(undefined);
+//   closer.blur();
+//   return false;
+// };
 
-done.onclick = function(){
-  console.log('done.onclik');
-  if ( dropFeature !== null ) {
-     console.log('feature is not null');
-     dropFeature.set('title',title.value);
-     dropFeature.set('content',content.value);
-     var iconText = dropFeature.getStyle().getText();
-     iconText.setText(title.value);
-  } else {
-      alert('feature is null. . .Quitting');
-  }
-  overlay.setPosition(undefined);
-  closer.blur();
-  bigImg.src = '';
-  picture.style = 'display:none';
-  return false;
-};
+// done.onclick = function(){
+//   console.log('done.onclik');
+//   if ( dropFeature !== null ) {
+//      console.log('feature is not null');
+//      dropFeature.set('title',title.value);
+//      dropFeature.set('content',content.value);
+//      var iconText = dropFeature.getStyle().getText();
+//      iconText.setText(title.value);
+//   } else {
+//       alert('feature is null. . .Quitting');
+//   }
+//   overlay.setPosition(undefined);
+//   closer.blur();
+//   bigImg.src = '';
+//   picture.style = 'display:none';
+//   return false;
+// };
 
-function large(elem){
-   console.log("function large");
-   var imgName = elem.toElement.dataset.name;
-   bigImg.src  = dropFeature.get(imgName);
-  picture.style = 'display:block';
-}
+// function large(elem){
+//    console.log("function large");
+//    var imgName = elem.toElement.dataset.name;
+//    bigImg.src  = dropFeature.get(imgName);
+//   picture.style = 'display:block';
+// }
    
-map.on('singleclick',function(){
-   // hide the large image which displays via click on thumbnail
-   bigImg.src = '';
-   picture.style = 'display:none';
-});
+// map.on('singleclick',function(){
+//    // hide the large image which displays via click on thumbnail
+//    bigImg.src = '';
+//    picture.style = 'display:none';
+// });
 
-/////////////////////s9  Import and Export points  //////////////////////////////
-function download(){
-   const format = new ol_format__WEBPACK_IMPORTED_MODULE_14__[/* GeoJSON */ "b"]({featureProjection: 'EPSG:3857'});
-   const features = dropSource.getFeatures();
-   const json = format.writeFeatures(features);
-   var link=document.createElement('a');
-   link.href = 'data:text/json;charset=utf-8,' + json;
-   link.download = 'features.json';
-   link.click();
-};
+// /////////////////////s9  Import and Export points  //////////////////////////////
+// function download(){
+//    const format = new GeoJSON({featureProjection: 'EPSG:3857'});
+//    const features = dropSource.getFeatures();
+//    const json = format.writeFeatures(features);
+//    var link=document.createElement('a');
+//    link.href = 'data:text/json;charset=utf-8,' + json;
+//    link.download = 'features.json';
+//    link.click();
+// };
 
-function pasteMap(){
-   // click on a hidden input File element, which in turn fetches the points
-   importJson.click();
-};
-importJson.addEventListener('change',importFeatures); // fired by file chooser
+// function pasteMap(){
+//    // click on a hidden input File element, which in turn fetches the points
+//    importJson.click();
+// };
+// importJson.addEventListener('change',importFeatures); // fired by file chooser
 
-imgAdd.onclick = function(){
-   // import image uses a hidden input tag to open a local client file chooser
-   importJpeg.click();
-}
-importJpeg.addEventListener('change',importImage);
+// imgAdd.onclick = function(){
+//    // import image uses a hidden input tag to open a local client file chooser
+//    importJpeg.click();
+// }
+// importJpeg.addEventListener('change',importImage);
 
-// need a Global for import Features
-var dataURL;
-function importFeatures(evt){
-   const fr = new FileReader();
-   //console.log(importJson.files[0]);
-   fr.onload = function(){
-      dataURL = fr.result;
-      addPoints(dataURL);
-      //console.log(dataURL);
-    };
-   //var url = URL.createObjectURL(evt);
-   var feature_json = fr.readAsDataURL(importJson.files[0]);
-}
+// // need a Global for import Features
+// var dataURL;
+// function importFeatures(evt){
+//    const fr = new FileReader();
+//    //console.log(importJson.files[0]);
+//    fr.onload = function(){
+//       dataURL = fr.result;
+//       addPoints(dataURL);
+//       //console.log(dataURL);
+//     };
+//    //var url = URL.createObjectURL(evt);
+//    var feature_json = fr.readAsDataURL(importJson.files[0]);
+// }
 
-function addPoints(data){
-   var json = atob(data.split(',')[1]);
-   console.log('addPoints');
-   var points = JSON.parse(json);
-   console.log('json object:' + points);
-   for (var i=0; i<points['features'].length; i++){
-      var feat = points['features'][i];
-      var coord4326 = Object(ol_proj__WEBPACK_IMPORTED_MODULE_4__[/* transform */ "p"])(feat.geometry.coordinates, 'EPSG:4326', 'EPSG:3857'),
-      iconStyle = new ol_style__WEBPACK_IMPORTED_MODULE_15__[/* Style */ "d"]({
-         image: new ol_style__WEBPACK_IMPORTED_MODULE_15__[/* Icon */ "b"]({ scale: 0.6, src: 'assets/pin_drop.png' }),
-         text: new ol_style__WEBPACK_IMPORTED_MODULE_15__[/* Text */ "e"]({
-            offsetY: 25,
-            text: feat.properties.title,
-            font: '15px Open Sans,sans-serif',
-            fill: new ol_style__WEBPACK_IMPORTED_MODULE_15__[/* Fill */ "a"]({ color: '#111' }),
-            stroke: new ol_style__WEBPACK_IMPORTED_MODULE_15__[/* Stroke */ "c"]({ color: '#eee', width: 2 })
-         })
-      }),
-      feature = new ol_Feature__WEBPACK_IMPORTED_MODULE_17__[/* default */ "a"]({
-         title: feat.properties.title,
-         content: feat.properties.content,
-         type: 'removable',
-         seq: feat.properties.seq,
+// function addPoints(data){
+//    var json = atob(data.split(',')[1]);
+//    console.log('addPoints');
+//    var points = JSON.parse(json);
+//    console.log('json object:' + points);
+//    for (var i=0; i<points['features'].length; i++){
+//       var feat = points['features'][i];
+//       var coord4326 = transform(feat.geometry.coordinates, 'EPSG:4326', 'EPSG:3857'),
+//       iconStyle = new Style({
+//          image: new Icon({ scale: 0.6, src: 'assets/pin_drop.png' }),
+//          text: new Text({
+//             offsetY: 25,
+//             text: feat.properties.title,
+//             font: '15px Open Sans,sans-serif',
+//             fill: new Fill({ color: '#111' }),
+//             stroke: new Stroke({ color: '#eee', width: 2 })
+//          })
+//       }),
+//       feature = new Feature({
+//          title: feat.properties.title,
+//          content: feat.properties.content,
+//          type: 'removable',
+//          seq: feat.properties.seq,
          
-         geometry: new ol_geom_Point__WEBPACK_IMPORTED_MODULE_16__[/* default */ "a"](coord4326),
-      });
-      for (var j=1; j<Number(feat.properties.seq); j++){
-         var imageName = 'img-'+j;
-         if (feat.properties.imageName == '') continue;
-         var URL = feat.properties[imageName];
-         feature.set(imageName,feat.properties[imageName]);
-      }
-     feature.setStyle(iconStyle);
-     drop.getSource().addFeature(feature);
-     console.log(feat.properties.title + coord4326);
-   }
-}
+//          geometry: new Point(coord4326),
+//       });
+//       for (var j=1; j<Number(feat.properties.seq); j++){
+//          var imageName = 'img-'+j;
+//          if (feat.properties.imageName == '') continue;
+//          var URL = feat.properties[imageName];
+//          feature.set(imageName,feat.properties[imageName]);
+//       }
+//      feature.setStyle(iconStyle);
+//      drop.getSource().addFeature(feature);
+//      console.log(feat.properties.title + coord4326);
+//    }
+// }
 
-var imgURL;
-// need a Global for import Image function
-var bigimg;
-function importImage(evt){
-   const fr = new FileReader();
-   //console.log(importJpeg.files[0]);
-   fr.onload = function(){
-      imgURL = fr.result;
-      var jpeg = atob(imgURL.split(',')[1]);
-      //console.log(jpeg);
-      bigImg.src = imgURL;
-      var seq = dropFeature.get('seq');
-      var num = Number(seq) + 1;
-      dropFeature.set('seq', num.toString());
-      var imgName = 'img-' + seq;
-      dropFeature.set(imgName,imgURL); // stores as base64 with "data:image" prefix
-      displayData();
-    };
-   var imageData = fr.readAsDataURL(importJpeg.files[0]);
-}
+// var imgURL;
+// // need a Global for import Image function
+// var bigimg;
+// function importImage(evt){
+//    const fr = new FileReader();
+//    //console.log(importJpeg.files[0]);
+//    fr.onload = function(){
+//       imgURL = fr.result;
+//       var jpeg = atob(imgURL.split(',')[1]);
+//       //console.log(jpeg);
+//       bigImg.src = imgURL;
+//       var seq = dropFeature.get('seq');
+//       var num = Number(seq) + 1;
+//       dropFeature.set('seq', num.toString());
+//       var imgName = 'img-' + seq;
+//       dropFeature.set(imgName,imgURL); // stores as base64 with "data:image" prefix
+//       displayData();
+//     };
+//    var imageData = fr.readAsDataURL(importJpeg.files[0]);
+// }
+
+// /////////////////////s10  Displaying GeoJSON on Map  //////////////////////////////
+
 
 //looping through multiple geojson files and displaying them on osm
-var layerjson = {};
-var jsonlayer = {};
-var pathdata = {};
-// var filenames = {};
-var i =0;
-var out = $.ajax({
-  type: 'GET',
-  url: './jsonserver.php',
-  dataType: 'text'
-})
-.done(function(data) {
-  var jsonnames = JSON.parse(data);
-  for(i = 0;i<jsonnames.length;i++){
-    var url = jsonnames[i];
-    layerjson[i] = (new ol_layer_Vector__WEBPACK_IMPORTED_MODULE_9__[/* default */ "a"]({
-    source: new ol_source_Vector__WEBPACK_IMPORTED_MODULE_10__[/* default */ "a"]({
-      url: url,
-      format: new ol_format__WEBPACK_IMPORTED_MODULE_14__[/* GeoJSON */ "b"]()
-    })
-  }))
-  //console.log(layerjson);
-  console.log(jsonnames[i]);
-  console.log(url);
-  console.log(layerjson[i]);
-  }
+// var layerjson = {};
+// var jsonlayer = {};
+// var pathdata = {};
+// // var filenames = {};
+// var i =0;
+// var out = $.ajax({
+//   type: 'GET',
+//   url: './jsonserver.php',
+//   dataType: 'text'
+// })
+// .done(function(data) {
+//   var jsonnames = JSON.parse(data);
+//   for(i = 0;i<jsonnames.length;i++){
+//     var url = jsonnames[i];
+//     layerjson[i] = (new VectorLayer({
+//     source: new VectorSource({
+//       url: url,
+//       format: new GeoJSON()
+//     }),
+//     style: function(feature, resolution){
+//       console.log(feature.getProperties());
+//     }
+//   }))
+//   //console.log(layerjson);
+//   console.log(jsonnames[i]);
+//   console.log(url);
+//   console.log(layerjson[i]);
+//   }
 
-  //add layer
-  for(i=0;i<jsonnames.length;i++)
-  map.addLayer(layerjson[i]);
+//   //add layer
+//   for(i=0;i<jsonnames.length;i++)
+//   map.addLayer(layerjson[i]);
   
-});
+// });
 
 //displaying single geojson file on osm
 // var layerjson = {};
@@ -887,14 +897,90 @@ var out = $.ajax({
 
 
 //displaying hard-coded geojson on osm
-// var pubLIbUrl = './data/geojson/shapequery.geojson';
-// var pubLIbLayer = new VectorLayer({
-// source: new VectorSource({
-// url: pubLIbUrl,
-// format: new GeoJSON()
-// })
+var pubLIbUrl = './data/geojson/metro-stations.geojson';
+var pubLIbLayer = new ol_layer_Vector__WEBPACK_IMPORTED_MODULE_9__[/* default */ "a"]({
+source: new ol_source_Vector__WEBPACK_IMPORTED_MODULE_10__[/* default */ "a"]({
+url: pubLIbUrl,
+format: new ol_format__WEBPACK_IMPORTED_MODULE_14__[/* GeoJSON */ "b"]()
+})
+});
+map.addLayer(pubLIbLayer);
+
+
+// /////////////////////s11  Adding popups to marker points  //////////////////////////////
+
+
+// //styling markers
+// var image = new CircleStyle({
+//   radius: 20,
+//   fill: new Fill({
+//     color: 'rgba(255, 255, 0, 0.1)'
+//   }),
+//   stroke: new Stroke({color: 'red', width: 2})
 // });
-// map.addLayer(pubLIbLayer)
+
+// var styles = {
+//   'Point': new Style({
+//     image: image
+//   }), 
+// };
+
+// var styleFunction = function(feature) {
+//   return styles[feature.getGeometry().getType()];
+// };
+
+/**
+ * Popup
+ **/
+//overlay to anchor the popup to the map
+var
+    container = document.getElementById('popup'),
+    content_element = document.getElementById('popup-content'),
+    closer = document.getElementById('popup-closer');
+
+    //click handler to hide the popup
+closer.onclick = function() {
+    overlay.setPosition(undefined);
+    closer.blur();
+    return false;
+};
+
+var overlay = new ol_Overlay__WEBPACK_IMPORTED_MODULE_26__[/* default */ "a"]({
+    element: container,
+    autoPan: true,
+    offset: [0, -10]
+});
+map.addOverlay(overlay);
+
+map.on('singleclick', function(evt){
+    var feature = map.forEachFeatureAtPixel(evt.pixel,
+      function(feature, layer) {
+        return feature;
+      });
+    if (feature) {
+        var geometry = feature.getGeometry();
+        var coord = geometry.getCoordinates();
+        
+        var content = '<h3>' + feature.get('itemLabel') + '</h3>';
+        content += '<h5>' + feature.get('location') + '</h5>';
+        
+        content_element.innerHTML = content;
+        overlay.setPosition(coord);
+        
+        console.info(feature.getProperties());
+    }
+});
+// map.on('pointermove', function(e) {
+//     if (e.dragging) return;
+       
+//     var pixel = map.getEventPixel(e.originalEvent);
+//     var hit = map.hasFeatureAtPixel(pixel);
+    
+//     map.getTarget().style.cursor = hit ? 'pointer' : '';
+// });
+
+
+
 
 
 
@@ -93402,7 +93488,7 @@ var RBush = /** @class */ (function () {
   !*** ./node_modules/ol/style.js ***!
   \**********************************/
 /*! exports provided: Circle, Fill, Icon, IconImage, Image, RegularShape, Stroke, Style, Text */
-/*! exports used: Fill, Icon, Stroke, Style, Text */
+/*! exports used: Fill, Icon, Stroke, Style */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -93423,8 +93509,6 @@ var RBush = /** @class */ (function () {
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "d", function() { return _style_Style_js__WEBPACK_IMPORTED_MODULE_7__["c"]; });
 
 /* harmony import */ var _style_Text_js__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./style/Text.js */ "./node_modules/ol/style/Text.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "e", function() { return _style_Text_js__WEBPACK_IMPORTED_MODULE_8__["a"]; });
-
 /**
  * @module ol/style
  */
