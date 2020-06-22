@@ -960,8 +960,10 @@ map.on('singleclick', function(evt){
     if (feature) {
         var geometry = feature.getGeometry();
         var coord = geometry.getCoordinates();
-        
+        var imageurl = feature.get('image');
+        console.log(imageurl);
         var content = '<h3>' + feature.get('itemLabel') + '</h3>';
+        content += '<img src = ' + imageurl+ '>';
         content += '<h5>' + feature.get('location') + '</h5>';
         
         content_element.innerHTML = content;
