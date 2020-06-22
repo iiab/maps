@@ -704,7 +704,8 @@ var out = $.ajax({
     source: new VectorSource({
       url: url,
       format: new GeoJSON()
-    })
+    }),
+    style: styleFunction
   }))
   //console.log(layerjson);
   console.log(jsonnames[i]);
@@ -757,24 +758,26 @@ var out = $.ajax({
 // /////////////////////s11  Adding popups to marker points  //////////////////////////////
 
 
-// //styling markers
-// var image = new CircleStyle({
-//   radius: 20,
-//   fill: new Fill({
-//     color: 'rgba(255, 255, 0, 0.1)'
-//   }),
-//   stroke: new Stroke({color: 'red', width: 2})
-// });
+//styling markers
+var image = new Icon({
+  scale: 0.7,
+  rotateWithView: false,
+  anchor: [0.5, 1],
+  anchorXUnits: 'fraction',
+  anchorYUnits: 'fraction',
+  opacity: 1,
+  src: './marker.png'
+});
 
-// var styles = {
-//   'Point': new Style({
-//     image: image
-//   }), 
-// };
+var styles = {
+  'Point': new Style({
+    image: image
+  }), 
+};
 
-// var styleFunction = function(feature) {
-//   return styles[feature.getGeometry().getType()];
-// };
+var styleFunction = function(feature) {
+  return styles[feature.getGeometry().getType()];
+};
 
 /**
  * Popup
@@ -820,7 +823,7 @@ map.on('singleclick', function(evt){
     }
 });   
 
-
+//not needed as of now
 // map.on('pointermove', function(e) {
 //     if (e.dragging) return;
        
