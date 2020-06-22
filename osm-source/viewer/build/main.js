@@ -835,41 +835,37 @@ $(function() {
 
 
 //looping through multiple geojson files and displaying them on osm
-// var layerjson = {};
-// var jsonlayer = {};
-// var pathdata = {};
-// // var filenames = {};
-// var i =0;
-// var out = $.ajax({
-//   type: 'GET',
-//   url: './jsonserver.php',
-//   dataType: 'text'
-// })
-// .done(function(data) {
-//   var jsonnames = JSON.parse(data);
-//   for(i = 0;i<jsonnames.length;i++){
-//     var url = jsonnames[i];
-//     layerjson[i] = (new VectorLayer({
-//     source: new VectorSource({
-//       url: url,
-//       format: new GeoJSON()
-//     }),
-//     style: function(feature, resolution){
-//       console.log(feature.getProperties());
-//     }
-//   }))
-//   //console.log(layerjson);
-//   console.log(jsonnames[i]);
-//   console.log(url);
-//   console.log(layerjson[i]);
-//   }
+var layerjson = {};
+var jsonlayer = {};
+var pathdata = {};
+// var filenames = {};
+var i =0;
+var out = $.ajax({
+  type: 'GET',
+  url: './jsonserver.php',
+  dataType: 'text'
+})
+.done(function(data) {
+  var jsonnames = JSON.parse(data);
+  for(i = 0;i<jsonnames.length;i++){
+    var url = jsonnames[i];
+    layerjson[i] = (new ol_layer_Vector__WEBPACK_IMPORTED_MODULE_9__[/* default */ "a"]({
+    source: new ol_source_Vector__WEBPACK_IMPORTED_MODULE_10__[/* default */ "a"]({
+      url: url,
+      format: new ol_format__WEBPACK_IMPORTED_MODULE_14__[/* GeoJSON */ "b"]()
+    })
+  }))
+  //console.log(layerjson);
+  console.log(jsonnames[i]);
+  console.log(url);
+  console.log(layerjson[i]);
+  }
 
-//   //add layer
-//   for(i=0;i<jsonnames.length;i++)
-//   map.addLayer(layerjson[i]);
+  //add layer
+  for(i=0;i<jsonnames.length;i++)
+  map.addLayer(layerjson[i]);
   
-// });
-
+});
 //displaying single geojson file on osm
 // var layerjson = {};
 // var jsonlayer = {};
@@ -896,15 +892,15 @@ $(function() {
 // map.addLayer(layerjson);
 
 
-//displaying hard-coded geojson on osm
-var pubLIbUrl = './data/geojson/metro-stations.geojson';
-var pubLIbLayer = new ol_layer_Vector__WEBPACK_IMPORTED_MODULE_9__[/* default */ "a"]({
-source: new ol_source_Vector__WEBPACK_IMPORTED_MODULE_10__[/* default */ "a"]({
-url: pubLIbUrl,
-format: new ol_format__WEBPACK_IMPORTED_MODULE_14__[/* GeoJSON */ "b"]()
-})
-});
-map.addLayer(pubLIbLayer);
+// //displaying hard-coded geojson on osm
+// var pubLIbUrl = './data/geojson/metro-stations.geojson';
+// var pubLIbLayer = new VectorLayer({
+// source: new VectorSource({
+// url: pubLIbUrl,
+// format: new GeoJSON()
+// })
+// });
+// map.addLayer(pubLIbLayer);
 
 
 // /////////////////////s11  Adding popups to marker points  //////////////////////////////
@@ -962,7 +958,7 @@ map.on('singleclick', function(evt){
         var coord = geometry.getCoordinates();
         var imageurl = feature.get('image');
         console.log(imageurl);
-        var content = '<h3>' + feature.get('itemLabel') + '</h3>';
+        var content = '<h3>' + feature.get('placeLabel') + '</h3>';
         content += '<img src = ' + imageurl+ '>';
         content += '<h5>' + feature.get('location') + '</h5>';
         
@@ -971,7 +967,9 @@ map.on('singleclick', function(evt){
         
         console.info(feature.getProperties());
     }
-});
+});   
+
+
 // map.on('pointermove', function(e) {
 //     if (e.dragging) return;
        
