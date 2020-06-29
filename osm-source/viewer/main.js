@@ -685,10 +685,11 @@ $(function() {
 // /////////////////////s10  Displaying GeoJSON on Map  //////////////////////////////
 
 
-//looping through multiple geojson files and displaying them on osm
+// // looping through multiple geojson files and displaying them on osm
 var layerjson = {};
 var jsonlayer = {};
 var pathdata = {};
+var geojsonobject = {};
 // var filenames = {};
 var i =0;
 var out = $.ajax({
@@ -700,24 +701,36 @@ var out = $.ajax({
   var jsonnames = JSON.parse(data);
   for(i = 0;i<jsonnames.length;i++){
     var url = jsonnames[i];
+  //   fetch(url)
+  // .then(
+  //   function(response) {
+  //     // Examine the text in the response
+  //     response.json().then(function(data) {
+  //       geojsonobject = data;
+  //     });
+  //   }
+  // )
     layerjson[i] = (new VectorLayer({
     source: new VectorSource({
       url: url,
       format: new GeoJSON()
+      // feature: (new GeoJSON()).readFeatures(geojsonobject)     
     }),
     style: styleFunction
   }))
   //console.log(layerjson);
   console.log(jsonnames[i]);
-  console.log(url);
   console.log(layerjson[i]);
+  console.log(i);
   }
-
   //add layer
   for(i=0;i<jsonnames.length;i++)
-  map.addLayer(layerjson[i]);
-  
+  map.addLayer(layerjson[i]); 
 });
+
+
+
+
 //displaying single geojson file on osm
 // var layerjson = {};
 // var jsonlayer = {};
@@ -743,20 +756,27 @@ var out = $.ajax({
 // });
 // map.addLayer(layerjson);
 
-
 // //displaying hard-coded geojson on osm
-// var pubLIbUrl = './data/geojson/metro-stations.geojson';
+// var pubLIbUrl = './data/geojson/metrowithtype.geojson';
 // var pubLIbLayer = new VectorLayer({
 // source: new VectorSource({
 // url: pubLIbUrl,
 // format: new GeoJSON()
-// })
+// }),
+// style: styleFunction
 // });
 // map.addLayer(pubLIbLayer);
 
+// function for variable marker image
+var styleFunction = function(feature) {
+  geojsonfeature = feature;
+  console.log("Check order" + geojsonfeature.get('image'));
+  return styles[feature.getGeometry().getType()];
+};
 
-// /////////////////////s11  Adding popups to marker points  //////////////////////////////
-
+var geojsonfeature = {};
+var iconImage = "./marker.png";
+console.log("Initial");
 
 //styling markers
 var image = new Icon({
@@ -766,19 +786,18 @@ var image = new Icon({
   anchorXUnits: 'fraction',
   anchorYUnits: 'fraction',
   opacity: 1,
-  src: './marker.png'
+  src: iconImage
 });
 
 var styles = {
   'Point': new Style({
     image: image
-  }), 
+  })
 };
 
-var styleFunction = function(feature) {
-  return styles[feature.getGeometry().getType()];
-};
 
+
+// /////////////////////s11  Adding popups to marker points  //////////////////////////////
 /**
  * Popup
  **/
@@ -789,7 +808,7 @@ var
     closer = document.getElementById('popup-closer');
 
     //click handler to hide the popup
-closer.onclick = function() {
+    closer.onclick = function() {
     overlay.setPosition(undefined);
     closer.blur();
     return false;
@@ -805,7 +824,7 @@ map.addOverlay(overlay);
 map.on('singleclick', function(evt){
     var feature = map.forEachFeatureAtPixel(evt.pixel,
       function(feature, layer) {
-        return feature;
+        return feature;        
       });
     if (feature) {
         var geometry = feature.getGeometry();
@@ -814,11 +833,9 @@ map.on('singleclick', function(evt){
         console.log(imageurl);
         var content = '<h3>' + feature.get('placeLabel') + '</h3>';
         content += '<img src = ' + imageurl+ '>';
-        content += '<h5>' + feature.get('location') + '</h5>';
-        
+        content += '<h5>' + feature.get('location') + '</h5>';        
         content_element.innerHTML = content;
-        overlay.setPosition(coord);
-        
+        overlay.setPosition(coord);        
         console.info(feature.getProperties());
     }
 });   
@@ -833,7 +850,11 @@ map.on('singleclick', function(evt){
 //     map.getTarget().style.cursor = hit ? 'pointer' : '';
 // });
 
+//Aim for tomorrow: 
+//Take single file version, and try on that. Getting typeLabel from 
 
 
 
 
+
+//add getmarker function again.`
