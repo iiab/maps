@@ -682,8 +682,31 @@ $(function() {
 //    var imageData = fr.readAsDataURL(importJpeg.files[0]);
 // }
 
+
 // /////////////////////s10  Displaying GeoJSON on Map  //////////////////////////////
 
+
+var getImage = function(feature){
+  console.log(feature.get('image'));
+  var text = "./marker.png";
+  return text;
+};
+
+
+// function for styling the layer
+var styleFunction = function(feature) {
+  return new Style({
+    image: new Icon({
+      scale: 0.7,
+      rotateWithView: false,
+      anchor: [0.5, 1],
+      anchorXUnits: 'fraction',
+      anchorYUnits: 'fraction',
+      opacity: 1,
+      src: getImage(feature)
+    })
+  });
+};
 
 // // looping through multiple geojson files and displaying them on osm
 var layerjson = {};
@@ -701,15 +724,6 @@ var out = $.ajax({
   var jsonnames = JSON.parse(data);
   for(i = 0;i<jsonnames.length;i++){
     var url = jsonnames[i];
-  //   fetch(url)
-  // .then(
-  //   function(response) {
-  //     // Examine the text in the response
-  //     response.json().then(function(data) {
-  //       geojsonobject = data;
-  //     });
-  //   }
-  // )
     layerjson[i] = (new VectorLayer({
     source: new VectorSource({
       url: url,
@@ -718,8 +732,7 @@ var out = $.ajax({
     }),
     style: styleFunction
   }))
-  //console.log(layerjson);
-  console.log(jsonnames[i]);
+  //console.log(layerjson)
   console.log(layerjson[i]);
   console.log(i);
   }
@@ -727,9 +740,6 @@ var out = $.ajax({
   for(i=0;i<jsonnames.length;i++)
   map.addLayer(layerjson[i]); 
 });
-
-
-
 
 //displaying single geojson file on osm
 // var layerjson = {};
@@ -767,33 +777,30 @@ var out = $.ajax({
 // });
 // map.addLayer(pubLIbLayer);
 
-// function for variable marker image
-var styleFunction = function(feature) {
-  geojsonfeature = feature;
-  console.log("Check order" + geojsonfeature.get('image'));
-  return styles[feature.getGeometry().getType()];
-};
 
-var geojsonfeature = {};
-var iconImage = "./marker.png";
-console.log("Initial");
 
-//styling markers
-var image = new Icon({
-  scale: 0.7,
-  rotateWithView: false,
-  anchor: [0.5, 1],
-  anchorXUnits: 'fraction',
-  anchorYUnits: 'fraction',
-  opacity: 1,
-  src: iconImage
-});
+// var geojsonfeature = {};
+// var iconImage = "./marker.png";
+// console.log("Initial");
 
-var styles = {
-  'Point': new Style({
-    image: image
-  })
-};
+// //styling markers
+// var image = new Icon({
+//   scale: 0.7,
+//   rotateWithView: false,
+//   anchor: [0.5, 1],
+//   anchorXUnits: 'fraction',
+//   anchorYUnits: 'fraction',
+//   opacity: 1,
+//   src: iconImage
+// });
+
+// var styles = {
+//   'Point': new Style({
+//     image: image
+//   })
+// };
+
+
 
 
 
@@ -801,44 +808,46 @@ var styles = {
 /**
  * Popup
  **/
-//overlay to anchor the popup to the map
-var
-    container = document.getElementById('popup'),
-    content_element = document.getElementById('popup-content'),
-    closer = document.getElementById('popup-closer');
+// //overlay to anchor the popup to the map
+// ===============================
+// var
+//     container = document.getElementById('popup'),
+//     content_element = document.getElementById('popup-content'),
+//     closer = document.getElementById('popup-closer');
 
-    //click handler to hide the popup
-    closer.onclick = function() {
-    overlay.setPosition(undefined);
-    closer.blur();
-    return false;
-};
+//     //click handler to hide the popup
+//     closer.onclick = function() {
+//     overlay.setPosition(undefined);
+//     closer.blur();
+//     return false;
+// };
 
-var overlay = new Overlay({
-    element: container,
-    autoPan: true,
-    offset: [0, -10]
-});
-map.addOverlay(overlay);
+// var overlay = new Overlay({
+//     element: container,
+//     autoPan: true,
+//     offset: [0, -10]
+// });
+// map.addOverlay(overlay);
 
-map.on('singleclick', function(evt){
-    var feature = map.forEachFeatureAtPixel(evt.pixel,
-      function(feature, layer) {
-        return feature;        
-      });
-    if (feature) {
-        var geometry = feature.getGeometry();
-        var coord = geometry.getCoordinates();
-        var imageurl = feature.get('image');
-        console.log(imageurl);
-        var content = '<h3>' + feature.get('placeLabel') + '</h3>';
-        content += '<img src = ' + imageurl+ '>';
-        content += '<h5>' + feature.get('location') + '</h5>';        
-        content_element.innerHTML = content;
-        overlay.setPosition(coord);        
-        console.info(feature.getProperties());
-    }
-});   
+// map.on('singleclick', function(evt){
+//     var feature = map.forEachFeatureAtPixel(evt.pixel,
+//       function(feature, layer) {
+//         return feature;        
+//       });
+//     if (feature) {
+//         var geometry = feature.getGeometry();
+//         var coord = geometry.getCoordinates();
+//         var imageurl = feature.get('image');
+//         console.log(imageurl);
+//         var content = '<h3>' + feature.get('placeLabel') + '</h3>';
+//         content += '<img src = ' + imageurl+ '>';
+//         content += '<h5>' + feature.get('location') + '</h5>';        
+//         content_element.innerHTML = content;
+//         overlay.setPosition(coord);        
+//         console.info(feature.getProperties());
+//     }
+// });   
+// ======================================
 
 //not needed as of now
 // map.on('pointermove', function(e) {
@@ -858,3 +867,32 @@ map.on('singleclick', function(evt){
 
 
 //add getmarker function again.`
+
+
+
+
+
+
+
+
+
+
+//add getmarker function again.`
+
+
+
+// And here is an example that uses it:
+
+// openlayers/examples/geojson.js
+
+// Lines 163 to 165 in ca4dfb9
+
+//  const vectorSource = new VectorSource({ 
+//    features: (new GeoJSON()).readFeatures(geojsonObject) 
+//  }); 
+// And here is how you can use it in 5.x:
+
+// import GeoJSON from 'ol/format/GeoJSON';
+
+// const format = new GeoJSON();
+// format.readFeatures(/** your data here */);
