@@ -760,6 +760,7 @@ var out = $.ajax({
   map.addLayer(layerjson[i]); 
 });
 
+
 //displaying single geojson file on osm
 // var layerjson = {};
 // var jsonlayer = {};
@@ -873,10 +874,13 @@ map.on('singleclick', function(evt){
           var content = '<h3>' + feature.get('placeLabel') + '</h3>';
           content += '<img src = ' + imageurl+ '>';
           content += '<h5>' + feature.get('location') + '</h5>'; 
+          if(feature.get('placeLabel') !== undefined){
             content_element.innerHTML = content;
             overlay.setPosition(coord);
             console.log(content);
             console.info(feature.getProperties());
+          }
+           
         }
 });   
 
