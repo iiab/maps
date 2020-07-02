@@ -228,7 +228,7 @@ var map = new ol_Map__WEBPACK_IMPORTED_MODULE_1__[/* default */ "a"]({
     scaleLineControl,attribution
   ]),
   view: new ol_View__WEBPACK_IMPORTED_MODULE_2__[/* default */ "a"]({
-    center: Object(ol_proj__WEBPACK_IMPORTED_MODULE_4__[/* fromLonLat */ "d"])([-122, 37.35]),
+    center: Object(ol_proj__WEBPACK_IMPORTED_MODULE_4__[/* fromLonLat */ "d"])([20.5937, 78.9629]),
     maxZoom: 19,
     zoom: 11
   })
@@ -831,13 +831,33 @@ $(function() {
 //    var imageData = fr.readAsDataURL(importJpeg.files[0]);
 // }
 
+
 // /////////////////////s10  Displaying GeoJSON on Map  //////////////////////////////
+
 
 var getImage = function(feature){
   console.log(feature.get('image'));
-  var text = "./marker.png";
+  var text;
+  if(feature.get('typeLabel') === "metro station"){
+    text = "./map-marker.png";
+  }
+  else{
+    text = "./marker.png";
+  }
   return text;
 };
+
+var getText = function(feature){
+  console.log(feature.get('placeLabel'))
+  var text = feature.get('placeLabel');
+  return text;
+}
+
+var createTextStyle = function(feature){
+  return new ol_style__WEBPACK_IMPORTED_MODULE_15__[/* Text */ "e"]({
+    text: getText(feature)
+  })
+}
 
 
 // function for styling the layer
@@ -851,8 +871,9 @@ var styleFunction = function(feature) {
       anchorYUnits: 'fraction',
       opacity: 1,
       src: getImage(feature)
-    })
-  });
+    }),
+  text: createTextStyle(feature)
+ })
 };
 
 // // looping through multiple geojson files and displaying them on osm
@@ -874,11 +895,11 @@ var out = $.ajax({
     layerjson[i] = (new ol_layer_Vector__WEBPACK_IMPORTED_MODULE_9__[/* default */ "a"]({
     source: new ol_source_Vector__WEBPACK_IMPORTED_MODULE_10__[/* default */ "a"]({
       url: url,
-      format: new ol_format__WEBPACK_IMPORTED_MODULE_14__[/* GeoJSON */ "b"]()
+      format: new ol_format__WEBPACK_IMPORTED_MODULE_14__[/* GeoJSON */ "b"](),
       // feature: (new GeoJSON()).readFeatures(geojsonobject)     
     }),
     style: styleFunction
-  }))
+  })),
   //console.log(layerjson)
   console.log(layerjson[i]);
   console.log(i);
@@ -887,9 +908,6 @@ var out = $.ajax({
   for(i=0;i<jsonnames.length;i++)
   map.addLayer(layerjson[i]); 
 });
-
-
-
 
 //displaying single geojson file on osm
 // var layerjson = {};
@@ -959,93 +977,59 @@ var out = $.ajax({
  * Popup
  **/
 // //overlay to anchor the popup to the map
-// ===============================
-// var
-//     container = document.getElementById('popup'),
-//     content_element = document.getElementById('popup-content'),
-//     closer = document.getElementById('popup-closer');
 
-//     //click handler to hide the popup
-//     closer.onclick = function() {
-//     overlay.setPosition(undefined);
-//     closer.blur();
-//     return false;
-// };
-
-// var overlay = new Overlay({
-//     element: container,
-//     autoPan: true,
-//     offset: [0, -10]
-// });
-// map.addOverlay(overlay);
-
-// map.on('singleclick', function(evt){
-//     var feature = map.forEachFeatureAtPixel(evt.pixel,
-//       function(feature, layer) {
-//         return feature;        
-//       });
-//     if (feature) {
-//         var geometry = feature.getGeometry();
-//         var coord = geometry.getCoordinates();
-//         var imageurl = feature.get('image');
-//         console.log(imageurl);
-//         var content = '<h3>' + feature.get('placeLabel') + '</h3>';
-//         content += '<img src = ' + imageurl+ '>';
-//         content += '<h5>' + feature.get('location') + '</h5>';        
-//         content_element.innerHTML = content;
-//         overlay.setPosition(coord);        
-//         console.info(feature.getProperties());
-//     }
-// });   
-// ======================================
-
-//not needed as of now
-// map.on('pointermove', function(e) {
-//     if (e.dragging) return;
-       
-//     var pixel = map.getEventPixel(e.originalEvent);
-//     var hit = map.hasFeatureAtPixel(pixel);
-    
-//     map.getTarget().style.cursor = hit ? 'pointer' : '';
-// });
-
-//Aim for tomorrow: 
-//Take single file version, and try on that. Getting typeLabel from 
+var container = document.getElementById('popup');
+var content_element = document.getElementById('popup-content');
+var closer = document.getElementById('popup-closer');
 
 
+//click handler to hide the popup
+closer.onclick = function() {
+overlay.setPosition(undefined);
+closer.blur();
+return false;
+};
 
 
-
-//add getmarker function again.`
-
-
-
-
-
-
-
-
-
-
-//add getmarker function again.`
-
+/**
+ * Create an overlay to anchor the popup to the map.
+ */
+var overlay = new ol_Overlay__WEBPACK_IMPORTED_MODULE_26__[/* default */ "a"]({
+    element: container,
+    autoPan: true,
+    autoPanAnimation: {
+      duration: 250
+    },
+    offset: [0, -10]
+});
+map.addOverlay(overlay);
 
 
-// And here is an example that uses it:
+/**
+ * Add a click handler to the map to render the popup.
+ */
+map.on('singleclick', function(evt){
+  var feature = map.forEachFeatureAtPixel(evt.pixel,
+  function(feature) {
+    return feature;
+      });
+    if (feature) {
+      console.log(feature);
+        var geometry = feature.getGeometry();
+        var coord = geometry.getCoordinates();
+        var imageurl = feature.get('image');
+        console.log(imageurl );
+          var content = '<h3>' + feature.get('placeLabel') + '</h3>';
+          content += '<img src = ' + imageurl+ '>';
+          content += '<h5>' + feature.get('typeLabel') + '</h5>'; 
+            content_element.innerHTML = content;
+            overlay.setPosition(coord);
+            console.log(content);
+            console.info(feature.getProperties());
+        }
+});   
 
-// openlayers/examples/geojson.js
 
-// Lines 163 to 165 in ca4dfb9
-
-//  const vectorSource = new VectorSource({ 
-//    features: (new GeoJSON()).readFeatures(geojsonObject) 
-//  }); 
-// And here is how you can use it in 5.x:
-
-// import GeoJSON from 'ol/format/GeoJSON';
-
-// const format = new GeoJSON();
-// format.readFeatures(/** your data here */);
 
 /***/ }),
 
@@ -93550,7 +93534,7 @@ var RBush = /** @class */ (function () {
   !*** ./node_modules/ol/style.js ***!
   \**********************************/
 /*! exports provided: Circle, Fill, Icon, IconImage, Image, RegularShape, Stroke, Style, Text */
-/*! exports used: Fill, Icon, Stroke, Style */
+/*! exports used: Fill, Icon, Stroke, Style, Text */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -93571,6 +93555,8 @@ var RBush = /** @class */ (function () {
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "d", function() { return _style_Style_js__WEBPACK_IMPORTED_MODULE_7__["c"]; });
 
 /* harmony import */ var _style_Text_js__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./style/Text.js */ "./node_modules/ol/style/Text.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "e", function() { return _style_Text_js__WEBPACK_IMPORTED_MODULE_8__["a"]; });
+
 /**
  * @module ol/style
  */

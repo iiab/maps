@@ -79,7 +79,7 @@ var map = new Map({
     scaleLineControl,attribution
   ]),
   view: new View({
-    center: fromLonLat([-122, 37.35]),
+    center: fromLonLat([20.5937, 78.9629]),
     maxZoom: 19,
     zoom: 11
   })
@@ -688,9 +688,27 @@ $(function() {
 
 var getImage = function(feature){
   console.log(feature.get('image'));
-  var text = "./marker.png";
+  var text;
+  if(feature.get('typeLabel') === "metro station"){
+    text = "./map-marker.png";
+  }
+  else{
+    text = "./marker.png";
+  }
   return text;
 };
+
+var getText = function(feature){
+  console.log(feature.get('placeLabel'))
+  var text = feature.get('placeLabel');
+  return text;
+}
+
+var createTextStyle = function(feature){
+  return new Text({
+    text: getText(feature)
+  })
+}
 
 
 // function for styling the layer
@@ -704,8 +722,9 @@ var styleFunction = function(feature) {
       anchorYUnits: 'fraction',
       opacity: 1,
       src: getImage(feature)
-    })
-  });
+    }),
+  text: createTextStyle(feature)
+ })
 };
 
 // // looping through multiple geojson files and displaying them on osm
@@ -727,11 +746,11 @@ var out = $.ajax({
     layerjson[i] = (new VectorLayer({
     source: new VectorSource({
       url: url,
-      format: new GeoJSON()
+      format: new GeoJSON(),
       // feature: (new GeoJSON()).readFeatures(geojsonobject)     
     }),
     style: styleFunction
-  }))
+  })),
   //console.log(layerjson)
   console.log(layerjson[i]);
   console.log(i);
@@ -809,90 +828,55 @@ var out = $.ajax({
  * Popup
  **/
 // //overlay to anchor the popup to the map
-// ===============================
-// var
-//     container = document.getElementById('popup'),
-//     content_element = document.getElementById('popup-content'),
-//     closer = document.getElementById('popup-closer');
 
-//     //click handler to hide the popup
-//     closer.onclick = function() {
-//     overlay.setPosition(undefined);
-//     closer.blur();
-//     return false;
-// };
-
-// var overlay = new Overlay({
-//     element: container,
-//     autoPan: true,
-//     offset: [0, -10]
-// });
-// map.addOverlay(overlay);
-
-// map.on('singleclick', function(evt){
-//     var feature = map.forEachFeatureAtPixel(evt.pixel,
-//       function(feature, layer) {
-//         return feature;        
-//       });
-//     if (feature) {
-//         var geometry = feature.getGeometry();
-//         var coord = geometry.getCoordinates();
-//         var imageurl = feature.get('image');
-//         console.log(imageurl);
-//         var content = '<h3>' + feature.get('placeLabel') + '</h3>';
-//         content += '<img src = ' + imageurl+ '>';
-//         content += '<h5>' + feature.get('location') + '</h5>';        
-//         content_element.innerHTML = content;
-//         overlay.setPosition(coord);        
-//         console.info(feature.getProperties());
-//     }
-// });   
-// ======================================
-
-//not needed as of now
-// map.on('pointermove', function(e) {
-//     if (e.dragging) return;
-       
-//     var pixel = map.getEventPixel(e.originalEvent);
-//     var hit = map.hasFeatureAtPixel(pixel);
-    
-//     map.getTarget().style.cursor = hit ? 'pointer' : '';
-// });
-
-//Aim for tomorrow: 
-//Take single file version, and try on that. Getting typeLabel from 
+var container = document.getElementById('popup');
+var content_element = document.getElementById('popup-content');
+var closer = document.getElementById('popup-closer');
 
 
+//click handler to hide the popup
+closer.onclick = function() {
+overlay.setPosition(undefined);
+closer.blur();
+return false;
+};
 
 
-
-//add getmarker function again.`
-
-
-
-
-
-
-
-
-
-
-//add getmarker function again.`
-
+/**
+ * Create an overlay to anchor the popup to the map.
+ */
+var overlay = new Overlay({
+    element: container,
+    autoPan: true,
+    autoPanAnimation: {
+      duration: 250
+    },
+    offset: [0, -10]
+});
+map.addOverlay(overlay);
 
 
-// And here is an example that uses it:
+/**
+ * Add a click handler to the map to render the popup.
+ */
+map.on('singleclick', function(evt){
+  var feature = map.forEachFeatureAtPixel(evt.pixel,
+  function(feature) {
+    return feature;
+      });
+    if (feature) {
+      console.log(feature);
+        var geometry = feature.getGeometry();
+        var coord = geometry.getCoordinates();
+        var imageurl = feature.get('image');
+        console.log(imageurl );
+          var content = '<h3>' + feature.get('placeLabel') + '</h3>';
+          content += '<img src = ' + imageurl+ '>';
+          content += '<h5>' + feature.get('location') + '</h5>'; 
+            content_element.innerHTML = content;
+            overlay.setPosition(coord);
+            console.log(content);
+            console.info(feature.getProperties());
+        }
+});   
 
-// openlayers/examples/geojson.js
-
-// Lines 163 to 165 in ca4dfb9
-
-//  const vectorSource = new VectorSource({ 
-//    features: (new GeoJSON()).readFeatures(geojsonObject) 
-//  }); 
-// And here is how you can use it in 5.x:
-
-// import GeoJSON from 'ol/format/GeoJSON';
-
-// const format = new GeoJSON();
-// format.readFeatures(/** your data here */);
