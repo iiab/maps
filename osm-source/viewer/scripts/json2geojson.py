@@ -11,21 +11,21 @@ def main():
         reg_str = file.read()
         info = json.loads(reg_str)
         for root in info["results"]["bindings"]:
+
             lat = float(root["lat"]["value"])
             long = float(root["long"]["value"])
             point = Point((long,lat))
-            print(point)
+            properties = {}
         #   point = Point((79,43))
-
-            ####################################
-            ##work on getting a dict of properties
-
+        ########################################
             for key in root:
-                print(key)
+                value = root[key]['value']
+                properties[key] = value
 
-            ######################################
+            #print(properties)
 
-            features.append(Feature(geometry=point,properties={"name": "test"}))
+        ##########################################
+            features.append(Feature(geometry=point,properties=properties))
 
         collection = FeatureCollection(features)
         out_str = json.dumps(collection, indent=2, sort_keys=True)
@@ -43,6 +43,7 @@ def main():
         #     print(root[]["value"])
         #     placeLabel = root["placeLabel"]["value"]
             
+
 
 if __name__ == '__main__':
     main()
