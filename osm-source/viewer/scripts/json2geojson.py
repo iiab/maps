@@ -15,6 +15,7 @@ def main():
             lat = float(root["lat"]["value"])
             long = float(root["long"]["value"])
             point = Point((long,lat))
+            print(type(point))
             properties = {}
         #   point = Point((79,43))
         ########################################
