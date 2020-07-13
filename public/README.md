@@ -1,5 +1,11 @@
 ### How To Manage Regions ###
 1. './get' and './put' in this directory sync with the public regions.json on unleashkids.org. This is the public facing control file for what is displayed on the IIAB Admin Console.
-2. "dif" does a vimdiff between the work in process in ../resources/regions.json.The automation which copies regional packages to archive.org is driven by the file in ../resources.
-3. The authoritative version of regions.json is in the git index for the repo 'https://github.com/iiab/maps/resources/regions.json' -- though at present this is a lie -- actually it is in my clone at https://github.com/georgejhunt/maps, until the push for release of IIAB version 7.0 is over.
-4. The "Public" authoritative source is at https://download.unleashkids.org/content/OSM/vector-tiles/maplist/hidden/assets/regions.json. This should be in sync (via the scripts in this directory) with resources/regions.json.ukids.
+2. "diff-ukids" does a vimdiff between the ./regions.json in the current directory, and the public version at ukids. The automation which copies regional packages to archive.org is driven by the file in ../resources.
+4. The Public (and authoritative source) is at https://download.unleashkids.org/content/OSM/vector-tiles/maplist/hidden/assets/regions.json. This should be in sync (via the scripts in this directory) with resources/regions.json.ukids.
+
+
+## Revision history
+
+* April 16, 2020 -- shorten title from "Spanish-speaking Regions" to "Spanish Speakers"
+* Jan 27, 2020 -- Put san_jose back in with title: "World to Zoom 1"
+* Dec 2019  added Spanish-speaking Regions

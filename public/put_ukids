@@ -1,3 +1,3 @@
 scp ./regions.json ghunt@unleashkids.org:/var/www/d.iiab.io/content/OSM/vector-tiles/maplist/hidden/assets/regions.json
-scp ./bboxes.geojson ghunt@unleashkids.org:/var/www/d.iiab.io/content/OSM/vector-tiles/maplist/hidden/assets/bboxes.geojson
+#scp ./bboxes.geojson ghunt@unleashkids.org:/var/www/d.iiab.io/content/OSM/vector-tiles/maplist/hidden/assets/bboxes.geojson
 
