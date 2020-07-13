@@ -16,12 +16,13 @@ def main():
 def get_geojson_from_json(results):
     features = []
     info = results
+    iconType = "metro station"
     for root in info["results"]["bindings"]:
         lat = float(root["lat"]["value"])
         long = float(root["long"]["value"])
         point = Point((long,lat))
         # print(type(point))
-        properties = {}
+        properties = {'typeLabel': iconType}
         for key in root:
             value = root[key]['value']
             properties[key] = value
@@ -30,9 +31,15 @@ def get_geojson_from_json(results):
 
     collection = FeatureCollection(features)
     out_str = json.dumps(collection, indent=2, sort_keys=True)
-    print(out_str)
+    save_to_file(out_str)
 
+def save_to_file(out_str):
+    metrofile = "./generated-metro.geojson"
+    with open(metrofile,"w") as file:
+        file.write(out_str)
 
+    file.close()
+    
 
 def get_json_from_sparql():
     sparql = SPARQLWrapper("https://query.wikidata.org/sparql")
@@ -57,13 +64,7 @@ def get_json_from_sparql():
     return results
 
 
-# for result in results["results"]["bindings"]:
-#     print('%s: %s' % (result["label"]["xml:lang"], result["label"]["value"]))
-# with open("sparql_data.json","w") as file:
-#     json.dump(results,file)
-#     print("Done")
 
-# file.close()
 
 if __name__ == '__main__':
     main()
