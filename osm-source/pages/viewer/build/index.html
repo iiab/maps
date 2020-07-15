@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+  <head>
+     <meta charset="utf-8">
+     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+     <meta name="viewport" content="width=device-width, initial-scale=1">
+     <link rel="stylesheet" href="./assets/fonts.css" type="text/css">
+    <link rel="stylesheet" href="./assets/ol5-layerswitcher.css" />
+    <!--<link rel="stylesheet" href="./ol-contextmenu.css" />
+    <link rel="stylesheet" href="./popup.css" /> -->
+    <title>OsmMaps</title>
+    <style>
+      html, body, #map-container {
+        margin: 0;
+        height: 99%;
+        width: 100%;
+        font-family: sans-serif;
+      }
+      #map-container { position: relative;}
+      #search {
+        position: absolute; top: 10px; left: 40px; z-index: 99; }
+      #picture {
+        position: absolute; top: 100px; left: 40px; z-index: 99; }
+      #hamburger {
+        position: absolute; top: 10px; right: 10px; z-index: 99; }
+      #info-overlay {
+        position: absolute; bottom: 0px; left: 200px; z-index: 99; 
+        margin: 0;
+        width: 70%;
+        font-family: sans-serif;
+      }
+      #home {
+        position: absolute; bottom: 0px; left: 130px; z-index: 99; 
+        padding: 1px;
+        font-size: 12px;
+      }
+    </style>
+    <script>
+         function dragover_handler(ev) {
+          ev.preventDefault();
+          ev.dataTransfer.dropEffect = "copy";
+         }
+         function drop_handler(ev) {
+          ev.preventDefault();
+          // Get the id of the target and add the moved element to the target's DOM
+          const data = ev.dataTransfer.getData("text/plain");
+          ev.target.appendChild(document.getElementById(data));
+         }
+    </script>
+  </head>
+  <body>
+     <div class="well col-md-5">
+           <input id="search" type="text" class="col-md-6 form-control" placeholder="Search cities..." autocomplete="off" />
+       </div>
+    <div id="layerswitcher"></div>
+    <div id="info-overlay"></div>
+   <!-- <div id="picture" style='display:none'>
+       <img id='bigImg' src='' alt=''>
+    </div>
+    -->
+    <div id="map-container"></div>
+    <div id="map" class="map"></div>
+    <!--
+    <div id="popup" class="ol-popup" ondragover='dragover_handler(event)' ondrop='drop_handler(event)'>
+      <form>
+      <a href="#" id="popup-closer" class="ol-popup-closer"></a>
+      <div><input  id="popup-title" type="text" size="50" placeholder="Title"></textbox></div>
+      <div id='thumbnails'>
+      </div>
+      <div id="popup-content"><textarea id='popup-textarea' rows="4" cols="50" placeholder="Description"></textarea></div>
+      <div class="line">
+      <div id="popup-done" class='pbut'><button id='save' type="button">Done</button></div>
+      <div id="popup-img-delete" class='pbut'><button id='img-delete' type="button">Delete Image</button></div>
+      <div id="popup-img-add" class='pbut'><button id='img-add' type="button">Add Image</button></div>
+      <div id="popup-delete" class='pbut'><button id='deletinline-block' type="button">Delete Point</button></div>
+      </div>
+      </form>
+    </div>
+    <input type="file" id="import-json"  style="display:none">
+    <input type="file" id="import-jpeg"  style="display:none">
+    -->
+
+    <select id="units">
+      <option value="degrees">degrees</option>
+      <option value="imperial">imperial inch</option>
+      <option value="us">us inch</option>
+      <option value="nautical">nautical mile</option>
+      <option value="metric" selected>metric</option>
+    </select>
+    <button id='home'>Home</button>
+  <script type="text/javascript" src="main.js"></script></body>
+</html>
+

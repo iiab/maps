@@ -1,0 +1,37 @@
+
+#osmRegionSelection{
+   display: flex;
+}
+#map-container{
+  /*background-color: #b2d3f8; */
+  width: 50vw;
+  right: 10px;
+  height: 250px;
+}
+.grower{
+   flex-grow: 1;
+}
+#satellite{
+   width: 50vw;
+   display: flex;
+}
+body {
+  padding: 40px;
+}
+.map-desc {
+  width: 30%;
+}
+.map-desc:hover {
+  font-weight:bold;
+}
+.map-desc + .tooltip > .tooltip-inner {
+  background-color: #333;
+  /* filter: blur(30px); doesn't have any effect on underlay */
+  text-align: left;
+  max-width: 500px;
+  border-radius: .5em;
+}
+.command {
+   border: double;
+   background: #eee;
+}

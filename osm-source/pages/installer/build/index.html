@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Osm-Vector Splash Page</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script src="/common/js/jquery.min.js"></script>
+  <script src="/common/js/bootstrap.min.js"></script>
+<!--  <script src="/admin/js/admin_console.js"></script>-->
+  <link href="/common/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="./map.css" type="text/css">
+</head>
+<body>
+
+            <h2>Vector Maps Installer -- Cut/Paste to Terminal to Install Selected Region or Satellite Details</h2>
+            <p>The IIAB vector maps are based upon OpenStreetMap Data. Each map has general geographic information that covers the <b>whole world </b>with a resolution of about 5 KM. The detailed regions provide data about items that are 5 meters apart. </p>
+
+            <div id="osmRegionSelection" >
+               <div id='lside'>
+                  <div id='mapRegionSelectList'>placeholder to be replaced by map data</div>
+                  <div id='instructions'><br><br>To install a Map Region, Cut (&ltctl&gtC) and Paste (&ltctl&gtV) the following line into a terminal.<br><br></div>
+                  <h4><div id='cmdline' class="command">install-map-region</div></h4>
+               </div id='lside'>
+               <div class='grower'></div>
+               <div id='rside'>
+                  <div id="map-container"></div>
+                  <div class='grower'></div>
+                  <span> <!-- Title line -->
+                     <h3>Increase Satellite Resolution in Your Selected Area</h3>
+                     <div id='area-choice'>
+                     <div>
+                        <input type='radio' id='small' name='size' checked value='small'>
+                        <label>50 KM Radius ~  5 Minutes 10MB</label>
+                     </div>
+                     <div>
+                        <input type='radio' id='medium' name='size' value='medium'>
+                        <label>150 KM Radius ~ 35 Minutes 50Mb</lable>
+                     </div>
+                     <div>
+                        <input type='radio' id='large' name='size' value='large'>
+                        <label>500 KM Radius ~ 7 Hrs 500Mb</lable>
+                     </div>
+                  </span>   
+                  <div id='instr'></div>
+                  <h4><div id='cmdline_element' class="command"></div></h4>
+                  <div class='grower'></div>
+                  <!--<div class="col-sm-2"><button id="DNLD-SAT" type="button" class="btn btn-lg btn-primary">Download More Satellite Data</button></div>-->
+               </div> <!--id='rside' -->
+				</div> <!--  End osmRegionSelection Submenu Option Pane -->
+            <script>
+               function readableSize(kbytes) {
+                 if (kbytes == 0)
+                 return "0";
+                 var bytes = 1024 * kbytes;
+                 var s = ['bytes', 'kB', 'MB', 'GB', 'TB', 'PB'];
+                 var e = Math.floor(Math.log(bytes) / Math.log(1024));
+                 return (bytes / Math.pow(1024, e)).toFixed(2) + " " + s[e];
+               }
+            </script>
+            <script src="./installer_functions.js"></script>
+<script type="text/javascript" src="main.js"></script></body>
+</html>
