@@ -1,19 +1,38 @@
 #Saving SPARQL dump to json file
 from SPARQLWrapper import SPARQLWrapper, JSON
 from geojson import Feature,Point, FeatureCollection
+from uuid import uuid4
 import geojson
 import json
+import argparse
+import sys
 
 def main():
-    results = get_json_from_sparql()
+    
+    parser = argparse.ArgumentParser(description='Get Input and Output File Names')
+    parser.add_argument('infile', type=str, help='Input filename for SPARQL Query')
+    parser.add_argument('outfile', type=str, help='Output filename for GeoJSON')
+    args = parser.parse_args()
+
+
+    results = get_json_from_sparql(args.infile)
     # for result in results["results"]["bindings"]:
     #     print(result["placeDescription"]["value"])
 
-    print("\n GeoJSON File : ")
-    get_geojson_from_json(results)
+    get_geojson_from_json(results,args.outfile)
     
+def get_json_from_sparql(filename):
+    sparql = SPARQLWrapper("https://query.wikidata.org/sparql")
+    location_code = "Q1353"
+    url = "../data/sparql/"+filename
+    with open(url, 'r') as file:
+        query = file.read().replace('\n', '')
+        sparql.setQuery(query)
+        sparql.setReturnFormat(JSON)
+        results = sparql.query().convert()
+        return results
 
-def get_geojson_from_json(results):
+def get_geojson_from_json(results,filename):
     features = []
     info = results
     iconType = "metro station"
@@ -31,37 +50,17 @@ def get_geojson_from_json(results):
 
     collection = FeatureCollection(features)
     out_str = json.dumps(collection, indent=2, sort_keys=True)
-    save_to_file(out_str)
+    save_to_file(out_str,filename)
 
-def save_to_file(out_str):
-    metrofile = "./generated-metro.geojson"
-    with open(metrofile,"w") as file:
+def save_to_file(out_str,filename):
+    outputfile = "../data/geojson/"+filename+".geojson"
+    with open(outputfile,"w") as file:
         file.write(out_str)
-
     file.close()
+    print("Operation Complete")
     
 
-def get_json_from_sparql():
-    sparql = SPARQLWrapper("https://query.wikidata.org/sparql")
-    sparql.setQuery("""
-    SELECT ?place ?placeLabel ?placeDescription ?location ?image ?marker_size ?marker_color ?type	?marker_symbol ?lat ?long
-    WHERE {
-    ?place wdt:P131 wd:Q1353 .
-    ?place wdt:P31 wd:Q928830 . 
-    ?place wdt:P1373 ?num
-    FILTER(?num > 10000)
-    ?place wdt:P625 ?location . 
-    OPTIONAL { ?place wdt:P18 ?image . }
-  
-    BIND(STRBEFORE(STRAFTER(STR(?location), ' '), ')') AS ?lat)
-    BIND(STRBEFORE(STRAFTER(STR(?location), 'Point('), ' ') AS ?long)
-  
-    SERVICE wikibase:label { bd:serviceParam wikibase:language "en". }
-    }
-    """)
-    sparql.setReturnFormat(JSON)
-    results = sparql.query().convert()
-    return results
+
 
 
 

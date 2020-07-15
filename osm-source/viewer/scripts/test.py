@@ -1,15 +1,4 @@
-import json
-
-print("hello")
-
-my_details = {
-    'name': 'John Doe',
-    'age': 29
-}
-
-
-
-with open("data.json","w") as file:
-    json.dump(my_details,file)
-
-file.close()    
+url = "../data/sparql/metroquery"
+with open(url, 'r') as file:
+    query = file.read().replace('\n', '')
+    print(query)
