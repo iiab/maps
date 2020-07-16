@@ -1,8 +1,0 @@
-#!/bin/bash -x
-# define aliases for working with admin-console source as inputs for webpack, parcel-bundler
-
-alias put='/bin/cp -f ./main.js ../../osm-source/admin-console/main.js;/bin/cp -f ./index.html ../../osm-source/admin-console/index.html'
-alias get='/bin/cp -f ../../osm-source/admin-console/index.html ./index.html;/bin/cp -f ../../osm-source/admin-console/main.js ./main.js'
-alias dif='vimdiff ../../osm-source/admin-console/main.js ./main.js'
-alias save='cp -fp ./build/* ../../osm-source/admin-console/build/'
-alias pub='scp ./build/main.js ghunt@unleashkids.org:/home/ghunt'
