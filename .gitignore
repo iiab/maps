@@ -24,6 +24,7 @@ osm-source/test/build
 osm-source/test/dist
 osm-source/console/build
 osm-source/ukids/build
+osm-source/webpack
 
 
 
