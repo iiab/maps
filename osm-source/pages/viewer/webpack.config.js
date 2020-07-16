@@ -5,7 +5,7 @@ const HtmlPlugin = require('html-webpack-plugin');
 module.exports = {
   entry: './main.js',
   output: {
-    path: path.resolve(__dirname, 'build'),
+    path: '/opt/iiab/maps/osm-source/pages/viewer/build',
     filename: 'main.js'
   },
  mode: 'development',

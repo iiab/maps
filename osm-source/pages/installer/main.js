@@ -10,7 +10,7 @@ import VectorSource from 'ol/source/Vector';
 import GeoJSON from 'ol/format/GeoJSON';
 import View from 'ol/View';
 import {fromLonLat,toLonLat} from 'ol/proj';
-import stylefunction from 'ol-mapbox-style/stylefunction';
+import stylefunction from 'ol-mapbox-style/dist/stylefunction';
 import {add} from 'ol/coordinate';
 import Feature from 'ol/Feature';
 import Polygon from 'ol/geom/Polygon';

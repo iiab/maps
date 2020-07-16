@@ -6,8 +6,8 @@
      <meta name="viewport" content="width=device-width, initial-scale=1">
      <link rel="stylesheet" href="./assets/fonts.css" type="text/css">
     <link rel="stylesheet" href="./assets/ol5-layerswitcher.css" />
-    <!--<link rel="stylesheet" href="./ol-contextmenu.css" />
-    <link rel="stylesheet" href="./popup.css" /> -->
+    <link rel="stylesheet" href="./ol-contextmenu.css" />
+    <link rel="stylesheet" href="./popup.css" />
     <title>OsmMaps</title>
     <style>
       html, body, #map-container {
@@ -52,15 +52,14 @@
      <div class="well col-md-5">
            <input id="search" type="text" class="col-md-6 form-control" placeholder="Search cities..." autocomplete="off" />
        </div>
-    <div id="layerswitcher"></div>
     <div id="info-overlay"></div>
-   <!-- <div id="picture" style='display:none'>
+    <div id="layerswitcher"></div>
+    <div id="picture" style='display:none'>
        <img id='bigImg' src='' alt=''>
     </div>
-    -->
+
     <div id="map-container"></div>
     <div id="map" class="map"></div>
-    <!--
     <div id="popup" class="ol-popup" ondragover='dragover_handler(event)' ondrop='drop_handler(event)'>
       <form>
       <a href="#" id="popup-closer" class="ol-popup-closer"></a>
@@ -78,7 +77,6 @@
     </div>
     <input type="file" id="import-json"  style="display:none">
     <input type="file" id="import-jpeg"  style="display:none">
-    -->
 
     <select id="units">
       <option value="degrees">degrees</option>
@@ -88,6 +86,6 @@
       <option value="metric" selected>metric</option>
     </select>
     <button id='home'>Home</button>
-  <script type="text/javascript" src="main.js"></script></body>
+  <script src="main.js"></script></body>
 </html>
 
