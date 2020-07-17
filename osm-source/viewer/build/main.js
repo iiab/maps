@@ -839,10 +839,13 @@ var getImage = function(feature){
   console.log(feature.get('image'));
   var text;
   if(feature.get('typeLabel') === "metro station"){
-    text = "./map-marker.png";
+    text = "./markers/metro.png";
+  }
+  else if(feature.get('typeLabel') === "hospital"){
+    text = "./markers/hospital.png";
   }
   else{
-    text = "./marker.png";
+    text = "./markers/other.png";
   }
   return text;
 };
@@ -855,6 +858,8 @@ var getText = function(feature){
 
 var createTextStyle = function(feature){
   return new ol_style__WEBPACK_IMPORTED_MODULE_15__[/* Text */ "e"]({
+    fill: new ol_style__WEBPACK_IMPORTED_MODULE_15__[/* Fill */ "a"]({color: 'white', width: 2}),
+    stroke: new ol_style__WEBPACK_IMPORTED_MODULE_15__[/* Stroke */ "c"]({color: 'black', width: 2}),
     text: getText(feature)
   })
 }
@@ -1021,15 +1026,18 @@ map.on('singleclick', function(evt){
         var imageurl = feature.get('image');
         console.log(imageurl );
           var content = '<h3>' + feature.get('placeLabel') + '</h3>';
-          content += '<img src = ' + imageurl+ '>';
-          content += '<h5>' + feature.get('location') + '</h5>'; 
+          content += '<img src = ' + imageurl+ '>'; 
+          if(feature.get('placeDescription') !== undefined){
+          content += '<h5>' + feature.get('placeDescription') + '</h5>';
+        }
+          content += '<h6>Coordinates : ' + feature.get('location') + '</h6>'; 
+          
+          console.log(feature.get());
           if(feature.get('placeLabel') !== undefined){
             content_element.innerHTML = content;
             overlay.setPosition(coord);
             console.log(content);
-            console.info(feature.getProperties());
-          }
-           
+          }           
         }
 });   
 

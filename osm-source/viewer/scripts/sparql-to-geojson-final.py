@@ -12,6 +12,7 @@ def main():
     parser = argparse.ArgumentParser(description='Get Input and Output File Names')
     parser.add_argument('infile', type=str, help='Input filename for SPARQL Query')
     parser.add_argument('outfile', type=str, help='Output filename for GeoJSON')
+    parser.add_argument('--iconType',default='other', type=str, help='Output filename for GeoJSON')
     args = parser.parse_args()
 
 
@@ -19,7 +20,7 @@ def main():
     # for result in results["results"]["bindings"]:
     #     print(result["placeDescription"]["value"])
 
-    get_geojson_from_json(results,args.outfile)
+    get_geojson_from_json(results,args.outfile,args.iconType)
     
 def get_json_from_sparql(filename):
     sparql = SPARQLWrapper("https://query.wikidata.org/sparql")
@@ -32,10 +33,10 @@ def get_json_from_sparql(filename):
         results = sparql.query().convert()
         return results
 
-def get_geojson_from_json(results,filename):
+def get_geojson_from_json(results,filename,iconType="other"):
     features = []
     info = results
-    iconType = "metro station"
+    iconType = iconType
     for root in info["results"]["bindings"]:
         lat = float(root["lat"]["value"])
         long = float(root["long"]["value"])
@@ -45,6 +46,9 @@ def get_geojson_from_json(results,filename):
         for key in root:
             value = root[key]['value']
             properties[key] = value
+            #get image
+            #if(key == 'image'):
+             #   print(root[key]['value'])
 
         features.append(Feature(geometry=point,properties=properties))
 
