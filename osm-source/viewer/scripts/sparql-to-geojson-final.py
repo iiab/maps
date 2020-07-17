@@ -33,7 +33,7 @@ def get_json_from_sparql(filename):
         results = sparql.query().convert()
         return results
 
-def get_geojson_from_json(results,filename,iconType="other"):
+def get_geojson_from_json(results,filename,iconType):
     features = []
     info = results
     iconType = iconType
