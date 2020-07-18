@@ -14,3 +14,5 @@ npm run build
 :
 cd /opt/iiab/maps/osm-source/pages/installer
 cp ./build/* /library/www/osm-vector-maps/installer
+cp ./installer_functions.js /library/www/osm-vector-maps/installer/
+cp ./map.css /library/www/osm-vector-maps/installer/

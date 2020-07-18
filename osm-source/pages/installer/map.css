@@ -35,3 +35,8 @@ body {
    border: double;
    background: #eee;
 }
+.installed {
+	color:lightgreen;
+	font-weight: 700;
+}
+

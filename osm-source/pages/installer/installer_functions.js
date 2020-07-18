@@ -35,6 +35,7 @@ function readMapIdx(){
   var resp = $.ajax({
     type: 'GET',
     url: consoleJsonDir + 'vector-map-idx.json',
+    async: false,
     dataType: 'json'
   })
   .done(function( data ) {
@@ -117,7 +118,7 @@ function genMapItem(region,checkbox) {
   var itemId = region.title;
   var ksize = region.size / 1000;
   // is this region already insalled?
-  if (map_is_installed(region.detail_url)) colorClass = 'installed';
+  if (map_is_installed(basename(region.detail_url))) colorClass = 'installed';
   html += '<div class="extract" data-region="' + region.region + '" ';
   html += ' data-mapid="' + basename(region.detail_url) + '" ';
       html += ' onChange="updateCmdline(this)" >';
