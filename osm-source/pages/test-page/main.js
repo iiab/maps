@@ -15,7 +15,10 @@ import 'bootstrap/dist/css/bootstrap.css';
 
 // a global variable to control which features are shown
 var show = {};
-var mapData = "/osm-vector/maplist/assets";
+var mapData = "/osm-vector-maps/maplist/assets";
+var mapList = [];
+var consoleJsonDir = '/common/assets/';
+var mapCatalog = {};
 
 var map = new Map({
   target: 'map-container',
@@ -81,13 +84,11 @@ map.addLayer(boxLayer);
 
 $( document ).on("mouseover",".extract",function(){
 
-  var data = JSON.parse($(this).attr('data-region'));
-  show = data.name;
+  show = this.dataset.region;
   //setBoxStyle();
   boxLayer.changed();
 });
 $( document ).on("mouseout",".extract",function(){
-  var data = JSON.parse($(this).attr('data-region'));
   show = '';
   boxLayer.changed();
 });
@@ -108,10 +109,11 @@ function readMapCatalog(){
   var resp = $.ajax({
     type: 'GET',
     url: consoleJsonDir + 'map-catalog.json',
+    async: false,
     dataType: 'json'
   })
   .done(function( data ) {
-    mapJson = data;
+    var mapJson = data;
     mapCatalog = mapJson['maps'];
     for(var key in mapCatalog){
       //console.log(key + '  ' + mapCatalog[key]['title']);
@@ -119,7 +121,9 @@ function readMapCatalog(){
       mapList.push(mapCatalog[key]);
     }
   })
-  .fail(jsonErrhandler);
+  .fail(function( data ) {
+      console.log('failed to reatMaapCatalog');
+  })
   return resp;
 }
 
@@ -143,7 +147,7 @@ function renderMapList(checkbox) { // generic
   });
   html += '</form>';
   //console.log(html);
-  $( "#mapRegionSelectList" ).html(html);
+  $( "#mapList" ).html(html);
   activateTooltip();
 }
 
@@ -160,19 +164,11 @@ function genMapItem(region,checkbox) {
   var itemId = region.title;
   var ksize = region.size / 1000;
   // is this region already insalled?
-  if (map_is_installed(region.detail_url)) colorClass = 'installed';
+  //if (map_is_installed(region.detail_url)) colorClass = 'installed';
   html += '<div class="extract" data-region="' + region.region + '" ';
   html += ' data-mapid="' + basename(region.detail_url) + '" ';
       html += ' onChange="updateCmdline(this)" >';
   html += '<label>';
-  if ( checkbox ) {
-    if (selectedMapItems.indexOf(region.name) != -1)
-      checked = 'checked';
-    else
-      checked = '';
-      html += '<input type="radio" name="region">';
-      html += '</input>';;
-  }
   html += '</label>'; // end input
   var mapToolTip = genMapTooltip(region);
   html += '<span class="map-desc ' + colorClass + '"' + mapToolTip + '>&nbsp;&nbsp;' + itemId + '</span>';
@@ -182,6 +178,24 @@ function genMapItem(region,checkbox) {
 
   return html;
 }
+
+function genMapTooltip(map) {
+  var mapToolTip = ' data-toggle="tooltip" data-placement="top" data-html="true" ';
+  var re = /^.*_(v[0-9]+\.[0-9]+)\.zip/;
+  var url = map.url;
+  //var installed = getInstalledVersion(map.perma_ref);
+  var installed = '';
+  if ( installed == '' ) installed = 'Not installed';
+  var version = url.replace(re,'$1');
+  mapToolTip += 'title="';
+  mapToolTip += 'Date: ' + map.date + "  Version: " + version + '<br>';
+  mapToolTip += 'Available: ' + basename(map.detail_url)+'"' ;
+  //mapToolTip += 'Installed: '+ installed + '"';
+  //mapToolTip += 'title="<em><b>' + zim.description + '</b><BR>some more text that is rather long"';
+  //console.log(mapToolTip);
+  return mapToolTip;
+}
+
 function basename(path) {
      return path.replace(/.*\//, '');
 }
@@ -193,3 +207,10 @@ function activateTooltip() {
     });
 }
 
+function getMapStat(){
+  // called during the init
+  console.log('in getMapStat');
+  readMapCatalog();
+  //readMapIdx();
+}
+$.when(getMapStat()).then(function(){renderMapList(true);});
