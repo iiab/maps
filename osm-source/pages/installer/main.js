@@ -206,7 +206,7 @@ $( document ).on('change','#area-choice',function(elem){
       radius = 500;
    satLayer.setSource(getBoxSource());
    satLayer.changed();  
-   document.getElementById('cmdline_element').innerHTML = "sudo extend_sat.py --lon " + lon.toFixed(4) + ' --lat ' + lat.toFixed(4) + ' --radius ' + radius;
+   document.getElementById('cmdline_element').innerHTML = "sudo iiab-extend-sat.py --lon " + lon.toFixed(4) + ' --lat ' + lat.toFixed(4) + ' --radius ' + radius;
    console.log("radius changed");
 });
 
@@ -217,13 +217,13 @@ map.on("click", function(evt) {
    satLayer.setSource(getBoxSource());
    satLayer.changed();  
    //console.log("center changed to lon:" + lon.toFixed(2) + '  lat:' + lat.toFixed(2));
-   document.getElementById('cmdline_element').innerHTML = "sudo extend_sat.py --lon " + lon.toFixed(4) + ' --lat ' + lat.toFixed(4) + ' --radius ' + radius;
+   document.getElementById('cmdline_element').innerHTML = "sudo iiab-extend-sat.py --lon " + lon.toFixed(4) + ' --lat ' + lat.toFixed(4) + ' --radius ' + radius;
 
 });
 var cmdline_element = {};
 $( document ).ready(function() {
     console.log( "ready!" );
-    document.getElementById('cmdline_element').innerHTML = "sudo extend_sat.py";
+    document.getElementById('cmdline_element').innerHTML = "sudo iiab-extend-sat.py";
     document.getElementById('instr').innerHTML = "First Install at least one of the regions on the left of this window.<br>Then to increase satellite detailed coverage, copy the instructions below, become root, and paste them into a terminal window.";
 });
 

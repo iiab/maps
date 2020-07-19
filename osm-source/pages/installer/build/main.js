@@ -320,7 +320,7 @@ $( document ).on('change','#area-choice',function(elem){
       radius = 500;
    satLayer.setSource(getBoxSource());
    satLayer.changed();  
-   document.getElementById('cmdline_element').innerHTML = "sudo extend_sat.py --lon " + lon.toFixed(4) + ' --lat ' + lat.toFixed(4) + ' --radius ' + radius;
+   document.getElementById('cmdline_element').innerHTML = "sudo iiab-extend-sat.py --lon " + lon.toFixed(4) + ' --lat ' + lat.toFixed(4) + ' --radius ' + radius;
    console.log("radius changed");
 });
 
