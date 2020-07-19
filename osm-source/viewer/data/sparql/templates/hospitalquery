@@ -1,0 +1,18 @@
+SELECT ?place ?placeLabel ?image ?location ?dist ?lat ?long ?marker_size ?marker_color ?type ?marker_symbol WHERE {
+  wd:Q2341950 wdt:P625 ?loc.
+  SERVICE wikibase:around {
+    ?place wdt:P625 ?location.
+    bd:serviceParam wikibase:center ?loc;
+      wikibase:radius "50".
+  }
+  OPTIONAL { ?place wdt:P18 ?image. }
+  ?place wdt:P31 wd:Q16917.
+  SERVICE wikibase:label { bd:serviceParam wikibase:language "en". }
+  BIND(geof:distance(?loc, ?location) AS ?dist)
+  BIND("small" AS ?marker_size)
+  BIND("#FFC0CB" AS ?marker_color)
+  BIND("library" AS ?marker_symbol)
+  BIND("Point" AS ?type)
+  BIND(STRBEFORE(STRAFTER(STR(?location), " "), ")") AS ?lat)
+  BIND(STRBEFORE(STRAFTER(STR(?location), "Point("), " ") AS ?long)
+}

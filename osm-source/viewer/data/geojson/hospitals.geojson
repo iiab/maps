@@ -1,0 +1,789 @@
+{
+  "features": [
+    {
+      "geometry": {
+        "coordinates": [
+          77.087731,
+          28.451272
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "dist": "23.948053356625795",
+        "lat": "28.451272",
+        "location": "Point(77.087731 28.451272)",
+        "long": "77.087731",
+        "marker_color": "#FFC0CB",
+        "marker_size": "small",
+        "marker_symbol": "library",
+        "place": "http://www.wikidata.org/entity/Q30260645",
+        "placeLabel": "Paras Hospitals",
+        "type": "Point",
+        "typeLabel": "hospital"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          77.066641,
+          28.438564
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "dist": "26.26643859532066",
+        "lat": "28.438564",
+        "location": "Point(77.066641 28.438564)",
+        "long": "77.066641",
+        "marker_color": "#FFC0CB",
+        "marker_size": "small",
+        "marker_symbol": "library",
+        "place": "http://www.wikidata.org/entity/Q30262876",
+        "placeLabel": "Artemis Hospitals",
+        "type": "Point",
+        "typeLabel": "hospital"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          77.306896,
+          28.392409
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "dist": "28.05081738328627",
+        "lat": "28.392409",
+        "location": "Point(77.306896 28.392409)",
+        "long": "77.306896",
+        "marker_color": "#FFC0CB",
+        "marker_size": "small",
+        "marker_symbol": "library",
+        "place": "http://www.wikidata.org/entity/Q52856468",
+        "placeLabel": "Fortis Escorts Hospital",
+        "type": "Point",
+        "typeLabel": "hospital"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          77.16614,
+          28.506639
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "dist": "14.969479959929407",
+        "image": "http://commons.wikimedia.org/wiki/Special:FilePath/Front%20picture%20of%20ILBS.JPG",
+        "lat": "28.5066395",
+        "location": "Point(77.16614 28.5066395)",
+        "long": "77.16614",
+        "marker_color": "#FFC0CB",
+        "marker_size": "small",
+        "marker_symbol": "library",
+        "place": "http://www.wikidata.org/entity/Q6040494",
+        "placeLabel": "Institute of Liver and Biliary Sciences",
+        "type": "Point",
+        "typeLabel": "hospital"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          77.160461,
+          28.521645
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "dist": "13.644561771559403",
+        "lat": "28.521645",
+        "location": "Point(77.160461 28.521645)",
+        "long": "77.160461",
+        "marker_color": "#FFC0CB",
+        "marker_size": "small",
+        "marker_symbol": "library",
+        "place": "http://www.wikidata.org/entity/Q30296221",
+        "placeLabel": "Fortis Flt. Lt. Rajan Dhall Hospital",
+        "type": "Point",
+        "typeLabel": "hospital"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          77.131831,
+          28.673956
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "dist": "9.721532021665583",
+        "lat": "28.67395556",
+        "location": "Point(77.13183056 28.67395556)",
+        "long": "77.13183056",
+        "marker_color": "#FFC0CB",
+        "marker_size": "small",
+        "marker_symbol": "library",
+        "place": "http://www.wikidata.org/entity/Q6733221",
+        "placeLabel": "Maharaja Agrasen Hospital",
+        "type": "Point",
+        "typeLabel": "hospital"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          77.130081,
+          28.676454
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "dist": "10.00422300438564",
+        "lat": "28.676454",
+        "location": "Point(77.130081 28.676454)",
+        "long": "77.130081",
+        "marker_color": "#FFC0CB",
+        "marker_size": "small",
+        "marker_symbol": "library",
+        "place": "http://www.wikidata.org/entity/Q30260384",
+        "placeLabel": "Employees' State Insurance Model Hospital",
+        "type": "Point",
+        "typeLabel": "hospital"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          77.109429,
+          28.697681
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "dist": "12.956283623813892",
+        "lat": "28.697681",
+        "location": "Point(77.109429 28.697681)",
+        "long": "77.109429",
+        "marker_color": "#FFC0CB",
+        "marker_size": "small",
+        "marker_symbol": "library",
+        "place": "http://www.wikidata.org/entity/Q30280255",
+        "placeLabel": "Jaipur Golden Hospital",
+        "type": "Point",
+        "typeLabel": "hospital"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          77.208289,
+          28.632137
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "dist": "1.1180678416759307",
+        "lat": "28.632137",
+        "location": "Point(77.208289 28.632137)",
+        "long": "77.208289",
+        "marker_color": "#FFC0CB",
+        "marker_size": "small",
+        "marker_symbol": "library",
+        "place": "http://www.wikidata.org/entity/Q52843696",
+        "placeLabel": "RG Stone Urology & Laparoscopy Hospital",
+        "type": "Point",
+        "typeLabel": "hospital"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          77.371482,
+          28.51556
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "dist": "19.73490725340197",
+        "lat": "28.51556",
+        "location": "Point(77.371482 28.51556)",
+        "long": "77.371482",
+        "marker_color": "#FFC0CB",
+        "marker_size": "small",
+        "marker_symbol": "library",
+        "place": "http://www.wikidata.org/entity/Q30260501",
+        "placeLabel": "Jaypee Hospital",
+        "type": "Point",
+        "typeLabel": "hospital"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          77.274828,
+          28.561748
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "dist": "9.555941829586223",
+        "lat": "28.561748",
+        "location": "Point(77.274828 28.561748)",
+        "long": "77.274828",
+        "marker_color": "#FFC0CB",
+        "marker_size": "small",
+        "marker_symbol": "library",
+        "place": "http://www.wikidata.org/entity/Q5885498",
+        "placeLabel": "Holy Family Hospital",
+        "type": "Point",
+        "typeLabel": "hospital"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          77.21,
+          28.565
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "dist": "7.59571389580201",
+        "lat": "28.565",
+        "location": "Point(77.21 28.565)",
+        "long": "77.21",
+        "marker_color": "#FFC0CB",
+        "marker_size": "small",
+        "marker_symbol": "library",
+        "place": "http://www.wikidata.org/entity/Q7398430",
+        "placeLabel": "Safdarjang Hospital",
+        "type": "Point",
+        "typeLabel": "hospital"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          77.2508,
+          28.5693
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "dist": "7.682488510374023",
+        "image": "http://commons.wikimedia.org/wiki/Special:FilePath/Vimhans%20Logo.jpg",
+        "lat": "28.5693",
+        "location": "Point(77.2508 28.5693)",
+        "long": "77.2508",
+        "marker_color": "#FFC0CB",
+        "marker_size": "small",
+        "marker_symbol": "library",
+        "place": "http://www.wikidata.org/entity/Q16902699",
+        "placeLabel": "Vidyasagar Institute of Mental Health and Neuro Sciences",
+        "type": "Point",
+        "typeLabel": "hospital"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          77.239886,
+          28.564611
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "dist": "7.83087106184551",
+        "lat": "28.564611111",
+        "location": "Point(77.239886111 28.564611111)",
+        "long": "77.239886111",
+        "marker_color": "#FFC0CB",
+        "marker_size": "small",
+        "marker_symbol": "library",
+        "place": "http://www.wikidata.org/entity/Q17072190",
+        "placeLabel": "Max Medcentre, Panchsheel Park",
+        "type": "Point",
+        "typeLabel": "hospital"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          77.078223,
+          28.618866
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "dist": "13.896478690706049",
+        "lat": "28.618866",
+        "location": "Point(77.078223 28.618866)",
+        "long": "77.078223",
+        "marker_color": "#FFC0CB",
+        "marker_size": "small",
+        "marker_symbol": "library",
+        "place": "http://www.wikidata.org/entity/Q30260551",
+        "placeLabel": "Mata Chanan Devi Hospital",
+        "type": "Point",
+        "typeLabel": "hospital"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          77.112317,
+          28.628085
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "dist": "10.49511307016005",
+        "lat": "28.628085",
+        "location": "Point(77.112317 28.628085)",
+        "long": "77.112317",
+        "marker_color": "#FFC0CB",
+        "marker_size": "small",
+        "marker_symbol": "library",
+        "place": "http://www.wikidata.org/entity/Q30263756",
+        "placeLabel": "Deen Dayal Upadhyay Hospital",
+        "type": "Point",
+        "typeLabel": "hospital"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          77.245765,
+          28.513503
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "dist": "13.50372247132483",
+        "lat": "28.513503",
+        "location": "Point(77.245765 28.513503)",
+        "long": "77.245765",
+        "marker_color": "#FFC0CB",
+        "marker_size": "small",
+        "marker_symbol": "library",
+        "place": "http://www.wikidata.org/entity/Q30279961",
+        "placeLabel": "Batra Hospital and Medical Research Centre",
+        "type": "Point",
+        "typeLabel": "hospital"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          77.211457,
+          28.566628
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "dist": "7.399291108154918",
+        "lat": "28.566628",
+        "location": "Point(77.211457 28.566628)",
+        "long": "77.211457",
+        "marker_color": "#FFC0CB",
+        "marker_size": "small",
+        "marker_symbol": "library",
+        "place": "http://www.wikidata.org/entity/Q30280392",
+        "placeLabel": "DR. B.R.A. Institute Rotary Cancer Hospital",
+        "type": "Point",
+        "typeLabel": "hospital"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          77.273538,
+          28.560934
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "dist": "9.56111480016439",
+        "lat": "28.560934",
+        "location": "Point(77.273538 28.560934)",
+        "long": "77.273538",
+        "marker_color": "#FFC0CB",
+        "marker_size": "small",
+        "marker_symbol": "library",
+        "place": "http://www.wikidata.org/entity/Q30281527",
+        "placeLabel": "Fortis Escorts Heart Institute",
+        "type": "Point",
+        "typeLabel": "hospital"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          77.485,
+          28.472
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "dist": "31.477709898556707",
+        "lat": "28.472",
+        "location": "Point(77.485 28.472)",
+        "long": "77.485",
+        "marker_color": "#FFC0CB",
+        "marker_size": "small",
+        "marker_symbol": "library",
+        "place": "http://www.wikidata.org/entity/Q5425546",
+        "placeLabel": "FHRAI Institute of Hospitality Management",
+        "type": "Point",
+        "typeLabel": "hospital"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          77.373035,
+          28.618129
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "dist": "15.051546223641004",
+        "lat": "28.618129",
+        "location": "Point(77.373035 28.618129)",
+        "long": "77.373035",
+        "marker_color": "#FFC0CB",
+        "marker_size": "small",
+        "marker_symbol": "library",
+        "place": "http://www.wikidata.org/entity/Q30280289",
+        "placeLabel": "Fortis Hospital",
+        "type": "Point",
+        "typeLabel": "hospital"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          77.335802,
+          28.579895
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "dist": "12.766102525122612",
+        "lat": "28.579895",
+        "location": "Point(77.335802 28.579895)",
+        "long": "77.335802",
+        "marker_color": "#FFC0CB",
+        "marker_size": "small",
+        "marker_symbol": "library",
+        "place": "http://www.wikidata.org/entity/Q50035292",
+        "placeLabel": "ICARE Eye Hospital & Postgraduate Institute",
+        "type": "Point",
+        "typeLabel": "hospital"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          77.311132,
+          28.668415
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "dist": "9.759929077921464",
+        "lat": "28.668415",
+        "location": "Point(77.311132 28.668415)",
+        "long": "77.311132",
+        "marker_color": "#FFC0CB",
+        "marker_size": "small",
+        "marker_symbol": "library",
+        "place": "http://www.wikidata.org/entity/Q52856726",
+        "placeLabel": "ESIC Hospital",
+        "type": "Point",
+        "typeLabel": "hospital"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          77.31762,
+          28.691625
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "dist": "11.577653669734095",
+        "lat": "28.691625",
+        "location": "Point(77.31762 28.691625)",
+        "long": "77.31762",
+        "marker_color": "#FFC0CB",
+        "marker_size": "small",
+        "marker_symbol": "library",
+        "place": "http://www.wikidata.org/entity/Q61931168",
+        "placeLabel": "TLM Shahdara Hospital",
+        "type": "Point",
+        "typeLabel": "hospital"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          77.309,
+          28.684
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "dist": "10.407363614764044",
+        "lat": "28.684",
+        "location": "Point(77.309 28.684)",
+        "long": "77.309",
+        "marker_color": "#FFC0CB",
+        "marker_size": "small",
+        "marker_symbol": "library",
+        "place": "http://www.wikidata.org/entity/Q5620441",
+        "placeLabel": "Guru Teg Bahadur Hospital",
+        "type": "Point",
+        "typeLabel": "hospital"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          77.235099,
+          28.639225
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "dist": "1.663042931471244",
+        "lat": "28.639225",
+        "location": "Point(77.235099 28.639225)",
+        "long": "77.235099",
+        "marker_color": "#FFC0CB",
+        "marker_size": "small",
+        "marker_symbol": "library",
+        "place": "http://www.wikidata.org/entity/Q30254208",
+        "placeLabel": "Govind Ballabh Pant Hospital",
+        "type": "Point",
+        "typeLabel": "hospital"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          77.23836,
+          28.639041
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "dist": "1.9476084791109118",
+        "lat": "28.639041",
+        "location": "Point(77.23836 28.639041)",
+        "long": "77.23836",
+        "marker_color": "#FFC0CB",
+        "marker_size": "small",
+        "marker_symbol": "library",
+        "place": "http://www.wikidata.org/entity/Q30279844",
+        "placeLabel": "Lok Nayak Hospital",
+        "type": "Point",
+        "typeLabel": "hospital"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          77.212184,
+          28.675436
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "dist": "4.7998397088350915",
+        "lat": "28.675436",
+        "location": "Point(77.212184 28.675436)",
+        "long": "77.212184",
+        "marker_color": "#FFC0CB",
+        "marker_size": "small",
+        "marker_symbol": "library",
+        "place": "http://www.wikidata.org/entity/Q30279888",
+        "placeLabel": "Hindu Rao Hospital",
+        "type": "Point",
+        "typeLabel": "hospital"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          77.224101,
+          28.677809
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "dist": "5.0251976509621334",
+        "lat": "28.677809",
+        "location": "Point(77.224101 28.677809)",
+        "long": "77.224101",
+        "marker_color": "#FFC0CB",
+        "marker_size": "small",
+        "marker_symbol": "library",
+        "place": "http://www.wikidata.org/entity/Q30280362",
+        "placeLabel": "Sant Parmanand Hospital",
+        "type": "Point",
+        "typeLabel": "hospital"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          77.214456,
+          28.665229
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "dist": "3.6446445636581464",
+        "lat": "28.665229",
+        "location": "Point(77.214456 28.665229)",
+        "long": "77.214456",
+        "marker_color": "#FFC0CB",
+        "marker_size": "small",
+        "marker_symbol": "library",
+        "place": "http://www.wikidata.org/entity/Q30281076",
+        "placeLabel": "St. Stephen\u2019s Hospital",
+        "type": "Point",
+        "typeLabel": "hospital"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          77.181541,
+          28.691924
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "dist": "7.5581899764693565",
+        "lat": "28.691924",
+        "location": "Point(77.181541 28.691924)",
+        "long": "77.181541",
+        "marker_color": "#FFC0CB",
+        "marker_size": "small",
+        "marker_symbol": "library",
+        "place": "http://www.wikidata.org/entity/Q30295729",
+        "placeLabel": "Sunder Lal Jain Hospital",
+        "type": "Point",
+        "typeLabel": "hospital"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          77.237984,
+          28.648847
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "dist": "2.523523930094729",
+        "lat": "28.648847",
+        "location": "Point(77.237984 28.648847)",
+        "long": "77.237984",
+        "marker_color": "#FFC0CB",
+        "marker_size": "small",
+        "marker_symbol": "library",
+        "place": "http://www.wikidata.org/entity/Q50517763",
+        "placeLabel": "Kasturba Hospital",
+        "type": "Point",
+        "typeLabel": "hospital"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          77.28842,
+          28.613583
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "dist": "7.0364565032075355",
+        "lat": "28.613583",
+        "location": "Point(77.28842 28.613583)",
+        "long": "77.28842",
+        "marker_color": "#FFC0CB",
+        "marker_size": "small",
+        "marker_symbol": "library",
+        "place": "http://www.wikidata.org/entity/Q52856541",
+        "placeLabel": "Bapu Nature Cure Hospital & Yogashram",
+        "type": "Point",
+        "typeLabel": "hospital"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          77.20865,
+          28.700977
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "dist": "7.659594688221107",
+        "lat": "28.700977",
+        "location": "Point(77.20865 28.700977)",
+        "long": "77.20865",
+        "marker_color": "#FFC0CB",
+        "marker_size": "small",
+        "marker_symbol": "library",
+        "place": "http://www.wikidata.org/entity/Q52856780",
+        "placeLabel": "Nulife Hospital",
+        "type": "Point",
+        "typeLabel": "hospital"
+      },
+      "type": "Feature"
+    }
+  ],
+  "type": "FeatureCollection"
+}
