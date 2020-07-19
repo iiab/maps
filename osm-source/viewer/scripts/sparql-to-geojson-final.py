@@ -1,4 +1,5 @@
-#Saving SPARQL dump to json file
+#Saving SPARQL dump to geojson file
+#!/usr/bin/python3 
 from SPARQLWrapper import SPARQLWrapper, JSON
 from geojson import Feature,Point, FeatureCollection
 from uuid import uuid4
@@ -6,6 +7,11 @@ import geojson
 import json
 import argparse
 import sys
+
+
+SPARQL_ENDPOINT = "https://query.wikidata.org/sparql"
+SPARQL_FROM_TEMPLATE_PATH = "/library/www/osm-vector-maps/viewer/data/sparql/templates/"
+GEOJSON_PATH = "/library/www/osm-vector-maps/viewer/data/geojson"
 
 def main():
     
@@ -21,13 +27,12 @@ def main():
     #     print(result["placeDescription"]["value"])
 
     get_geojson_from_json(results,args.outfile,args.iconType)
+    print("Conversion Complete")
     
 def get_json_from_sparql(filename):
-    sparql = SPARQLWrapper("https://query.wikidata.org/sparql", agent='Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/50.0.2661.102 Safari/537.36')
+    sparql = SPARQLWrapper(SPARQL_ENDPOINT, agent='Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/50.0.2661.102 Safari/537.36')
 
-
-    location_code = "Q1353"
-    url = "../data/sparql/"+filename
+    url = SPARQL_FROM_TEMPLATE_PATH+filename
     with open(url, 'r') as file:
         query = file.read().replace('\n', '')
         sparql.setQuery(query)
@@ -59,16 +64,10 @@ def get_geojson_from_json(results,filename,iconType):
     save_to_file(out_str,filename)
 
 def save_to_file(out_str,filename):
-    outputfile = "../data/geojson/"+filename+".geojson"
+    outputfile = GEOJSON_PATH+filename+".geojson"
     with open(outputfile,"w") as file:
         file.write(out_str)
     file.close()
-    print("Operation Complete")
-    
-
-
-
-
 
 
 if __name__ == '__main__':
