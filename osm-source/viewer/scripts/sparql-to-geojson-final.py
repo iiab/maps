@@ -1,5 +1,5 @@
-#Saving SPARQL dump to geojson file
 #!/usr/bin/python3 
+#Saving SPARQL dump to geojson file
 from SPARQLWrapper import SPARQLWrapper, JSON
 from geojson import Feature,Point, FeatureCollection
 from uuid import uuid4
