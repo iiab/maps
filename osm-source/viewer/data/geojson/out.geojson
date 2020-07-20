@@ -1,0 +1,338 @@
+{
+  "features": [
+    {
+      "geometry": {
+        "coordinates": [
+          77.230169, 
+          28.657838
+        ], 
+        "type": "Point"
+      }, 
+      "properties": {
+        "image": "http://commons.wikimedia.org/wiki/Special:FilePath/Chandni%20Chowk%20Metro%20Station.jpg", 
+        "lat": "28.657838", 
+        "location": "Point(77.230169 28.657838)", 
+        "long": "77.230169", 
+        "place": "http://www.wikidata.org/entity/Q5071227", 
+        "placeDescription": "metro station in Delhi, India", 
+        "placeLabel": "Chandni Chowk", 
+        "typeLabel": "metro"
+      }, 
+      "type": "Feature"
+    }, 
+    {
+      "geometry": {
+        "coordinates": [
+          77.226226, 
+          28.649564
+        ], 
+        "type": "Point"
+      }, 
+      "properties": {
+        "image": "http://commons.wikimedia.org/wiki/Special:FilePath/Chawri%20Bazar.jpg", 
+        "lat": "28.649564", 
+        "location": "Point(77.226226 28.649564)", 
+        "long": "77.226226", 
+        "place": "http://www.wikidata.org/entity/Q5088577", 
+        "placeDescription": "metro station in Delhi, India", 
+        "placeLabel": "Chawri Bazar", 
+        "typeLabel": "metro"
+      }, 
+      "type": "Feature"
+    }, 
+    {
+      "geometry": {
+        "coordinates": [
+          77.174926, 
+          28.506552
+        ], 
+        "type": "Point"
+      }, 
+      "properties": {
+        "image": "http://commons.wikimedia.org/wiki/Special:FilePath/Chhatarpur%20Metro%20station.jpg", 
+        "lat": "28.506552", 
+        "location": "Point(77.174926 28.506552)", 
+        "long": "77.174926", 
+        "place": "http://www.wikidata.org/entity/Q5094801", 
+        "placeDescription": "metro station in Delhi, India", 
+        "placeLabel": "Chhatarpur", 
+        "typeLabel": "metro"
+      }, 
+      "type": "Feature"
+    }, 
+    {
+      "geometry": {
+        "coordinates": [
+          77.03344, 
+          28.619299
+        ], 
+        "type": "Point"
+      }, 
+      "properties": {
+        "lat": "28.619299", 
+        "location": "Point(77.03344 28.619299)", 
+        "long": "77.03344", 
+        "place": "http://www.wikidata.org/entity/Q5317939", 
+        "placeDescription": "metro station in Delhi, India", 
+        "placeLabel": "Dwarka Mor", 
+        "typeLabel": "metro"
+      }, 
+      "type": "Feature"
+    }, 
+    {
+      "geometry": {
+        "coordinates": [
+          77.264286, 
+          28.544606
+        ], 
+        "type": "Point"
+      }, 
+      "properties": {
+        "lat": "28.5446056", 
+        "location": "Point(77.2642865 28.5446056)", 
+        "long": "77.2642865", 
+        "place": "http://www.wikidata.org/entity/Q5589852", 
+        "placeDescription": "metro station in Delhi, India", 
+        "placeLabel": "Govind Puri", 
+        "typeLabel": "metro"
+      }, 
+      "type": "Feature"
+    }, 
+    {
+      "geometry": {
+        "coordinates": [
+          77.207026, 
+          28.558038
+        ], 
+        "type": "Point"
+      }, 
+      "properties": {
+        "lat": "28.5580377", 
+        "location": "Point(77.2070264 28.5580377)", 
+        "long": "77.2070264", 
+        "place": "http://www.wikidata.org/entity/Q5602948", 
+        "placeDescription": "metro station in Delhi, India", 
+        "placeLabel": "Green Park", 
+        "typeLabel": "metro"
+      }, 
+      "type": "Feature"
+    }, 
+    {
+      "geometry": {
+        "coordinates": [
+          77.206344, 
+          28.543444
+        ], 
+        "type": "Point"
+      }, 
+      "properties": {
+        "lat": "28.5434438", 
+        "location": "Point(77.2063442 28.5434438)", 
+        "long": "77.2063442", 
+        "place": "http://www.wikidata.org/entity/Q5683002", 
+        "placeDescription": "metro station in Delhi, India", 
+        "placeLabel": "Hauz Khas", 
+        "typeLabel": "metro"
+      }, 
+      "type": "Feature"
+    }, 
+    {
+      "geometry": {
+        "coordinates": [
+          77.207011, 
+          28.698206
+        ], 
+        "type": "Point"
+      }, 
+      "properties": {
+        "lat": "28.698206", 
+        "location": "Point(77.207011 28.698206)", 
+        "long": "77.207011", 
+        "place": "http://www.wikidata.org/entity/Q795125", 
+        "placeDescription": "metro station in Delhi, India", 
+        "placeLabel": "GTB Nagar", 
+        "typeLabel": "metro"
+      }, 
+      "type": "Feature"
+    }, 
+    {
+      "geometry": {
+        "coordinates": [
+          77.320278, 
+          28.675556
+        ], 
+        "type": "Point"
+      }, 
+      "properties": {
+        "lat": "28.675556", 
+        "location": "Point(77.320278 28.675556)", 
+        "long": "77.320278", 
+        "place": "http://www.wikidata.org/entity/Q4207341", 
+        "placeDescription": "metro station in Delhi, India", 
+        "placeLabel": "Dilshad Garden", 
+        "typeLabel": "metro"
+      }, 
+      "type": "Feature"
+    }, 
+    {
+      "geometry": {
+        "coordinates": [
+          77.208043, 
+          28.566896
+        ], 
+        "type": "Point"
+      }, 
+      "properties": {
+        "image": "http://commons.wikimedia.org/wiki/Special:FilePath/AIIMS%20DELHI.jpg", 
+        "lat": "28.5668957", 
+        "location": "Point(77.2080433 28.5668957)", 
+        "long": "77.2080433", 
+        "place": "http://www.wikidata.org/entity/Q4651928", 
+        "placeDescription": "metro station in Delhi, India", 
+        "placeLabel": "AIIMS", 
+        "typeLabel": "metro"
+      }, 
+      "type": "Feature"
+    }, 
+    {
+      "geometry": {
+        "coordinates": [
+          77.169385, 
+          28.718104
+        ], 
+        "type": "Point"
+      }, 
+      "properties": {
+        "image": "http://commons.wikimedia.org/wiki/Special:FilePath/Adarsh%20Nagar%2C%20Delhi%20metro%20station.jpg", 
+        "lat": "28.718104", 
+        "location": "Point(77.169385 28.718104)", 
+        "long": "77.169385", 
+        "place": "http://www.wikidata.org/entity/Q4680843", 
+        "placeDescription": "metro station in Delhi, India", 
+        "placeLabel": "Adarsh Nagar", 
+        "typeLabel": "metro"
+      }, 
+      "type": "Feature"
+    }, 
+    {
+      "geometry": {
+        "coordinates": [
+          77.279248, 
+          28.618216
+        ], 
+        "type": "Point"
+      }, 
+      "properties": {
+        "image": "http://commons.wikimedia.org/wiki/Special:FilePath/AkshardhamMetroStation.jpg", 
+        "lat": "28.618216", 
+        "location": "Point(77.279248 28.618216)", 
+        "long": "77.279248", 
+        "place": "http://www.wikidata.org/entity/Q4701799", 
+        "placeDescription": "metro station in Delhi, India", 
+        "placeLabel": "Akshardham", 
+        "typeLabel": "metro"
+      }, 
+      "type": "Feature"
+    }, 
+    {
+      "geometry": {
+        "coordinates": [
+          77.316091, 
+          28.647328
+        ], 
+        "type": "Point"
+      }, 
+      "properties": {
+        "image": "http://commons.wikimedia.org/wiki/Special:FilePath/Anand%20Vihar%20metro%20station%20-%20Main%20entrance.JPG", 
+        "lat": "28.647328", 
+        "location": "Point(77.316091 28.647328)", 
+        "long": "77.316091", 
+        "place": "http://www.wikidata.org/entity/Q4751288", 
+        "placeDescription": "metro station in Delhi, India", 
+        "placeLabel": "Anand Vihar", 
+        "typeLabel": "metro"
+      }, 
+      "type": "Feature"
+    }, 
+    {
+      "geometry": {
+        "coordinates": [
+          77.179974, 
+          28.707273
+        ], 
+        "type": "Point"
+      }, 
+      "properties": {
+        "lat": "28.707273", 
+        "location": "Point(77.179974 28.707273)", 
+        "long": "77.179974", 
+        "place": "http://www.wikidata.org/entity/Q4832101", 
+        "placeDescription": "metro station in Delhi, India", 
+        "placeLabel": "Azadpur", 
+        "typeLabel": "metro"
+      }, 
+      "type": "Feature"
+    }, 
+    {
+      "geometry": {
+        "coordinates": [
+          77.30306, 
+          28.49358
+        ], 
+        "type": "Point"
+      }, 
+      "properties": {
+        "image": "http://commons.wikimedia.org/wiki/Special:FilePath/Badarpur%20Border%20Metro%20Station.jpg", 
+        "lat": "28.49358", 
+        "location": "Point(77.30306 28.49358)", 
+        "long": "77.30306", 
+        "place": "http://www.wikidata.org/entity/Q4840629", 
+        "placeDescription": "Metro station in Delhi, India", 
+        "placeLabel": "Badarpur", 
+        "typeLabel": "metro"
+      }, 
+      "type": "Feature"
+    }, 
+    {
+      "geometry": {
+        "coordinates": [
+          77.223582, 
+          28.630689
+        ], 
+        "type": "Point"
+      }, 
+      "properties": {
+        "image": "http://commons.wikimedia.org/wiki/Special:FilePath/Barakhamba%20Rd.%20Metro%20St.%20Sign%20board.jpg", 
+        "lat": "28.630689", 
+        "location": "Point(77.223582 28.630689)", 
+        "long": "77.223582", 
+        "place": "http://www.wikidata.org/entity/Q4858265", 
+        "placeDescription": "metro station in Delhi, India", 
+        "placeLabel": "Barakhamba Road", 
+        "typeLabel": "metro"
+      }, 
+      "type": "Feature"
+    }, 
+    {
+      "geometry": {
+        "coordinates": [
+          77.211785, 
+          28.615042
+        ], 
+        "type": "Point"
+      }, 
+      "properties": {
+        "image": "http://commons.wikimedia.org/wiki/Special:FilePath/Dehli%20Metro%2000107.jpg", 
+        "lat": "28.615042", 
+        "location": "Point(77.211785 28.615042)", 
+        "long": "77.211785", 
+        "place": "http://www.wikidata.org/entity/Q5061812", 
+        "placeDescription": "metro station in Delhi, India", 
+        "placeLabel": "Central Secretariat", 
+        "typeLabel": "metro"
+      }, 
+      "type": "Feature"
+    }
+  ], 
+  "type": "FeatureCollection"
+}

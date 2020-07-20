@@ -38,6 +38,7 @@ def get_json_from_sparql(filename):
         sparql.setQuery(query)
         sparql.setReturnFormat(JSON)
         results = sparql.query().convert()
+        print(results)
         return results
 
 def get_geojson_from_json(results,filename,iconType):
