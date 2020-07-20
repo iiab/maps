@@ -689,10 +689,10 @@ $(function() {
 var getImage = function(feature){
   console.log(feature.get('image'));
   var text;
-  if(feature.get('typeLabel') === "metro"){
+  if(feature.get('featureType') === "metro"){
     text = "./markers/metro.png";
   }
-  else if(feature.get('typeLabel') === "hospital"){
+  else if(feature.get('featureType') === "hospital"){
     text = "./markers/hospital.png";
   }
   else{

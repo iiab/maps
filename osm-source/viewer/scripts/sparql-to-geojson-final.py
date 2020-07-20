@@ -10,15 +10,15 @@ import sys
 
 
 SPARQL_ENDPOINT = "https://query.wikidata.org/sparql"
-SPARQL_FROM_TEMPLATE_PATH = "/library/www/osm-vector-maps/viewer/data/sparql/templates/"
-GEOJSON_PATH = "/library/www/osm-vector-maps/viewer/data/geojson"
+SPARQL_FROM_TEMPLATE_PATH = "../data/sparql/templates/"
+GEOJSON_PATH = "/library/www/osm-vector-maps/viewer/data/geojson/"
 
 def main():
     
     parser = argparse.ArgumentParser(description='Get Input and Output File Names')
     parser.add_argument('infile', type=str, help='Input filename for SPARQL Query')
     parser.add_argument('outfile', type=str, help='Output filename for GeoJSON')
-    parser.add_argument('iconType',default='other', type=str, help='Output filename for GeoJSON')
+    parser.add_argument('--iconType',default='other',required=False, type=str, help='Output filename for GeoJSON')
     args = parser.parse_args()
 
 
@@ -50,7 +50,7 @@ def get_geojson_from_json(results,filename,iconType):
         long = float(root["long"]["value"])
         point = Point((long,lat))
         # print(type(point))
-        properties = {'typeLabel': iconType}
+        properties = {'featureType': iconType}
         for key in root:
             value = root[key]['value']
             properties[key] = value
@@ -66,6 +66,7 @@ def get_geojson_from_json(results,filename,iconType):
 
 def save_to_file(out_str,filename):
     outputfile = GEOJSON_PATH+filename+".geojson"
+    print(outputfile)
     with open(outputfile,"w") as file:
         file.write(out_str)
     file.close()
