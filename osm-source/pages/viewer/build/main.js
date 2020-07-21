@@ -188,7 +188,7 @@ window.$ = window.jQuery = __webpack_require__(/*! jquery */ "./node_modules/jqu
 const typeahead = __webpack_require__(/*! ./assets/bootstrap-typeahead.min.js */ "./assets/bootstrap-typeahead.min.js");
 var scaleLineControl = new ol_control_js__WEBPACK_IMPORTED_MODULE_13__[/* ScaleLine */ "b"]();
 var attribution = new ol_control_js__WEBPACK_IMPORTED_MODULE_13__[/* Attribution */ "a"]({
-   label: "OpenStreetMaps.org, OpenLayers.com"});
+   label: "OpenStreetMaps.org, OpenLayers.com<br> Sentinel-2 cloudless - https://s2maps.eu by EOX IT Services GmbH (Contains modified Copernicus Sentinel data 2019)"});
 
 // keep the values set in init.json for home button to use
 var config = {};
@@ -220,7 +220,7 @@ function dirname(path) {
 //////////////////s4 MAPS ///////////////////////////////////////////////////
 var map = new ol_Map__WEBPACK_IMPORTED_MODULE_1__[/* default */ "a"]({ 
   target: 'map-container',
-  controls: Object(ol_control_js__WEBPACK_IMPORTED_MODULE_13__[/* defaults */ "c"])({attribution: false}).extend([
+  controls: Object(ol_control_js__WEBPACK_IMPORTED_MODULE_13__[/* defaults */ "c"])().extend([
     scaleLineControl,attribution
   ]),
   view: new ol_View__WEBPACK_IMPORTED_MODULE_2__[/* default */ "a"]({

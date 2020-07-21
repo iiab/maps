@@ -39,7 +39,7 @@ window.$ = window.jQuery = require('jquery');
 const typeahead = require('./assets/bootstrap-typeahead.min.js');
 var scaleLineControl = new ScaleLine();
 var attribution = new Attribution({
-   label: "OpenStreetMaps.org, OpenLayers.com"});
+   label: "OpenStreetMaps.org, OpenLayers.com<br> Sentinel-2 cloudless - https://s2maps.eu by EOX IT Services GmbH (Contains modified Copernicus Sentinel data 2019)"});
 
 // keep the values set in init.json for home button to use
 var config = {};
@@ -71,7 +71,7 @@ function dirname(path) {
 //////////////////s4 MAPS ///////////////////////////////////////////////////
 var map = new Map({ 
   target: 'map-container',
-  controls: defaultControls({attribution: false}).extend([
+  controls: defaultControls().extend([
     scaleLineControl,attribution
   ]),
   view: new View({

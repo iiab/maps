@@ -1,3 +1,10 @@
-wget http://download.iiab.io/content/OSM/vector-tiles/maplist/hidden/assets/regions.json
-wget http://download.iiab.io/content/OSM/vector-tiles/maplist/hidden/assets/bboxes.geojson
+#!/bin/bash
+# if regions.json exists in the current directory, get it
+if [ -f regions.json ];then
+   wget http://download.iiab.io/content/OSM/vector-tiles/maplist/hidden/assets/regions.json
+   wget http://download.iiab.io/content/OSM/vector-tiles/maplist/hidden/assets/bboxes.geojson
+fi
+
+# and unconditionally gete the current map-catalog.json`
+   wget http://download.iiab.io/content/OSM/vector-tiles/map-catalog.json
 
