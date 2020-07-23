@@ -15,8 +15,11 @@ import VectorTileSource from 'ol/source/VectorTile';
 import VectorLayer from 'ol/layer/Vector';
 import VectorSource from 'ol/source/Vector';
 import MVT from 'ol/format/MVT';
+import Collection from 'ol/Collection';
+import LayerGroup from 'ol/layer/Group';
 import stylefunction from 'ol-mapbox-style/dist/stylefunction';
-import {defaults as defaultControls, ScaleLine,Attribution} from 'ol/control.js';
+import {defaults as defaultControls, ScaleLine} from 'ol/control.js';
+import Attribution from 'ol/control/Attribution';
 import {GPX, GeoJSON, IGC, KML, TopoJSON} from 'ol/format';
 import {Style, Fill, Stroke, Circle, Icon, Text} from 'ol/style';
 import Point from 'ol/geom/Point';
@@ -39,7 +42,9 @@ window.$ = window.jQuery = require('jquery');
 const typeahead = require('./assets/bootstrap-typeahead.min.js');
 var scaleLineControl = new ScaleLine();
 var attribution = new Attribution({
-   label: "OpenStreetMaps.org, OpenLayers.com<br> Sentinel-2 cloudless - https://s2maps.eu by EOX IT Services GmbH (Contains modified Copernicus Sentinel data 2019)"});
+   //label: "OpenStreetMaps.org, OpenLayers.com<br> Sentinel-2 cloudless - https://s2maps.eu by EOX IT Services GmbH (Contains modified Copernicus Sentinel data 2019)"});
+   label: "OpenStreetMaps.org,  Sentinel-2 cloudless - https://s2maps.eu by EOX"
+});
 
 // keep the values set in init.json for home button to use
 var config = {};
@@ -58,6 +63,8 @@ var show = 'min';
 var map;
 var osm_style = './assets/style-sat.json';
 var tiledata = {};
+var consoleJsonDir = '/common/assets/';
+var mapCatalog = {};
 
 //////////////////s3 Functions /////////////////////////////////////////////////
 function basename(path) {
@@ -68,21 +75,44 @@ function dirname(path) {
      return path.match(/.*\//);
 }
 
-//////////////////s4 MAPS ///////////////////////////////////////////////////
-var map = new Map({ 
-  target: 'map-container',
-  controls: defaultControls().extend([
-    scaleLineControl,attribution
-  ]),
-  view: new View({
-    center: fromLonLat([-122, 37.35]),
-    maxZoom: 19,
-    zoom: 11
-  })
-  //overlays: [overlay]
-}); //end of new Map
+function jsonErrhandler(){
+   console.log('Json error');
+}
 
-sync(map);
+function readMapCatalog(){
+	//console.log ("in readMapCalalog");
+  var resp = $.ajax({
+    type: 'GET',
+    url: consoleJsonDir + 'map-catalog.json',
+    async: false,
+    dataType: 'json'
+  })
+  .done(function( data ) {
+    mapCatalog = data['maps'];
+  })
+  .fail(jsonErrhandler);
+  return resp;
+}
+
+function getMapFromPermaref(permaref){
+   for (var key in mapCatalog){
+      if ( mapCatalg[key]['permaref'] ==  permaref) return key;
+   }
+   return '';
+}
+
+function getQueryVariable(variable)
+{
+       var query = window.location.search.substring(1);
+       var vars = query.split("&");
+       for (var i=0;i<vars.length;i++) {
+               var pair = vars[i].split("=");
+               if(pair[0] == variable){return pair[1];}
+       }
+       return(false);
+}
+//////////////////s4 MAPS ///////////////////////////////////////////////////
+readMapCatalog();
 
 // Get list of all files in the tiles directory
   var resp = $.ajax({
@@ -106,6 +136,7 @@ for(var mbt in tiledata){
         opacity: 1,
         title: 'Satellite',
           //minResolution: 25,
+          maxZoom: 14,
           source: new XYZSource({
            cacheSize: 0,
            // -y in the followinng url changes origin form lower left to upper left
@@ -121,6 +152,12 @@ for(var mbt in tiledata){
    if (mbt.substr(0,3) != 'sat'){
       var url = './tileserver.php?./tiles/' +  mbt + '/{z}/{x}/{y}.pbf';
       console.log('URL:' + url);
+      var key = mbt + '.mbtiles';
+      if ( key in mapCatalog ) {
+         var region = mapCatalog[key]['region']
+      } else {
+         var region = 'planet_z0-z10';
+      }
       const maxzoom = tiledata[mbt]['maxzoom'];
       if (maxzoom <11) {
          layerDict[mbt] = (new VectorTileLayer({
@@ -129,7 +166,8 @@ for(var mbt in tiledata){
                format: new MVT(),
                url: url
             }),
-            //title: 'OSM',
+            title: 'OSM',
+            visible: true,
             maxZoom:10, 
             declutter: true
          }));
@@ -141,7 +179,8 @@ for(var mbt in tiledata){
                url: url,
                maxZoom: 14,
             }),
-            title: 'OSM',
+            title: 'OSM ' + region,
+            visible: true,
             declutter: true
          }));
       }
@@ -165,16 +204,13 @@ const drop = new VectorLayer({
   source: dropSource
 });
 
-map.addInteraction(new DragAndDrop({
-  source: dropSource,
-  formatConstructors: [GPX, GeoJSON, IGC, KML, TopoJSON]
-}));
-
 /////   add Layers    /////////////////
-map.addLayer(sat_layer);
+var layer_group = new Collection;
+layer_group.extend([sat_layer]);
+//map.addLayer(sat_layer);
 for(var mbt in tiledata){
    if (mbt.substr(0,3) != 'sat'){
-         map.addLayer(layerDict[mbt]);
+         layer_group.extend([layerDict[mbt]]);
    }
 }
 
@@ -186,7 +222,7 @@ const boxLayer =  new VectorLayer({
    style: function(feature) {
      var name = feature.get("name");
      var found = false;
-      if (name.startsWith('sat')) {
+      if (name.substr(0,3) == 'sat') {
        return new Style({
          fill: new Fill({
            color: 'rgba(67, 163, 46, 0)'
@@ -201,7 +237,7 @@ const boxLayer =  new VectorLayer({
        if (mbt.split(name).length > 1 &&
        ! name.startsWith('sat')) found = true;
      }
-     if (found){
+       if (found){
           return new Style({
             fill: new Fill({
               color: 'rgba(67, 163, 46, 0)'
@@ -225,8 +261,33 @@ const boxLayer =  new VectorLayer({
      } 
    
 })
-map.addLayer(boxLayer);    
-map.addLayer(drop);
+layer_group.extend([boxLayer,drop]);    
+
+var switcher_group = new LayerGroup({
+});
+
+switcher_group.setLayers(layer_group);
+var map = new Map({ 
+  target: 'map-container',
+  controls: defaultControls({attribution: true}).extend([
+    scaleLineControl,attribution
+  ]),
+  layers: switcher_group,
+  view: new View({
+    center: fromLonLat([-122, 37.35]),
+    maxZoom: 19,
+    zoom: 11
+  })
+  //overlays: [overlay]
+}); //end of new Map
+
+sync(map);
+
+map.addInteraction(new DragAndDrop({
+  source: dropSource,
+  formatConstructors: [GPX, GeoJSON, IGC, KML, TopoJSON]
+}));
+
 
 ////////s5   MAP EVENTS  ////////////
 map.on("moveend", function() {
@@ -299,7 +360,10 @@ function update_overlay(){
 }
 
 var layerSwitcher = new LayerSwitcher({
-  tipLabel: 'Légende', // Optional label for button
+  title: 'OSM',
+  fold: 'close',
+  //tipLabel: 'Légende', // Optional label for button
+  groupSelectStyle: 'child',
   layers:map.getLayers()
 });
 map.addControl(layerSwitcher);
