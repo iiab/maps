@@ -7,7 +7,7 @@ import 'ol/ol.css';
 import Map from 'ol/Map';
 import View from 'ol/View';
 import XYZSource from 'ol/source/XYZ';
-import {fromLonLat,toLonLat,transform} from 'ol/proj';
+import {fromLonLat,toLonLat,transform,transformExtent} from 'ol/proj';
 import TileLayer from 'ol/layer/Tile';
 import TileImage from 'ol/source/TileImage';
 import VectorTileLayer from 'ol/layer/VectorTile';
@@ -90,9 +90,9 @@ function readMapCatalog(){
   return resp;
 }
 
-function getMapFromPermaref(permaref){
-   for (var key in mapCatalog){
-      if ( mapCatalg[key]['permaref'] ==  permaref) return key;
+function getMapFromPermaRef(permaref){
+   for (var key in mapCatalog ){
+      if ( mapCatalog[key]['perma_ref'] ==  permaref) return key;
    }
    return '';
 }
@@ -107,8 +107,14 @@ function getQueryVariable(variable)
        }
        return(false);
 }
+
+function getExtentFromDegrees(extent) {
+  return transformExtent(extent, 'EPSG:4326', 'EPSG:3857');
+}
+
 //////////////////s4 MAPS ///////////////////////////////////////////////////
 readMapCatalog();
+var permaRef = getQueryVariable('permaref');
 
 // Get list of all files in the tiles directory
   var resp = $.ajax({
@@ -207,6 +213,7 @@ const drop = new VectorLayer({
 /////   add Layers    /////////////////
 var layer_group = new Collection;
 layer_group.extend([sat_layer]);
+
 //map.addLayer(sat_layer);
 for(var mbt in tiledata){
    if (mbt.substr(0,3) != 'sat'){
@@ -264,9 +271,12 @@ const boxLayer =  new VectorLayer({
 layer_group.extend([boxLayer,drop]);    
 
 var switcher_group = new LayerGroup({
+  fold: 'close',
+  title: 'OSM'
 });
-
+// Add the collection of layers to the group, and then initialize map.Layers with the group
 switcher_group.setLayers(layer_group);
+
 var map = new Map({ 
   target: 'map-container',
   controls: defaultControls({attribution: true}).extend([
@@ -317,6 +327,7 @@ sat_layer.on('change:visible', function(evt) {
 
 //////////s6    BOTTOM LINE OVERLAY FUNCTIONS  ///////////
 // Configuration of home key in init.json
+/*
 var resp = $.ajax({
    type: 'GET',
    async: true,
@@ -339,6 +350,17 @@ var resp = $.ajax({
           console.log('going there:' +there + 'zoom: ' + parseFloat(config.zoom));
    });
 });
+*/
+// If the a query string exists honor it
+if ( permaRef ) {
+   var gotoMap = getMapFromPermaRef(permaRef);
+   var center_lat = (mapCatalog[gotoMap]['north'] - mapCatalog[gotoMap]['south']) / 2;
+   var center_lon = (mapCatalog[gotoMap]['east'] - mapCatalog[gotoMap]['west']) / 2;
+   var there = fromLonLat([parseFloat(center_lon),parseFloat(center_lat)]);
+   map.getView().setCenter(there);
+   map.getView().setZoom(parseFloat(mapCatalog[gotoMap]['zoom']));
+   console.log('going there:' +there + 'zoom: ' + parseFloat(config.zoom));
+}
 
 // Functions to compute tiles from lat/lon for bottom line
 function long2tile(lon,zoom) {
@@ -360,8 +382,6 @@ function update_overlay(){
 }
 
 var layerSwitcher = new LayerSwitcher({
-  title: 'OSM',
-  fold: 'close',
   //tipLabel: 'Légende', // Optional label for button
   groupSelectStyle: 'child',
   layers:map.getLayers()

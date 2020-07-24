@@ -242,9 +242,9 @@ function readMapCatalog(){
   return resp;
 }
 
-function getMapFromPermaref(permaref){
-   for (var key in mapCatalog){
-      if ( mapCatalg[key]['permaref'] ==  permaref) return key;
+function getMapFromPermaRef(permaref){
+   for (var key in mapCatalog ){
+      if ( mapCatalog[key]['perma_ref'] ==  permaref) return key;
    }
    return '';
 }
@@ -259,8 +259,14 @@ function getQueryVariable(variable)
        }
        return(false);
 }
+
+function getExtentFromDegrees(extent) {
+  return Object(ol_proj__WEBPACK_IMPORTED_MODULE_4__[/* transformExtent */ "q"])(extent, 'EPSG:4326', 'EPSG:3857');
+}
+
 //////////////////s4 MAPS ///////////////////////////////////////////////////
 readMapCatalog();
+var permaRef = getQueryVariable('permaref');
 
 // Get list of all files in the tiles directory
   var resp = $.ajax({
@@ -359,6 +365,7 @@ const drop = new ol_layer_Vector__WEBPACK_IMPORTED_MODULE_9__[/* default */ "a"]
 /////   add Layers    /////////////////
 var layer_group = new ol_Collection__WEBPACK_IMPORTED_MODULE_12__[/* default */ "a"];
 layer_group.extend([sat_layer]);
+
 //map.addLayer(sat_layer);
 for(var mbt in tiledata){
    if (mbt.substr(0,3) != 'sat'){
@@ -416,9 +423,12 @@ const boxLayer =  new ol_layer_Vector__WEBPACK_IMPORTED_MODULE_9__[/* default */
 layer_group.extend([boxLayer,drop]);    
 
 var switcher_group = new ol_layer_Group__WEBPACK_IMPORTED_MODULE_13__[/* default */ "a"]({
+  fold: 'close',
+  title: 'OSM'
 });
-
+// Add the collection of layers to the group, and then initialize map.Layers with the group
 switcher_group.setLayers(layer_group);
+
 var map = new ol_Map__WEBPACK_IMPORTED_MODULE_1__[/* default */ "a"]({ 
   target: 'map-container',
   controls: Object(ol_control_js__WEBPACK_IMPORTED_MODULE_15__[/* defaults */ "b"])({attribution: true}).extend([
@@ -469,6 +479,7 @@ sat_layer.on('change:visible', function(evt) {
 
 //////////s6    BOTTOM LINE OVERLAY FUNCTIONS  ///////////
 // Configuration of home key in init.json
+/*
 var resp = $.ajax({
    type: 'GET',
    async: true,
@@ -479,18 +490,29 @@ var resp = $.ajax({
    config = data;
    var coord = [parseFloat(config.center_lon),parseFloat(config.center_lat)];
    console.log(coord + "");
-   var there = Object(ol_proj__WEBPACK_IMPORTED_MODULE_4__[/* fromLonLat */ "d"])(coord);
+   var there = fromLonLat(coord);
    map.getView().setCenter(there);
    map.getView().setZoom(parseFloat(config["zoom"]));
    show = config.region;
    $( '#home' ).on('click', function(){
       console.log('init.json contents:' + config.center_lat);
-          var there = Object(ol_proj__WEBPACK_IMPORTED_MODULE_4__[/* fromLonLat */ "d"])([parseFloat(config.center_lon),parseFloat(config.center_lat)]);
+          var there = fromLonLat([parseFloat(config.center_lon),parseFloat(config.center_lat)]);
           map.getView().setCenter(there);
           map.getView().setZoom(parseFloat(config.zoom));
           console.log('going there:' +there + 'zoom: ' + parseFloat(config.zoom));
    });
 });
+*/
+// If the a query string exists honor it
+if ( permaRef ) {
+   var gotoMap = getMapFromPermaRef(permaRef);
+   var center_lat = (mapCatalog[gotoMap]['north'] - mapCatalog[gotoMap]['south']) / 2;
+   var center_lon = (mapCatalog[gotoMap]['east'] - mapCatalog[gotoMap]['west']) / 2;
+   var there = Object(ol_proj__WEBPACK_IMPORTED_MODULE_4__[/* fromLonLat */ "d"])([parseFloat(center_lon),parseFloat(center_lat)]);
+   map.getView().setCenter(there);
+   map.getView().setZoom(parseFloat(mapCatalog[gotoMap]['zoom']));
+   console.log('going there:' +there + 'zoom: ' + parseFloat(config.zoom));
+}
 
 // Functions to compute tiles from lat/lon for bottom line
 function long2tile(lon,zoom) {
@@ -512,8 +534,6 @@ function update_overlay(){
 }
 
 var layerSwitcher = new _ol5_layerswitcher_js__WEBPACK_IMPORTED_MODULE_23__[/* default */ "a"]({
-  title: 'OSM',
-  fold: 'close',
   //tipLabel: 'Légende', // Optional label for button
   groupSelectStyle: 'child',
   layers:map.getLayers()
