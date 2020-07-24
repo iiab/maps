@@ -41,10 +41,6 @@ import sync from 'ol-hashed';
 window.$ = window.jQuery = require('jquery');
 const typeahead = require('./assets/bootstrap-typeahead.min.js');
 var scaleLineControl = new ScaleLine();
-var attribution = new Attribution({
-   //label: "OpenStreetMaps.org, OpenLayers.com<br> Sentinel-2 cloudless - https://s2maps.eu by EOX IT Services GmbH (Contains modified Copernicus Sentinel data 2019)"});
-   label: "OpenStreetMaps.org,  Sentinel-2 cloudless - https://s2maps.eu by EOX"
-});
 
 // keep the values set in init.json for home button to use
 var config = {};
@@ -139,6 +135,7 @@ for(var mbt in tiledata){
           maxZoom: 14,
           source: new XYZSource({
            cacheSize: 0,
+           attributions: ['&copy <a href="https://openstreetmap.org">OpenStreetMaps, &copy </a> <a href="https://s2maps.eu"> Sentinel-2 cloudless -  by EOX IT Services GmbH </a>'],
            // -y in the followinng url changes origin form lower left to upper left
            url: './tileserver.php?./tiles/' + mbt + '/{z}/{x}/{-y}.jpeg',
            wrapX: true
@@ -161,25 +158,28 @@ for(var mbt in tiledata){
       const maxzoom = tiledata[mbt]['maxzoom'];
       if (maxzoom <11) {
          layerDict[mbt] = (new VectorTileLayer({
+            maxZoom:11, 
             source: new VectorTileSource({
                cacheSize: 0,
                format: new MVT(),
                url: url
             }),
             title: 'OSM',
+            fold: true,
             visible: true,
-            maxZoom:10, 
             declutter: true
          }));
       } else {
          layerDict[mbt] = (new VectorTileLayer({
+            minZoom: 11,
+            //maxZoom: 14,
             source: new VectorTileSource({
                cacheSize: 0,
                format: new MVT(),
                url: url,
-               maxZoom: 14,
             }),
             title: 'OSM ' + region,
+            fold: true,
             visible: true,
             declutter: true
          }));
@@ -270,7 +270,7 @@ switcher_group.setLayers(layer_group);
 var map = new Map({ 
   target: 'map-container',
   controls: defaultControls({attribution: true}).extend([
-    scaleLineControl,attribution
+    scaleLineControl
   ]),
   layers: switcher_group,
   view: new View({

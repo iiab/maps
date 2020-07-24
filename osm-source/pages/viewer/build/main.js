@@ -193,10 +193,6 @@ var ContextMenu = __webpack_require__(/*! ./ol-contextmenu.js */ "./ol-contextme
 window.$ = window.jQuery = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
 const typeahead = __webpack_require__(/*! ./assets/bootstrap-typeahead.min.js */ "./assets/bootstrap-typeahead.min.js");
 var scaleLineControl = new ol_control_js__WEBPACK_IMPORTED_MODULE_15__[/* ScaleLine */ "a"]();
-var attribution = new ol_control_Attribution__WEBPACK_IMPORTED_MODULE_16__[/* default */ "a"]({
-   //label: "OpenStreetMaps.org, OpenLayers.com<br> Sentinel-2 cloudless - https://s2maps.eu by EOX IT Services GmbH (Contains modified Copernicus Sentinel data 2019)"});
-   label: "OpenStreetMaps.org,  Sentinel-2 cloudless - https://s2maps.eu by EOX"
-});
 
 // keep the values set in init.json for home button to use
 var config = {};
@@ -291,6 +287,7 @@ for(var mbt in tiledata){
           maxZoom: 14,
           source: new ol_source_XYZ__WEBPACK_IMPORTED_MODULE_3__[/* default */ "a"]({
            cacheSize: 0,
+           attributions: ['&copy <a href="https://openstreetmap.org">OpenStreetMaps, &copy </a> <a href="https://s2maps.eu"> Sentinel-2 cloudless -  by EOX IT Services GmbH </a>'],
            // -y in the followinng url changes origin form lower left to upper left
            url: './tileserver.php?./tiles/' + mbt + '/{z}/{x}/{-y}.jpeg',
            wrapX: true
@@ -313,25 +310,28 @@ for(var mbt in tiledata){
       const maxzoom = tiledata[mbt]['maxzoom'];
       if (maxzoom <11) {
          layerDict[mbt] = (new ol_layer_VectorTile__WEBPACK_IMPORTED_MODULE_7__[/* default */ "a"]({
+            maxZoom:11, 
             source: new ol_source_VectorTile__WEBPACK_IMPORTED_MODULE_8__[/* default */ "a"]({
                cacheSize: 0,
                format: new ol_format_MVT__WEBPACK_IMPORTED_MODULE_11__[/* default */ "a"](),
                url: url
             }),
             title: 'OSM',
+            fold: true,
             visible: true,
-            maxZoom:10, 
             declutter: true
          }));
       } else {
          layerDict[mbt] = (new ol_layer_VectorTile__WEBPACK_IMPORTED_MODULE_7__[/* default */ "a"]({
+            minZoom: 11,
+            //maxZoom: 14,
             source: new ol_source_VectorTile__WEBPACK_IMPORTED_MODULE_8__[/* default */ "a"]({
                cacheSize: 0,
                format: new ol_format_MVT__WEBPACK_IMPORTED_MODULE_11__[/* default */ "a"](),
                url: url,
-               maxZoom: 14,
             }),
             title: 'OSM ' + region,
+            fold: true,
             visible: true,
             declutter: true
          }));
@@ -422,7 +422,7 @@ switcher_group.setLayers(layer_group);
 var map = new ol_Map__WEBPACK_IMPORTED_MODULE_1__[/* default */ "a"]({ 
   target: 'map-container',
   controls: Object(ol_control_js__WEBPACK_IMPORTED_MODULE_15__[/* defaults */ "b"])({attribution: true}).extend([
-    scaleLineControl,attribution
+    scaleLineControl
   ]),
   layers: switcher_group,
   view: new ol_View__WEBPACK_IMPORTED_MODULE_2__[/* default */ "a"]({
