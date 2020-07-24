@@ -242,9 +242,11 @@ function readMapCatalog(){
   return resp;
 }
 
-function getMapFromPermaRef(permaref){
+// perma_ref observes python rather than javascript conventions. 
+// Keep it uniform with database
+function getMapFromPermaRef(perma_ref){
    for (var key in mapCatalog ){
-      if ( mapCatalog[key]['perma_ref'] ==  permaref) return key;
+      if ( mapCatalog[key]['perma_ref'] ==  perma_ref) return key;
    }
    return '';
 }
@@ -257,7 +259,7 @@ function getQueryVariable(variable)
                var pair = vars[i].split("=");
                if(pair[0] == variable){return pair[1];}
        }
-       return(false);
+       return('');
 }
 
 function getExtentFromDegrees(extent) {
@@ -266,7 +268,7 @@ function getExtentFromDegrees(extent) {
 
 //////////////////s4 MAPS ///////////////////////////////////////////////////
 readMapCatalog();
-var permaRef = getQueryVariable('permaref');
+var permaRef = getQueryVariable('perma_ref');
 
 // Get list of all files in the tiles directory
   var resp = $.ajax({
@@ -479,30 +481,31 @@ sat_layer.on('change:visible', function(evt) {
 
 //////////s6    BOTTOM LINE OVERLAY FUNCTIONS  ///////////
 // Configuration of home key in init.json
-/*
-var resp = $.ajax({
-   type: 'GET',
-   async: true,
-   url: './init.json',
-   dataType: 'json'
-})
-.done(function( data ) {
-   config = data;
-   var coord = [parseFloat(config.center_lon),parseFloat(config.center_lat)];
-   console.log(coord + "");
-   var there = fromLonLat(coord);
-   map.getView().setCenter(there);
-   map.getView().setZoom(parseFloat(config["zoom"]));
-   show = config.region;
-   $( '#home' ).on('click', function(){
-      console.log('init.json contents:' + config.center_lat);
-          var there = fromLonLat([parseFloat(config.center_lon),parseFloat(config.center_lat)]);
-          map.getView().setCenter(there);
-          map.getView().setZoom(parseFloat(config.zoom));
-          console.log('going there:' +there + 'zoom: ' + parseFloat(config.zoom));
+if ( permaRef == '' ){
+   var resp = $.ajax({
+      type: 'GET',
+      async: true,
+      url: './init.json',
+      dataType: 'json'
+   })
+   .done(function( data ) {
+      config = data;
+      var coord = [parseFloat(config.center_lon),parseFloat(config.center_lat)];
+      console.log(coord + "");
+      var there = Object(ol_proj__WEBPACK_IMPORTED_MODULE_4__[/* fromLonLat */ "d"])(coord);
+      map.getView().setCenter(there);
+      map.getView().setZoom(parseFloat(config["zoom"]));
+      show = config.region;
+      $( '#home' ).on('click', function(){
+         console.log('init.json contents:' + config.center_lat);
+             var there = Object(ol_proj__WEBPACK_IMPORTED_MODULE_4__[/* fromLonLat */ "d"])([parseFloat(config.center_lon),parseFloat(config.center_lat)]);
+             map.getView().setCenter(there);
+             map.getView().setZoom(parseFloat(config.zoom));
+             console.log('going there:' +there + 'zoom: ' + parseFloat(config.zoom));
+      });
    });
-});
-*/
+}
+
 // If the a query string exists honor it
 if ( permaRef ) {
    var gotoMap = getMapFromPermaRef(permaRef);
