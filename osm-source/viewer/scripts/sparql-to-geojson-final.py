@@ -11,6 +11,10 @@ from string import Template
 #lookup python styles PEP-8
 #camelCase -> underscores
 
+#to use strings with sparql variables: 
+#values ?loc { "Point(72.87 19.07)"^^geo:wktLiteral }
+#this will work
+
 
 SPARQL_ENDPOINT = "https://query.wikidata.org/sparql"
 SPARQL_FROM_TEMPLATE_PATH = "../data/sparql/templates/"
