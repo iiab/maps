@@ -209,7 +209,7 @@ for(var mbt in tiledata){
                cacheSize: 0,
                format: new MVT(),
                url: url,
-               wrapX: true
+               wrapX: true,
                maxZoom: 14
             })
          }));
