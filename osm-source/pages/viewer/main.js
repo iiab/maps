@@ -184,12 +184,13 @@ for(var mbt in tiledata){
       const maxzoom = tiledata[mbt]['maxzoom'];
       if (maxzoom <11) {
          var detailLayer = (new VectorTileLayer({
-            maxZoom:10, 
             source: new VectorTileSource({
                cacheSize: 0,
                format: new MVT(),
-               url: url
+               url: url,
+               maxZoom:10 
             }),
+            
             title: 'Planet to zoom 10',
             fold: true,
             visible: true,
@@ -197,8 +198,8 @@ for(var mbt in tiledata){
          }));
       } else {
          layerDict[mbt] = (new VectorTileLayer({
-            minZoom: 11,
-            maxZoom: 18,
+            //minZoom: 10,
+            //maxZoom: 18,
             title: 'OSM ' + region,
             fold: true,
             visible: true,
@@ -206,7 +207,9 @@ for(var mbt in tiledata){
             source: new VectorTileSource({
                cacheSize: 0,
                format: new MVT(),
-               url: url
+               url: url,
+               //minZoom: 11,
+               maxZoom: 14
             })
          }));
       }
