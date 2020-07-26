@@ -115,10 +115,11 @@ function getExtentFromDegrees(extent) {
 }
 
 //////////////////s4 MAPS ///////////////////////////////////////////////////
-readMapCatalog();
+readMapCatalog();   // done with waiting
+// See if there was a query string specifying which map is wanted
 var permaRef = getQueryVariable('perma_ref');
 
-// Get list of all files in the tiles directory
+// Get tiledata -- a dictionary with data about all files in the tiles directory
   var resp = $.ajax({
     type: 'GET',
     url: './mbtileinfo.php',
@@ -132,6 +133,19 @@ var permaRef = getQueryVariable('perma_ref');
       tiledata[basename(tilenames[i]['basename'])] = tilenames[i];
     }
   })
+
+var map = new Map({ 
+  target: 'map-container',
+  controls: defaultControls({attribution: true}).extend([
+    scaleLineControl
+  ]),
+  view: new View({
+    center: fromLonLat([-122, 37.35]),
+    maxZoom: 19,
+    zoom: 11
+  })
+  //overlays: [overlay]
+}); //end of new Map
 
 // The Satellite layer needs to go down first with OSM data on top
 for(var mbt in tiledata){
@@ -151,12 +165,16 @@ for(var mbt in tiledata){
       });
    }
 }
+map.addLayer(sat_layer);
 
+// Put detail
 var layerDict = {};   
 for(var mbt in tiledata){
    if (mbt.substr(0,3) != 'sat'){
       var url = './tileserver.php?./tiles/' +  mbt + '/{z}/{x}/{y}.pbf';
       console.log('URL:' + url);
+      var bounds = tiledata[mbt]['bounds'];
+      console.log('bounds" ' + bounds);
       var key = mbt + '.mbtiles';
       if ( key in mapCatalog ) {
          var region = mapCatalog[key]['region']
@@ -165,14 +183,14 @@ for(var mbt in tiledata){
       }
       const maxzoom = tiledata[mbt]['maxzoom'];
       if (maxzoom <11) {
-         layerDict[mbt] = (new VectorTileLayer({
-            maxZoom:11, 
+         var detailLayer = (new VectorTileLayer({
+            maxZoom:10, 
             source: new VectorTileSource({
                cacheSize: 0,
                format: new MVT(),
                url: url
             }),
-            title: 'OSM',
+            title: 'Planet to zoom 10',
             fold: true,
             visible: true,
             declutter: true
@@ -180,20 +198,21 @@ for(var mbt in tiledata){
       } else {
          layerDict[mbt] = (new VectorTileLayer({
             minZoom: 11,
-            //maxZoom: 14,
-            source: new VectorTileSource({
-               cacheSize: 0,
-               format: new MVT(),
-               url: url,
-            }),
+            maxZoom: 18,
             title: 'OSM ' + region,
             fold: true,
             visible: true,
-            declutter: true
+            declutter: true,
+            source: new VectorTileSource({
+               cacheSize: 0,
+               format: new MVT(),
+               url: url
+            })
          }));
       }
    }
 }
+map.addLayer(detailLayer);
 
 function set_detail_style(the_style){
    fetch(the_style).then(function(response) {
@@ -201,6 +220,7 @@ function set_detail_style(the_style){
          for(var mbt in layerDict){
            stylefunction(layerDict[mbt], glStyle,"openmaptiles");
          };
+         stylefunction(detailLayer, glStyle,"openmaptiles");
       });
    });
 }
@@ -213,15 +233,25 @@ const drop = new VectorLayer({
 });
 
 /////   add Layers    /////////////////
-var layer_group = new Collection;
-layer_group.extend([sat_layer]);
+var layerArray = [];
 
-//map.addLayer(sat_layer);
-for(var mbt in tiledata){
-   if (mbt.substr(0,3) != 'sat'){
-         layer_group.extend([layerDict[mbt]]);
-   }
+for(var mbt in layerDict){
+   layerArray.push(layerDict[mbt]);
 }
+
+var switcher_group = new LayerGroup({
+  combine: true,
+  fold: 'open',
+  title: 'Detailed Regions',
+  //maxZoom: 20,
+  layers: layerArray
+   
+});
+
+
+// Add the collection of layers to the group, and then initialize map.Layers with the group
+//switcher_group.setProperties({ 'layers': layerCollection});
+map.addLayer(switcher_group);
 
 const boxLayer =  new VectorLayer({
    source: new VectorSource({
@@ -270,28 +300,10 @@ const boxLayer =  new VectorLayer({
      } 
    
 })
-layer_group.extend([boxLayer,drop]);    
+map.addLayer(boxLayer);
+map.addLayer(drop);
 
-var switcher_group = new LayerGroup({
-  fold: 'close',
-  title: 'OSM'
-});
-// Add the collection of layers to the group, and then initialize map.Layers with the group
-switcher_group.setLayers(layer_group);
 
-var map = new Map({ 
-  target: 'map-container',
-  controls: defaultControls({attribution: true}).extend([
-    scaleLineControl
-  ]),
-  layers: switcher_group,
-  view: new View({
-    center: fromLonLat([-122, 37.35]),
-    maxZoom: 19,
-    zoom: 11
-  })
-  //overlays: [overlay]
-}); //end of new Map
 
 sync(map);
 

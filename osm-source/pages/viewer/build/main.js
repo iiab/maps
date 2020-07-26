@@ -267,10 +267,11 @@ function getExtentFromDegrees(extent) {
 }
 
 //////////////////s4 MAPS ///////////////////////////////////////////////////
-readMapCatalog();
+readMapCatalog();   // done with waiting
+// See if there was a query string specifying which map is wanted
 var permaRef = getQueryVariable('perma_ref');
 
-// Get list of all files in the tiles directory
+// Get tiledata -- a dictionary with data about all files in the tiles directory
   var resp = $.ajax({
     type: 'GET',
     url: './mbtileinfo.php',
@@ -284,6 +285,19 @@ var permaRef = getQueryVariable('perma_ref');
       tiledata[basename(tilenames[i]['basename'])] = tilenames[i];
     }
   })
+
+var map = new ol_Map__WEBPACK_IMPORTED_MODULE_1__[/* default */ "a"]({ 
+  target: 'map-container',
+  controls: Object(ol_control_js__WEBPACK_IMPORTED_MODULE_15__[/* defaults */ "b"])({attribution: true}).extend([
+    scaleLineControl
+  ]),
+  view: new ol_View__WEBPACK_IMPORTED_MODULE_2__[/* default */ "a"]({
+    center: Object(ol_proj__WEBPACK_IMPORTED_MODULE_4__[/* fromLonLat */ "d"])([-122, 37.35]),
+    maxZoom: 19,
+    zoom: 11
+  })
+  //overlays: [overlay]
+}); //end of new Map
 
 // The Satellite layer needs to go down first with OSM data on top
 for(var mbt in tiledata){
@@ -303,12 +317,16 @@ for(var mbt in tiledata){
       });
    }
 }
+map.addLayer(sat_layer);
 
+// Put detail
 var layerDict = {};   
 for(var mbt in tiledata){
    if (mbt.substr(0,3) != 'sat'){
       var url = './tileserver.php?./tiles/' +  mbt + '/{z}/{x}/{y}.pbf';
       console.log('URL:' + url);
+      var bounds = tiledata[mbt]['bounds'];
+      console.log('bounds" ' + bounds);
       var key = mbt + '.mbtiles';
       if ( key in mapCatalog ) {
          var region = mapCatalog[key]['region']
@@ -317,14 +335,14 @@ for(var mbt in tiledata){
       }
       const maxzoom = tiledata[mbt]['maxzoom'];
       if (maxzoom <11) {
-         layerDict[mbt] = (new ol_layer_VectorTile__WEBPACK_IMPORTED_MODULE_7__[/* default */ "a"]({
-            maxZoom:11, 
+         var detailLayer = (new ol_layer_VectorTile__WEBPACK_IMPORTED_MODULE_7__[/* default */ "a"]({
+            maxZoom:10, 
             source: new ol_source_VectorTile__WEBPACK_IMPORTED_MODULE_8__[/* default */ "a"]({
                cacheSize: 0,
                format: new ol_format_MVT__WEBPACK_IMPORTED_MODULE_11__[/* default */ "a"](),
                url: url
             }),
-            title: 'OSM',
+            title: 'Planet to zoom 10',
             fold: true,
             visible: true,
             declutter: true
@@ -332,20 +350,21 @@ for(var mbt in tiledata){
       } else {
          layerDict[mbt] = (new ol_layer_VectorTile__WEBPACK_IMPORTED_MODULE_7__[/* default */ "a"]({
             minZoom: 11,
-            //maxZoom: 14,
-            source: new ol_source_VectorTile__WEBPACK_IMPORTED_MODULE_8__[/* default */ "a"]({
-               cacheSize: 0,
-               format: new ol_format_MVT__WEBPACK_IMPORTED_MODULE_11__[/* default */ "a"](),
-               url: url,
-            }),
+            maxZoom: 18,
             title: 'OSM ' + region,
             fold: true,
             visible: true,
-            declutter: true
+            declutter: true,
+            source: new ol_source_VectorTile__WEBPACK_IMPORTED_MODULE_8__[/* default */ "a"]({
+               cacheSize: 0,
+               format: new ol_format_MVT__WEBPACK_IMPORTED_MODULE_11__[/* default */ "a"](),
+               url: url
+            })
          }));
       }
    }
 }
+map.addLayer(detailLayer);
 
 function set_detail_style(the_style){
    fetch(the_style).then(function(response) {
@@ -353,6 +372,7 @@ function set_detail_style(the_style){
          for(var mbt in layerDict){
            Object(ol_mapbox_style_dist_stylefunction__WEBPACK_IMPORTED_MODULE_14__[/* default */ "a"])(layerDict[mbt], glStyle,"openmaptiles");
          };
+         Object(ol_mapbox_style_dist_stylefunction__WEBPACK_IMPORTED_MODULE_14__[/* default */ "a"])(detailLayer, glStyle,"openmaptiles");
       });
    });
 }
@@ -365,15 +385,25 @@ const drop = new ol_layer_Vector__WEBPACK_IMPORTED_MODULE_9__[/* default */ "a"]
 });
 
 /////   add Layers    /////////////////
-var layer_group = new ol_Collection__WEBPACK_IMPORTED_MODULE_12__[/* default */ "a"];
-layer_group.extend([sat_layer]);
+var layerArray = [];
 
-//map.addLayer(sat_layer);
-for(var mbt in tiledata){
-   if (mbt.substr(0,3) != 'sat'){
-         layer_group.extend([layerDict[mbt]]);
-   }
+for(var mbt in layerDict){
+   layerArray.push(layerDict[mbt]);
 }
+
+var switcher_group = new ol_layer_Group__WEBPACK_IMPORTED_MODULE_13__[/* default */ "a"]({
+  combine: true,
+  fold: 'open',
+  title: 'Detailed Regions',
+  //maxZoom: 20,
+  layers: layerArray
+   
+});
+
+
+// Add the collection of layers to the group, and then initialize map.Layers with the group
+//switcher_group.setProperties({ 'layers': layerCollection});
+map.addLayer(switcher_group);
 
 const boxLayer =  new ol_layer_Vector__WEBPACK_IMPORTED_MODULE_9__[/* default */ "a"]({
    source: new ol_source_Vector__WEBPACK_IMPORTED_MODULE_10__[/* default */ "a"]({
@@ -422,28 +452,10 @@ const boxLayer =  new ol_layer_Vector__WEBPACK_IMPORTED_MODULE_9__[/* default */
      } 
    
 })
-layer_group.extend([boxLayer,drop]);    
+map.addLayer(boxLayer);
+map.addLayer(drop);
 
-var switcher_group = new ol_layer_Group__WEBPACK_IMPORTED_MODULE_13__[/* default */ "a"]({
-  fold: 'close',
-  title: 'OSM'
-});
-// Add the collection of layers to the group, and then initialize map.Layers with the group
-switcher_group.setLayers(layer_group);
 
-var map = new ol_Map__WEBPACK_IMPORTED_MODULE_1__[/* default */ "a"]({ 
-  target: 'map-container',
-  controls: Object(ol_control_js__WEBPACK_IMPORTED_MODULE_15__[/* defaults */ "b"])({attribution: true}).extend([
-    scaleLineControl
-  ]),
-  layers: switcher_group,
-  view: new ol_View__WEBPACK_IMPORTED_MODULE_2__[/* default */ "a"]({
-    center: Object(ol_proj__WEBPACK_IMPORTED_MODULE_4__[/* fromLonLat */ "d"])([-122, 37.35]),
-    maxZoom: 19,
-    zoom: 11
-  })
-  //overlays: [overlay]
-}); //end of new Map
 
 Object(ol_hashed__WEBPACK_IMPORTED_MODULE_28__[/* default */ "a"])(map);
 
