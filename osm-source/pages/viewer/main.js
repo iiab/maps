@@ -174,7 +174,9 @@ for(var mbt in tiledata){
       var url = './tileserver.php?./tiles/' +  mbt + '/{z}/{x}/{y}.pbf';
       console.log('URL:' + url);
       var bounds = tiledata[mbt]['bounds'];
-      console.log('bounds" ' + bounds);
+      var detail_extent = transformExtent(bounds, 'EPSG:4326', 'EPSG:3857');
+      console.log('bounds: ' + bounds);
+      console.log('Extent: ' + detail_extent);
       var key = mbt + '.mbtiles';
       if ( key in mapCatalog ) {
          var region = mapCatalog[key]['region']
@@ -190,7 +192,7 @@ for(var mbt in tiledata){
                url: url,
                maxZoom:10 
             }),
-            
+            maxZoom: 11,      
             title: 'Planet to zoom 10',
             fold: true,
             visible: true,
@@ -198,8 +200,7 @@ for(var mbt in tiledata){
          }));
       } else {
          layerDict[mbt] = (new VectorTileLayer({
-            //minZoom: 10,
-            //maxZoom: 18,
+            extent: detail_extent,
             title: 'OSM ' + region,
             fold: true,
             visible: true,
@@ -208,7 +209,7 @@ for(var mbt in tiledata){
                cacheSize: 0,
                format: new MVT(),
                url: url,
-               //minZoom: 11,
+               wrapX: true
                maxZoom: 14
             })
          }));
