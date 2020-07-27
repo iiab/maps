@@ -1,0 +1,875 @@
+{
+  "features": [
+    {
+      "geometry": {
+        "coordinates": [
+          68.714, 
+          23.219
+        ], 
+        "type": "Point"
+      }, 
+      "properties": {
+        "coordinates": "Point(68.714 23.219)", 
+        "distFromCenter": "631.2267714664163", 
+        "featureType": "hospital", 
+        "image": "http://commons.wikimedia.org/wiki/Special:FilePath/Sonchiriya.jpg", 
+        "lat": "23.219", 
+        "long": "68.714", 
+        "place": "http://www.wikidata.org/entity/Q2726467", 
+        "placeDescription": "Kutch Bustard Sanctuary or Kachchh Great Indian Bustard Sanctuary, also known as Lala\u2013Parjan Sanctuary, is located near Jakhau village in Nalia Taluka, Kutch District, Gujarat, India", 
+        "placeLabel": "Kutch Bustard Sanctuary"
+      }, 
+      "type": "Feature"
+    }, 
+    {
+      "geometry": {
+        "coordinates": [
+          67.583333, 
+          25.7
+        ], 
+        "type": "Point"
+      }, 
+      "properties": {
+        "coordinates": "Point(67.58333333 25.7)", 
+        "distFromCenter": "915.6081682603154", 
+        "featureType": "hospital", 
+        "image": "http://commons.wikimedia.org/wiki/Special:FilePath/Kirthar%20park.jpg", 
+        "lat": "25.7", 
+        "long": "67.58333333", 
+        "place": "http://www.wikidata.org/entity/Q1743664", 
+        "placeDescription": "National park in Pakistan", 
+        "placeLabel": "Kirthar National Park"
+      }, 
+      "type": "Feature"
+    }, 
+    {
+      "geometry": {
+        "coordinates": [
+          76.466667, 
+          11.133333
+        ], 
+        "type": "Point"
+      }, 
+      "properties": {
+        "coordinates": "Point(76.466666666 11.133333333)", 
+        "distFromCenter": "963.0895062471799", 
+        "featureType": "hospital", 
+        "image": "http://commons.wikimedia.org/wiki/Special:FilePath/Silent%20Valley%20National%20Park%20greenary.jpg", 
+        "lat": "11.133333333", 
+        "long": "76.466666666", 
+        "place": "http://www.wikidata.org/entity/Q176792", 
+        "placeDescription": "national park in India", 
+        "placeLabel": "Silent Valley National Park"
+      }, 
+      "type": "Feature"
+    }, 
+    {
+      "geometry": {
+        "coordinates": [
+          76.475, 
+          11.266667
+        ], 
+        "type": "Point"
+      }, 
+      "properties": {
+        "coordinates": "Point(76.475 11.266666666)", 
+        "distFromCenter": "949.8424711554482", 
+        "featureType": "hospital", 
+        "image": "http://commons.wikimedia.org/wiki/Special:FilePath/Niltahr.jpg", 
+        "lat": "11.266666666", 
+        "long": "76.475", 
+        "place": "http://www.wikidata.org/entity/Q2985390", 
+        "placeDescription": "national park in Tamil Nadu, India", 
+        "placeLabel": "Mukurthi National Park"
+      }, 
+      "type": "Feature"
+    }, 
+    {
+      "geometry": {
+        "coordinates": [
+          76.423611, 
+          11.275
+        ], 
+        "type": "Point"
+      }, 
+      "properties": {
+        "coordinates": "Point(76.42361111 11.275)", 
+        "distFromCenter": "946.7629175648777", 
+        "featureType": "hospital", 
+        "lat": "11.275", 
+        "long": "76.42361111", 
+        "place": "http://www.wikidata.org/entity/Q3523324", 
+        "placeDescription": "Proposed national park in southern India", 
+        "placeLabel": "Karimpuzha National Park"
+      }, 
+      "type": "Feature"
+    }, 
+    {
+      "geometry": {
+        "coordinates": [
+          76.627222, 
+          11.664444
+        ], 
+        "type": "Point"
+      }, 
+      "properties": {
+        "coordinates": "Point(76.627222 11.664444)", 
+        "distFromCenter": "916.520784851582", 
+        "featureType": "hospital", 
+        "image": "http://commons.wikimedia.org/wiki/Special:FilePath/Large%20Chital%20herd%20at%20Bandipur%20National%20Park.jpg", 
+        "lat": "11.664444", 
+        "long": "76.627222", 
+        "place": "http://www.wikidata.org/entity/Q665110", 
+        "placeDescription": "national park in the south Indian state of Karnataka", 
+        "placeLabel": "Bandipur National Park"
+      }, 
+      "type": "Feature"
+    }, 
+    {
+      "geometry": {
+        "coordinates": [
+          76.55, 
+          11.583333
+        ], 
+        "type": "Point"
+      }, 
+      "properties": {
+        "coordinates": "Point(76.55 11.583333333)", 
+        "distFromCenter": "921.0910393662239", 
+        "featureType": "hospital", 
+        "image": "http://commons.wikimedia.org/wiki/Special:FilePath/Mudumalai%20Tiger%20reserve%2C%20Tamil%20Nadu%2C%20India.JPG", 
+        "lat": "11.583333333", 
+        "long": "76.55", 
+        "place": "http://www.wikidata.org/entity/Q2372700", 
+        "placeDescription": "national park in Tamil Nadu, India", 
+        "placeLabel": "Mudumalai National Park"
+      }, 
+      "type": "Feature"
+    }, 
+    {
+      "geometry": {
+        "coordinates": [
+          76.151111, 
+          12.06
+        ], 
+        "type": "Point"
+      }, 
+      "properties": {
+        "coordinates": "Point(76.151111111 12.06)", 
+        "distFromCenter": "854.8958268594254", 
+        "featureType": "hospital", 
+        "image": "http://commons.wikimedia.org/wiki/Special:FilePath/IndianElephant.jpg", 
+        "lat": "12.06", 
+        "long": "76.151111111", 
+        "place": "http://www.wikidata.org/entity/Q1520200", 
+        "placeDescription": "national park", 
+        "placeLabel": "Nagarhole National Park"
+      }, 
+      "type": "Feature"
+    }, 
+    {
+      "geometry": {
+        "coordinates": [
+          74.383333, 
+          15.016667
+        ], 
+        "type": "Point"
+      }, 
+      "properties": {
+        "coordinates": "Point(74.38333333 15.01666667)", 
+        "distFromCenter": "478.5264330569793", 
+        "featureType": "hospital", 
+        "image": "http://commons.wikimedia.org/wiki/Special:FilePath/Anshi%20National%20Park%20drive.jpg", 
+        "lat": "15.01666667", 
+        "long": "74.38333333", 
+        "place": "http://www.wikidata.org/entity/Q2373398", 
+        "placeLabel": "Anshi National Park"
+      }, 
+      "type": "Feature"
+    }, 
+    {
+      "geometry": {
+        "coordinates": [
+          75.268553, 
+          13.129511
+        ], 
+        "type": "Point"
+      }, 
+      "properties": {
+        "coordinates": "Point(75.268552777 13.129511111)", 
+        "distFromCenter": "708.4271718737917", 
+        "featureType": "hospital", 
+        "image": "http://commons.wikimedia.org/wiki/Special:FilePath/Kudremukh%20TheHorseFace.JPG", 
+        "lat": "13.129511111", 
+        "long": "75.268552777", 
+        "place": "http://www.wikidata.org/entity/Q1766106", 
+        "placeDescription": "Indian national park", 
+        "placeLabel": "Kudremukh"
+      }, 
+      "type": "Feature"
+    }, 
+    {
+      "geometry": {
+        "coordinates": [
+          74.258611, 
+          15.373611
+        ], 
+        "type": "Point"
+      }, 
+      "properties": {
+        "coordinates": "Point(74.25861111 15.37361111)", 
+        "distFromCenter": "436.64688324216945", 
+        "featureType": "hospital", 
+        "image": "http://commons.wikimedia.org/wiki/Special:FilePath/Mollem%20ticket%20sign.JPG", 
+        "lat": "15.37361111", 
+        "long": "74.25861111", 
+        "place": "http://www.wikidata.org/entity/Q2397554", 
+        "placeDescription": "national park in Goa, India", 
+        "placeLabel": "Bhagwan Mahaveer Sanctuary and Mollem National Park"
+      }, 
+      "type": "Feature"
+    }, 
+    {
+      "geometry": {
+        "coordinates": [
+          77.575556, 
+          12.800833
+        ], 
+        "type": "Point"
+      }, 
+      "properties": {
+        "coordinates": "Point(77.57555556 12.80083333)", 
+        "distFromCenter": "859.4697192208556", 
+        "featureType": "hospital", 
+        "image": "http://commons.wikimedia.org/wiki/Special:FilePath/White%20tiger%20bangalore.jpg", 
+        "lat": "12.80083333", 
+        "long": "77.57555556", 
+        "place": "http://www.wikidata.org/entity/Q2588520", 
+        "placeDescription": "National Park near Bengaluru", 
+        "placeLabel": "Bannerghatta National Park"
+      }, 
+      "type": "Feature"
+    }, 
+    {
+      "geometry": {
+        "coordinates": [
+          79.3378, 
+          13.7511
+        ], 
+        "type": "Point"
+      }, 
+      "properties": {
+        "coordinates": "Point(79.3378 13.7511)", 
+        "distFromCenter": "908.3997475467119", 
+        "featureType": "hospital", 
+        "image": "http://commons.wikimedia.org/wiki/Special:FilePath/Sri%20Venkateswara%20National%20Park%20Tirumala%20Hills%2001.jpg", 
+        "lat": "13.7511", 
+        "long": "79.3378", 
+        "place": "http://www.wikidata.org/entity/Q3174893", 
+        "placeLabel": "Sri Venkateswara National Park"
+      }, 
+      "type": "Feature"
+    }, 
+    {
+      "geometry": {
+        "coordinates": [
+          72.9167, 
+          19.25
+        ], 
+        "type": "Point"
+      }, 
+      "properties": {
+        "coordinates": "Point(72.9167 19.25)", 
+        "distFromCenter": "20.606390347413758", 
+        "featureType": "hospital", 
+        "image": "http://commons.wikimedia.org/wiki/Special:FilePath/Sanjay%20Gandhi%20National%20Park.JPG", 
+        "lat": "19.25", 
+        "long": "72.9167", 
+        "place": "http://www.wikidata.org/entity/Q648907", 
+        "placeDescription": "national park in Mumbai, India", 
+        "placeLabel": "Sanjay Gandhi National Park"
+      }, 
+      "type": "Feature"
+    }, 
+    {
+      "geometry": {
+        "coordinates": [
+          70.79667, 
+          21.13556
+        ], 
+        "type": "Point"
+      }, 
+      "properties": {
+        "coordinates": "Point(70.79667 21.13556)", 
+        "distFromCenter": "315.60592143747897", 
+        "featureType": "hospital", 
+        "image": "http://commons.wikimedia.org/wiki/Special:FilePath/Gir%20lion-Gir%20forest%2Cjunagadh%2Cgujarat%2Cindia.jpeg", 
+        "lat": "21.13556", 
+        "long": "70.79667", 
+        "place": "http://www.wikidata.org/entity/Q337028", 
+        "placeDescription": "Forest and wildlife sanctuary in Gujarat, India. The only natural habitat of the Asiatic Lion", 
+        "placeLabel": "Gir Forest"
+      }, 
+      "type": "Feature"
+    }, 
+    {
+      "geometry": {
+        "coordinates": [
+          73.775, 
+          17.191667
+        ], 
+        "type": "Point"
+      }, 
+      "properties": {
+        "coordinates": "Point(73.775 17.19166667)", 
+        "distFromCenter": "229.70161072864036", 
+        "featureType": "hospital", 
+        "image": "http://commons.wikimedia.org/wiki/Special:FilePath/Oriental%20Garden%20Lizard%20or%20Bloodsucker.jpg", 
+        "lat": "17.19166667", 
+        "long": "73.775", 
+        "place": "http://www.wikidata.org/entity/Q3696259", 
+        "placeDescription": "national park in India", 
+        "placeLabel": "Chandoli National Park"
+      }, 
+      "type": "Feature"
+    }, 
+    {
+      "geometry": {
+        "coordinates": [
+          73.4667, 
+          20.7333
+        ], 
+        "type": "Point"
+      }, 
+      "properties": {
+        "coordinates": "Point(73.4667 20.7333)", 
+        "distFromCenter": "195.17900036342934", 
+        "featureType": "hospital", 
+        "image": "http://commons.wikimedia.org/wiki/Special:FilePath/Vansda%20N%20Park6.jpg", 
+        "lat": "20.7333", 
+        "long": "73.4667", 
+        "place": "http://www.wikidata.org/entity/Q2669063", 
+        "placeLabel": "Vansda National Park"
+      }, 
+      "type": "Feature"
+    }, 
+    {
+      "geometry": {
+        "coordinates": [
+          77.148611, 
+          21.405556
+        ], 
+        "type": "Point"
+      }, 
+      "properties": {
+        "coordinates": "Point(77.14861111 21.40555556)", 
+        "distFromCenter": "516.3647307010164", 
+        "featureType": "hospital", 
+        "image": "http://commons.wikimedia.org/wiki/Special:FilePath/Forest%20Owlet%20%28Heteroglaux%20blewitti%2C%20Athene%20blewitti%29%20in%20Melghat%20Tiger%20Reserve%20Maharashtra%20%282%29.jpg", 
+        "lat": "21.40555556", 
+        "long": "77.14861111", 
+        "place": "http://www.wikidata.org/entity/Q3364450", 
+        "placeDescription": "national park in India", 
+        "placeLabel": "Gugamal National Park"
+      }, 
+      "type": "Feature"
+    }, 
+    {
+      "geometry": {
+        "coordinates": [
+          69.6167, 
+          22.4667
+        ], 
+        "type": "Point"
+      }, 
+      "properties": {
+        "coordinates": "Point(69.6167 22.4667)", 
+        "distFromCenter": "506.93876359398627", 
+        "featureType": "hospital", 
+        "image": "http://commons.wikimedia.org/wiki/Special:FilePath/Map%20Guj%20Nat%20Parks%20Sanctuary.png", 
+        "lat": "22.4667", 
+        "long": "69.6167", 
+        "place": "http://www.wikidata.org/entity/Q2724481", 
+        "placeDescription": "National Park  situated on the southern shore of the Gulf of Kutch in the Devbhumi Dwarka district of Gujarat state, India.", 
+        "placeLabel": "Marine National Park, Gulf of Kutch"
+      }, 
+      "type": "Feature"
+    }, 
+    {
+      "geometry": {
+        "coordinates": [
+          72.0, 
+          22.033333
+        ], 
+        "type": "Point"
+      }, 
+      "properties": {
+        "coordinates": "Point(72.0 22.03333333)", 
+        "distFromCenter": "341.71135131377275", 
+        "featureType": "hospital", 
+        "image": "http://commons.wikimedia.org/wiki/Special:FilePath/Antilope%20cervicapra%20from%20velavadar.JPG", 
+        "lat": "22.03333333", 
+        "long": "72.0", 
+        "place": "http://www.wikidata.org/entity/Q880724", 
+        "placeDescription": "national park in India", 
+        "placeLabel": "Blackbuck National Park, Velavadar"
+      }, 
+      "type": "Feature"
+    }, 
+    {
+      "geometry": {
+        "coordinates": [
+          73.7167, 
+          22.3667
+        ], 
+        "type": "Point"
+      }, 
+      "properties": {
+        "coordinates": "Point(73.7167 22.3667)", 
+        "distFromCenter": "376.9828181979831", 
+        "featureType": "hospital", 
+        "lat": "22.3667", 
+        "long": "73.7167", 
+        "place": "http://www.wikidata.org/entity/Q2757724", 
+        "placeLabel": "Jambughoda Wildlife Sanctuary"
+      }, 
+      "type": "Feature"
+    }, 
+    {
+      "geometry": {
+        "coordinates": [
+          78.341111, 
+          17.357778
+        ], 
+        "type": "Point"
+      }, 
+      "properties": {
+        "coordinates": "Point(78.34111111 17.35777778)", 
+        "distFromCenter": "608.3576104923047", 
+        "featureType": "hospital", 
+        "image": "http://commons.wikimedia.org/wiki/Special:FilePath/Daboia%20head.jpg", 
+        "lat": "17.35777778", 
+        "long": "78.34111111", 
+        "place": "http://www.wikidata.org/entity/Q3092307", 
+        "placeDescription": "National park of India", 
+        "placeLabel": "Mrugavani National Park"
+      }, 
+      "type": "Feature"
+    }, 
+    {
+      "geometry": {
+        "coordinates": [
+          75.856, 
+          24.868
+        ], 
+        "type": "Point"
+      }, 
+      "properties": {
+        "coordinates": "Point(75.856 24.868)", 
+        "distFromCenter": "714.3456798162861", 
+        "featureType": "hospital", 
+        "lat": "24.868", 
+        "long": "75.856", 
+        "place": "http://www.wikidata.org/entity/Q5224247", 
+        "placeDescription": "third tiger reserve of Rajasthan named after its hunter king Rao Mukund Singh", 
+        "placeLabel": "Darrah National Park"
+      }, 
+      "type": "Feature"
+    }, 
+    {
+      "geometry": {
+        "coordinates": [
+          78.41, 
+          17.42
+        ], 
+        "type": "Point"
+      }, 
+      "properties": {
+        "coordinates": "Point(78.41 17.42)", 
+        "distFromCenter": "613.0677709929686", 
+        "featureType": "hospital", 
+        "image": "http://commons.wikimedia.org/wiki/Special:FilePath/Kbrpark.jpg", 
+        "lat": "17.42", 
+        "long": "78.41", 
+        "place": "http://www.wikidata.org/entity/Q969593", 
+        "placeDescription": "national park", 
+        "placeLabel": "Kasu Brahmananda Reddy National Park"
+      }, 
+      "type": "Feature"
+    }, 
+    {
+      "geometry": {
+        "coordinates": [
+          78.585833, 
+          17.34
+        ], 
+        "type": "Point"
+      }, 
+      "properties": {
+        "coordinates": "Point(78.58583333 17.34)", 
+        "distFromCenter": "633.5803141314545", 
+        "featureType": "hospital", 
+        "image": "http://commons.wikimedia.org/wiki/Special:FilePath/Common%20Hawk%20Cuckoo%20%28Cuculus%20varius%29%20in%20Hyderabad%20W%20IMG%207381.jpg", 
+        "lat": "17.34", 
+        "long": "78.58583333", 
+        "place": "http://www.wikidata.org/entity/Q3092314", 
+        "placeLabel": "Mahavir Harina Vanasthali National Park"
+      }, 
+      "type": "Feature"
+    }, 
+    {
+      "geometry": {
+        "coordinates": [
+          79.4147, 
+          20.1991
+        ], 
+        "type": "Point"
+      }, 
+      "properties": {
+        "coordinates": "Point(79.4147 20.1991)", 
+        "distFromCenter": "696.7368703857863", 
+        "featureType": "hospital", 
+        "image": "http://commons.wikimedia.org/wiki/Special:FilePath/Tiger%20at%20Tadoba.jpg", 
+        "lat": "20.1991", 
+        "long": "79.4147", 
+        "place": "http://www.wikidata.org/entity/Q2639563", 
+        "placeDescription": "national park in Maharashtra, India", 
+        "placeLabel": "Tadoba Andhari Tiger Project"
+      }, 
+      "type": "Feature"
+    }, 
+    {
+      "geometry": {
+        "coordinates": [
+          81.0, 
+          19.333333
+        ], 
+        "type": "Point"
+      }, 
+      "properties": {
+        "coordinates": "Point(81.0 19.33333333)", 
+        "distFromCenter": "854.1038443076005", 
+        "featureType": "hospital", 
+        "image": "http://commons.wikimedia.org/wiki/Special:FilePath/Bubalus%20arnee%20Kaziranga.jpg", 
+        "lat": "19.33333333", 
+        "long": "81.0", 
+        "place": "http://www.wikidata.org/entity/Q1427976", 
+        "placeDescription": "National park in Chhattisgarh, India", 
+        "placeLabel": "Indravati National Park"
+      }, 
+      "type": "Feature"
+    }, 
+    {
+      "geometry": {
+        "coordinates": [
+          80.166667, 
+          20.933333
+        ], 
+        "type": "Point"
+      }, 
+      "properties": {
+        "coordinates": "Point(80.16666667 20.93333333)", 
+        "distFromCenter": "789.9240387112411", 
+        "featureType": "hospital", 
+        "image": "http://commons.wikimedia.org/wiki/Special:FilePath/Nagzira%20Tiger%20By%20Vijay%20Phulwadhawa.jpg", 
+        "lat": "20.93333333", 
+        "long": "80.16666667", 
+        "place": "http://www.wikidata.org/entity/Q763034", 
+        "placeDescription": "national park in India", 
+        "placeLabel": "Navegaon National Park"
+      }, 
+      "type": "Feature"
+    }, 
+    {
+      "geometry": {
+        "coordinates": [
+          82.011, 
+          18.832
+        ], 
+        "type": "Point"
+      }, 
+      "properties": {
+        "coordinates": "Point(82.011 18.832)", 
+        "distFromCenter": "961.5480355692197", 
+        "featureType": "hospital", 
+        "image": "http://commons.wikimedia.org/wiki/Special:FilePath/Kanger%20valley12.JPG", 
+        "lat": "18.832", 
+        "long": "82.011", 
+        "place": "http://www.wikidata.org/entity/Q1723746", 
+        "placeLabel": "Kanger Ghati National Park"
+      }, 
+      "type": "Feature"
+    }, 
+    {
+      "geometry": {
+        "coordinates": [
+          78.231, 
+          22.495
+        ], 
+        "type": "Point"
+      }, 
+      "properties": {
+        "coordinates": "Point(78.231 22.495)", 
+        "distFromCenter": "674.8718614697898", 
+        "featureType": "hospital", 
+        "image": "http://commons.wikimedia.org/wiki/Special:FilePath/Satpura1.jpg", 
+        "lat": "22.495", 
+        "long": "78.231", 
+        "place": "http://www.wikidata.org/entity/Q733659", 
+        "placeDescription": "national park", 
+        "placeLabel": "Satpura National Park"
+      }, 
+      "type": "Feature"
+    }, 
+    {
+      "geometry": {
+        "coordinates": [
+          79.3033, 
+          21.6716
+        ], 
+        "type": "Point"
+      }, 
+      "properties": {
+        "coordinates": "Point(79.3033 21.6716)", 
+        "distFromCenter": "730.1973510725708", 
+        "featureType": "hospital", 
+        "image": "http://commons.wikimedia.org/wiki/Special:FilePath/Langur%2C%20Pench%20National%20Park.jpg", 
+        "lat": "21.6716", 
+        "long": "79.3033", 
+        "place": "http://www.wikidata.org/entity/Q2720864", 
+        "placeDescription": "National Park in India (Madhya Pradesh and Maharashtra)", 
+        "placeLabel": "Pench National Park"
+      }, 
+      "type": "Feature"
+    }, 
+    {
+      "geometry": {
+        "coordinates": [
+          79.3033, 
+          21.6716
+        ], 
+        "type": "Point"
+      }, 
+      "properties": {
+        "coordinates": "Point(79.3033 21.6716)", 
+        "distFromCenter": "730.1973510725708", 
+        "featureType": "hospital", 
+        "image": "http://commons.wikimedia.org/wiki/Special:FilePath/Spotted%20deer%20grazing%20under%20the%20tree%20in%20afternoon%20sun.jpg", 
+        "lat": "21.6716", 
+        "long": "79.3033", 
+        "place": "http://www.wikidata.org/entity/Q3364473", 
+        "placeLabel": "Q3364473"
+      }, 
+      "type": "Feature"
+    }, 
+    {
+      "geometry": {
+        "coordinates": [
+          77.3673, 
+          23.2332
+        ], 
+        "type": "Point"
+      }, 
+      "properties": {
+        "coordinates": "Point(77.3673 23.2332)", 
+        "distFromCenter": "656.9797998287397", 
+        "featureType": "hospital", 
+        "image": "http://commons.wikimedia.org/wiki/Special:FilePath/Alligator%20at%20Van%20Vihar%20National%20Park.jpg", 
+        "lat": "23.2332", 
+        "long": "77.3673", 
+        "place": "http://www.wikidata.org/entity/Q3092357", 
+        "placeLabel": "Van Vihar National Park"
+      }, 
+      "type": "Feature"
+    }, 
+    {
+      "geometry": {
+        "coordinates": [
+          80.633333, 
+          22.333333
+        ], 
+        "type": "Point"
+      }, 
+      "properties": {
+        "coordinates": "Point(80.63333333 22.33333333)", 
+        "distFromCenter": "885.0350537663599", 
+        "featureType": "hospital", 
+        "image": "http://commons.wikimedia.org/wiki/Special:FilePath/Axis%20axis%20Kanha%201.jpg", 
+        "lat": "22.33333333", 
+        "long": "80.63333333", 
+        "place": "http://www.wikidata.org/entity/Q1480481", 
+        "placeDescription": "national park", 
+        "placeLabel": "Kanha National Park"
+      }, 
+      "type": "Feature"
+    }, 
+    {
+      "geometry": {
+        "coordinates": [
+          80.613611, 
+          23.110278
+        ], 
+        "type": "Point"
+      }, 
+      "properties": {
+        "coordinates": "Point(80.61361111 23.11027778)", 
+        "distFromCenter": "920.1335626085022", 
+        "featureType": "hospital", 
+        "image": "http://commons.wikimedia.org/wiki/Special:FilePath/Fossil2.jpg", 
+        "lat": "23.11027778", 
+        "long": "80.61361111", 
+        "place": "http://www.wikidata.org/entity/Q3364416", 
+        "placeDescription": "national park in Dindori district, Madhya Pradesh, India", 
+        "placeLabel": "Mandla Plant Fossils National Park"
+      }, 
+      "type": "Feature"
+    }, 
+    {
+      "geometry": {
+        "coordinates": [
+          77.75, 
+          25.466667
+        ], 
+        "type": "Point"
+      }, 
+      "properties": {
+        "coordinates": "Point(77.75 25.46666667)", 
+        "distFromCenter": "870.3977051977857", 
+        "featureType": "hospital", 
+        "image": "http://commons.wikimedia.org/wiki/Special:FilePath/Madhav%20Natioinal%20Park.JPG", 
+        "lat": "25.46666667", 
+        "long": "77.75", 
+        "place": "http://www.wikidata.org/entity/Q2604975", 
+        "placeDescription": "national park in Madhya Pradesh, India", 
+        "placeLabel": "Madhav National Park"
+      }, 
+      "type": "Feature"
+    }, 
+    {
+      "geometry": {
+        "coordinates": [
+          77.678056, 
+          25.561667
+        ], 
+        "type": "Point"
+      }, 
+      "properties": {
+        "coordinates": "Point(77.678055555 25.561666666)", 
+        "distFromCenter": "874.7481693743805", 
+        "featureType": "hospital", 
+        "image": "http://commons.wikimedia.org/wiki/Special:FilePath/Madhav%20Natioinal%20Park.JPG", 
+        "lat": "25.561666666", 
+        "long": "77.678055555", 
+        "place": "http://www.wikidata.org/entity/Q2604975", 
+        "placeDescription": "national park in Madhya Pradesh, India", 
+        "placeLabel": "Madhav National Park"
+      }, 
+      "type": "Feature"
+    }, 
+    {
+      "geometry": {
+        "coordinates": [
+          80.961944, 
+          23.699444
+        ], 
+        "type": "Point"
+      }, 
+      "properties": {
+        "coordinates": "Point(80.96194444 23.69944444)", 
+        "distFromCenter": "982.9300735381296", 
+        "featureType": "hospital", 
+        "image": "http://commons.wikimedia.org/wiki/Special:FilePath/Tigress%20in%20Bandhavgarh%20NP.jpg", 
+        "lat": "23.69944444", 
+        "long": "80.96194444", 
+        "place": "http://www.wikidata.org/entity/Q806310", 
+        "placeDescription": "national park", 
+        "placeLabel": "Bandhavgarh National Park"
+      }, 
+      "type": "Feature"
+    }, 
+    {
+      "geometry": {
+        "coordinates": [
+          80.010222, 
+          24.730444
+        ], 
+        "type": "Point"
+      }, 
+      "properties": {
+        "coordinates": "Point(80.01022222 24.73044444)", 
+        "distFromCenter": "968.4962930112084", 
+        "featureType": "hospital", 
+        "image": "http://commons.wikimedia.org/wiki/Special:FilePath/Panna%20National%20Park%20Map.jpg", 
+        "lat": "24.73044444", 
+        "long": "80.01022222", 
+        "place": "http://www.wikidata.org/entity/Q1858071", 
+        "placeDescription": "national park in India", 
+        "placeLabel": "Panna National Park"
+      }, 
+      "type": "Feature"
+    }, 
+    {
+      "geometry": {
+        "coordinates": [
+          70.883889, 
+          27.039444
+        ], 
+        "type": "Point"
+      }, 
+      "properties": {
+        "coordinates": "Point(70.88388889 27.03944444)", 
+        "distFromCenter": "909.0614620282004", 
+        "featureType": "hospital", 
+        "image": "http://commons.wikimedia.org/wiki/Special:FilePath/A%20view%20on%20Sams%20sand%20dunes.JPG", 
+        "lat": "27.03944444", 
+        "long": "70.88388889", 
+        "place": "http://www.wikidata.org/entity/Q3058213", 
+        "placeDescription": "national park in India", 
+        "placeLabel": "Desert National Park"
+      }, 
+      "type": "Feature"
+    }, 
+    {
+      "geometry": {
+        "coordinates": [
+          76.50257, 
+          26.01733
+        ], 
+        "type": "Point"
+      }, 
+      "properties": {
+        "coordinates": "Point(76.50257 26.01733)", 
+        "distFromCenter": "857.6739650456545", 
+        "featureType": "hospital", 
+        "image": "http://commons.wikimedia.org/wiki/Special:FilePath/Ranthambore%20Fort%20Jain%20Temple.jpg", 
+        "lat": "26.01733", 
+        "long": "76.50257", 
+        "place": "http://www.wikidata.org/entity/Q1466242", 
+        "placeDescription": "wildlife sanctuary in northern India", 
+        "placeLabel": "Ranthambore National Park"
+      }, 
+      "type": "Feature"
+    }, 
+    {
+      "geometry": {
+        "coordinates": [
+          76.436944, 
+          27.3175
+        ], 
+        "type": "Point"
+      }, 
+      "properties": {
+        "coordinates": "Point(76.43694444 27.3175)", 
+        "distFromCenter": "986.6563897477926", 
+        "featureType": "hospital", 
+        "image": "http://commons.wikimedia.org/wiki/Special:FilePath/Deer%20in%20Sariska%20Reserve.jpg", 
+        "lat": "27.3175", 
+        "long": "76.43694444", 
+        "place": "http://www.wikidata.org/entity/Q2572177", 
+        "placeLabel": "Sariska Tiger Reserve"
+      }, 
+      "type": "Feature"
+    }
+  ], 
+  "type": "FeatureCollection"
+}

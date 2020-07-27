@@ -880,9 +880,9 @@ map.on('singleclick', function(evt){
           content += '<img src = ' + imageurl+ '>'; 
           if(feature.get('placeDescription') !== undefined){
           content += '<h5>' + feature.get('placeDescription') + '</h5>';
-        }
-          content += '<h6>Coordinates : ' + feature.get('location') + '</h6>'; 
-          
+          }
+          content += '<h6>Coordinates : ' + feature.get('coordinates') + '</h6>'; 
+          content += '<h6>Distance from Center Point : ' + feature.get('distFromCenter') + '</h6>';
           console.log(feature.get());
           if(feature.get('placeLabel') !== undefined){
             content_element.innerHTML = content;
