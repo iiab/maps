@@ -1,12 +1,15 @@
 #!/bin/bash
+rsync data/sparql/templates/* /library/www/osm-vector-maps/viewer/data/sparql/template/
 
-cp -r assets/* /library/www/osm-vector-maps/viewer/assets/
+rm /library/www/osm-vector-maps/viewer/data/geojson/*
 
-cp -r build/* /library/www/osm-vector-maps/viewer/
+rsync -r assets/* /library/www/osm-vector-maps/viewer/assets/
 
-cp jsonserver.php /library/www/osm-vector-maps/viewer/
+rsync -r build/* /library/www/osm-vector-maps/viewer/
 
-cp markers/* /library/www/osm-vector-maps/viewer/markers/
+rsync jsonserver.php /library/www/osm-vector-maps/viewer/
+
+rsync markers/* /library/www/osm-vector-maps/viewer/markers/
 
 rsync -r data/ /library/www/osm-vector-maps/viewer/data
 

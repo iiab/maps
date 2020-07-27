@@ -10,8 +10,8 @@ import sys
 from string import Template
 
 SPARQL_ENDPOINT = "https://query.wikidata.org/sparql"
-SPARQL_FROM_TEMPLATE_PATH = "../data/sparql/templates/"
-GEOJSON_PATH = "../data/geojson/"
+SPARQL_FROM_TEMPLATE_PATH = "/libray/www/osm-source/viewer/data/sparql/templates/"
+GEOJSON_PATH = "/libray/www/osm-source/viewer/data/geojson/"
 
 sparql = SPARQLWrapper(SPARQL_ENDPOINT, agent='Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/50.0.2661.102 Safari/537.36')
 
