@@ -26,7 +26,7 @@ def main():
     parser.add_argument('lat', type=float, help='Input latitude for central point for SPARQL Query')
     parser.add_argument('long', type=float, help='Input latitude for central point for SPARQL Query')
     parser.add_argument('radius', type=float, help='Input Radius from Central Point')
-    parser.add_argument('feature_type',choices=feature_type_values,default=8, type=int, help='Feature Type')
+    parser.add_argument('feature_type', nargs='?',choices=feature_type_values,default=8, type=int, help='Feature Type')
     args = parser.parse_args()
 
     args.feature_type = feature_type_values[args.feature_type]

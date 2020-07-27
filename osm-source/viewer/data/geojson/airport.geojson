@@ -1,0 +1,88 @@
+{
+  "features": [
+    {
+      "geometry": {
+        "coordinates": [
+          72.868056, 
+          19.088611
+        ], 
+        "type": "Point"
+      }, 
+      "properties": {
+        "coordinates": "Point(72.868055555 19.088611111)", 
+        "distFromCenter": "2.079424471580715", 
+        "featureType": "airport", 
+        "image": "http://commons.wikimedia.org/wiki/Special:FilePath/Mumbai%2003-2016%20114%20Airport%20international%20terminal%20interior.jpg", 
+        "lat": "19.088611111", 
+        "long": "72.868055555", 
+        "place": "http://www.wikidata.org/entity/Q504368", 
+        "placeDescription": "airport in Mumbai, India", 
+        "placeLabel": "Chhatrapati Shivaji International Airport"
+      }, 
+      "type": "Feature"
+    }, 
+    {
+      "geometry": {
+        "coordinates": [
+          72.833889, 
+          19.098056
+        ], 
+        "type": "Point"
+      }, 
+      "properties": {
+        "coordinates": "Point(72.833888888 19.098055555)", 
+        "distFromCenter": "4.912174588128845", 
+        "featureType": "airport", 
+        "image": "http://commons.wikimedia.org/wiki/Special:FilePath/Juhu%20Aerodrome.jpg", 
+        "lat": "19.098055555", 
+        "long": "72.833888888", 
+        "place": "http://www.wikidata.org/entity/Q674812", 
+        "placeDescription": "aerodrome in Mumbai, India. First airfield in India", 
+        "placeLabel": "Juhu Aerodrome"
+      }, 
+      "type": "Feature"
+    }, 
+    {
+      "geometry": {
+        "coordinates": [
+          72.833889, 
+          19.098056
+        ], 
+        "type": "Point"
+      }, 
+      "properties": {
+        "coordinates": "Point(72.833888888 19.098055555)", 
+        "distFromCenter": "4.912174588128845", 
+        "featureType": "airport", 
+        "image": "http://commons.wikimedia.org/wiki/Special:FilePath/Juhu%20aerodrome%20composite.jpg", 
+        "lat": "19.098055555", 
+        "long": "72.833888888", 
+        "place": "http://www.wikidata.org/entity/Q674812", 
+        "placeDescription": "aerodrome in Mumbai, India. First airfield in India", 
+        "placeLabel": "Juhu Aerodrome"
+      }, 
+      "type": "Feature"
+    }, 
+    {
+      "geometry": {
+        "coordinates": [
+          72.868056, 
+          19.088611
+        ], 
+        "type": "Point"
+      }, 
+      "properties": {
+        "coordinates": "Point(72.86805556 19.08861111)", 
+        "distFromCenter": "2.0794243068956866", 
+        "featureType": "airport", 
+        "lat": "19.08861111", 
+        "long": "72.86805556", 
+        "place": "http://www.wikidata.org/entity/Q7275551", 
+        "placeDescription": "airport in India", 
+        "placeLabel": "RAF Santacruz"
+      }, 
+      "type": "Feature"
+    }
+  ], 
+  "type": "FeatureCollection"
+}
