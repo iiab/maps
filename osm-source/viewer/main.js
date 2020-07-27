@@ -695,6 +695,21 @@ var getImage = function(feature){
   else if(feature.get('featureType') === "hospital"){
     text = "./markers/hospital.png";
   }
+  else if(feature.get('featureType') === "airport"){
+    text = "./markers/airport.png";
+  }
+  else if(feature.get('featureType') === "bustation"){
+    text = "./markers/bus-station.png";
+  }
+  else if(feature.get('featureType') === "library"){
+    text = "./markers/library.png";
+  }
+  else if(feature.get('featureType') === "national-park"){
+    text = "./markers/national-park.png";
+  }
+  else if(feature.get('featureType') === "school"){
+    text = "./markers/school.png";
+  }
   else{
     text = "./markers/other.png";
   }
