@@ -11,7 +11,7 @@ SELECT ?place ?placeLabel ?placeDescription ?image ?coordinates ?distFromCenter 
       wikibase:radius ?radius.
   }
   OPTIONAL { ?place wdt:P18 ?image. }
-  ?place wdt:P31 wd:Q3914.
+  ?place wdt:P31 wd:Q7075.
   SERVICE wikibase:label { bd:serviceParam wikibase:language "en". }
   BIND(geof:distance(?loc, ?coordinates) AS ?distFromCenter)
   BIND(STRBEFORE(STRAFTER(STR(?coordinates), " "), ")") AS ?lat)

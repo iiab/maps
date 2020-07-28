@@ -1,5 +1,5 @@
 #!/bin/bash
-rsync data/sparql/templates/* /library/www/osm-vector-maps/viewer/data/sparql/template/
+rsync data/sparql/templates/* /library/www/osm-vector-maps/viewer/data/sparql/templates/
 
 rm /library/www/osm-vector-maps/viewer/data/geojson/*
 

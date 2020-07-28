@@ -865,7 +865,7 @@ var getImage = function(feature){
     text = "./markers/railway-station.png";
   }
   else{
-    text = marker_location_path+"other.png";
+    text = "./markers/other.png";
   }
   console.log(text);
   return text;
