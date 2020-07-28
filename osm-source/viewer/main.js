@@ -692,25 +692,25 @@ var getImage = function(feature){
   var text;
   var marker_location_path = '/library/www/osm-vector-maps/viewer/markers/'
   if(feature.get('featureType') === "metro"){
-    text = marker_location_path+"metro.png";
+    text = "./markers/metro.png";
   }
   else if(feature.get('featureType') === "hospital"){
-    text = marker_location_path+"hospital.png";
+    text = "./markers/hospital.png";
   }
   else if(feature.get('featureType') === "airport"){
-    text = marker_location_path+"airport.png";
+    text = "./markers/airport.png";
   }
   else if(feature.get('featureType') === "bus-station"){
-    text = marker_location_path+"bus-station.png";
+    text = "./markers/bus-station.png";
   }
   else if(feature.get('featureType') === "library"){
-    text = marker_location_path+"library.png";
+    text = "./markers/library.png";
   }
   else if(feature.get('featureType') === "national-park"){
-    text = marker_location_path+"national-park.png";
+    text = "./markers/national-park.png";
   }
   else if(feature.get('featureType') === "school"){
-    text = marker_location_path+"school.png";
+    text = "./markers/school.png";
   }
   else if(feature.get('featureType') === "railway-station"){
     text = "./markers/railway-station.png";
