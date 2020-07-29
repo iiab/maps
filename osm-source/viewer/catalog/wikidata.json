@@ -1,0 +1,39 @@
+{
+    "wikidata" : {
+        "hospital"  :{
+            "query_file_name" : "hospitalquery.sparql",
+            "feature_icon_name" : "hospital.png",
+            "query_title" : "Hospital"
+        },
+        "airport" : {
+            "query_file_name" : "airport.sparql",
+            "feature_icon_name" : "airport.png",
+            "query_title" : "Airport"
+        },
+        "bus-station" : {
+            "query_file_name" : "bustation.sparql",
+            "feature_icon_name" : "bus-station.png",
+            "query_title" : "Bus Station"
+        },
+        "library" : {
+            "query_file_name" : "library.sparql",
+            "feature_icon_name" : "library.png",
+            "query_title" : "Library"
+        },
+        "national-park" : {
+            "query_file_name" : "nationalparks.sparql",
+            "feature_icon_name" : "national-park.png",
+            "query_title" : "National Park"
+        },
+        "railway-station" : {
+            "query_file_name" : "railwaystation.sparql",
+            "feature_icon_name" : "railway-station.png",
+            "query_title" : "Railway Station"
+        },
+        "school" : {
+            "query_file_name" : "schoolsnearby.sparql",
+            "feature_icon_name" : "school.png",
+            "query_title" : "School"
+        }
+    }
+}

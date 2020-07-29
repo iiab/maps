@@ -18,24 +18,34 @@ sparql = SPARQLWrapper(SPARQL_ENDPOINT, agent='Mozilla/5.0 (Macintosh; Intel Mac
 
 def main():
     
-    feature_type_values = { 1: "hospital", 2: "airport", 3: "bus-station", 4: "library", 5:"national-park", 6: "railway-station", 7: "school" , 8: "other"}
 
-    parser = argparse.ArgumentParser(description='Get Input and Output File Names')
-    parser.add_argument('input_filename', type=str, help='Input filename for SPARQL Query')
+    parser = argparse.ArgumentParser(description='Get Query Type')
+    parser.add_argument('input_feature', choices=['hospital','airport','bus-station',' library', 'national-park', 'railway-station', 'school'], type=str, help='Input feature for SPARQL Query')
     parser.add_argument('output_filename', type=str, help='Output filename for GeoJSON')
     parser.add_argument('lat', type=float, help='Input latitude for central point for SPARQL Query')
-    parser.add_argument('long', type=float, help='Input latitude for central point for SPARQL Query')
-    parser.add_argument('radius', type=float, help='Input Radius from Central Point')
-    parser.add_argument('feature_type', nargs='?',choices=feature_type_values,default=8, type=int, help='Feature Type')
+    parser.add_argument('long', type=float, help='Input longitude for central point for SPARQL Query')
+    parser.add_argument('radius', nargs='?', type=float, help='Input Radius from Central Point')
+    #parser.add_argument('limit', nargs='?', type=int, help='Limit the number of Queries')
     args = parser.parse_args()
 
-    args.feature_type = feature_type_values[args.feature_type]
+    filename = ""
+    iconfile = ""
+    feature_title = ""
 
-    results = get_json_from_sparql(args.input_filename, args.lat, args.long, args.radius)
+    with open('catalog/wikidata.json') as wikidata_catalog: 
+        data = json.load(wikidata_catalog)
+        for key, value in data["wikidata"].items():
+            if(key == args.input_feature):
+                filename = value["query_file_name"]
+                iconfile = value["feature_icon_name"]
+                feature_title = value["query_title"]
+
+
+    results = get_json_from_sparql(filename, args.lat, args.long, args.radius)
     # for result in results["results"]["bindings"]:
     #     print(result["placeDescription"]["value"])
     
-    get_geojson_from_json(results,args.output_filename,args.feature_type)
+    get_geojson_from_json(results,args.output_filename,iconfile,feature_title)
     print("Conversion Complete")
     
 def get_json_from_sparql(input_filename,lat, long, radius):
@@ -52,7 +62,7 @@ def get_json_from_sparql(input_filename,lat, long, radius):
 #featureType dictionary that contains all the possible combinations.
 
 
-def get_geojson_from_json(results, output_filename, feature_type):
+def get_geojson_from_json(results, output_filename, iconfile, feature_title):
     features = []
     info = results
     for root in info["results"]["bindings"]:
@@ -60,7 +70,7 @@ def get_geojson_from_json(results, output_filename, feature_type):
         long = float(root["long"]["value"])
         point = Point((long,lat))
         # print(type(point))
-        properties = {'featureType': feature_type}
+        properties = {'iconFileName': iconfile, 'Feature Title' : feature_title}
         for key in root:
             value = root[key]['value']
             properties[key] = value

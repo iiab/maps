@@ -840,33 +840,7 @@ var getImage = function(feature){
   console.log(feature.get('image'));
   var text;
   var marker_location_path = '/library/www/osm-vector-maps/viewer/markers/'
-  if(feature.get('featureType') === "metro"){
-    text = "./markers/metro.png";
-  }
-  else if(feature.get('featureType') === "hospital"){
-    text = "./markers/hospital.png";
-  }
-  else if(feature.get('featureType') === "airport"){
-    text = "./markers/airport.png";
-  }
-  else if(feature.get('featureType') === "bus-station"){
-    text = "./markers/bus-station.png";
-  }
-  else if(feature.get('featureType') === "library"){
-    text = "./markers/library.png";
-  }
-  else if(feature.get('featureType') === "national-park"){
-    text = "./markers/national-park.png";
-  }
-  else if(feature.get('featureType') === "school"){
-    text = "./markers/school.png";
-  }
-  else if(feature.get('featureType') === "railway-station"){
-    text = "./markers/railway-station.png";
-  }
-  else{
-    text = "./markers/other.png";
-  }
+  text = "./markers/" + feature.get('iconFileName');
   console.log(text);
   return text;
 };
