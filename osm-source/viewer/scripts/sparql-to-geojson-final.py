@@ -9,6 +9,11 @@ import argparse
 import sys
 from string import Template
 
+#implement validation
+#create result.query
+#implement limits in every query
+
+
 SPARQL_ENDPOINT = "https://query.wikidata.org/sparql"
 SPARQL_FROM_TEMPLATE_PATH = "/library/www/osm-vector-maps/viewer/data/sparql/templates/"
 GEOJSON_PATH = "/library/www/osm-vector-maps/viewer/data/geojson/"
@@ -32,7 +37,7 @@ def main():
     iconfile = ""
     feature_title = ""
 
-    with open('catalog/wikidata.json') as wikidata_catalog: 
+    with open('assets/wikidata.json') as wikidata_catalog: 
         data = json.load(wikidata_catalog)
         for key, value in data["wikidata"].items():
             if(key == args.input_feature):
