@@ -18,21 +18,20 @@
       }
       #map-container { position: relative;}
       #search {
-        position: absolute; top: 10px; left: 40px; z-index: 99; }
+        position: absolute; top: 10px; left: 40px; z-index: 99; width: 50vw; max-width: 300px;}
       #picture {
         position: absolute; top: 100px; left: 40px; z-index: 99; }
       #hamburger {
         position: absolute; top: 10px; right: 10px; z-index: 99; }
       #info-overlay {
-        position: absolute; bottom: 0px; left: 200px; z-index: 99; 
+        position: absolute; bottom: 0px; right: 0px; z-index: 99; 
         margin: 0;
-        width: 70%;
         font-family: sans-serif;
       }
       #home {
         position: absolute; bottom: 0px; left: 130px; z-index: 99; 
         padding: 1px;
-        font-size: 12px;
+        font-size: 10px;
       }
     </style>
     <script>
@@ -63,15 +62,15 @@
     <div id="popup" class="ol-popup" ondragover='dragover_handler(event)' ondrop='drop_handler(event)'>
       <form>
       <a href="#" id="popup-closer" class="ol-popup-closer"></a>
-      <div><input  id="popup-title" type="text" size="50" placeholder="Title"></textbox></div>
+      <div><input  id="popup-title" type="text" size="25" placeholder="Title"></textbox></div>
       <div id='thumbnails'>
       </div>
-      <div id="popup-content"><textarea id='popup-textarea' rows="4" cols="50" placeholder="Description"></textarea></div>
+      <div id="popup-content"><textarea id='popup-textarea' cols="30" rows="2" placeholder="Description"></textarea></div>
       <div class="line">
       <div id="popup-done" class='pbut'><button id='save' type="button">Done</button></div>
-      <div id="popup-img-delete" class='pbut'><button id='img-delete' type="button">Delete Image</button></div>
-      <div id="popup-img-add" class='pbut'><button id='img-add' type="button">Add Image</button></div>
-      <div id="popup-delete" class='pbut'><button id='deletinline-block' type="button">Delete Point</button></div>
+      <div id="popup-img-delete" class='pbut'><button id='img-delete' type="button">Delete Img</button></div>
+      <div id="popup-img-add" class='pbut'><button id='img-add' type="button">Add Img</button></div>
+      <div id="popup-delete" class='pbut'><button id='deletinline-block' type="button">Delete Pt</button></div>
       </div>
       </form>
     </div>

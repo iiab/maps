@@ -213,6 +213,7 @@ var osm_style = './assets/style-sat.json';
 var tiledata = {};
 var consoleJsonDir = '/common/assets/';
 var mapCatalog = {};
+var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
 
 //////////////////s3 Functions /////////////////////////////////////////////////
 function basename(path) {
