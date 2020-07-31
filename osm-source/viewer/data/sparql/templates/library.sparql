@@ -17,3 +17,4 @@ SELECT ?place ?placeLabel ?placeDescription ?image ?coordinates ?distFromCenter 
   BIND(STRBEFORE(STRAFTER(STR(?coordinates), " "), ")") AS ?lat)
   BIND(STRBEFORE(STRAFTER(STR(?coordinates), "Point("), " ") AS ?long)
 }
+LIMIT $limit

@@ -35,13 +35,15 @@ def main():
     parser.add_argument('lat', type=float, help='Input latitude for central point for SPARQL Query')
     parser.add_argument('long', type=float, help='Input longitude for central point for SPARQL Query')
     parser.add_argument('radius', type=float, help='Input Radius from Central Point (in km)')
-    #parser.add_argument('limit', nargs='?', type=int, help='Limit the number of Queries')
+    parser.add_argument('limit', nargs='?', default=100, type=int, help='Limit the number of Queries')
     args = parser.parse_args()
+    
     feature = args.input_feature
     latitude = args.lat
     longitude = args.long
     radius = args.radius
     output_filename = args.output_filename
+    query_limit = args.limit 
 
     try: 
         if not feature in data["wikidata"].keys():
@@ -50,28 +52,27 @@ def main():
             raise ValueError
         if not -181 < longitude <81 : 
             raise ValueError
-        print('Values entered are : \nFeature Name : {} ,\nLatitude : {}, \nLongitude : {}, \nRadius:  {}'.format(feature,latitude,longitude,radius))
+        print('Values entered are : \nFeature Name : {} ,\nLatitude : {}, \nLongitude : {}, \nRadius:  {}, \nQuery Limit = {}'.format(feature,latitude,longitude,radius,query_limit))
         query_filename = data["wikidata"][feature]["query_file_name"]
         iconfile = data["wikidata"][feature]["feature_icon_name"]
         feature_title = data["wikidata"][feature]["query_title"]
-
     except ValueError : 
        print('The lat/long value is incorrect. Provide value in range.\nLatitude : (-90,90)\nLongitude : (-180,80) ')
     except NameError : 
         print('Invalid Feature Type Entered!')
     else : 
-        results = get_json_from_sparql(query_filename, latitude, longitude, radius)
+        results = get_json_from_sparql(query_filename, latitude, longitude, radius, query_limit)
         get_geojson_from_json(results,output_filename,iconfile,feature_title)
         print("Conversion Complete")
             
     
     
     
-def get_json_from_sparql(input_filename,lat, long, radius):
+def get_json_from_sparql(input_filename,lat, long, radius, query_limit):
     input_file_path = SPARQL_FROM_TEMPLATE_PATH + input_filename
     with open(input_file_path, 'r') as file:
         query = file.read().replace('\n', '')
-        query = Template(query).substitute(long = long, lat = lat, radius = radius)
+        query = Template(query).substitute(long = long, lat = lat, radius = radius, limit = query_limit)
         print(query)
         sparql.setQuery(query)
         sparql.setReturnFormat(JSON)
