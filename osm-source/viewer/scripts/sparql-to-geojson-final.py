@@ -50,7 +50,7 @@ def main():
             raise NameError
         if not -90 < latitude <91 :
             raise ValueError
-        if not -181 < longitude <81 : 
+        if not -181 < longitude <181 : 
             raise ValueError
         print('Values entered are : \nFeature Name : {} ,\nLatitude : {}, \nLongitude : {}, \nRadius:  {}, \nQuery Limit = {}'.format(feature,latitude,longitude,radius,query_limit))
         query_filename = data["wikidata"][feature]["query_file_name"]
