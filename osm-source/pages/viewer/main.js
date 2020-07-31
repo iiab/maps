@@ -549,6 +549,7 @@ var content = document.getElementById('popup-textarea');
 var closer = document.getElementById('popup-closer');
 var done = document.getElementById('popup-done');
 var imgAdd = document.getElementById('img-add');
+var imgDelete = document.getElementById('img-delete');
 var deleteFeature = document.getElementById('popup-delete');
 var importJson = document.getElementById('import-json');
 
@@ -585,8 +586,8 @@ function popUp(obj) {
         offsetY: 25,
         text: title.value,
         font: '15px Open Sans,sans-serif',
-        fill: new Fill({ color: 'rgba(67, 163, 46)' }),
-        stroke: new Stroke({ color: '#eee', width: 2 }),
+        fill: new Fill({ color: '#000' }),
+        stroke: new Stroke({ color: '#fff', width: 3 }),
       })
     });
   while (thumbnails.hasChildNodes()) {
@@ -618,10 +619,11 @@ function displayData(obj) {
      for (var i=1; i<nextImageNumber; i++){
          var imageName = 'img-'+i;
          var url = dropFeature.get(imageName);
-         if ( url === '') continue;
+         if ( url === undefined ) continue;
          var elem = document.createElement('DIV');
          elem.id = imageName;
          elem.className = ' thumb';
+         elem.setAttribute('data-name', imageName);
          var img = document.createElement('IMG');
          img.onclick = large;
          img.src = url;
@@ -652,6 +654,8 @@ deleteFeature.onclick = function() {
       drop.getSource().removeFeature(dropFeature);
   overlay.setPosition(undefined);
   closer.blur();
+  bigImg.src = '';
+  picture.style = 'display:none';
   return false;
 };
 
@@ -673,9 +677,10 @@ done.onclick = function(){
   return false;
 };
 
+var imgName;
 function large(elem){
    console.log("function large");
-   var imgName = elem.toElement.dataset.name;
+   imgName = elem.toElement.dataset.name;
    bigImg.src  = dropFeature.get(imgName);
   picture.style = 'display:block';
 }
@@ -708,6 +713,26 @@ imgAdd.onclick = function(){
    importJpeg.click();
 }
 importJpeg.addEventListener('change',importImage);
+
+imgDelete.onclick = function(){
+   // the global variable imgName has the key for currently displayed image
+   dropFeature.unset(imgName);
+   bigImg.src = '';
+   picture.style = 'display:none';
+   // delete the element from the DOM
+   var thumbList = thumbnails.children;
+   for (var i=0;i<thumbnails.children.length; i++){
+      if (thumbList[i].dataset.name == imgName) {
+         // complicated by an img inside of a div -- remove both
+         var node = thumbList[i];
+         while (node.firstChild) {
+            node.removeChild(node.firstChild);
+         }
+         node.remove();
+      }
+   }
+   displayData();
+}
 
 // need a Global for import Features
 var dataURL;
@@ -765,6 +790,7 @@ var imgURL;
 // need a Global for import Image function
 var bigimg;
 function importImage(evt){
+   if ( importJpeg.value == '' ) return;
    const fr = new FileReader();
    //console.log(importJpeg.files[0]);
    fr.onload = function(){
@@ -779,6 +805,7 @@ function importImage(evt){
       dropFeature.set(imgName,imgURL); // stores as base64 with "data:image" prefix
       displayData();
     };
-   var imageData = fr.readAsDataURL(importJpeg.files[0]);
+    var imageData = fr.readAsDataURL(importJpeg.files[0]);
+    // zero filename out so onchange same image triggers properly
+    importJpeg.value = '';
 }
-
