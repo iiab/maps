@@ -30,7 +30,7 @@ def main():
         exit(0)
 
     parser = argparse.ArgumentParser(description='Get Query Type')
-    parser.add_argument('input_feature', type=str, help='Input feature for SPARQL Query')
+    parser.add_argument('input_feature', type=str, help='Input feature for SPARQL Query - Valid options : [hospital, airport, bus-station, library, national-park, railway-station, school]')
     parser.add_argument('output_filename', type=str, help='Output filename for GeoJSON')
     parser.add_argument('lat', type=float, help='Input latitude for central point for SPARQL Query')
     parser.add_argument('long', type=float, help='Input longitude for central point for SPARQL Query')
