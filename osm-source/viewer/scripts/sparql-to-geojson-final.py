@@ -9,7 +9,6 @@ import argparse
 import sys
 from string import Template
 
-#implement validation
 #create result.query
 #implement limits in every query
 
@@ -23,35 +22,50 @@ sparql = SPARQLWrapper(SPARQL_ENDPOINT, agent='Mozilla/5.0 (Macintosh; Intel Mac
 
 def main():
     
+    try:
+        with open('assets/wikidata.json') as wikidata_catalog: 
+            data = json.load(wikidata_catalog)
+    except:
+        print('Error opening file!')
+        exit(0)
 
     parser = argparse.ArgumentParser(description='Get Query Type')
-    parser.add_argument('input_feature', choices=['hospital','airport','bus-station',' library', 'national-park', 'railway-station', 'school'], type=str, help='Input feature for SPARQL Query')
+    parser.add_argument('input_feature', type=str, help='Input feature for SPARQL Query')
     parser.add_argument('output_filename', type=str, help='Output filename for GeoJSON')
     parser.add_argument('lat', type=float, help='Input latitude for central point for SPARQL Query')
     parser.add_argument('long', type=float, help='Input longitude for central point for SPARQL Query')
-    parser.add_argument('radius', nargs='?', type=float, help='Input Radius from Central Point')
+    parser.add_argument('radius', type=float, help='Input Radius from Central Point (in km)')
     #parser.add_argument('limit', nargs='?', type=int, help='Limit the number of Queries')
     args = parser.parse_args()
+    feature = args.input_feature
+    latitude = args.lat
+    longitude = args.long
+    radius = args.radius
+    output_filename = args.output_filename
 
-    filename = ""
-    iconfile = ""
-    feature_title = ""
+    try: 
+        if not feature in data["wikidata"].keys():
+            raise NameError
+        if not -90 < latitude <91 :
+            raise ValueError
+        if not -181 < longitude <81 : 
+            raise ValueError
+        print('Values entered are : \nFeature Name : {} ,\nLatitude : {}, \nLongitude : {}, \nRadius:  {}'.format(feature,latitude,longitude,radius))
+        query_filename = data["wikidata"][feature]["query_file_name"]
+        iconfile = data["wikidata"][feature]["feature_icon_name"]
+        feature_title = data["wikidata"][feature]["query_title"]
 
-    with open('assets/wikidata.json') as wikidata_catalog: 
-        data = json.load(wikidata_catalog)
-        for key, value in data["wikidata"].items():
-            if(key == args.input_feature):
-                filename = value["query_file_name"]
-                iconfile = value["feature_icon_name"]
-                feature_title = value["query_title"]
-
-
-    results = get_json_from_sparql(filename, args.lat, args.long, args.radius)
-    # for result in results["results"]["bindings"]:
-    #     print(result["placeDescription"]["value"])
+    except ValueError : 
+       print('The lat/long value is incorrect. Provide value in range.\nLatitude : (-90,90)\nLongitude : (-180,80) ')
+    except NameError : 
+        print('Invalid Feature Type Entered!')
+    else : 
+        results = get_json_from_sparql(query_filename, latitude, longitude, radius)
+        get_geojson_from_json(results,output_filename,iconfile,feature_title)
+        print("Conversion Complete")
+            
     
-    get_geojson_from_json(results,args.output_filename,iconfile,feature_title)
-    print("Conversion Complete")
+    
     
 def get_json_from_sparql(input_filename,lat, long, radius):
     input_file_path = SPARQL_FROM_TEMPLATE_PATH + input_filename
@@ -63,8 +77,6 @@ def get_json_from_sparql(input_filename,lat, long, radius):
         sparql.setReturnFormat(JSON)
         results = sparql.query().convert()
         return results
-
-#featureType dictionary that contains all the possible combinations.
 
 
 def get_geojson_from_json(results, output_filename, iconfile, feature_title):
