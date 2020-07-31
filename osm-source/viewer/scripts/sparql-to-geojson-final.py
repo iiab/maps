@@ -56,6 +56,7 @@ def main():
         query_filename = data["wikidata"][feature]["query_file_name"]
         iconfile = data["wikidata"][feature]["feature_icon_name"]
         feature_title = data["wikidata"][feature]["query_title"]
+
     except ValueError : 
        print('The lat/long value is incorrect. Provide value in range.\nLatitude : (-90,90)\nLongitude : (-180,80) ')
     except NameError : 
@@ -63,17 +64,29 @@ def main():
     else : 
         results = get_json_from_sparql(query_filename, latitude, longitude, radius, query_limit)
         get_geojson_from_json(results,output_filename,iconfile,feature_title)
-        print("Conversion Complete")
-            
-    
-    
+        print("Conversion Complete, copying to User_catalog")
+        
+        # user_single_query = {
+        #     feature : {
+        #     'feature' : feature,
+        #     'central_lat': latitude,
+        #     'central_long' : longitude,
+        #     'radius': radius,
+        #     'output_filename' : output_filename,
+        #     'query_limit' : query_limit
+        #      }
+        # }
+
+        #create_user_catalog(user_single_query)
+        print('Operation Successful!')
+        
     
 def get_json_from_sparql(input_filename,lat, long, radius, query_limit):
     input_file_path = SPARQL_FROM_TEMPLATE_PATH + input_filename
     with open(input_file_path, 'r') as file:
         query = file.read().replace('\n', '')
         query = Template(query).substitute(long = long, lat = lat, radius = radius, limit = query_limit)
-        print(query)
+        #print(query)
         sparql.setQuery(query)
         sparql.setReturnFormat(JSON)
         results = sparql.query().convert()
@@ -104,11 +117,17 @@ def get_geojson_from_json(results, output_filename, iconfile, feature_title):
 
 def save_to_file(out_str,filename):
     outputfile = GEOJSON_PATH+filename+".geojson"
-    print(outputfile)
+    #print(outputfile)
     with open(outputfile,"w") as file:
         file.write(out_str)
     file.close()
 
+# def create_user_catalog(query_data):
+    
+#     with open('python_dictionary.json','w') as f:
+#         dic = json.load(f)
+#         dic.update(query_data)
+#         json.dump(dic, f)
 
 if __name__ == '__main__':
     main()
