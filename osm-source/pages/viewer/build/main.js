@@ -214,6 +214,7 @@ var tiledata = {};
 var consoleJsonDir = '/common/assets/';
 var mapCatalog = {};
 var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+var maxResolution = 600;
 
 //////////////////s3 Functions /////////////////////////////////////////////////
 function basename(path) {
@@ -939,29 +940,45 @@ function addPoints(data){
 }
 
 var imgURL;
-// need a Global for import Image function
-var bigimg;
 function importImage(evt){
    if ( importJpeg.value == '' ) return;
+
    const fr = new FileReader();
    //console.log(importJpeg.files[0]);
    fr.onload = function(){
       imgURL = fr.result;
-      var jpeg = atob(imgURL.split(',')[1]);
-      //console.log(jpeg);
-      bigImg.src = imgURL;
-      var seq = dropFeature.get('seq');
-      var num = Number(seq) + 1;
-      dropFeature.set('seq', num.toString());
-      var imgName = 'img-' + seq;
-      dropFeature.set(imgName,imgURL); // stores as base64 with "data:image" prefix
-      displayData();
-    };
-    // zero filename out so reload is possible onchange
+      var img = new Image();
+      img.src = imgURL;
+      img.onload = function(){
+
+         // preserve aspect ratio
+         var canvas = document.createElement('canvas');
+         canvas.height = maxResolution;
+         canvas.width = maxResolution;
+         var ctx = canvas.getContext('2d');
+         var hRatio = maxResolution / img.width    ;
+         var vRatio = maxResolution / img.height  ;
+         var ratio  = Math.min ( hRatio, vRatio );
+         var centerShift_x = ( maxResolution - img.width*ratio ) / 2;
+         var centerShift_y = ( maxResolution - img.height*ratio ) / 2;  
+         ctx.clearRect(0,0,maxResolution, maxResolution);
+         ctx.drawImage(img, 0,0, img.width, img.height,
+                      centerShift_x,centerShift_y,img.width*ratio, img.height*ratio);  
+
+         var seq = dropFeature.get('seq');
+         var num = Number(seq) + 1;
+         dropFeature.set('seq', num.toString());
+         var imgName = 'img-' + seq;
+         var smallURL = canvas.toDataURL();
+
+         dropFeature.set(imgName,smallURL); // stores as base64 with "data:image" prefix
+         displayData();
+      }
+    }
     var imageData = fr.readAsDataURL(importJpeg.files[0]);
+    // zero filename out so onchange same image triggers properly
     importJpeg.value = '';
 }
-    
 
 
 /***/ }),
