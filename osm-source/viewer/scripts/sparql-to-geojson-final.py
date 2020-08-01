@@ -9,10 +9,6 @@ import argparse
 import sys
 from string import Template
 
-#create result.query
-#implement limits in every query
-
-
 SPARQL_ENDPOINT = "https://query.wikidata.org/sparql"
 SPARQL_FROM_TEMPLATE_PATH = "/library/www/osm-vector-maps/viewer/data/sparql/templates/"
 GEOJSON_PATH = "/library/www/osm-vector-maps/viewer/data/geojson/"
@@ -30,7 +26,7 @@ def main():
         exit(0)
 
     parser = argparse.ArgumentParser(description='Get Query Type')
-    parser.add_argument('input_feature', type=str, help='Input feature for SPARQL Query - Valid options : [hospital, airport, bus-station, library, national-park, railway-station, school]')
+    parser.add_argument('input_feature', type=str, help='Input feature for SPARQL Query')
     parser.add_argument('output_filename', type=str, help='Output filename for GeoJSON')
     parser.add_argument('lat', type=float, help='Input latitude for central point for SPARQL Query')
     parser.add_argument('long', type=float, help='Input longitude for central point for SPARQL Query')
@@ -66,18 +62,21 @@ def main():
         get_geojson_from_json(results,output_filename,iconfile,feature_title)
         print("Conversion Complete, copying to User_catalog")
         
-        # user_single_query = {
-        #     feature : {
-        #     'feature' : feature,
-        #     'central_lat': latitude,
-        #     'central_long' : longitude,
-        #     'radius': radius,
-        #     'output_filename' : output_filename,
-        #     'query_limit' : query_limit
-        #      }
-        # }
+        user_single_query = {
+            feature : {
+            'feature' : feature,
+            'central_lat': latitude,
+            'central_long' : longitude,
+            'radius': radius,
+            'output_filename' : output_filename,
+            'query_limit' : query_limit
+          }
+        }
+        json_obj = json.dumps(user_single_query,indent = 4, sort_keys = True)
 
-        #create_user_catalog(user_single_query)
+        with open('assets/user_query.json',"w") as file:
+            file.write(json_obj)
+
         print('Operation Successful!')
         
     
@@ -122,12 +121,6 @@ def save_to_file(out_str,filename):
         file.write(out_str)
     file.close()
 
-# def create_user_catalog(query_data):
-    
-#     with open('python_dictionary.json','w') as f:
-#         dic = json.load(f)
-#         dic.update(query_data)
-#         json.dump(dic, f)
 
 if __name__ == '__main__':
     main()
