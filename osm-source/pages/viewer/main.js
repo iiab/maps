@@ -623,12 +623,13 @@ function displayData(obj) {
          if ( url === undefined ) continue;
          var elem = document.createElement('DIV');
          elem.id = imageName;
-         elem.className = ' thumb';
+         elem.className = 'thumbdiv';
          elem.setAttribute('data-name', imageName);
          var img = document.createElement('IMG');
          img.onclick = large;
          img.src = url;
          img.alt = '';
+         img.className = 'thumbnail';
          img.setAttribute('data-name', imageName);
          elem.appendChild(img);
          thumbnails.appendChild(elem);
@@ -795,23 +796,23 @@ function importImage(evt){
    //console.log(importJpeg.files[0]);
    fr.onload = function(){
       imgURL = fr.result;
-      var img = new Image();
-      img.src = imgURL;
-      img.onload = function(){
+      var tempImg= new Image();
+      tempImg.src = imgURL;
+      tempImg.onload = function(){
 
          // preserve aspect ratio
          var canvas = document.createElement('canvas');
          canvas.height = maxResolution;
          canvas.width = maxResolution;
          var ctx = canvas.getContext('2d');
-         var hRatio = maxResolution / img.width    ;
-         var vRatio = maxResolution / img.height  ;
+         var hRatio = maxResolution / tempImg.width    ;
+         var vRatio = maxResolution / tempImg.height  ;
          var ratio  = Math.min ( hRatio, vRatio );
-         var centerShift_x = ( maxResolution - img.width*ratio ) / 2;
-         var centerShift_y = ( maxResolution - img.height*ratio ) / 2;  
+         var centerShift_x = ( maxResolution - tempImg.width*ratio ) / 2;
+         var centerShift_y = ( maxResolution - tempImg.height*ratio ) / 2;  
          ctx.clearRect(0,0,maxResolution, maxResolution);
-         ctx.drawImage(img, 0,0, img.width, img.height,
-                      centerShift_x,centerShift_y,img.width*ratio, img.height*ratio);  
+         ctx.drawImage(tempImg, 0,0, tempImg.width, tempImg.height,
+                      centerShift_x,centerShift_y,tempImg.width*ratio, tempImg.height*ratio);  
 
          var seq = dropFeature.get('seq');
          var num = Number(seq) + 1;
