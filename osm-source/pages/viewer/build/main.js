@@ -675,7 +675,10 @@ contextmenu.on('open', function(evt) {
 });
 
  function clear(){
-   dropSource.clear();
+    var r = confirm("Delete all Points?");
+    if (r == true) {
+      dropSource.clear();
+    }
 };
 
 map.on('pointermove', function(e) {
