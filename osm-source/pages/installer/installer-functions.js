@@ -226,7 +226,7 @@ function renderMap(){
    renderMapList(true);
 }
 function initMap(){
-   var url =  mapAssetsDir + 'map-catalog.json';
+   var url =  consoleJsonDir + 'map-catalog.json';
    //sysStorage.map_selected_size = 0; // always set to 0
    if (UrlExists(url)){
       $.when(getMapStat()).then(function(){renderMapList(true);});
