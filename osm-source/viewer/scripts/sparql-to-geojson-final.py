@@ -21,13 +21,19 @@ def main():
     try:
         with open('assets/wikidata.json') as wikidata_catalog: 
             data = json.load(wikidata_catalog)
+            
+            
     except:
         print('Error opening file!')
         exit(0)
 
+    feature_types = [str(key) for key in data["wikidata"].keys()]
+    
+        
+
     parser = argparse.ArgumentParser(description='Get Query Type')
-    parser.add_argument('input_feature', type=str, help='Input feature for SPARQL Query')
-    parser.add_argument('output_filename', type=str, help='Output filename for GeoJSON')
+    parser.add_argument('input_feature', type=str, help='Input feature for SPARQL Query. Supported types -  {}'.format(feature_types))
+    parser.add_argument('output_filename', type=str, help='Output filename for GeoJSON ( .geojson extension is not necessary)')
     parser.add_argument('lat', type=float, help='Input latitude for central point for SPARQL Query')
     parser.add_argument('long', type=float, help='Input longitude for central point for SPARQL Query')
     parser.add_argument('radius', type=float, help='Input Radius from Central Point (in km)')
