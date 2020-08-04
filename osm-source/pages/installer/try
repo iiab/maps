@@ -5,7 +5,7 @@ cp -fp ./webpack.config.js ../webpack/
 cp -fp ./main.js ../webpack
 cp -fp ./index.html ../webpack
 cp -fp ./map.css ../webpack
-cp -fp ./installer_functions.js ../webpack
+cp -fp ./installer-functions.js ../webpack
 cp -fp ./style-osm.json  ../webpack
 
 cd ../webpack
@@ -14,5 +14,5 @@ npm run build
 :
 cd /opt/iiab/maps/osm-source/pages/installer
 cp ./build/* /library/www/osm-vector-maps/installer
-cp ./installer_functions.js /library/www/osm-vector-maps/installer/
+cp ./installer-functions.js /library/www/osm-vector-maps/installer/
 cp ./map.css /library/www/osm-vector-maps/installer/
