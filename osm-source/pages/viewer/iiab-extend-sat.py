@@ -36,6 +36,7 @@ total_tiles = 0
 bad_ref = 0
 sat_mbtile_fname = 'satellite_z0-z9_v3.mbtiles'
 bound_string = ''
+ok = 0
 
 ATTRIBUTION = os.environ.get('METADATA_ATTRIBUTION', '<a href="http://openmaptiles.org/" target="_blank">&copy; OpenMapTiles</a> <a href="http://www.openstreetmap.org/about/" target="_blank">&copy; OpenStreetMap contributors</a>')
 VERSION = os.environ.get('METADATA_VERSION', '3.3')
