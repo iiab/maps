@@ -697,8 +697,8 @@ def download_tiles(src,lat_deg,lon_deg,zoom,radius):
    tileX_min,tileX_max,tileY_min,tileY_max = get_bounds(lat_deg,lon_deg,radius,zoom)
    for tileX in range(tileX_min,tileX_max+1):
       for tileY in range(tileY_min,tileY_max+1):
-         if (start - time.time()) % 10 == 0:
-            print('tileX:%s tileY:%s zoom:%s added:%s'%(tileX,tileY,zoom,total_tiles))
+         if (total_tiles % 10) == 0:
+            print('tileX:%s tileY:%s zoom:%s alreday downloaded: %s added:%s'%(tileX,tileY,zoom,ok,total_tiles))
          tile_exists =  mbTiles.TileExists(zoom,tileX,tileY)
          if tile_exists:
             raw = mbTiles.GetTile(zoom, tileX, tileY)
