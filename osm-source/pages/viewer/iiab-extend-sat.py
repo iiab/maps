@@ -32,7 +32,7 @@ bbox_limits = {} # set by sat_bbox_limits, read by download
 src = object
 config = {}
 config_fn = 'config.json'
-total_tiles = 0
+total_tiles = 1
 bad_ref = 0
 sat_mbtile_fname = 'satellite_z0-z9_v3.mbtiles'
 bound_string = ''
@@ -630,7 +630,7 @@ def scan_verify():
                replace = False
                raw = mbTiles.GetTile(zoom, tileX, tileY)
                try:
-                  image = Image.open(io.StringIO(raw))
+                  image = Image.open(io.BytesIO(raw))
                   ok += 1
                   if len(raw) < 800: 
                      replace=True
@@ -672,10 +672,10 @@ def replace_tile(src,zoom,tileX,tileY):
          return False
       else:
          try:
-            #image = Image.open(io.StringIO(raw))
+            #image = Image.open(io.BytesIO(raw))
             image = Image.open(io.BytesIO(raw))
             total_tiles += 1
-            #image.show(io.StringIO(raw))
+            #image.show(io.BytesIO(raw))
          except Exception as e:
             print('exception:%s'%e)
             sys.exit()
@@ -698,12 +698,12 @@ def download_tiles(src,lat_deg,lon_deg,zoom,radius):
    for tileX in range(tileX_min,tileX_max+1):
       for tileY in range(tileY_min,tileY_max+1):
          if (total_tiles % 10) == 0:
-            print('tileX:%s tileY:%s zoom:%s alreday downloaded: %s added:%s'%(tileX,tileY,zoom,ok,total_tiles))
+            print('tileX:%s tileY:%s zoom:%s alredy downloaded: %s added:%s'%(tileX,tileY,zoom,ok,total_tiles))
          tile_exists =  mbTiles.TileExists(zoom,tileX,tileY)
-         if tile_exists:
+         if tile_exists != None:
             raw = mbTiles.GetTile(zoom, tileX, tileY)
             try:
-               image = Image.open(io.StringIO(raw))
+               image = Image.open(io.BytesIO(raw))
                ok += 1
                if len(raw) > 800: 
                   continue
