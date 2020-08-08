@@ -554,7 +554,7 @@ def get_degree_extent(lat_deg,lon_deg,radius_km,zoom=13):
    # following function returns (y,x)
    north_west_point = xytools.xy2latlon(minX,minY,zoom)
    south_east_point = xytools.xy2latlon(maxX+1,maxY+1,zoom)
-   print('north_west:%s south_east:%s'%(north_west_point, south_east_point))
+   #print('north_west:%s south_east:%s'%(north_west_point, south_east_point))
    # returns (west, south, east, north)
    return (north_west_point[1],south_east_point[0],south_east_point[1],north_west_point[0])
   
@@ -581,7 +581,7 @@ def sat_bboxes(lat_deg,lon_deg,zoom,radius):
             magic_number_found = True
    features = [] 
    (west, south, east, north) = get_degree_extent(lat_deg,lon_deg,radius,zoom)
-   print('west:%s, south:%s, east:%s, north:%s'%(west, south, east, north))
+   #print('west:%s, south:%s, east:%s, north:%s'%(west, south, east, north))
    west=float(west)
    south=float(south)
    east=float(east)
