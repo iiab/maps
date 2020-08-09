@@ -564,7 +564,6 @@ def coordinates2WmtsTilesNumbers(lat_deg, lon_deg, zoom):
   n = 2.0 ** zoom
   xtile = int((lon_deg + 180.0) / 360.0 * n)
   ytile = int((1.0 - math.log(math.tan(lat_rad) + (1 / math.cos(lat_rad))) / math.pi) / 2.0 * n)
-  ytile = 2 ** zoom - ytile
   return (xtile, ytile)
 
 def sat_bboxes(lat_deg,lon_deg,zoom,radius):
@@ -680,7 +679,7 @@ def replace_tile(src,zoom,tileX,tileY):
          except Exception as e:
             print('exception:%s'%e)
             sys.exit()
-         #raw_input("PRESS ENTER")
+         #input("PRESS ENTER")
          mbTiles.SetTile(zoom, tileX, tileY, r.data)
          returned = mbTiles.GetTile(zoom, tileX, tileY)
          if bytearray(returned) != r.data:
@@ -760,7 +759,10 @@ def do_downloads():
    except:
       print('failed to open source')
       sys.exit(1)
-   set_up_target_db(args.name)
+   # the following sets up a copy of the real sat dbase -- 
+   # Commenting out will just append to sat db already in use
+   # set_up_target_db(args.name)
+
    start = time.time()
    for zoom in range(args.zoom,14):
       print("new zoom level:%s"%zoom)
@@ -819,8 +821,8 @@ def main():
    do_downloads() 
 
    # save input for debugging in /tmp
-   shutil.copy('%s/%s'%(sat_dir,sat_mbtile_fname),'/tmp/%s'%(sat_mbtile_fname)) 
-   os.replace('%s/%s'%(work_dir,sat_mbtile_fname),'%s/%s'%(sat_dir,sat_mbtile_fname)) 
+   #shutil.copy('%s/%s'%(sat_dir,sat_mbtile_fname),'/tmp/%s'%(sat_mbtile_fname)) 
+   #os.replace('%s/%s'%(work_dir,sat_mbtile_fname),'%s/%s'%(sat_dir,sat_mbtile_fname)) 
 
 if __name__ == "__main__":
     # Run the main routine
