@@ -550,7 +550,7 @@ def record_bbox_debug_info():
 
 def get_degree_extent(lat_deg,lon_deg,radius_km,zoom=13):
    (minX,maxX,minY,maxY) = get_bounds(lat_deg,lon_deg,radius_km,zoom)
-   print('minX:%s,maxX:%s,minY:%s,maxY:%s'%(minX,maxX,minY,maxY))
+   #print('minX:%s,maxX:%s,minY:%s,maxY:%s'%(minX,maxX,minY,maxY))
    # following function returns (y,x)
    north_west_point = xytools.xy2latlon(minX,minY,zoom)
    south_east_point = xytools.xy2latlon(maxX+1,maxY+1,zoom)
@@ -659,36 +659,37 @@ def scan_verify():
    
 def replace_tile(src,zoom,tileX,tileY):
    global total_tiles
-   try:
-      r = src.get(zoom,tileX,tileY)
-   except Exception as e:
-      print(str(e))
-      sys.exit(1)
-   if r.status == 200:
-      raw = r.data
-      line = bytearray(raw)
-      if line.find(b"DOCTYPE") != -1:
-         print('Sentinel Cloudless returned text rather than an image ')
-         return False
+   for tries in range(10):
+      try:
+         r = src.get(zoom,tileX,tileY)
+      except Exception as e:
+         print(str(e))
+         sys.exit(1)
+      if r.status == 200:
+         raw = r.data
+         line = bytearray(raw)
+         if line.find(b"DOCTYPE") != -1:
+            print('Sentinel Cloudless returned text rather than an image -- %s retrys'%tries)
+            continue
+         else:
+            try:
+               #image = Image.open(io.BytesIO(raw))
+               image = Image.open(io.BytesIO(raw))
+               total_tiles += 1
+               #image.show(io.BytesIO(raw))
+            except Exception as e:
+               print('exception:%s'%e)
+               sys.exit()
+            #input("PRESS ENTER")
+            mbTiles.SetTile(zoom, tileX, tileY, r.data)
+            returned = mbTiles.GetTile(zoom, tileX, tileY)
+            if bytearray(returned) != r.data:
+               print('read verify in replace_tile failed')
+               return False
+            return True
       else:
-         try:
-            #image = Image.open(io.BytesIO(raw))
-            image = Image.open(io.BytesIO(raw))
-            total_tiles += 1
-            #image.show(io.BytesIO(raw))
-         except Exception as e:
-            print('exception:%s'%e)
-            sys.exit()
-         #input("PRESS ENTER")
-         mbTiles.SetTile(zoom, tileX, tileY, r.data)
-         returned = mbTiles.GetTile(zoom, tileX, tileY)
-         if bytearray(returned) != r.data:
-            print('read verify in replace_tile failed')
-            return False
-         return True
-   else:
-      print('get url in replace_tile returned:%s'%r.status)
-      return False
+         print('get url in replace_tile returned:%s'%r.status)
+         return False
 
 def download_tiles(src,lat_deg,lon_deg,zoom,radius):
    global mbTiles, ok
