@@ -1,6 +1,6 @@
 // right click branch working towards adding points and data to maps
 //////////////////s1 Imports ///////////////////////////////////////////////////
-var ContextMenu = require('./ol-contextmenu.js');
+var ContextMenu = require('./assets/ol-contextmenu.js');
 //var ol = require('ol');
 // temp.js for base -- regional OSM vector tiles
 import 'ol/ol.css';
@@ -30,7 +30,7 @@ import {format} from 'ol/coordinate';
 //import WMTSTileGrid from 'ol/tilegrid/WMTS.js';
 import {get as getProjection} from 'ol/proj.js';
 import {getWidth, getTopLeft} from 'ol/extent.js';
-import LayerSwitcher from './ol5-layerswitcher.js';
+import LayerSwitcher from './assets/ol5-layerswitcher.js';
 import 'bootstrap';
 import 'bootstrap/dist/css/bootstrap.css';
 import MapBrowserEvent from 'ol/MapBrowserEvent'
