@@ -61,6 +61,7 @@ function myFunction() {
     var longitude = document.getElementById('long').value;
     var radius = document.getElementById('radius').value;
     var limit = document.getElementById('limit').value;
+    var output_file_name = document.getElementById('output_file_name').value;
     var feature_id = document.getElementById("dropDown").value;
     
     function inputValidation(){
@@ -79,6 +80,10 @@ function myFunction() {
             alert("Radius Not entered!");
             return false;
         }
+        else if (output_file_name == ""){
+            alert("Output File Name Not entered!");
+            return false;
+        }
         else if(feature_id == "0"){
             alert("Enter Valid Feature");
             return false;
@@ -94,7 +99,7 @@ function myFunction() {
                 query_name = key;
             }
         }  
-        content = "python sparql-to-geojson-final.py "+query_name+" "+latitude+" "+longitude+" "+radius+" "+limit;
+        content = "python sparql-to-geojson-final.py "+query_name+" "+output_file_name+" "+latitude+" "+longitude+" "+radius+" "+limit;
         document.getElementById("show").value = content;
         console.log(content);
     }
