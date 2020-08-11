@@ -659,7 +659,7 @@ def scan_verify():
    
 def replace_tile(src,zoom,tileX,tileY):
    global total_tiles
-   for tries in range(10):
+   for tries in range(1,10):
       try:
          r = src.get(zoom,tileX,tileY)
       except Exception as e:
