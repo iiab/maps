@@ -17,3 +17,7 @@ rsync jsonserver.php /library/www/osm-vector-maps/viewer/
 rsync markers/* /library/www/osm-vector-maps/viewer/markers/
 
 rsync -r data/ /library/www/osm-vector-maps/viewer/data
+
+mkdir -p /library/www/osm-vector-maps/wikidata
+
+rsync wikidata/* /library/www/osm-vector-maps/wikidata/
