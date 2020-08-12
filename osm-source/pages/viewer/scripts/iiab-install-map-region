@@ -60,7 +60,5 @@ if [ ! -z  "$(ls -A $working_dir)" ]; then
 fi
 
 # put a json file which initializes the map view
-if [ $# -gt 0 ];then
-   iiab-maps-finish.py $landing_url
-fi
+iiab-maps-finish.py $landing_url
 
