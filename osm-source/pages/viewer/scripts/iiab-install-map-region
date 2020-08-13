@@ -19,7 +19,7 @@ if [ $# -eq 0 ]; then
       echo "Download of $fn failed. Please retry download command"
       exit 1
    fi
-   landing_url=$source_url/$PLANET/$PLANET
+   landing_url=$SAN_JOSE
 else
    TILESET=$1
    PROGRESS="--progress=dot:giga"
