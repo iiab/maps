@@ -142,7 +142,7 @@ var map = new Map({
     scaleLineControl
   ]),
   view: new View({
-    center: fromLonLat([-122, 37.35]),
+    center: fromLonLat([lon, lat]),
     maxZoom: 19,
     zoom: 11
   })

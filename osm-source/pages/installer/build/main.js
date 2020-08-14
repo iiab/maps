@@ -137,8 +137,8 @@ initMap();
 //window.$ = window.jQuery = require('jquery');
 var show = {};
 var mapData = "/admin/map";
-var zoom = 3;
-var lat = 37;
+var zoom = 2;
+var lat = 20;
 var lon = -122;
 var radius = 50;
 var boxcoords = [[[0,0],[0,1],[1,1],[1,0],[0,0]]];
@@ -294,7 +294,7 @@ var map = new ol_Map__WEBPACK_IMPORTED_MODULE_2__[/* default */ "a"]({ target: '
   layers: [detail,boxLayer,satLayer,pointerLayer],
   //layers: [satLayer],
   view: new ol_View__WEBPACK_IMPORTED_MODULE_9__[/* default */ "a"]({
-    center: Object(ol_proj__WEBPACK_IMPORTED_MODULE_10__[/* fromLonLat */ "d"])([-122.24,37.45]),
+    center: Object(ol_proj__WEBPACK_IMPORTED_MODULE_10__[/* fromLonLat */ "d"])([lon,lat]),
     zoom: 2
   })
 }); //end of new Map

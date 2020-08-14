@@ -685,7 +685,7 @@ var map = new ol_Map__WEBPACK_IMPORTED_MODULE_1__[/* default */ "a"]({
     scaleLineControl
   ]),
   view: new ol_View__WEBPACK_IMPORTED_MODULE_2__[/* default */ "a"]({
-    center: Object(ol_proj__WEBPACK_IMPORTED_MODULE_4__[/* fromLonLat */ "d"])([-122, 37.35]),
+    center: Object(ol_proj__WEBPACK_IMPORTED_MODULE_4__[/* fromLonLat */ "d"])([lon, lat]),
     maxZoom: 19,
     zoom: 11
   })

@@ -1,6 +1,0 @@
-#!/bin/bash -x
-# define aliases for working with splash source is inputs for webpack, parcel-bundler
-
-alias put='/bin/cp -f ./main.js ../../osm-source/regional-base/main.js;/bin/cp -f ./index.html ../../osm-source/regional-base/index.html'
-alias get='/bin/cp -f ../../osm-source/regional-base/index.html ./index.html;/bin/cp -f ../../osm-source/regional-base/main.js ./main.js'
-alias dif='vimdiff ../../osm-source/regional-base/main.js ./main.js'
