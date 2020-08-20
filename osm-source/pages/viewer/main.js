@@ -18,7 +18,7 @@ import MVT from 'ol/format/MVT';
 import Collection from 'ol/Collection';
 import LayerGroup from 'ol/layer/Group';
 import stylefunction from 'ol-mapbox-style/dist/stylefunction';
-import {defaults as defaultControls, ScaleLine} from 'ol/control.js';
+import {defaults as defaultControls, ScaleLine, Control} from 'ol/control.js';
 import Attribution from 'ol/control/Attribution';
 import {GPX, GeoJSON, IGC, KML, TopoJSON} from 'ol/format';
 import {Style, Fill, Stroke, Circle, Icon, Text} from 'ol/style';
@@ -136,7 +136,7 @@ var permaRef = getQueryVariable('perma_ref');
     }
   })
 
-var map = new Map({ 
+var  map = new Map({ 
   target: 'map-container',
   controls: defaultControls({attribution: true}).extend([
     scaleLineControl
@@ -148,6 +148,8 @@ var map = new Map({
   })
   //overlays: [overlay]
 }); //end of new Map
+// iOS lets div ids (map) shadow javascript variables (map), so disambiguate!
+window.map = map;
 
 // The Satellite layer needs to go down first with OSM data on top
 for(var mbt in tiledata){
@@ -577,6 +579,46 @@ var overlay = new Overlay({
   }
 });
 map.addOverlay(overlay);
+
+// long press for iOS
+// https://github.com/jonataswalker/ol-contextmenu/issues/128
+var timer, touch_x, touch_y;
+var touchduration = 500;
+var threshold = 9;
+
+var touchstart = (e) => {
+	timer = setTimeout(() => {
+		if((!touch_x && !touch_y ) ||
+		   (Math.abs(touch_x - e.changedTouches[0].clientX) <= threshold &&
+			Math.abs(touch_y - e.changedTouches[0].clientY) <= threshold ))
+				onlongtouch(e)
+	}, touchduration); 
+};
+
+var touchmove = (e) => {
+	touch_x = e.changedTouches[0].clientX;
+	touch_y = e.changedTouches[0].clientY;
+};
+
+var touchend = () => {
+	if (timer){
+		clearTimeout(timer);
+		touch_x = touch_y = undefined;
+	}
+};
+
+var onlongtouch = (e) => { 
+	let ev = new MouseEvent('contextmenu', {
+		clientX: e.changedTouches[0].clientX,
+		clientY: e.changedTouches[0].clientY,
+	});
+	window.map.getViewport().dispatchEvent(ev);
+	e.preventDefault();
+};
+
+window.map.getViewport().addEventListener("touchstart", touchstart, false);
+window.map.getViewport().addEventListener("touchend", touchend, false);
+window.map.getViewport().addEventListener("touchmove", touchmove, false);
 
 function popUp(obj) {
   dataPlace = obj;
