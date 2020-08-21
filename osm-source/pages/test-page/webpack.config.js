@@ -6,7 +6,7 @@ module.exports = {
   entry: './main.js',
   output: {
     path: '/opt/iiab/maps/osm-source/pages/test-page/build',
-    filename: 'main.js'
+    filename: 'test-page-bundle.js'
   },
  mode: 'development',
  optimization: {
