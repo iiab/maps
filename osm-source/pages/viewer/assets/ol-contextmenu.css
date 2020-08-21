@@ -1,8 +1,8 @@
 
   /*!
-  * ol-contextmenu - v4.0.0
+  * ol-contextmenu - v4.1.0
   * https://github.com/jonataswalker/ol-contextmenu
-  * Built: Wed Nov 20 2019 13:29:37 GMT-0300 (Brasilia Standard Time)
+  * Built: Sat Aug 15 2020 10:43:26 GMT-0300 (Brasilia Standard Time)
   */
 .ol-ctx-menu-container {
   position: absolute;
@@ -33,7 +33,6 @@
 .ol-ctx-menu-container.ol-ctx-menu-hidden {
   opacity: 0;
   visibility: hidden;
-  -webkit-transition: visibility 0s linear 300ms, opacity 300ms;
   transition: visibility 0s linear 300ms, opacity 300ms;
 }
 .ol-ctx-menu-container ul {
@@ -55,14 +54,12 @@
   top: 0;
   opacity: 0;
   visibility: hidden;
-  -webkit-transition: visibility 0s linear 300ms, opacity 300ms;
   transition: visibility 0s linear 300ms, opacity 300ms;
 }
 .ol-ctx-menu-container li.ol-ctx-menu-submenu:hover .ol-ctx-menu-container {
   opacity: 1;
   visibility: visible;
-  -webkit-transition-delay: 0s;
-          transition-delay: 0s;
+  transition-delay: 0s;
 }
 .ol-ctx-menu-container li.ol-ctx-menu-submenu::after {
   position: absolute;
@@ -74,8 +71,7 @@
   height: 0.6em;
   border-right: 0.3em solid #222;
   border-top: 0.3em solid #222;
-  -webkit-transform: rotate(45deg);
-          transform: rotate(45deg);
+  transform: rotate(45deg);
 }
 .ol-ctx-menu-container li.ol-ctx-menu-submenu:hover::after {
   border-color: #eee;
@@ -86,7 +82,6 @@
 .ol-ctx-menu-container li.ol-ctx-menu-separator hr {
   border: 0;
   height: 1px;
-  background-image: -webkit-gradient(linear, right top, left top, from(rgba(0, 0, 0, 0)), color-stop(rgba(0, 0, 0, 0.75)), to(rgba(0, 0, 0, 0)));
   background-image: linear-gradient(to left, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0));
 }
 

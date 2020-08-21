@@ -1,8 +1,5 @@
-// right click branch working towards adding points and data to maps
+// 7.2  maps
 //////////////////s1 Imports ///////////////////////////////////////////////////
-var ContextMenu = require('./assets/ol-contextmenu.js');
-//var ol = require('ol');
-// temp.js for base -- regional OSM vector tiles
 import 'ol/ol.css';
 import Map from 'ol/Map';
 import View from 'ol/View';
@@ -30,7 +27,8 @@ import {format} from 'ol/coordinate';
 //import WMTSTileGrid from 'ol/tilegrid/WMTS.js';
 import {get as getProjection} from 'ol/proj.js';
 import {getWidth, getTopLeft} from 'ol/extent.js';
-import LayerSwitcher from './assets/ol5-layerswitcher.js';
+import LayerSwitcher from 'ol-layerswitcher/dist/ol-layerswitcher.js';
+import ContextMenu from 'ol-contextmenu/dist/ol-contextmenu.js';
 import 'bootstrap';
 import 'bootstrap/dist/css/bootstrap.css';
 import MapBrowserEvent from 'ol/MapBrowserEvent'
@@ -196,7 +194,7 @@ for(var mbt in tiledata){
                url: url,
                maxZoom:10 
             }),
-            maxZoom: 11,      
+            maxZoom: 12,
             title: 'Planet to zoom 10',
             fold: true,
             visible: true,
@@ -204,11 +202,12 @@ for(var mbt in tiledata){
          }));
       } else {
          layerDict[mbt] = (new VectorTileLayer({
-            extent: detail_extent,
+            //extent: detail_extent,
             title: 'OSM ' + region,
             fold: true,
             visible: true,
             declutter: true,
+            minZoom: 11,
             source: new VectorTileSource({
                cacheSize: 0,
                format: new MVT(),
@@ -246,7 +245,7 @@ var layerArray = [];
 for(var mbt in layerDict){
    layerArray.push(layerDict[mbt]);
 }
-
+console.log('# items in layerArray: ' + layerArray.length);
 var switcher_group = new LayerGroup({
   combine: true,
   fold: 'open',
@@ -326,7 +325,7 @@ map.on("moveend", function() {
    var newZoom = map.getView().getZoom();
   if (zoom != newZoom) {
     update_overlay();
-    console.log('zoom end, new zoom: ' + newZoom);
+    //console.log('zoom end, new zoom: ' + newZoom);
     zoom = newZoom;
   }
 });
@@ -339,7 +338,7 @@ map.on("pointermove", function(evt) {
 });
 
 sat_layer.on('change:visible', function(evt) {
-   console.log("evt.oldValue:" + evt.oldValue);
+   //console.log("evt.oldValue:" + evt.oldValue);
    if ( evt.oldValue == false )
       osm_style = './assets/style-sat.json'
    else

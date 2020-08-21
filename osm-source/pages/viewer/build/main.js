@@ -107,397 +107,6 @@
 
 /***/ }),
 
-/***/ "./assets/ol-contextmenu.js":
-/*!**********************************!*\
-  !*** ./assets/ol-contextmenu.js ***!
-  \**********************************/
-/*! no static exports found */
-/*! all exports used */
-/***/ (function(module, exports, __webpack_require__) {
-
-/*!
-  * ol-contextmenu - v4.0.0
-  * https://github.com/jonataswalker/ol-contextmenu
-  * Built: Wed Nov 20 2019 13:29:37 GMT-0300 (Brasilia Standard Time)
-  */
-!function(t,e){ true?module.exports=e(__webpack_require__(/*! ol/control/Control */ "./node_modules/ol/control/Control.js")):undefined}(this,(function(t){"use strict";t=t&&t.hasOwnProperty("default")?t.default:t;var e="ol-ctx-menu",n={namespace:e,container:e+"-container",separator:e+"-separator",submenu:e+"-submenu",hidden:e+"-hidden",icon:e+"-icon",zoomIn:e+"-zoom-in",zoomOut:e+"-zoom-out",unselectable:"ol-unselectable"},i=n,o="beforeopen",s="open",r="close",a="contextmenu",l={width:150,scrollAt:4,eventType:a,defaultItems:!0},c=[{text:"Zoom In",classname:n.zoomIn+" "+n.icon,callback:function(t,e){var n=e.getView();n.animate({zoom:+n.getZoom()+1,duration:700,center:t.coordinate})}},{text:"Zoom Out",classname:n.zoomOut+" "+n.icon,callback:function(t,e){var n=e.getView();n.animate({zoom:+n.getZoom()-1,duration:700,center:t.coordinate})}}];function h(t,e){if(void 0===e&&(e="Assertion failed"),!t){if("undefined"!=typeof Error)throw new Error(e);throw e}}function p(t){return/^\d+$/.test(t)}function u(t,e){return t.classList?t.classList.contains(e):y(e).test(t.className)}function d(t,e,n){void 0===e&&(e=window.document);var i=Array.prototype.slice,o=[];if(/^(#?[\w-]+|\.[\w-.]+)$/.test(t))switch(t[0]){case"#":o=[m(t.substr(1))];break;case".":o=i.call(e.getElementsByClassName(t.substr(1).replace(/\./g," ")));break;default:o=i.call(e.getElementsByTagName(t))}else o=i.call(e.querySelectorAll(t));return n?o:o[0]}function m(t){return t="#"===t[0]?t.substr(1,t.length):t,document.getElementById(t)}function f(t){var e=document.createDocumentFragment(),n=document.createElement("div");for(n.innerHTML=t;n.firstChild;)e.appendChild(n.firstChild);return e}function y(t){return new RegExp("(^|\\s+) "+t+" (\\s+|$)")}function v(t,e,n){t.classList?t.classList.add(e):t.className=(t.className+" "+e).trim(),n&&p(n)&&window.setTimeout((function(){return g(t,e)}),n)}function g(t,e,n){t.classList?t.classList.remove(e):t.className=t.className.replace(y(e)," ").trim(),n&&p(n)&&window.setTimeout((function(){return v(t,e)}),n)}var b=function(t){return this.Base=t,this.map=void 0,this.viewport=void 0,this.coordinateClicked=void 0,this.pixelClicked=void 0,this.lineHeight=0,this.items={},this.opened=!1,this.submenu={left:t.options.width-15+"px",lastLeft:""},this.eventHandler=this.handleEvent.bind(this),this};b.prototype.init=function(t){this.map=t,this.viewport=t.getViewport(),this.setListeners(),this.Base.Html.createMenu(),this.lineHeight=this.getItemsLength()>0?this.Base.container.offsetHeight/this.getItemsLength():this.Base.Html.cloneAndGetLineHeight()},b.prototype.getItemsLength=function(){var t=this,e=0;return Object.keys(this.items).forEach((function(n){t.items[n].submenu||t.items[n].separator||e++})),e},b.prototype.getPixelClicked=function(){return this.pixelClicked},b.prototype.getCoordinateClicked=function(){return this.coordinateClicked},b.prototype.positionContainer=function(t){var e=this,n=this.Base.container,o=this.map.getSize(),s=o[1]-t[1],r=o[0]-t[0],a=n.offsetWidth,l=Math.round(this.lineHeight*this.getItemsLength()),c=d("li."+i.submenu+">div",n,!0);r>=a?(n.style.right="auto",n.style.left=t[0]+5+"px"):(n.style.left="auto",n.style.right="15px"),s>=l?(n.style.bottom="auto",n.style.top=t[1]-10+"px"):(n.style.top="auto",n.style.bottom=0),function t(e,n,i){if(Array.isArray(e))e.forEach((function(e){return t(e,n,i)}));else for(var o=Array.isArray(n)?n:n.split(/\s+/),s=o.length;s--;)u(e,o[s])&&g(e,o[s],i)}(n,i.hidden),c.length&&(this.submenu.lastLeft=r<2*a?"-"+a+"px":this.submenu.left,c.forEach((function(t){var n,i,o,r={w:window.innerWidth||document.documentElement.clientWidth,h:window.innerHeight||document.documentElement.clientHeight},a=(i=(n=t).getBoundingClientRect(),o=document.documentElement,{left:i.left+window.pageXOffset-o.clientLeft,top:i.top+window.pageYOffset-o.clientTop,width:n.offsetWidth,height:n.offsetHeight}),l=a.height,c=s-l;c<0&&(c=l-(r.h-a.top),t.style.top="-"+c+"px"),t.style.left=e.submenu.lastLeft})))},b.prototype.openMenu=function(t,e){this.Base.dispatchEvent({type:s,pixel:t,coordinate:e}),this.opened=!0,this.positionContainer(t)},b.prototype.closeMenu=function(){this.opened=!1,function t(e,n,i){if(Array.isArray(e))e.forEach((function(e){return t(e,n)}));else for(var o=Array.isArray(n)?n:n.split(/\s+/),s=o.length;s--;)u(e,o[s])||v(e,o[s],i)}(this.Base.container,i.hidden),this.Base.dispatchEvent({type:r})},b.prototype.setListeners=function(){this.viewport.addEventListener(this.Base.options.eventType,this.eventHandler,!1)},b.prototype.removeListeners=function(){this.viewport.removeEventListener(this.Base.options.eventType,this.eventHandler,!1)},b.prototype.handleEvent=function(t){var e=this;this.coordinateClicked=this.map.getEventCoordinate(t),this.pixelClicked=this.map.getEventPixel(t),this.Base.dispatchEvent({type:o,pixel:this.pixelClicked,coordinate:this.coordinateClicked}),this.Base.disabled||(this.Base.options.eventType===a&&(t.stopPropagation(),t.preventDefault()),this.openMenu(this.pixelClicked,this.coordinateClicked),t.target.addEventListener("click",{handleEvent:function(n){e.closeMenu(),t.target.removeEventListener(n.type,this,!1)}},!1))},b.prototype.setItemListener=function(t,e){var n,i=this;t&&"function"==typeof this.items[e].callback&&(n=this.items[e].callback,t.addEventListener("click",(function(t){t.preventDefault();var o={coordinate:i.getCoordinateClicked(),data:i.items[e].data||null};i.closeMenu(),n(o,i.map)}),!1))};var C=function(t){return this.Base=t,this.Base.container=this.container=this.createContainer(!0),this};return C.prototype.createContainer=function(t){var e=document.createElement("div"),n=document.createElement("ul"),o=[i.container,i.unselectable];return t&&o.push(i.hidden),e.className=o.join(" "),e.style.width=parseInt(this.Base.options.width,10)+"px",e.appendChild(n),e},C.prototype.createMenu=function(){var t=[];if("items"in this.Base.options?t=this.Base.options.defaultItems?this.Base.options.items.concat(c):this.Base.options.items:this.Base.options.defaultItems&&(t=c),0===t.length)return!1;t.forEach(this.addMenuEntry,this)},C.prototype.addMenuEntry=function(t){var e,n=this;if(t.items&&Array.isArray(t.items)){t.classname=t.classname||"",e=i.submenu,~t.classname.indexOf(e)||(t.classname=t.classname.length?" "+i.submenu:i.submenu);var o=this.generateHtmlAndPublish(this.container,t),s=this.createContainer();s.style.left=this.Base.Internal.submenu.lastLeft||this.Base.Internal.submenu.left,o.appendChild(s),t.items.forEach((function(t){n.generateHtmlAndPublish(s,t,!0)}))}else this.generateHtmlAndPublish(this.container,t)},C.prototype.generateHtmlAndPublish=function(t,e,n){var o,s,r="_"+Math.random().toString(36).substr(2,9),a=!1;return"string"==typeof e&&"-"===e.trim()?(o=f('<li id="'+r+'" class="'+i.separator+'"><hr></li>'),s=[].slice.call(o.childNodes,0)[0],t.firstChild.appendChild(o),a=!0):(e.classname=e.classname||"",o=f("<span>"+e.text+"</span>"),s=document.createElement("li"),e.icon&&(""===e.classname?e.classname=i.icon:-1===e.classname.indexOf(i.icon)&&(e.classname+=" "+i.icon),s.setAttribute("style","background-image:url("+e.icon+")")),s.id=r,s.className=e.classname,s.appendChild(o),t.firstChild.appendChild(s)),this.Base.Internal.items[r]={id:r,submenu:n||0,separator:a,callback:e.callback,data:e.data||null},this.Base.Internal.setItemListener(s,r),s},C.prototype.removeMenuEntry=function(t){var e=d("#"+t,this.container.firstChild);e&&this.container.firstChild.removeChild(e),delete this.Base.Internal.items[t]},C.prototype.cloneAndGetLineHeight=function(){var t=this.container.cloneNode(),e=f("<span>Foo</span>"),n=f("<span>Foo</span>"),i=document.createElement("li"),o=document.createElement("li");i.appendChild(e),o.appendChild(n),t.appendChild(i),t.appendChild(o),this.container.parentNode.appendChild(t);var s=t.offsetHeight/2;return this.container.parentNode.removeChild(t),s},function(t){function e(e){void 0===e&&(e={}),h("object"==typeof e,"@param `opt_options` should be object type!"),this.options=function(t,e){var n={};for(var i in t)n[i]=t[i];for(var o in e)n[o]=e[o];return n}(l,e),this.disabled=!1,this.Internal=new b(this),this.Html=new C(this),t.call(this,{element:this.container})}return t&&(e.__proto__=t),e.prototype=Object.create(t&&t.prototype),e.prototype.constructor=e,e.prototype.clear=function(){Object.keys(this.Internal.items).forEach(this.Html.removeMenuEntry,this.Html)},e.prototype.close=function(){this.Internal.closeMenu()},e.prototype.enable=function(){this.disabled=!1},e.prototype.disable=function(){this.disabled=!0},e.prototype.getDefaultItems=function(){return c},e.prototype.countItems=function(){return Object.keys(this.Internal.items).length},e.prototype.extend=function(t){h(Array.isArray(t),"@param `arr` should be an Array."),t.forEach(this.push,this)},e.prototype.isOpen=function(){return this.Internal.opened},e.prototype.updatePosition=function(t){h(Array.isArray(t),"@param `pixel` should be an Array."),this.isOpen()&&this.Internal.positionContainer(t)},e.prototype.pop=function(){var t=Object.keys(this.Internal.items);this.Html.removeMenuEntry(t[t.length-1])},e.prototype.push=function(t){h(null!=t,"@param `item` must be informed."),this.Html.addMenuEntry(t)},e.prototype.shift=function(){this.Html.removeMenuEntry(Object.keys(this.Internal.items)[0])},e.prototype.setMap=function(e){t.prototype.setMap.call(this,e),e?this.Internal.init(e,this):this.Internal.removeListeners()},e}(t)}));
-
-
-/***/ }),
-
-/***/ "./assets/ol5-layerswitcher.js":
-/*!*************************************!*\
-  !*** ./assets/ol5-layerswitcher.js ***!
-  \*************************************/
-/*! exports provided: default */
-/*! exports used: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return LayerSwitcher; });
-/* harmony import */ var ol_control_Control__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ol/control/Control */ "./node_modules/ol/control/Control.js");
-/* harmony import */ var ol_Observable__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ol/Observable */ "./node_modules/ol/Observable.js");
-
-
-
-var CSS_PREFIX = 'layer-switcher-';
-
-/**
- * OpenLayers Layer Switcher Control.
- * See [the examples](./examples) for usage.
- * @constructor
- * @extends {ol.control.Control}
- * @param {Object} opt_options Control options, extends olx.control.ControlOptions adding:  
- * **`tipLabel`** `String` - the button tooltip.
- */
-class LayerSwitcher extends ol_control_Control__WEBPACK_IMPORTED_MODULE_0__["default"] {
-
-    constructor(opt_options) {
-
-        var options = opt_options || {};
-
-        var tipLabel = options.tipLabel ?
-            options.tipLabel : 'Legend';
-
-        var element = document.createElement('div');
-
-        super({element: element, target: options.target});
-
-        this.mapListeners = [];
-
-        this.hiddenClassName = 'ol-unselectable ol-control layer-switcher';
-        if (LayerSwitcher.isTouchDevice_()) {
-            this.hiddenClassName += ' touch';
-        }
-        this.shownClassName = 'shown';
-
-        element.className = this.hiddenClassName;
-
-        var button = document.createElement('button');
-        button.setAttribute('title', tipLabel);
-        element.appendChild(button);
-
-        this.panel = document.createElement('div');
-        this.panel.className = 'panel';
-        element.appendChild(this.panel);
-        LayerSwitcher.enableTouchScroll_(this.panel);
-        this.onOpacityChange = options.onOpacityChange || null;
-        this.onLayerToggle = options.onLayerToggle || null;
-        var this_ = this;
-
-        button.onmouseover = function(e) {
-            this_.showPanel();
-        };
-
-        button.onclick = function(e) {
-            e = e || window.event;
-            this_.showPanel();
-            e.preventDefault();
-        };
-
-        this_.panel.onmouseout = function(e) {
-            e = e || window.event;
-            if (!this_.panel.contains(e.toElement || e.relatedTarget)) {
-                this_.hidePanel();
-            }
-        };
-
-    }
-
-    /**
-    * Set the map instance the control is associated with.
-    * @param {ol.Map} map The map instance.
-    */
-    setMap(map) {
-        // Clean up listeners associated with the previous map
-        for (var i = 0, key; i < this.mapListeners.length; i++) {
-            ol_Observable__WEBPACK_IMPORTED_MODULE_1__[/* default */ "a"].unByKey(this.mapListeners[i]);
-        }
-        this.mapListeners.length = 0;
-        // Wire up listeners etc. and store reference to new map
-        super.setMap(map);
-        if (map) {
-            var this_ = this;
-            this.mapListeners.push(map.on('pointerdown', function() {
-                this_.hidePanel();
-            }));
-            this.renderPanel();
-        }
-    }
-
-    /**
-    * Show the layer panel.
-    */
-    showPanel() {
-        if (!this.element.classList.contains(this.shownClassName)) {
-            this.element.classList.add(this.shownClassName);
-            this.renderPanel();
-        }
-    }
-
-    /**
-    * Hide the layer panel.
-    */
-    hidePanel() {
-        if (this.element.classList.contains(this.shownClassName)) {
-            this.element.classList.remove(this.shownClassName);
-        }
-    }
-
-    /**
-    * Re-draw the layer panel to represent the current state of the layers.
-    */
-    renderPanel() {
-        LayerSwitcher.renderPanel(this.getMap(), this.panel);
-    }
-
-    /**
-    * **Static** Re-draw the layer panel to represent the current state of the layers.
-    * @param {ol.Map} map The OpenLayers Map instance to render layers for
-    * @param {Element} panel The DOM Element into which the layer tree will be rendered
-    */
-    static renderPanel(map, panel) {
-
-        LayerSwitcher.ensureTopVisibleBaseLayerShown_(map);
-
-        while(panel.firstChild) {
-            panel.removeChild(panel.firstChild);
-        }
-
-        var ul = document.createElement('ul');
-        panel.appendChild(ul);
-        // passing two map arguments instead of lyr as we're passing the map as the root of the layers tree
-        LayerSwitcher.renderLayers_(map, map, ul);
-
-    }
-
-    /**
-    * **Static** Ensure only the top-most base layer is visible if more than one is visible.
-    * @param {ol.Map} map The map instance.
-    * @private
-    */
-    static ensureTopVisibleBaseLayerShown_(map) {
-        var lastVisibleBaseLyr;
-        LayerSwitcher.forEachRecursive(map, function(l, idx, a) {
-            if (l.get('type') === 'base' && l.getVisible()) {
-                lastVisibleBaseLyr = l;
-            }
-        });
-        if (lastVisibleBaseLyr) LayerSwitcher.setVisible_(map, lastVisibleBaseLyr, true);
-    }
-
-    /**
-    * **Static** Toggle the visible state of a layer.
-    * Takes care of hiding other layers in the same exclusive group if the layer
-    * is toggle to visible.
-    * @private
-    * @param {ol.Map} map The map instance.
-    * @param {ol.layer.Base} The layer whos visibility will be toggled.
-    */
-    static setVisible_(map, lyr, visible) {
-        lyr.setVisible(visible);
-        if (visible && lyr.get('type') === 'base') {
-            // Hide all other base layers regardless of grouping
-            LayerSwitcher.forEachRecursive(map, function(l, idx, a) {
-                if (l != lyr && l.get('type') === 'base') {
-                    l.setVisible(false);
-                }
-            });
-        }
-    }
-
-    /**
-    * **Static** Render all layers that are children of a group.
-    * @private
-    * @param {ol.Map} map The map instance.
-    * @param {ol.layer.Base} lyr Layer to be rendered (should have a title property).
-    * @param {Number} idx Position in parent group list.
-    */
-    static renderLayer_(map, lyr, idx) {
-
-        var li = document.createElement('li');
-
-        var lyrTitle = lyr.get('title');
-        var lyrId = LayerSwitcher.uuid();
-
-        var label = document.createElement('label');
-
-        if (lyr.getLayers && !lyr.get('combine')) {
-
-            li.className = 'group';
-
-            // Group folding
-            if (lyr.get('fold')) {
-              li.classList.add(CSS_PREFIX + 'fold');
-              li.classList.add(CSS_PREFIX + lyr.get('fold'));
-              label.onclick = function (e) {
-                LayerSwitcher.toggleFold_(lyr, li);
-              };
-            }
-
-            label.innerHTML = lyrTitle;
-            li.appendChild(label);
-            var ul = document.createElement('ul');
-            li.appendChild(ul);
-
-            LayerSwitcher.renderLayers_(map, lyr, ul);
-
-        } else {
-
-            li.className = 'layer';
-            var container = document.createElement('div'),
-              input = document.createElement('input'),
-              input_o = document.createElement('input');
-            if (lyr.get('type') === 'base') {
-                input.type = 'radio';
-                input.name = 'base';
-            } else {
-                input.type = 'checkbox';
-            }
-            input.id = lyrId;
-            input.checked = lyr.get('visible');
-            input.onchange = function(e) {
-                LayerSwitcher.setVisible_(map, lyr, e.target.checked);
-            };
-            container.appendChild(input);
-
-            label.htmlFor = lyrId;
-            label.innerHTML = lyrTitle;
-
-            var rsl = map.getView().getResolution();
-            if (rsl > lyr.getMaxResolution() || rsl < lyr.getMinResolution()){
-                label.className += ' disabled';
-            }
-
-            container.appendChild(label);
-            if (lyr.get('enableOpacitySliders')) {
-                input_o.type = 'range';
-                input_o.className = 'opacity';
-                input_o.min = 0;
-                input_o.max = 1;
-                input_o.step = 0.01;
-                input_o.value = lyr.getOpacity();
-                input_o.onchange = function (e) {
-                    lyr.setOpacity(e.target.value);
-
-                    if (this_.onOpacityChange !== null && typeof this_.onOpacityChange === "function") {
-                        this_.onOpacityChange(e.target.value, lyr);
-                    }
-
-                };
-                container.appendChild(input_o);
-            }
-            li.appendChild(container);
-            if (lyr.get('legend')) {
-                var legend = document.createElement('div');
-                legend.className = 'legend';
-                legend.innerHTML = lyrOpt.legend;
-                li.appendChild(lyr.get('legend'));
-            }
-
-
-        }
-
-        return li;
-
-    }
-
-    /**
-    * **Static** Render all layers that are children of a group.
-    * @private
-    * @param {ol.Map} map The map instance.
-    * @param {ol.layer.Group} lyr Group layer whos children will be rendered.
-    * @param {Element} elm DOM element that children will be appended to.
-    */
-    static renderLayers_(map, lyr, elm) {
-        var lyrs = lyr.getLayers().getArray().slice().reverse();
-        for (var i = 0, l; i < lyrs.length; i++) {
-            l = lyrs[i];
-            if (l.get('title')) {
-                elm.appendChild(LayerSwitcher.renderLayer_(map, l, i));
-            }
-        }
-    }
-
-    /**
-    * **Static** Call the supplied function for each layer in the passed layer group
-    * recursing nested groups.
-    * @param {ol.layer.Group} lyr The layer group to start iterating from.
-    * @param {Function} fn Callback which will be called for each `ol.layer.Base`
-    * found under `lyr`. The signature for `fn` is the same as `ol.Collection#forEach`
-    */
-    static forEachRecursive(lyr, fn) {
-        lyr.getLayers().forEach(function(lyr, idx, a) {
-            fn(lyr, idx, a);
-            if (lyr.getLayers) {
-                LayerSwitcher.forEachRecursive(lyr, fn);
-            }
-        });
-    }
-
-    /**
-    * **Static** Generate a UUID  
-    * Adapted from http://stackoverflow.com/a/2117523/526860
-    * @returns {String} UUID
-    */
-    static uuid() {
-        return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
-            var r = Math.random()*16|0, v = c == 'x' ? r : (r&0x3|0x8);
-            return v.toString(16);
-        });
-    }
-
-    /**
-    * @private
-    * @desc Apply workaround to enable scrolling of overflowing content within an
-    * element. Adapted from https://gist.github.com/chrismbarr/4107472
-    */
-    static enableTouchScroll_(elm) {
-        if(LayerSwitcher.isTouchDevice_()){
-            var scrollStartPos = 0;
-            elm.addEventListener("touchstart", function(event) {
-                scrollStartPos = this.scrollTop + event.touches[0].pageY;
-            }, false);
-            elm.addEventListener("touchmove", function(event) {
-                this.scrollTop = scrollStartPos - event.touches[0].pageY;
-            }, false);
-        }
-    }
-
-    /**
-    * @private
-    * @desc Determine if the current browser supports touch events. Adapted from
-    * https://gist.github.com/chrismbarr/4107472
-    */
-    static isTouchDevice_() {
-        try {
-            document.createEvent("TouchEvent");
-            return true;
-        } catch(e) {
-            return false;
-        }
-    }
-
-    /**
-    * Fold/unfold layer group
-    */
-    static toggleFold_(lyr, li) {
-        li.classList.remove(CSS_PREFIX + lyr.get('fold'));
-        lyr.set('fold', (lyr.get('fold')==='open') ? 'close' : 'open');
-        li.classList.add(CSS_PREFIX + lyr.get('fold'));
-    }
-
-}
-
-
-// Expose LayerSwitcher as ol.control.LayerSwitcher if using a full build of
-// OpenLayers
-if (window.ol && window.ol.control) {
-    window.ol.control.LayerSwitcher = LayerSwitcher;
-}
-
-/***/ }),
-
 /***/ "./main.js":
 /*!*****************!*\
   !*** ./main.js ***!
@@ -532,20 +141,20 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var ol_Feature__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! ol/Feature */ "./node_modules/ol/Feature.js");
 /* harmony import */ var ol_coordinate__WEBPACK_IMPORTED_MODULE_21__ = __webpack_require__(/*! ol/coordinate */ "./node_modules/ol/coordinate.js");
 /* harmony import */ var ol_extent_js__WEBPACK_IMPORTED_MODULE_22__ = __webpack_require__(/*! ol/extent.js */ "./node_modules/ol/extent.js");
-/* harmony import */ var _assets_ol5_layerswitcher_js__WEBPACK_IMPORTED_MODULE_23__ = __webpack_require__(/*! ./assets/ol5-layerswitcher.js */ "./assets/ol5-layerswitcher.js");
-/* harmony import */ var bootstrap__WEBPACK_IMPORTED_MODULE_24__ = __webpack_require__(/*! bootstrap */ "./node_modules/bootstrap/dist/js/bootstrap.js");
-/* harmony import */ var bootstrap__WEBPACK_IMPORTED_MODULE_24___default = /*#__PURE__*/__webpack_require__.n(bootstrap__WEBPACK_IMPORTED_MODULE_24__);
-/* harmony import */ var bootstrap_dist_css_bootstrap_css__WEBPACK_IMPORTED_MODULE_25__ = __webpack_require__(/*! bootstrap/dist/css/bootstrap.css */ "./node_modules/bootstrap/dist/css/bootstrap.css");
-/* harmony import */ var bootstrap_dist_css_bootstrap_css__WEBPACK_IMPORTED_MODULE_25___default = /*#__PURE__*/__webpack_require__.n(bootstrap_dist_css_bootstrap_css__WEBPACK_IMPORTED_MODULE_25__);
-/* harmony import */ var ol_MapBrowserEvent__WEBPACK_IMPORTED_MODULE_26__ = __webpack_require__(/*! ol/MapBrowserEvent */ "./node_modules/ol/MapBrowserEvent.js");
-/* harmony import */ var ol_interaction_DragAndDrop__WEBPACK_IMPORTED_MODULE_27__ = __webpack_require__(/*! ol/interaction/DragAndDrop */ "./node_modules/ol/interaction/DragAndDrop.js");
-/* harmony import */ var ol_hashed__WEBPACK_IMPORTED_MODULE_28__ = __webpack_require__(/*! ol-hashed */ "./node_modules/ol-hashed/index.js");
-/* harmony import */ var ol_Overlay__WEBPACK_IMPORTED_MODULE_29__ = __webpack_require__(/*! ol/Overlay */ "./node_modules/ol/Overlay.js");
-// right click branch working towards adding points and data to maps
+/* harmony import */ var ol_layerswitcher_dist_ol_layerswitcher_js__WEBPACK_IMPORTED_MODULE_23__ = __webpack_require__(/*! ol-layerswitcher/dist/ol-layerswitcher.js */ "./node_modules/ol-layerswitcher/dist/ol-layerswitcher.js");
+/* harmony import */ var ol_layerswitcher_dist_ol_layerswitcher_js__WEBPACK_IMPORTED_MODULE_23___default = /*#__PURE__*/__webpack_require__.n(ol_layerswitcher_dist_ol_layerswitcher_js__WEBPACK_IMPORTED_MODULE_23__);
+/* harmony import */ var ol_contextmenu_dist_ol_contextmenu_js__WEBPACK_IMPORTED_MODULE_24__ = __webpack_require__(/*! ol-contextmenu/dist/ol-contextmenu.js */ "./node_modules/ol-contextmenu/dist/ol-contextmenu.js");
+/* harmony import */ var ol_contextmenu_dist_ol_contextmenu_js__WEBPACK_IMPORTED_MODULE_24___default = /*#__PURE__*/__webpack_require__.n(ol_contextmenu_dist_ol_contextmenu_js__WEBPACK_IMPORTED_MODULE_24__);
+/* harmony import */ var bootstrap__WEBPACK_IMPORTED_MODULE_25__ = __webpack_require__(/*! bootstrap */ "./node_modules/bootstrap/dist/js/bootstrap.js");
+/* harmony import */ var bootstrap__WEBPACK_IMPORTED_MODULE_25___default = /*#__PURE__*/__webpack_require__.n(bootstrap__WEBPACK_IMPORTED_MODULE_25__);
+/* harmony import */ var bootstrap_dist_css_bootstrap_css__WEBPACK_IMPORTED_MODULE_26__ = __webpack_require__(/*! bootstrap/dist/css/bootstrap.css */ "./node_modules/bootstrap/dist/css/bootstrap.css");
+/* harmony import */ var bootstrap_dist_css_bootstrap_css__WEBPACK_IMPORTED_MODULE_26___default = /*#__PURE__*/__webpack_require__.n(bootstrap_dist_css_bootstrap_css__WEBPACK_IMPORTED_MODULE_26__);
+/* harmony import */ var ol_MapBrowserEvent__WEBPACK_IMPORTED_MODULE_27__ = __webpack_require__(/*! ol/MapBrowserEvent */ "./node_modules/ol/MapBrowserEvent.js");
+/* harmony import */ var ol_interaction_DragAndDrop__WEBPACK_IMPORTED_MODULE_28__ = __webpack_require__(/*! ol/interaction/DragAndDrop */ "./node_modules/ol/interaction/DragAndDrop.js");
+/* harmony import */ var ol_hashed__WEBPACK_IMPORTED_MODULE_29__ = __webpack_require__(/*! ol-hashed */ "./node_modules/ol-hashed/index.js");
+/* harmony import */ var ol_Overlay__WEBPACK_IMPORTED_MODULE_30__ = __webpack_require__(/*! ol/Overlay */ "./node_modules/ol/Overlay.js");
+// 7.2  maps
 //////////////////s1 Imports ///////////////////////////////////////////////////
-var ContextMenu = __webpack_require__(/*! ./assets/ol-contextmenu.js */ "./assets/ol-contextmenu.js");
-//var ol = require('ol');
-// temp.js for base -- regional OSM vector tiles
 
 
 
@@ -571,6 +180,7 @@ var ContextMenu = __webpack_require__(/*! ./assets/ol-contextmenu.js */ "./asset
 //import WMTSCapabilities from 'ol/format/WMTSCapabilities.js';
 //import WMTS,{optionsFromCapabilities} from 'ol/source/WMTS.js';
 //import WMTSTileGrid from 'ol/tilegrid/WMTS.js';
+
 
 
 
@@ -691,6 +301,7 @@ var  map = new ol_Map__WEBPACK_IMPORTED_MODULE_1__[/* default */ "a"]({
   })
   //overlays: [overlay]
 }); //end of new Map
+// iOS lets div ids (map) shadow javascript variables (map), so disambiguate!
 window.map = map;
 
 // The Satellite layer needs to go down first with OSM data on top
@@ -738,7 +349,7 @@ for(var mbt in tiledata){
                url: url,
                maxZoom:10 
             }),
-            maxZoom: 11,      
+            maxZoom: 12,      
             title: 'Planet to zoom 10',
             fold: true,
             visible: true,
@@ -746,11 +357,12 @@ for(var mbt in tiledata){
          }));
       } else {
          layerDict[mbt] = (new ol_layer_VectorTile__WEBPACK_IMPORTED_MODULE_7__[/* default */ "a"]({
-            extent: detail_extent,
+            //extent: detail_extent,
             title: 'OSM ' + region,
             fold: true,
             visible: true,
             declutter: true,
+            minZoom: 11,
             source: new ol_source_VectorTile__WEBPACK_IMPORTED_MODULE_8__[/* default */ "a"]({
                cacheSize: 0,
                format: new ol_format_MVT__WEBPACK_IMPORTED_MODULE_11__[/* default */ "a"](),
@@ -788,7 +400,7 @@ var layerArray = [];
 for(var mbt in layerDict){
    layerArray.push(layerDict[mbt]);
 }
-
+console.log('# items in layerArray: ' + layerArray.length);
 var switcher_group = new ol_layer_Group__WEBPACK_IMPORTED_MODULE_13__[/* default */ "a"]({
   combine: true,
   fold: 'open',
@@ -855,9 +467,9 @@ map.addLayer(drop);
 
 
 
-Object(ol_hashed__WEBPACK_IMPORTED_MODULE_28__[/* default */ "a"])(map);
+Object(ol_hashed__WEBPACK_IMPORTED_MODULE_29__[/* default */ "a"])(map);
 
-map.addInteraction(new ol_interaction_DragAndDrop__WEBPACK_IMPORTED_MODULE_27__[/* default */ "a"]({
+map.addInteraction(new ol_interaction_DragAndDrop__WEBPACK_IMPORTED_MODULE_28__[/* default */ "a"]({
   source: dropSource,
   formatConstructors: [ol_format__WEBPACK_IMPORTED_MODULE_17__[/* GPX */ "a"], ol_format__WEBPACK_IMPORTED_MODULE_17__[/* GeoJSON */ "b"], ol_format__WEBPACK_IMPORTED_MODULE_17__[/* IGC */ "c"], ol_format__WEBPACK_IMPORTED_MODULE_17__[/* KML */ "d"], ol_format__WEBPACK_IMPORTED_MODULE_17__[/* TopoJSON */ "e"]]
 }));
@@ -868,7 +480,7 @@ map.on("moveend", function() {
    var newZoom = map.getView().getZoom();
   if (zoom != newZoom) {
     update_overlay();
-    console.log('zoom end, new zoom: ' + newZoom);
+    //console.log('zoom end, new zoom: ' + newZoom);
     zoom = newZoom;
   }
 });
@@ -881,7 +493,7 @@ map.on("pointermove", function(evt) {
 });
 
 sat_layer.on('change:visible', function(evt) {
-   console.log("evt.oldValue:" + evt.oldValue);
+   //console.log("evt.oldValue:" + evt.oldValue);
    if ( evt.oldValue == false )
       osm_style = './assets/style-sat.json'
    else
@@ -946,7 +558,7 @@ function update_overlay(){
     info_overlay.innerHTML = locTxt;
 }
 
-var layerSwitcher = new _assets_ol5_layerswitcher_js__WEBPACK_IMPORTED_MODULE_23__[/* default */ "a"]({
+var layerSwitcher = new ol_layerswitcher_dist_ol_layerswitcher_js__WEBPACK_IMPORTED_MODULE_23___default.a({
   //tipLabel: 'Légende', // Optional label for button
   groupSelectStyle: 'child',
   layers:map.getLayers()
@@ -1045,7 +657,7 @@ var contextmenu_point = [
   }
 ]
 
-var contextmenu = new ContextMenu({
+var contextmenu = new ol_contextmenu_dist_ol_contextmenu_js__WEBPACK_IMPORTED_MODULE_24___default.a({
   width: 180,
   items: contextmenu_point,
 });
@@ -1113,7 +725,7 @@ var dropFeature = null;
 /**
  * Create an overlay to anchor the popup to the map.
  */
-var overlay = new ol_Overlay__WEBPACK_IMPORTED_MODULE_29__[/* default */ "a"]({
+var overlay = new ol_Overlay__WEBPACK_IMPORTED_MODULE_30__[/* default */ "a"]({
   element: container,
   autoPan: true,
   autoPanAnimation: {
@@ -35767,6 +35379,24 @@ exports.callbackify = callbackify;
 
 /***/ }),
 
+/***/ "./node_modules/ol-contextmenu/dist/ol-contextmenu.js":
+/*!************************************************************!*\
+  !*** ./node_modules/ol-contextmenu/dist/ol-contextmenu.js ***!
+  \************************************************************/
+/*! no static exports found */
+/*! exports used: default */
+/***/ (function(module, exports, __webpack_require__) {
+
+/*!
+  * ol-contextmenu - v4.1.0
+  * https://github.com/jonataswalker/ol-contextmenu
+  * Built: Sat Aug 15 2020 10:43:26 GMT-0300 (Brasilia Standard Time)
+  */
+!function(t,e){ true?module.exports=e(__webpack_require__(/*! ol/control/Control */ "./node_modules/ol/control/Control.js")):undefined}(this,(function(t){"use strict";function e(t){return t&&"object"==typeof t&&"default"in t?t:{default:t}}var n=e(t),i="ol-ctx-menu",o={namespace:i,container:i+"-container",separator:i+"-separator",submenu:i+"-submenu",hidden:i+"-hidden",icon:i+"-icon",zoomIn:i+"-zoom-in",zoomOut:i+"-zoom-out",unselectable:"ol-unselectable"},s=o,a="beforeopen",r="open",l="close",c="contextmenu",h={width:150,scrollAt:4,eventType:c,defaultItems:!0},p=[{text:"Zoom In",classname:o.zoomIn+" "+o.icon,callback:function(t,e){var n=e.getView();n.animate({zoom:+n.getZoom()+1,duration:700,center:t.coordinate})}},{text:"Zoom Out",classname:o.zoomOut+" "+o.icon,callback:function(t,e){var n=e.getView();n.animate({zoom:+n.getZoom()-1,duration:700,center:t.coordinate})}}];function u(t,e){if(void 0===e&&(e="Assertion failed"),!t){if("undefined"!=typeof Error)throw new Error(e);throw e}}function d(t){return/^\d+$/.test(t)}function m(t,e){return t.classList?t.classList.contains(e):g(e).test(t.className)}function f(t,e,n){void 0===e&&(e=window.document);var i=Array.prototype.slice,o=[];if(/^(#?[\w-]+|\.[\w-.]+)$/.test(t))switch(t[0]){case"#":o=[y(t.substr(1))];break;case".":o=i.call(e.getElementsByClassName(t.substr(1).replace(/\./g," ")));break;default:o=i.call(e.getElementsByTagName(t))}else o=i.call(e.querySelectorAll(t));return n?o:o[0]}function y(t){return t="#"===t[0]?t.substr(1,t.length):t,document.getElementById(t)}function v(t){var e=document.createDocumentFragment(),n=document.createElement("div");for(n.innerHTML=t;n.firstChild;)e.appendChild(n.firstChild);return e}function g(t){return new RegExp("(^|\\s+) "+t+" (\\s+|$)")}function b(t,e,n){t.classList?t.classList.add(e):t.className=(t.className+" "+e).trim(),n&&d(n)&&window.setTimeout((function(){return C(t,e)}),n)}function C(t,e,n){t.classList?t.classList.remove(e):t.className=t.className.replace(g(e)," ").trim(),n&&d(n)&&window.setTimeout((function(){return b(t,e)}),n)}var E=function(t){return this.Base=t,this.map=void 0,this.viewport=void 0,this.coordinateClicked=void 0,this.pixelClicked=void 0,this.lineHeight=0,this.items={},this.opened=!1,this.submenu={left:t.options.width-15+"px",lastLeft:""},this.eventHandler=this.handleEvent.bind(this),this.eventMapMoveHandler=this.handleMapMoveEvent.bind(this),this};E.prototype.init=function(t){this.map=t,this.viewport=t.getViewport(),this.setListeners(),this.Base.Html.createMenu(),this.lineHeight=this.getItemsLength()>0?this.Base.container.offsetHeight/this.getItemsLength():this.Base.Html.cloneAndGetLineHeight()},E.prototype.getItemsLength=function(){var t=this,e=0;return Object.keys(this.items).forEach((function(n){t.items[n].submenu||t.items[n].separator||e++})),e},E.prototype.getPixelClicked=function(){return this.pixelClicked},E.prototype.getCoordinateClicked=function(){return this.coordinateClicked},E.prototype.positionContainer=function(t){var e=this,n=this.Base.container,i=this.map.getSize(),o=i[1]-t[1],a=i[0]-t[0],r=n.offsetWidth,l=Math.round(this.lineHeight*this.getItemsLength()),c=f("li."+s.submenu+">div",n,!0);a>=r?(n.style.right="auto",n.style.left=t[0]+5+"px"):(n.style.left="auto",n.style.right="15px"),o>=l?(n.style.bottom="auto",n.style.top=t[1]-10+"px"):(n.style.top="auto",n.style.bottom=0),function t(e,n,i){if(Array.isArray(e))e.forEach((function(e){return t(e,n,i)}));else for(var o=Array.isArray(n)?n:n.split(/\s+/),s=o.length;s--;)m(e,o[s])&&C(e,o[s],i)}(n,s.hidden),c.length&&(this.submenu.lastLeft=a<2*r?"-"+r+"px":this.submenu.left,c.forEach((function(t){var n,i,s,a={w:window.innerWidth||document.documentElement.clientWidth,h:window.innerHeight||document.documentElement.clientHeight},r=(i=(n=t).getBoundingClientRect(),s=document.documentElement,{left:i.left+window.pageXOffset-s.clientLeft,top:i.top+window.pageYOffset-s.clientTop,width:n.offsetWidth,height:n.offsetHeight}),l=r.height,c=o-l;c<0&&(c=l-(a.h-r.top),t.style.top="-"+c+"px"),t.style.left=e.submenu.lastLeft})))},E.prototype.openMenu=function(t,e){this.Base.dispatchEvent({type:r,pixel:t,coordinate:e}),this.opened=!0,this.positionContainer(t)},E.prototype.closeMenu=function(){this.opened=!1,function t(e,n,i){if(Array.isArray(e))e.forEach((function(e){return t(e,n)}));else for(var o=Array.isArray(n)?n:n.split(/\s+/),s=o.length;s--;)m(e,o[s])||b(e,o[s],i)}(this.Base.container,s.hidden),this.Base.dispatchEvent({type:l})},E.prototype.setListeners=function(){this.viewport.addEventListener(this.Base.options.eventType,this.eventHandler,!1),this.map.on("movestart",this.eventMapMoveHandler)},E.prototype.removeListeners=function(){this.viewport.removeEventListener(this.Base.options.eventType,this.eventHandler,!1),this.map.un("movestart",this.eventMapMoveHandler)},E.prototype.handleEvent=function(t){var e=this;this.coordinateClicked=this.map.getEventCoordinate(t),this.pixelClicked=this.map.getEventPixel(t),this.Base.dispatchEvent({type:a,pixel:this.pixelClicked,coordinate:this.coordinateClicked}),this.Base.disabled||(this.Base.options.eventType===c&&(t.stopPropagation(),t.preventDefault()),this.openMenu(this.pixelClicked,this.coordinateClicked),t.target.addEventListener("pointerdown",{handleEvent:function(n){e.opened&&(e.closeMenu(),n.stopPropagation(),t.target.removeEventListener(n.type,this,!1))}},!1))},E.prototype.handleMapMoveEvent=function(t){this.closeMenu()},E.prototype.setItemListener=function(t,e){var n,i=this;t&&"function"==typeof this.items[e].callback&&(n=this.items[e].callback,t.addEventListener("click",(function(t){t.preventDefault();var o={coordinate:i.getCoordinateClicked(),data:i.items[e].data||null};i.closeMenu(),n(o,i.map)}),!1))};var w=function(t){return this.Base=t,this.Base.container=this.container=this.createContainer(!0),this};return w.prototype.createContainer=function(t){var e=document.createElement("div"),n=document.createElement("ul"),i=[s.container,s.unselectable];return t&&i.push(s.hidden),e.className=i.join(" "),e.style.width=parseInt(this.Base.options.width,10)+"px",e.appendChild(n),e},w.prototype.createMenu=function(){var t=[];if("items"in this.Base.options?t=this.Base.options.defaultItems?this.Base.options.items.concat(p):this.Base.options.items:this.Base.options.defaultItems&&(t=p),0===t.length)return!1;t.forEach(this.addMenuEntry,this)},w.prototype.addMenuEntry=function(t){var e,n=this;if(t.items&&Array.isArray(t.items)){t.classname=t.classname||"",e=s.submenu,~t.classname.indexOf(e)||(t.classname=t.classname.length?" "+s.submenu:s.submenu);var i=this.generateHtmlAndPublish(this.container,t),o=this.createContainer();o.style.left=this.Base.Internal.submenu.lastLeft||this.Base.Internal.submenu.left,i.appendChild(o),t.items.forEach((function(t){n.generateHtmlAndPublish(o,t,!0)}))}else this.generateHtmlAndPublish(this.container,t)},w.prototype.generateHtmlAndPublish=function(t,e,n){var i,o,a="_"+Math.random().toString(36).substr(2,9),r=!1;return"string"==typeof e&&"-"===e.trim()?(i=v('<li id="'+a+'" class="'+s.separator+'"><hr></li>'),o=[].slice.call(i.childNodes,0)[0],t.firstChild.appendChild(i),r=!0):(e.classname=e.classname||"",i=v("<span>"+e.text+"</span>"),o=document.createElement("li"),e.icon&&(""===e.classname?e.classname=s.icon:-1===e.classname.indexOf(s.icon)&&(e.classname+=" "+s.icon),o.setAttribute("style","background-image:url("+e.icon+")")),o.id=a,o.className=e.classname,o.appendChild(i),t.firstChild.appendChild(o)),this.Base.Internal.items[a]={id:a,submenu:n||0,separator:r,callback:e.callback,data:e.data||null},this.Base.Internal.setItemListener(o,a),o},w.prototype.removeMenuEntry=function(t){var e=f("#"+t,this.container.firstChild);e&&this.container.firstChild.removeChild(e),delete this.Base.Internal.items[t]},w.prototype.cloneAndGetLineHeight=function(){var t=this.container.cloneNode(),e=v("<span>Foo</span>"),n=v("<span>Foo</span>"),i=document.createElement("li"),o=document.createElement("li");i.appendChild(e),o.appendChild(n),t.appendChild(i),t.appendChild(o),this.container.parentNode.appendChild(t);var s=t.offsetHeight/2;return this.container.parentNode.removeChild(t),s},function(t){function e(e){void 0===e&&(e={}),u("object"==typeof e,"@param `opt_options` should be object type!"),this.options=function(t,e){var n={};for(var i in t)n[i]=t[i];for(var o in e)n[o]=e[o];return n}(h,e),this.disabled=!1,this.Internal=new E(this),this.Html=new w(this),t.call(this,{element:this.container})}return t&&(e.__proto__=t),e.prototype=Object.create(t&&t.prototype),e.prototype.constructor=e,e.prototype.clear=function(){Object.keys(this.Internal.items).forEach(this.Html.removeMenuEntry,this.Html)},e.prototype.close=function(){this.Internal.closeMenu()},e.prototype.enable=function(){this.disabled=!1},e.prototype.disable=function(){this.disabled=!0},e.prototype.getDefaultItems=function(){return p},e.prototype.countItems=function(){return Object.keys(this.Internal.items).length},e.prototype.extend=function(t){u(Array.isArray(t),"@param `arr` should be an Array."),t.forEach(this.push,this)},e.prototype.isOpen=function(){return this.Internal.opened},e.prototype.updatePosition=function(t){u(Array.isArray(t),"@param `pixel` should be an Array."),this.isOpen()&&this.Internal.positionContainer(t)},e.prototype.pop=function(){var t=Object.keys(this.Internal.items);this.Html.removeMenuEntry(t[t.length-1])},e.prototype.push=function(t){u(null!=t,"@param `item` must be informed."),this.Html.addMenuEntry(t)},e.prototype.shift=function(){this.Html.removeMenuEntry(Object.keys(this.Internal.items)[0])},e.prototype.setMap=function(e){t.prototype.setMap.call(this,e),e?this.Internal.init(e,this):this.Internal.removeListeners()},e}(n.default)}));
+
+
+/***/ }),
+
 /***/ "./node_modules/ol-hashed/index.js":
 /*!*****************************************!*\
   !*** ./node_modules/ol-hashed/index.js ***!
@@ -35892,6 +35522,679 @@ function synchronize(map, options) {
 }
 
 /* harmony default export */ __webpack_exports__["a"] = (synchronize);
+
+
+/***/ }),
+
+/***/ "./node_modules/ol-layerswitcher/dist/ol-layerswitcher.js":
+/*!****************************************************************!*\
+  !*** ./node_modules/ol-layerswitcher/dist/ol-layerswitcher.js ***!
+  \****************************************************************/
+/*! no static exports found */
+/*! exports used: default */
+/***/ (function(module, exports, __webpack_require__) {
+
+(function (global, factory) {
+	 true ? module.exports = factory(__webpack_require__(/*! ol/control/Control */ "./node_modules/ol/control/Control.js"), __webpack_require__(/*! ol/Observable */ "./node_modules/ol/Observable.js")) :
+	undefined;
+}(this, (function (Control,ol_Observable) { 'use strict';
+
+Control = 'default' in Control ? Control['default'] : Control;
+
+var classCallCheck = function (instance, Constructor) {
+  if (!(instance instanceof Constructor)) {
+    throw new TypeError("Cannot call a class as a function");
+  }
+};
+
+var createClass = function () {
+  function defineProperties(target, props) {
+    for (var i = 0; i < props.length; i++) {
+      var descriptor = props[i];
+      descriptor.enumerable = descriptor.enumerable || false;
+      descriptor.configurable = true;
+      if ("value" in descriptor) descriptor.writable = true;
+      Object.defineProperty(target, descriptor.key, descriptor);
+    }
+  }
+
+  return function (Constructor, protoProps, staticProps) {
+    if (protoProps) defineProperties(Constructor.prototype, protoProps);
+    if (staticProps) defineProperties(Constructor, staticProps);
+    return Constructor;
+  };
+}();
+
+
+
+
+
+
+
+var get = function get(object, property, receiver) {
+  if (object === null) object = Function.prototype;
+  var desc = Object.getOwnPropertyDescriptor(object, property);
+
+  if (desc === undefined) {
+    var parent = Object.getPrototypeOf(object);
+
+    if (parent === null) {
+      return undefined;
+    } else {
+      return get(parent, property, receiver);
+    }
+  } else if ("value" in desc) {
+    return desc.value;
+  } else {
+    var getter = desc.get;
+
+    if (getter === undefined) {
+      return undefined;
+    }
+
+    return getter.call(receiver);
+  }
+};
+
+var inherits = function (subClass, superClass) {
+  if (typeof superClass !== "function" && superClass !== null) {
+    throw new TypeError("Super expression must either be null or a function, not " + typeof superClass);
+  }
+
+  subClass.prototype = Object.create(superClass && superClass.prototype, {
+    constructor: {
+      value: subClass,
+      enumerable: false,
+      writable: true,
+      configurable: true
+    }
+  });
+  if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;
+};
+
+
+
+
+
+
+
+
+
+
+
+var possibleConstructorReturn = function (self, call) {
+  if (!self) {
+    throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
+  }
+
+  return call && (typeof call === "object" || typeof call === "function") ? call : self;
+};
+
+var CSS_PREFIX = 'layer-switcher-';
+
+/**
+ * OpenLayers Layer Switcher Control.
+ * See [the examples](./examples) for usage.
+ * @constructor
+ * @extends {ol/control/Control~Control}
+ * @param {Object} opt_options Control options, extends ol/control/Control~Control#options adding:
+ * @param {String} opt_options.activationMode Event to use on the button to collapse or expand the panel.
+ *   `'mouseover'` (default) the layerswitcher panel stays expanded while button or panel are hovered. 
+ *   `'click'` a click on the button toggles the layerswitcher visibility.
+ * @param {String} opt_options.collapseLabel Text label to use for the expanded layerswitcher button. E.g.:
+ *   `'»'` (default) or `'\u00BB'`, `'-'` or `'\u2212'`. Not visible if activation mode is `'mouseover'`
+ * @param {String} opt_options.label Text label to use for the collapsed layerswitcher button. E.g.:
+ *   `''` (default), `'«'` or `'\u00AB'`, `'+'`.
+ * @param {String} opt_options.tipLabel the button tooltip.
+ * @param {String} opt_options.groupSelectStyle either `'none'` - groups don't get a checkbox,
+ *   `'children'` (default) groups have a checkbox and affect child visibility or
+ *   `'group'` groups have a checkbox but do not alter child visibility (like QGIS).
+ * @param {boolean} opt_options.reverse Reverse the layer order. Defaults to true.
+ */
+
+var LayerSwitcher = function (_Control) {
+    inherits(LayerSwitcher, _Control);
+
+    function LayerSwitcher(opt_options) {
+        classCallCheck(this, LayerSwitcher);
+
+
+        var options = opt_options || {};
+
+        var tipLabel = options.tipLabel ? options.tipLabel : 'Legend';
+
+        var element = document.createElement('div');
+
+        var _this = possibleConstructorReturn(this, (LayerSwitcher.__proto__ || Object.getPrototypeOf(LayerSwitcher)).call(this, { element: element, target: options.target }));
+
+        _this.activationMode = options.activationMode || 'mouseover';
+
+        var collapseLabel = options.collapseLabel !== undefined ? options.collapseLabel : '\xBB';
+
+        var label = options.label !== undefined ? options.label : '';
+
+        _this.groupSelectStyle = LayerSwitcher.getGroupSelectStyle(options.groupSelectStyle);
+
+        _this.reverse = options.reverse !== false;
+
+        _this.mapListeners = [];
+
+        _this.hiddenClassName = 'ol-unselectable ol-control layer-switcher';
+        if (LayerSwitcher.isTouchDevice_()) {
+            _this.hiddenClassName += ' touch';
+        }
+        _this.shownClassName = 'shown';
+
+        element.className = _this.hiddenClassName;
+
+        var button = document.createElement('button');
+        button.setAttribute('title', tipLabel);
+        element.appendChild(button);
+
+        _this.panel = document.createElement('div');
+        _this.panel.className = 'panel';
+        element.appendChild(_this.panel);
+        LayerSwitcher.enableTouchScroll_(_this.panel);
+
+        var this_ = _this;
+
+        button.textContent = label;
+
+        if (_this.activationMode == 'click') {
+            element.classList.add('activationModeClick');
+            button.onclick = function (e) {
+                e = e || window.event;
+                if (this_.element.classList.contains(this_.shownClassName)) {
+                    this_.hidePanel();
+                    button.textContent = label;
+                } else {
+                    this_.showPanel();
+                    button.textContent = collapseLabel;
+                }
+                e.preventDefault();
+            };
+            return possibleConstructorReturn(_this);
+        }
+
+        button.onmouseover = function (e) {
+            this_.showPanel();
+        };
+
+        button.onclick = function (e) {
+            e = e || window.event;
+            this_.showPanel();
+            e.preventDefault();
+        };
+
+        this_.panel.onmouseout = function (e) {
+            e = e || window.event;
+            if (!this_.panel.contains(e.toElement || e.relatedTarget)) {
+                this_.hidePanel();
+            }
+        };
+
+        return _this;
+    }
+
+    /**
+    * Set the map instance the control is associated with.
+    * @param {ol/Map~Map} map The map instance.
+    */
+
+
+    createClass(LayerSwitcher, [{
+        key: 'setMap',
+        value: function setMap(map) {
+            // Clean up listeners associated with the previous map
+            for (var i = 0, key; i < this.mapListeners.length; i++) {
+                ol_Observable.unByKey(this.mapListeners[i]);
+            }
+            this.mapListeners.length = 0;
+            // Wire up listeners etc. and store reference to new map
+            get(LayerSwitcher.prototype.__proto__ || Object.getPrototypeOf(LayerSwitcher.prototype), 'setMap', this).call(this, map);
+            if (map) {
+                this.renderPanel();
+                if (this.activationMode == 'click') return;
+                var this_ = this;
+                this.mapListeners.push(map.on('pointerdown', function () {
+                    this_.hidePanel();
+                }));
+            }
+        }
+
+        /**
+        * Show the layer panel.
+        */
+
+    }, {
+        key: 'showPanel',
+        value: function showPanel() {
+            if (!this.element.classList.contains(this.shownClassName)) {
+                this.element.classList.add(this.shownClassName);
+                this.renderPanel();
+            }
+        }
+
+        /**
+        * Hide the layer panel.
+        */
+
+    }, {
+        key: 'hidePanel',
+        value: function hidePanel() {
+            if (this.element.classList.contains(this.shownClassName)) {
+                this.element.classList.remove(this.shownClassName);
+            }
+        }
+
+        /**
+        * Re-draw the layer panel to represent the current state of the layers.
+        */
+
+    }, {
+        key: 'renderPanel',
+        value: function renderPanel() {
+            this.dispatchEvent({ type: 'render' });
+            LayerSwitcher.renderPanel(this.getMap(), this.panel, { groupSelectStyle: this.groupSelectStyle, reverse: this.reverse });
+            this.dispatchEvent({ type: 'rendercomplete' });
+        }
+
+        /**
+        * **Static** Re-draw the layer panel to represent the current state of the layers.
+        * @param {ol/Map~Map} map The OpenLayers Map instance to render layers for
+        * @param {Element} panel The DOM Element into which the layer tree will be rendered
+        */
+
+    }], [{
+        key: 'renderPanel',
+        value: function renderPanel(map, panel, options) {
+            // Create the event.
+            var render_event = new Event('render');
+            // Dispatch the event.
+            panel.dispatchEvent(render_event);
+
+            options = options || {};
+
+            options.groupSelectStyle = LayerSwitcher.getGroupSelectStyle(options.groupSelectStyle);
+
+            LayerSwitcher.ensureTopVisibleBaseLayerShown_(map);
+
+            while (panel.firstChild) {
+                panel.removeChild(panel.firstChild);
+            }
+
+            // Reset indeterminate state for all layers and groups before
+            // applying based on groupSelectStyle
+            LayerSwitcher.forEachRecursive(map, function (l, idx, a) {
+                l.set('indeterminate', false);
+            });
+
+            if (options.groupSelectStyle === 'children' || options.groupSelectStyle === 'none') {
+                // Set visibile and indeterminate state of groups based on
+                // their children's visibility
+                LayerSwitcher.setGroupVisibility(map);
+            } else if (options.groupSelectStyle === 'group') {
+                // Set child indetermiate state based on their parent's visibility
+                LayerSwitcher.setChildVisibility(map);
+            }
+
+            var ul = document.createElement('ul');
+            panel.appendChild(ul);
+            // passing two map arguments instead of lyr as we're passing the map as the root of the layers tree
+            LayerSwitcher.renderLayers_(map, map, ul, options, function render(changedLyr) {
+                // console.log('render');
+                LayerSwitcher.renderPanel(map, panel, options);
+            });
+
+            // Create the event.
+            var rendercomplete_event = new Event('rendercomplete');
+            // Dispatch the event.
+            panel.dispatchEvent(rendercomplete_event);
+        }
+    }, {
+        key: 'isBaseGroup',
+        value: function isBaseGroup(lyr) {
+            var lyrs = lyr.getLayers ? lyr.getLayers().getArray() : [];
+            return lyrs.length && lyrs[0].get('type') === 'base';
+        }
+    }, {
+        key: 'setGroupVisibility',
+        value: function setGroupVisibility(map) {
+            // Get a list of groups, with the deepest first
+            var groups = LayerSwitcher.getGroupsAndLayers(map, function (l) {
+                return l.getLayers && !l.get('combine') && !LayerSwitcher.isBaseGroup(l);
+            }).reverse();
+            // console.log(groups.map(g => g.get('title')));
+            groups.forEach(function (group) {
+                // TODO Can we use getLayersArray, is it public in the esm build?
+                var descendantVisibility = group.getLayersArray().map(function (l) {
+                    var state = l.getVisible();
+                    // console.log('>', l.get('title'), state);
+                    return state;
+                });
+                // console.log(descendantVisibility);
+                if (descendantVisibility.every(function (v) {
+                    return v === true;
+                })) {
+                    group.setVisible(true);
+                    group.set('indeterminate', false);
+                } else if (descendantVisibility.every(function (v) {
+                    return v === false;
+                })) {
+                    group.setVisible(false);
+                    group.set('indeterminate', false);
+                } else {
+                    group.setVisible(true);
+                    group.set('indeterminate', true);
+                }
+            });
+        }
+    }, {
+        key: 'setChildVisibility',
+        value: function setChildVisibility(map) {
+            // console.log('setChildVisibility');
+            var groups = LayerSwitcher.getGroupsAndLayers(map, function (l) {
+                return l.getLayers && !l.get('combine') && !LayerSwitcher.isBaseGroup(l);
+            });
+            groups.forEach(function (group) {
+                // console.log(group.get('title'));
+                var groupVisible = group.getVisible();
+                var groupIndeterminate = group.get('indeterminate');
+                group.getLayers().getArray().forEach(function (l) {
+                    // console.log('>', l.get('title'));
+                    l.set('indeterminate', false);
+                    if ((!groupVisible || groupIndeterminate) && l.getVisible()) {
+                        l.set('indeterminate', true);
+                    }
+                });
+            });
+        }
+
+        /**
+        * **Static** Ensure only the top-most base layer is visible if more than one is visible.
+        * @param {ol/Map~Map} map The map instance.
+        * @private
+        */
+
+    }, {
+        key: 'ensureTopVisibleBaseLayerShown_',
+        value: function ensureTopVisibleBaseLayerShown_(map) {
+            var lastVisibleBaseLyr;
+            LayerSwitcher.forEachRecursive(map, function (l, idx, a) {
+                if (l.get('type') === 'base' && l.getVisible()) {
+                    lastVisibleBaseLyr = l;
+                }
+            });
+            if (lastVisibleBaseLyr) LayerSwitcher.setVisible_(map, lastVisibleBaseLyr, true);
+        }
+    }, {
+        key: 'getGroupsAndLayers',
+        value: function getGroupsAndLayers(lyr, filterFn) {
+            var layers = [];
+            filterFn = filterFn || function (l, idx, a) {
+                return true;
+            };
+            LayerSwitcher.forEachRecursive(lyr, function (l, idx, a) {
+                if (l.get('title')) {
+                    if (filterFn(l, idx, a)) {
+                        layers.push(l);
+                    }
+                }
+            });
+            return layers;
+        }
+
+        /**
+        * **Static** Toggle the visible state of a layer.
+        * Takes care of hiding other layers in the same exclusive group if the layer
+        * is toggle to visible.
+        * @private
+        * @param {ol/Map~Map} map The map instance.
+        * @param {ol/layer/Base~BaseLayer} The layer whose visibility will be toggled.
+        */
+
+    }, {
+        key: 'setVisible_',
+        value: function setVisible_(map, lyr, visible, groupSelectStyle) {
+            // console.log(lyr.get('title'), visible, groupSelectStyle);
+            lyr.setVisible(visible);
+            if (visible && lyr.get('type') === 'base') {
+                // Hide all other base layers regardless of grouping
+                LayerSwitcher.forEachRecursive(map, function (l, idx, a) {
+                    if (l != lyr && l.get('type') === 'base') {
+                        l.setVisible(false);
+                    }
+                });
+            }
+            if (lyr.getLayers && !lyr.get('combine') && groupSelectStyle === 'children') {
+                lyr.getLayers().forEach(function (l) {
+                    LayerSwitcher.setVisible_(map, l, lyr.getVisible(), groupSelectStyle);
+                });
+            }
+        }
+
+        /**
+        * **Static** Render all layers that are children of a group.
+        * @private
+        * @param {ol/Map~Map} map The map instance.
+        * @param {ol/layer/Base~BaseLayer} lyr Layer to be rendered (should have a title property).
+        * @param {Number} idx Position in parent group list.
+        */
+
+    }, {
+        key: 'renderLayer_',
+        value: function renderLayer_(map, lyr, idx, options, render) {
+
+            var li = document.createElement('li');
+
+            var lyrTitle = lyr.get('title');
+
+            var checkboxId = LayerSwitcher.uuid();
+
+            var label = document.createElement('label');
+
+            if (lyr.getLayers && !lyr.get('combine')) {
+
+                var isBaseGroup = LayerSwitcher.isBaseGroup(lyr);
+
+                li.classList.add('group');
+                if (isBaseGroup) {
+                    li.classList.add(CSS_PREFIX + 'base-group');
+                }
+
+                // Group folding
+                if (lyr.get('fold')) {
+                    li.classList.add(CSS_PREFIX + 'fold');
+                    li.classList.add(CSS_PREFIX + lyr.get('fold'));
+                    var btn = document.createElement('button');
+                    btn.onclick = function (e) {
+                        e = e || window.event;
+                        LayerSwitcher.toggleFold_(lyr, li);
+                        e.preventDefault();
+                    };
+                    li.appendChild(btn);
+                }
+
+                if (!isBaseGroup && options.groupSelectStyle != 'none') {
+                    var _input = document.createElement('input');
+                    _input.type = 'checkbox';
+                    _input.id = checkboxId;
+                    _input.checked = lyr.getVisible();
+                    _input.indeterminate = lyr.get('indeterminate');
+                    _input.onchange = function (e) {
+                        LayerSwitcher.setVisible_(map, lyr, e.target.checked, options.groupSelectStyle);
+                        render(lyr);
+                    };
+                    li.appendChild(_input);
+                    label.htmlFor = checkboxId;
+                }
+
+                label.innerHTML = lyrTitle;
+                li.appendChild(label);
+                var ul = document.createElement('ul');
+                li.appendChild(ul);
+
+                LayerSwitcher.renderLayers_(map, lyr, ul, options, render);
+            } else {
+
+                li.className = 'layer';
+                var input = document.createElement('input');
+                if (lyr.get('type') === 'base') {
+                    input.type = 'radio';
+                    input.name = 'base';
+                } else {
+                    input.type = 'checkbox';
+                }
+                input.id = checkboxId;
+                input.checked = lyr.get('visible');
+                input.indeterminate = lyr.get('indeterminate');
+                input.onchange = function (e) {
+                    LayerSwitcher.setVisible_(map, lyr, e.target.checked, options.groupSelectStyle);
+                    render(lyr);
+                };
+                li.appendChild(input);
+
+                label.htmlFor = checkboxId;
+                label.innerHTML = lyrTitle;
+
+                var rsl = map.getView().getResolution();
+                if (rsl > lyr.getMaxResolution() || rsl < lyr.getMinResolution()) {
+                    label.className += ' disabled';
+                }
+
+                li.appendChild(label);
+            }
+
+            return li;
+        }
+
+        /**
+        * **Static** Render all layers that are children of a group.
+        * @private
+        * @param {ol/Map~Map} map The map instance.
+        * @param {ol/layer/Group~LayerGroup} lyr Group layer whose children will be rendered.
+        * @param {Element} elm DOM element that children will be appended to.
+        */
+
+    }, {
+        key: 'renderLayers_',
+        value: function renderLayers_(map, lyr, elm, options, render) {
+            var lyrs = lyr.getLayers().getArray().slice();
+            if (options.reverse) lyrs = lyrs.reverse();
+            for (var i = 0, l; i < lyrs.length; i++) {
+                l = lyrs[i];
+                if (l.get('title')) {
+                    elm.appendChild(LayerSwitcher.renderLayer_(map, l, i, options, render));
+                }
+            }
+        }
+
+        /**
+        * **Static** Call the supplied function for each layer in the passed layer group
+        * recursing nested groups.
+        * @param {ol/layer/Group~LayerGroup} lyr The layer group to start iterating from.
+        * @param {Function} fn Callback which will be called for each `ol/layer/Base~BaseLayer`
+        * found under `lyr`. The signature for `fn` is the same as `ol/Collection~Collection#forEach`
+        */
+
+    }, {
+        key: 'forEachRecursive',
+        value: function forEachRecursive(lyr, fn) {
+            lyr.getLayers().forEach(function (lyr, idx, a) {
+                fn(lyr, idx, a);
+                if (lyr.getLayers) {
+                    LayerSwitcher.forEachRecursive(lyr, fn);
+                }
+            });
+        }
+
+        /**
+        * **Static** Generate a UUID
+        * Adapted from http://stackoverflow.com/a/2117523/526860
+        * @returns {String} UUID
+        */
+
+    }, {
+        key: 'uuid',
+        value: function uuid() {
+            return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+                var r = Math.random() * 16 | 0,
+                    v = c == 'x' ? r : r & 0x3 | 0x8;
+                return v.toString(16);
+            });
+        }
+
+        /**
+        * @private
+        * @desc Apply workaround to enable scrolling of overflowing content within an
+        * element. Adapted from https://gist.github.com/chrismbarr/4107472
+        */
+
+    }, {
+        key: 'enableTouchScroll_',
+        value: function enableTouchScroll_(elm) {
+            if (LayerSwitcher.isTouchDevice_()) {
+                var scrollStartPos = 0;
+                elm.addEventListener("touchstart", function (event) {
+                    scrollStartPos = this.scrollTop + event.touches[0].pageY;
+                }, false);
+                elm.addEventListener("touchmove", function (event) {
+                    this.scrollTop = scrollStartPos - event.touches[0].pageY;
+                }, false);
+            }
+        }
+
+        /**
+        * @private
+        * @desc Determine if the current browser supports touch events. Adapted from
+        * https://gist.github.com/chrismbarr/4107472
+        */
+
+    }, {
+        key: 'isTouchDevice_',
+        value: function isTouchDevice_() {
+            try {
+                document.createEvent("TouchEvent");
+                return true;
+            } catch (e) {
+                return false;
+            }
+        }
+
+        /**
+        * Fold/unfold layer group
+        * @private
+        */
+
+    }, {
+        key: 'toggleFold_',
+        value: function toggleFold_(lyr, li) {
+            li.classList.remove(CSS_PREFIX + lyr.get('fold'));
+            lyr.set('fold', lyr.get('fold') === 'open' ? 'close' : 'open');
+            li.classList.add(CSS_PREFIX + lyr.get('fold'));
+        }
+
+        /**
+         * If a valid groupSelectStyle value is not provided then return the default
+         * @private
+         */
+
+    }, {
+        key: 'getGroupSelectStyle',
+        value: function getGroupSelectStyle(groupSelectStyle) {
+            return ['none', 'children', 'group'].indexOf(groupSelectStyle) >= 0 ? groupSelectStyle : 'children';
+        }
+    }]);
+    return LayerSwitcher;
+}(Control);
+
+if (window.ol && window.ol.control) {
+    window.ol.control.LayerSwitcher = LayerSwitcher;
+}
+
+return LayerSwitcher;
+
+})));
 
 
 /***/ }),
@@ -39176,7 +39479,7 @@ var BaseObject = /** @class */ (function (_super) {
         }
     };
     return BaseObject;
-}(_Observable_js__WEBPACK_IMPORTED_MODULE_2__[/* default */ "a"]));
+}(_Observable_js__WEBPACK_IMPORTED_MODULE_2__["default"]));
 /**
  * @type {Object<string, string>}
  */
@@ -39227,11 +39530,12 @@ function getChangeEventType(key) {
   !*** ./node_modules/ol/Observable.js ***!
   \***************************************/
 /*! exports provided: unByKey, default */
-/*! exports used: default */
+/*! all exports used */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* unused harmony export unByKey */
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "unByKey", function() { return unByKey; });
 /* harmony import */ var _events_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./events.js */ "./node_modules/ol/events.js");
 /* harmony import */ var _events_Target_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./events/Target.js */ "./node_modules/ol/events/Target.js");
 /* harmony import */ var _events_EventType_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./events/EventType.js */ "./node_modules/ol/events/EventType.js");
@@ -39371,7 +39675,7 @@ function unByKey(key) {
         Object(_events_js__WEBPACK_IMPORTED_MODULE_0__[/* unlistenByKey */ "c"])(/** @type {import("./events.js").EventsKey} */ (key));
     }
 }
-/* harmony default export */ __webpack_exports__["a"] = (Observable);
+/* harmony default export */ __webpack_exports__["default"] = (Observable);
 //# sourceMappingURL=Observable.js.map
 
 /***/ }),
@@ -86384,7 +86688,7 @@ var LayerRenderer = /** @class */ (function (_super) {
         }
     };
     return LayerRenderer;
-}(_Observable_js__WEBPACK_IMPORTED_MODULE_2__[/* default */ "a"]));
+}(_Observable_js__WEBPACK_IMPORTED_MODULE_2__["default"]));
 /* harmony default export */ __webpack_exports__["a"] = (LayerRenderer);
 //# sourceMappingURL=Layer.js.map
 
