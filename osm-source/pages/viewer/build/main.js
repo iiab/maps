@@ -349,7 +349,7 @@ for(var mbt in tiledata){
                url: url,
                maxZoom:10 
             }),
-            maxZoom: 12,      
+            maxZoom: 12,
             title: 'Planet to zoom 10',
             fold: true,
             visible: true,
