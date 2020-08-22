@@ -1,8 +1,0 @@
-#!/bin/bash -x
-# define aliases for working with ukids source is inputs for webpack, parcel-bundler
-
-alias put='/bin/cp -f ./main.js ../../osm-vector/ukids.main.js;/bin/cp -f ./index.html ../../osm-vector/ukids/index.html'
-alias get='/bin/cp -f ../../osm-vector/ukids/index.html ./index.html;/bin/cp -f ../../osm-vector/ukids/main.js ./main.js; cp ../../osm-vectors/ukids/assets/* .'
-alias dif='vimdiff ../../osm-vector/ukids/main.js ./main.js'
-cp ../../resources/* ./assets
-

@@ -6,7 +6,7 @@ module.exports = {
   entry: './main.js',
   output: {
     path: '/opt/iiab/maps/osm-source/pages/viewer/build',
-    filename: 'main.js'
+    filename: 'viewer-bundle.js'
   },
  mode: 'development',
  optimization: {
