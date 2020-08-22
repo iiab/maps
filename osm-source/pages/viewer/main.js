@@ -119,6 +119,7 @@ readMapCatalog();   // done with waiting
 // See if there was a query string specifying which map is wanted
 var permaRef = getQueryVariable('perma_ref');
 
+var tilenames;
 // Get tiledata -- a dictionary with data about all files in the tiles directory
   var resp = $.ajax({
     type: 'GET',
@@ -127,7 +128,7 @@ var permaRef = getQueryVariable('perma_ref');
     dataType: 'text'
   })
   .done(function( data ) {
-    var tilenames = JSON.parse(data);
+    tilenames = JSON.parse(data);
     for(var i = 0;i < tilenames.length;i++){
       console.log('filename:  ' + tilenames[i]['basename']);
       tiledata[basename(tilenames[i]['basename'])] = tilenames[i];
