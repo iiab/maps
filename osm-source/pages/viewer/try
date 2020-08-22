@@ -4,7 +4,7 @@
 cp -fp ./webpack.config.js ../webpack/
 cp -fp ./main.js ../webpack
 cp -fp ./index.html ../webpack
-cp -fp ./assets/ol5-layerswitcher.* ../webpack/assets
+cp -fp ./assets/ol-layerswitcher.* ../webpack/assets
 cp -fp ./assets/ol-contextmenu.* ../webpack/assets
 cp -fp ./popup.css ../webpack
 

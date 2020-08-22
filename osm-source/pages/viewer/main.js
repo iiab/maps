@@ -246,6 +246,11 @@ for(var mbt in layerDict){
    layerArray.push(layerDict[mbt]);
 }
 console.log('# items in layerArray: ' + layerArray.length);
+if ( layerArray.length == 0 ){
+   alert('Tiles for a Region have not yet been downloaded .. transferring you to the installer');
+   window.location.href = 'http://#/osm-vector0maps/installer';
+}
+
 var switcher_group = new LayerGroup({
   combine: true,
   fold: 'open',
