@@ -1,51 +1,18 @@
-var catalog = {
-        "hospital"  :{
-            "query_file_name" : "hospitalquery.sparql",
-            "feature_icon_name" : "hospital.png",
-            "query_title" : "Hospital",
-            "query_id" : '1'
-        },
-        "airport" : {
-            "query_file_name" : "airport.sparql",
-            "feature_icon_name" : "airport.png",
-            "query_title" : "Airport",
-            "query_id" : '2'
-        },
-        "bus-station" : {
-            "query_file_name" : "bustation.sparql",
-            "feature_icon_name" : "bus-station.png",
-            "query_title" : "Bus Station",
-            "query_id" : '3'
-        },
-        "library" : {
-            "query_file_name" : "library.sparql",
-            "feature_icon_name" : "library.png",
-            "query_title" : "Library",
-            "query_id" : '4'
-        },
-        "national-park" : {
-            "query_file_name" : "nationalparks.sparql",
-            "feature_icon_name" : "national-park.png",
-            "query_title" : "National Park",
-            "query_id" : '5'
-        },
-        "railway-station" : {
-            "query_file_name" : "railwaystation.sparql",
-            "feature_icon_name" : "railway-station.png",
-            "query_title" : "Railway Station",
-            "query_id" : '6'
-        },
-        "school" : {
-            "query_file_name" : "schoolsnearby.sparql",
-            "feature_icon_name" : "school.png",
-            "query_title" : "School",
-            "query_id" : '7'
+var catalog;
+function getCatalog(){
+    $.ajax({
+        url:"catalog.json",
+        dataType: 'json',
+        async: false,
+        success: function(data){
+            catalog = data;
         }
+    })
 }
 
-
-
 $(document).ready(function() {
+
+    getCatalog();
     var list = '<option selected = "selected" value ="0"> - Select - </option>';
 
     for(var key in catalog){
@@ -55,7 +22,7 @@ $(document).ready(function() {
     $("#dropDown").html(list);
 });
 
-
+ 
 function myFunction() {
     var latitude = document.getElementById('lat').value;
     var longitude = document.getElementById('long').value;
@@ -63,17 +30,17 @@ function myFunction() {
     var limit = document.getElementById('limit').value;
     var output_file_name = document.getElementById('output_file_name').value;
     var feature_id = document.getElementById("dropDown").value;
-    
+    console.log(output_file_name);
     function inputValidation(){
         if (limit == ""){
             limit = 50
         }
         if (latitude == "" || latitude > 90 || latitude < -90 ){
-            alert("Invalid Latitude Value!");
+            alert("Invalid Latitude Value - "+latitude+"\nShould be in range [-90,90]");
             return false;
         }
         else if (longitude == "" || longitude > 80 || latitude < -180 ){
-            alert("Invalid longitude Value!");
+            alert("Invalid longitude Value - "+longitude+"\nShould be in range [-180,80]");
             return false;
         }
         else if (radius == ""){
