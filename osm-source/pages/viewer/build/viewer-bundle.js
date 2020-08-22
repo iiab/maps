@@ -289,6 +289,10 @@ var permaRef = getQueryVariable('perma_ref');
     }
   })
 
+if ( tilenames.length == 0 ){
+   alert('Tiles for a Region have not yet been downloaded .. transferring you to the installer.');
+   window.location.href = 'http://#/osm-vector-maps/installer';
+}
 var  map = new ol_Map__WEBPACK_IMPORTED_MODULE_1__[/* default */ "a"]({ 
   target: 'map-container',
   controls: Object(ol_control_js__WEBPACK_IMPORTED_MODULE_15__[/* defaults */ "b"])({attribution: true}).extend([
@@ -401,10 +405,6 @@ for(var mbt in layerDict){
    layerArray.push(layerDict[mbt]);
 }
 console.log('# items in layerArray: ' + layerArray.length);
-if ( layerArray.length == 0 ){
-   alert('Tiles for a Region have not yet been downloaded .. transferring you to the installer');
-   window.location.href = 'http://#/osm-vector0maps/installer';
-}
 
 var switcher_group = new ol_layer_Group__WEBPACK_IMPORTED_MODULE_13__[/* default */ "a"]({
   combine: true,
