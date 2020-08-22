@@ -137,7 +137,7 @@ var tilenames;
 
 if ( tilenames.length == 0 ){
    alert('Tiles for a Region have not yet been downloaded .. transferring you to the installer.');
-   window.location.href = 'http://#/osm-vector-maps/installer';
+   window.location.href = '/osm-vector-maps/installer';
 }
 var  map = new Map({ 
   target: 'map-container',
