@@ -71,15 +71,5 @@ function myFunction() {
         console.log(content);
     }
 
-    function copyFunction(){
-            var copytext = content;
-            var dummy = $('<input>').val(copytext).appendTo('body').select()
-            document.execCommand('copy')
-            tooltip.innerHTML = "Copied!";
     
-        }
-        function outFunc() {
-            var tooltip = document.getElementById("myTooltip");
-            tooltip.innerHTML = "Copy to clipboard";
-        }           
 }
