@@ -489,7 +489,7 @@ map.on("moveend", function() {
    var newZoom = map.getView().getZoom();
   if (zoom != newZoom) {
     update_overlay();
-    console.log('zoom end, new zoom: ' + newZoom);
+    //console.log('zoom end, new zoom: ' + newZoom);
     zoom = newZoom;
     if (isPreview && zoom > 8.1){
       var r = confirm('The Map Preview only goes to zoom 7 .. Would you like to install more zoom levels?');
