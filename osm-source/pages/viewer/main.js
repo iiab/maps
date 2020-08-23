@@ -48,6 +48,8 @@ var projection = getProjection('EPSG:3857');
 var projectionExtent = projection.getExtent();
 var size = getWidth(projectionExtent) / 256;
 var osm_style = './assets/style-sat.json';
+var previewSatellite = 'satellite_z0-z6_v3';
+var isPreview = false;
 
 // initial values for on event variables to get through startup
 var zoom = 3;
@@ -135,9 +137,10 @@ var tilenames;
     }
   })
 
-if ( tilenames.length == 0 ){
-   alert('Tiles for a Region have not yet been downloaded .. transferring you to the installer.');
-   window.location.href = '/osm-vector-maps/installer';
+for (var i=0; i < tilenames.length; i++ ){
+   if (basename(tilenames[i]['basename']) == previewSatellite) {
+      isPreview = true;
+   }
 }
 var  map = new Map({ 
   target: 'map-container',
@@ -333,6 +336,12 @@ map.on("moveend", function() {
     update_overlay();
     //console.log('zoom end, new zoom: ' + newZoom);
     zoom = newZoom;
+    if (isPreview && zoom > 8.1){
+      var r = confirm('The Map Preview only goes to zoom 7 .. Would you like to install more zoom levels?');
+      if (r == true) {
+         window.location.href = '/osm-vector-maps/installer';
+      }
+    }
   }
 });
 

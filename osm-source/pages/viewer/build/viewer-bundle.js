@@ -203,6 +203,8 @@ var projection = Object(ol_proj__WEBPACK_IMPORTED_MODULE_4__[/* get */ "g"])('EP
 var projectionExtent = projection.getExtent();
 var size = Object(ol_extent_js__WEBPACK_IMPORTED_MODULE_22__[/* getWidth */ "E"])(projectionExtent) / 256;
 var osm_style = './assets/style-sat.json';
+var previewSatellite = 'satellite_z0-z6_v3';
+var isPreview = false;
 
 // initial values for on event variables to get through startup
 var zoom = 3;
@@ -290,9 +292,10 @@ var tilenames;
     }
   })
 
-if ( tilenames.length == 0 ){
-   alert('Tiles for a Region have not yet been downloaded .. transferring you to the installer.');
-   window.location.href = '/osm-vector-maps/installer';
+for (var i=0; i < tilenames.length; i++ ){
+   if (basename(tilenames[i]['basename']) == previewSatellite) {
+      isPreview = true;
+   }
 }
 var  map = new ol_Map__WEBPACK_IMPORTED_MODULE_1__[/* default */ "a"]({ 
   target: 'map-container',
@@ -486,8 +489,14 @@ map.on("moveend", function() {
    var newZoom = map.getView().getZoom();
   if (zoom != newZoom) {
     update_overlay();
-    //console.log('zoom end, new zoom: ' + newZoom);
+    console.log('zoom end, new zoom: ' + newZoom);
     zoom = newZoom;
+    if (isPreview && zoom > 8.1){
+      var r = confirm('The Map Preview only goes to zoom 7 .. Would you like to install more zoom levels?');
+      if (r == true) {
+         window.location.href = '/osm-vector-maps/installer';
+      }
+    }
   }
 });
 
