@@ -53,8 +53,8 @@ var isPreview = false;
 
 // initial values for on event variables to get through startup
 var zoom = 3;
-var lat = 37;
-var lon = -122;
+var lat = 30;
+var lon = 150;
 var show = 'min';
 var map;
 var osm_style = './assets/style-sat.json';
@@ -150,7 +150,7 @@ var  map = new Map({
   view: new View({
     center: fromLonLat([lon, lat]),
     maxZoom: 19,
-    zoom: 11
+    zoom: 2
   })
   //overlays: [overlay]
 }); //end of new Map

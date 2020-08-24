@@ -208,8 +208,8 @@ var isPreview = false;
 
 // initial values for on event variables to get through startup
 var zoom = 3;
-var lat = 37;
-var lon = -122;
+var lat = 30;
+var lon = 150;
 var show = 'min';
 var map;
 var osm_style = './assets/style-sat.json';
@@ -305,7 +305,7 @@ var  map = new ol_Map__WEBPACK_IMPORTED_MODULE_1__[/* default */ "a"]({
   view: new ol_View__WEBPACK_IMPORTED_MODULE_2__[/* default */ "a"]({
     center: Object(ol_proj__WEBPACK_IMPORTED_MODULE_4__[/* fromLonLat */ "d"])([lon, lat]),
     maxZoom: 19,
-    zoom: 11
+    zoom: 2
   })
   //overlays: [overlay]
 }); //end of new Map
