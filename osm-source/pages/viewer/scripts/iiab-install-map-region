@@ -6,6 +6,16 @@ SATELLITE=satellite_z0-z9_v3.mbtiles
 working_dir=/library/working/maps
 PLANET=osm-planet_z0-z10_2019.mbtiles
 SAN_JOSE=osm_san_jose_z11-z14_2019.mbtiles
+PREVIEW_SAT=satellite_z0-z6_v3.mbtiles
+PREVIEW_OSM=planet_z0-z6_2019.mbtiles
+
+# if the PREVIEW tiles are in place, delete them
+if [ -e "/library/www/osm-vector-maps/viewer/tiles/$PREVIEW_OSM" ]; then
+   unlink "/library/www/osm-vector-maps/viewer/tiles/$PREVIEW_OSM"
+fi
+if [ -e "/library/www/osm-vector-maps/viewer/tiles/$PREVIEW_SAT" ]; then
+   rm -f "/library/www/osm-vector-maps/viewer/tiles/$PREVIEW_SAT"
+fi
 
 # If called without a parameter (perhaps from ansible), just load world to zoom 10
 if [ $# -eq 0 ]; then
