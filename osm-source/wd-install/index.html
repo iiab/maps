@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Osm-Vector Splash Page</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script src="/common/js/jquery.min.js"></script>
+  <script src="/common/js/bootstrap.min.js"></script>
+<!--  <script src="/admin/js/admin_console.js"></script>-->
+  <link href="/common/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="./map.css" type="text/css">
+</head>
+<body>
+
+            <h1>WikiData Overlay Install Page</h1>
+           <p>Choose the queries for required Overlays </p>
+
+            <div id="osmRegionSelection" >
+               <div id='lside'>
+                  <h2>Please enter your choice</h2>
+                  <h3>Enter the coordinates of your choice or select from the given map</h3>
+                  <form class="form-loc">
+                     <label >Latitude (Range : [-90,90]) </label><br>
+                     <div class="input"><input type="number" id="lat" name="lat"><br></div>
+                     <label for="lname">Longitude (Range : [-180,180])</label><br>
+                     <div class="input"><input type="number" id="long" name="long"><br></div>
+                     <label for="fname">Radius (in Kms)</label><br>
+                     <div class="input"><input type="number" id="radius" name="radius"><br></div>
+                     <label for="lname">Limit(Default Value : 50)</label><br>
+                     <div class="input"><input type="number" placeholder="Leave blank if needed" id="limit" name="limit"><br></div>
+                     <label for="lname">Output File Name (without extension)</label><br>
+                     <div class="input"><input type="text" id="output_file_name" name="output_file_name"><br></div>
+                     <div class="input"><select id="dropDown" required><option>Choose a feature</option></select><br></div>
+                     <div class="input"><input type="button"  onclick="myFunction()" id="log" value="Submit"></div>
+             
+                   </form>
+                  <h3><div id="instruct"></div></h3>
+                  <h4><div id='cmdline' class="command">Press Submit to generate Command</div></h4>
+               </div id='lside'>
+               <div class='grower'></div>
+               <div id='rside'>
+                  <h2>Satellite Details</h2>
+                  <div id="map-container"></div>
+                  <div class='grower'></div>
+                     
+                  <div id='instr'></div>
+                  <h4><div id='cmdline_element' class="command"></div></h4>
+                  <div class='grower'></div>
+                  <!--<div class="col-sm-2"><button id="DNLD-SAT" type="button" class="btn btn-lg btn-primary">Download More Satellite Data</button></div>-->
+               </div> <!--id='rside' -->
+				</div> <!--  End osmRegionSelection Submenu Option Pane -->
+            <script>
+               function readableSize(kbytes) {
+                 if (kbytes == 0)
+                 return "0";
+                 var bytes = 1024 * kbytes;
+                 var s = ['bytes', 'kB', 'MB', 'GB', 'TB', 'PB'];
+                 var e = Math.floor(Math.log(bytes) / Math.log(1024));
+                 return (bytes / Math.pow(1024, e)).toFixed(2) + " " + s[e];
+               }
+            </script>
+            <script src="./installer-functions.js"></script>
+            <script src="./inputvalidate.js"></script>
+<script src="main.js"></script></body>
+</html>

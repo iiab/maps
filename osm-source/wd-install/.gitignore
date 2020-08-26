@@ -1,0 +1,6 @@
+node_modules/
+tileserver.php
+planet_z0-z6_2019.mbtiles
+details.mbtiles
+build/planet_z0-z6_2019.mbtiles
+build/details.mbtiles
