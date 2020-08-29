@@ -78,3 +78,7 @@
          height: auto;
          object-fit: contain;
       }
+      #popup-conten{
+        font-size: 20px;
+
+      }

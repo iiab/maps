@@ -1,0 +1,35 @@
+{
+  "name": "sample",
+  "version": "1.0.0",
+  "description": "",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "webpack --config webpack.config.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bootstrap": "^4.5.0",
+    "copy-webpack-plugin": "^6.0.3",
+    "css-loader": "^4.2.1",
+    "jquery": "^3.5.1",
+    "ol": "^6.3.1",
+    "ol-contextmenu": "^4.0.1",
+    "ol-hashed": "^2.0.0",
+    "ol-mapbox-style": "^6.1.1",
+    "popper.js": "^1.16.1"
+  },
+  "devDependencies": {
+    "html-webpack-plugin": "^4.3.0",
+    "node-sass": "^4.14.1",
+    "postcss-loader": "^3.0.0",
+    "sass-loader": "^9.0.3",
+    "style-loader": "^1.2.1",
+    "webpack": "^4.44.1",
+    "webpack-cli": "^3.3.12",
+    "webpack-dev-server": "^3.11.0",
+    "webpack-load-plugins": "^0.1.2"
+  }
+}

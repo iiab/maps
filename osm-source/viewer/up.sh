@@ -1,10 +1,23 @@
 #!/bin/bash
+rsync data/sparql/templates/* /library/www/osm-vector-maps/viewer/data/sparql/templates/
 
-cp -r assets/* /library/www/osm-vector-maps/viewer/assets/
+mkdir -p /library/www/osm-vector-maps/viewer/catalog
+rsync catalog/wikidata.json /library/www/osm-vector-maps/viewer/catalog/
 
+rm -f /library/www/osm-vector-maps/viewer/data/geojson/*
 
-cp -r build/* /library/www/osm-vector-maps/viewer/
+rsync scripts/sparql-to-geojson-final.py /library/www/osm-vector-maps/viewer/
 
-mkdir -p /library/www/osm-vector-maps/viewer/data/geojson
-cp jsonserver.php /library/www/osm-vector-maps/viewer/
-cp -r ./data/geojson/* /library/www/osm-vector-maps/viewer/data/geojson/
+rsync -r assets/* /library/www/osm-vector-maps/viewer/assets/
+
+rsync -r build/* /library/www/osm-vector-maps/viewer/
+
+rsync jsonserver.php /library/www/osm-vector-maps/viewer/
+
+rsync markers/* /library/www/osm-vector-maps/viewer/markers/
+
+rsync -r data/ /library/www/osm-vector-maps/viewer/data
+
+mkdir -p /library/www/osm-vector-maps/wikidata
+
+rsync wikidata/* /library/www/osm-vector-maps/wikidata/

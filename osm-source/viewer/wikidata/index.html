@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wikidata Access Page</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <script src="displaymap.js"></script>
+    <script src="main.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"> 
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <h1 style="text-align: center;">Wikidata Access Page</h1>
+    <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Sed iste ut expedita mollitia fugiat ratione aliquam, error distinctio, suscipit hic laboriosam consequuntur eos corrupti id excepturi debitis quod, dolor dicta?</p>
+    <div class="querySelection">
+      <div class="column">
+        <h1>Enter Credentials</h1>
+        <div class="queryCommand">
+          <form class="form-loc">
+            <label >Latitude (Range : [-90,90]) </label><br>
+            <div class="input"><input type="number" id="lat" name="lat"><br></div>
+            <label for="lname">Longitude (Range : [-180,80])</label><br>
+            <div class="input"><input type="number" id="long" name="long"><br></div>
+            <label for="fname">Radius (in Kms)</label><br>
+            <div class="input"><input type="number" id="radius" name="radius"><br></div>
+            <label for="lname">Limit(Default Value : 50)</label><br>
+            <div class="input"><input type="number" placeholder="Leave blank if no limit needed" id="limit" name="limit"><br></div>
+            <label for="lname">Output File Name (without extension)</label><br>
+            <div class="input"><input type="text" id="output_file_name" name="output_file_name"><br></div>
+            <div class="input"><select id="dropDown" required><option>Choose a feature</option></select><br></div>
+            <div class="input"><input type="button"  onclick="myFunction()" id="log" value="Submit"></div>
+    
+          </form>
+        </div>
+        <div class="instruction">
+          <br>
+          <br>
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Obcaecati blanditiis dicta magnam ex sint quia neque soluta tenetur maiores mollitia ab, voluptates facilis, enim nobis culpa illo dolorem possimus excepturi?
+          <br>
+          <br>
+        </div>
+
+        <h4><div id="cmdline_element" class="command" >The Command Goes here!</div></h4>
+
+      </div> <!--End of Lside!-->
+      <div class="grower"></div>
+      <div class="column">
+        <h2>Select region from Map!</h2>
+        <div id="map-container"></div>
+        
+      </div>
+    </div>
+    
+
+    
+        <input placeholder="Enter Submit Button to generate Python Command" id="show"></input>
+        <div class="copyButton">
+          <button >Button</button>
+      </div>
+      </div>
+    
+</body>
+</html>

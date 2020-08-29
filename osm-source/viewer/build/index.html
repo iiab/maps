@@ -51,7 +51,7 @@
   <body>
      <div class="well col-md-5">
            <input id="search" type="text" class="col-md-6 form-control" placeholder="Search cities..." autocomplete="off" />
-       </div>
+     </div>
     <div id="info-overlay"></div>
     <div id="layerswitcher"></div>
     <div id="picture" style='display:none'>
@@ -60,7 +60,7 @@
 
     <div id="map-container"></div>
     <div id="map" class="map"></div>
-    <div id="popup" class="ol-popup" ondragover='dragover_handler(event)' ondrop='drop_handler(event)'>
+    <!-- <div id="popup" class="ol-popup" ondragover='dragover_handler(event)' ondrop='drop_handler(event)'>
       <form>
       <a href="#" id="popup-closer" class="ol-popup-closer"></a>
       <div><input  id="popup-title" type="text" size="50" placeholder="Title"></textbox></div>
@@ -74,7 +74,13 @@
       <div id="popup-delete" class='pbut'><button id='deletinline-block' type="button">Delete Point</button></div>
       </div>
       </form>
+    </div> -->
+    <!--for markup overlay-->
+    <div id="popup" class="ol-popup">
+      <a href="#" id="popup-closer" class="ol-popup-closer"></a>
+      <div id="popup-content"></div>
     </div>
+    <!--End-->
     <input type="file" id="import-json"  style="display:none">
     <input type="file" id="import-jpeg"  style="display:none">
 
@@ -86,6 +92,8 @@
       <option value="metric" selected>metric</option>
     </select>
     <button id='home'>Home</button>
-  <script src="main.js"></script></body>
+  <script src="main.js"></script>
+  <script src="overlay.js"></script>
+</body>
 </html>
 

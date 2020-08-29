@@ -1,0 +1,20 @@
+SELECT ?place ?placeLabel ?placeDescription ?image ?coordinates ?distFromCenter ?lat ?long WHERE {
+  VALUES ?loc {
+    "Point($long $lat)"^^geo:wktLiteral
+  }
+  VALUES ?radius {
+    "$radius"
+  }
+  SERVICE wikibase:around {
+    ?place wdt:P625 ?coordinates.
+    bd:serviceParam wikibase:center ?loc;
+      wikibase:radius ?radius.
+  }
+  OPTIONAL { ?place wdt:P18 ?image. }
+  ?place wdt:P31 wd:Q7075.
+  SERVICE wikibase:label { bd:serviceParam wikibase:language "en". }
+  BIND(geof:distance(?loc, ?coordinates) AS ?distFromCenter)
+  BIND(STRBEFORE(STRAFTER(STR(?coordinates), " "), ")") AS ?lat)
+  BIND(STRBEFORE(STRAFTER(STR(?coordinates), "Point("), " ") AS ?long)
+}
+LIMIT $limit
