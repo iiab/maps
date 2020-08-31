@@ -65,6 +65,7 @@ function readMapCatalog(){
   mapList = [];
   var resp = $.ajax({
     type: 'GET',
+    async: false,
     url: consoleJsonDir + 'map-catalog.json',
     dataType: 'json'
   })
