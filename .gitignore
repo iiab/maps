@@ -18,12 +18,13 @@ generate-regions/styles/
 generate-regions/python-mbtiles/
 generate-regions/setenv
 generate-regions/region.list
-osm-source/base/build
+osm-source/regional-base/build/main.js/map
 osm-source/base/dist
 osm-source/test/build
 osm-source/test/dist
 osm-source/console/build
 osm-source/ukids/build
+osm-source/pages/webpack
 
 
 

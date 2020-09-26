@@ -1,0 +1,18 @@
+#!/bin/bash -xe
+# compile the javascript for this page and copy for execution in html server tree"
+
+cp -fp ./webpack.config.js ../webpack/
+cp -fp ./main.js ../webpack
+cp -fp ./index.html ../webpack
+cp -fp ./assets/ol-layerswitcher.* ../webpack/assets
+cp -fp ./assets/ol-contextmenu.* ../webpack/assets
+cp -fp ./popup.css ../webpack
+
+cd ../webpack
+
+npm run build
+
+cd /opt/iiab/maps/osm-source/pages/viewer
+cp ./build/* /library/www/osm-vector-maps/viewer/
+cp ./popup.css /library/www/osm-vector-maps/viewer/
+rsync -r ./assets /library/www/osm-vector-maps/viewer/

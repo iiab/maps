@@ -1,2 +1,12 @@
-scp ./regions.json ghunt@unleashkids.org:/var/www/iiab/content/OSM/vector-tiles/maplist/hidden/assets/regions.json
+#!/bin/bash
+# if regions.json exists in the current directory,  put it
+if [ -f regions.json ];then
+   scp ./regions.json ghunt@unleashkids.org:/var/www/d.iiab.io/content/OSM/vector-tiles/maplist/hidden/assets/regions.json
+   #scp ./bboxes.geojson ghunt@unleashkids.org:/var/www/d.iiab.io/content/OSM/vector-tiles/maplist/hidden/assets/bboxes.geojson
+fi
 
+# and put map-catalog.json if it exists
+
+if [ -f map-catalog.json ];then
+   scp ./map-catalog.json ghunt@unleashkids.org:/var/www/d.iiab.io/content/OSM/vector-tiles/map-catalog.json
+fi

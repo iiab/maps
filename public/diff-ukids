@@ -1,0 +1,13 @@
+#!/bin/bash -x
+# does a diff between the ukids version and the local version of regions.json
+if [ -f 'regions.json' ]; then
+   echo This script does a diff between the ukids version and regions.json in current directory.
+   wget http://download.iiab.io/content/OSM/vector-tiles/maplist/hidden/assets/regions.json -O /tmp/regions.json
+   vimdiff regions.json /tmp/regions.json
+   read -p 'hit return to end compare map-catalog' variable
+fi
+
+if [ -f map-catalog.json ];then
+   wget http://download.iiab.io/content/OSM/vector-tiles/map-catalog.json -O /tmp/map-catalog.json
+   vimdiff map-catalog.json /tmp/map-catalog.json
+fi

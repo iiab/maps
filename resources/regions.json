@@ -140,6 +140,8 @@
       "west": "52.0", 
       "zoom": "2"
     }, 
+<<<<<<< HEAD
+=======
     "san_jose": {
       "center_lat": "37.35", 
       "center_lon": "-122.0", 
@@ -154,12 +156,13 @@
       "seq": 5, 
       "size": "1767247872", 
       "south": "37.23", 
-      "title": "San Jose", 
-      "url": "https://archive.org/download/en-osm-omt_san_jose_2017-07-03_v0.23/en-osm-omt_san_jose_2017-07-03_v0.23.zip", 
+      "title": "World to Zoom 10", 
+      "url": "https://archive.org/download/en-osm-omt_san_jose_2017-07-03_v0.2/en-osm-omt_san_jose_2017-07-03_v0.2.zip", 
       "version": "v0.21", 
       "west": "-122.24", 
       "zoom": "5"
     }, 
+>>>>>>> 43db681c28b5bb3eb937eb57b77491a394c5defe
     "south_america": {
       "center_lat": "-26.0", 
       "center_lon": "-58.0", 
@@ -177,6 +180,30 @@
       "title": "South America", 
       "url": "https://archive.org/download/en-osm-omt_south_america_2017-07-03_v0.23/en-osm-omt_south_america_2017-07-03_v0.23.zip", 
       "version": "v0.2", 
+      "west": "-179.00", 
+      "zoom": "3"
+    }, 
+    "spanish_speaking_regions": {
+      "center_lat": "-8.0", 
+      "center_lon": "-70.0", 
+      "date": "2017-07-03", 
+      "east": "-18.0", 
+      "north": "33.00", 
+      "osm_size": "7888969728", 
+      "perma_ref": "en-osm-omt_spanish_speaking_regions", 
+      "sat_is_regional": "False", 
+      "sat_size": "976416768", 
+      "sat_url": "https://archive.org/download/satellite_z0-z9_v3.mbtiles/satellite_z0-z9_v3.mbtiles", 
+      "seq": 25, 
+      "size": "8699784000", 
+      "south": "-84.0", 
+<<<<<<< HEAD
+      "title": "Spanish-speaking Regions", 
+=======
+      "title": "Spanish Speakers", 
+>>>>>>> 43db681c28b5bb3eb937eb57b77491a394c5defe
+      "url": "https://archive.org/download/en-osm-omt_spanish_speaking_regions_2017-07-03_v0.23/en-osm-omt_spanish_speaking_regions_2017-07-03_v0.23.zip", 
+      "version": "v0.23", 
       "west": "-179.00", 
       "zoom": "3"
     }, 

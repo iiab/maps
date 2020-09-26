@@ -1,0 +1,335 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -24.1,
+              35.9
+            ],
+            [
+              50.3,
+              35.9
+            ],
+            [
+              50.3,
+              71.4
+            ],
+            [
+              -24.1,
+              71.4
+            ],
+            [
+              -24.1,
+              35.9
+            ]
+          ]
+        ]
+      },
+      "type": "Feature",
+      "properties": {
+        "name": "europe"
+      }
+    },
+    {
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              106.02,
+              -52.84
+            ],
+            [
+              196.56,
+              -52.84
+            ],
+            [
+              196.56,
+              -6.52
+            ],
+            [
+              106.02,
+              -6.52
+            ],
+            [
+              106.02,
+              -52.84
+            ]
+          ]
+        ]
+      },
+      "type": "Feature",
+      "properties": {
+        "name": "australia"
+      }
+    },
+    {
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -122.24,
+              37.23
+            ],
+            [
+              -121.6,
+              37.23
+            ],
+            [
+              -121.6,
+              37.45
+            ],
+            [
+              -122.24,
+              37.45
+            ],
+            [
+              -122.24,
+              37.23
+            ]
+          ]
+        ]
+      },
+      "type": "Feature",
+      "properties": {
+        "name": "min"
+      }
+    },
+    {
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -84.73,
+              -60.44
+            ],
+            [
+              -31.61,
+              -60.44
+            ],
+            [
+              -31.61,
+              12.72
+            ],
+            [
+              -84.73,
+              12.72
+            ],
+            [
+              -84.73,
+              -60.44
+            ]
+          ]
+        ]
+      },
+      "type": "Feature",
+      "properties": {
+        "name": "south_america"
+      }
+    },
+    {
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -23.58,
+              -39.32
+            ],
+            [
+              63.56,
+              -39.32
+            ],
+            [
+              63.56,
+              38.23
+            ],
+            [
+              -23.58,
+              38.23
+            ],
+            [
+              -23.58,
+              -39.32
+            ]
+          ]
+        ]
+      },
+      "type": "Feature",
+      "properties": {
+        "name": "africa"
+      }
+    },
+    {
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              28.0,
+              36.8
+            ],
+            [
+              191.0,
+              36.8
+            ],
+            [
+              191.0,
+              77.6
+            ],
+            [
+              28.0,
+              77.6
+            ],
+            [
+              28.0,
+              36.8
+            ]
+          ]
+        ]
+      },
+      "type": "Feature",
+      "properties": {
+        "name": "asia"
+      }
+    },
+    {
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -119.15,
+              7.93
+            ],
+            [
+              -56.99,
+              7.93
+            ],
+            [
+              -56.99,
+              33.03
+            ],
+            [
+              -119.15,
+              33.03
+            ],
+            [
+              -119.15,
+              7.93
+            ]
+          ]
+        ]
+      },
+      "type": "Feature",
+      "properties": {
+        "name": "central_america"
+      }
+    },
+    {
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              61.33,
+              -10.19
+            ],
+            [
+              165.77,
+              -10.19
+            ],
+            [
+              165.77,
+              46.41
+            ],
+            [
+              61.33,
+              46.41
+            ],
+            [
+              61.33,
+              -10.19
+            ]
+          ]
+        ]
+      },
+      "type": "Feature",
+      "properties": {
+        "name": "southeast_asia"
+      }
+    },
+    {
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -180.0,
+              -80.0
+            ],
+            [
+              180.0,
+              -80.0
+            ],
+            [
+              180.0,
+              80.0
+            ],
+            [
+              -180.0,
+              80.0
+            ],
+            [
+              -180.0,
+              -80.0
+            ]
+          ]
+        ]
+      },
+      "type": "Feature",
+      "properties": {
+        "name": "world"
+      }
+    },
+    {
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -169.3,
+              24.7
+            ],
+            [
+              -51.1,
+              24.7
+            ],
+            [
+              -51.1,
+              71.4
+            ],
+            [
+              -169.3,
+              71.4
+            ],
+            [
+              -169.3,
+              24.7
+            ]
+          ]
+        ]
+      },
+      "type": "Feature",
+      "properties": {
+        "name": "north_america"
+      }
+    }
+  ]
+}
