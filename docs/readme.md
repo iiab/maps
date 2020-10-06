@@ -1,8 +1,0 @@
-### Create Downloadable Regional Maps ###
-1. I struggled to understand why all the examples and demos of openlayers javascript modules failed to work for me. I finally got the examples to work by installing a npm package called webpack. It is pretty heavy, and when it is not working, and not issuing helpful error messages, it also is frustrating.
-2. My original effort at vector tiles uses the ES5 (ECMAScript) standard -- which is no longer documented in the openlayers docs. Getting it to work was a lot of trial and error.
-3. There were just too many moving parts. I think the current chrome can handle ES6, and the openlayers examples should just work. (The magic sauce may be declaring type="module" in the script tag). I just have not taken the time to find a simple example, and try it.
-4. The webpack package creates a single bundled javascript file (strangely it issues an error message the the generated file is too big). At this point, the map on the admin console requires webpack, for the generation process (there is a rewriting of my source code, that it does, which is hidden in the packaged output. I've read that "babel" is a lighter method of getting to ES6 (or maybe it rewrites back to ES5, so that older browsers will work). The webpack output file is /common/maps/maps.js.
-4. The standard output name for webpack is main.js (which I don't think is descriptive enough for IIAB). I rename main.js to /common/map/map.js.
-5. At this point 3/3/19, I have checkboxes on the admin page, that highlight bounding boxes on the displayed map.
-6. The input to open layers is a geojson file, '/commin/maps/bboxes.geojson', which is generated from the input file '/common/maps/regions.json'.
