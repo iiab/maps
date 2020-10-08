@@ -22,10 +22,11 @@ install_mbtiles() {
     if [ -f $TILES_DIR/$1 ] ; then
         echo -e "ALREADY INSTALLED: $TILES_DIR/$1\n"
     else
-        grep -q '^maps_from_internet_archive: True' /etc/iiab/local_vars.yml; loc_t=$?
-        grep -q '^maps_from_internet_archive: False' /etc/iiab/local_vars.yml; loc_f=$?
-        grep -q '^maps_from_internet_archive: True' /opt/iiab/iiab/vars/default_vars.yml; def_t=$?
-        if [[ $loc_t = 0 || ($def_t = 0 && ! $loc_f = 0) ]]; then # 0 means TRUE
+        grep -q '^maps_from_internet_archive:\s\+[tT]rue\b' /etc/iiab/local_vars.yml; loc_t=$?
+        grep -q '^maps_from_internet_archive:\s\+[fF]alse\b' /etc/iiab/local_vars.yml; loc_f=$?
+        grep -q '^maps_from_internet_archive:\s\+[tT]rue\b' /opt/iiab/iiab/vars/default_vars.yml; def_t=$?
+        # 0 means TRUE   1 means FALSE   2 means ERROR e.g. FILE DOESN'T EXIST
+        if [[ $loc_t = 0 || ($def_t = 0 && ! $loc_f = 0) ]]; then
         #if grep -q '^maps_from_internet_archive: True' /etc/iiab/local_vars.yml ; then
             wget -c https://archive.org/download/$1/$1 -P $WORKING_DIR
         else
