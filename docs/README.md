@@ -15,7 +15,7 @@
 1. https://s2maps.eu/ has made free satellite images to zoom level 13 (20M per  pixel) available. These are combined with the OSM data in Internet-in-a-Box (IIAB) maps. These two sources create highly zoomable regional vector map datasets &mdash; each such .mbtiles file has a very minimal footprint &mdash; yet displays exceptional geographic detail.  IIAB's space-constrained microSD cards (typically running in a Raspberry Pi) greatly benefit!
 1. Thankfully the [MBTiles](https://github.com/mapbox/mbtiles-spec) file format can be used to store either bitmap/raster tilesets or vector tilesets.  So 3 essential data files are needed = 1 city search database + 2 .mbtiles files, one each for OSM and Satellite data:
    1. cities1000.sqlite (25 MB) so users can search for and locate any of 127,654 cities/settlements worldwide, whose population is larger than 1000.
-   1. The world's landmasses are covered by `detail.mbtiles -> <regional selection of OSM data>.mbtiles` (2-10GB depending on region) at zoom levels 0-18, encoded as MVT/PBF vector maps.
+   1. The world's landmasses are covered by `detail.mbtiles -> <regional selection of OSM data>.mbtiles` (2-30GB depending on region) at zoom levels 0-18, encoded as MVT/PBF vector maps.
    1. Satellite imagery of the World  covered 'satellite.mbtiles -> satellite_z0-z9.v3.mbtiles` (932 MB) at zoom levels 0-9, encoded as JPEG bitmap/raster imagery.
  
 
