@@ -39,12 +39,13 @@ def process_catalog_list(map):
          else:
             prefix = GENERATED_TILES + '/base/'
          size = os.path.getsize(prefix + map_id)
-         map_catalog[map][map_id]['mbtiles_size'] = size
+         if map_catalog[map][map_id].get('mbtiles_size','') != '':
+            del map_catalog[map][map_id]['mbtiles_size']
          if map == 'maps':
             map_catalog[map][map_id]['size'] = size + int(BASE_PLANET_SIZE) + int(BASE_SATELLITE_SIZE)
          else:
             map_catalog[map][map_id]['osm_size'] = size
-            map_catalog[map][map_id]['size'] = 0
+            map_catalog[map][map_id]['size'] = size
 
 
 outstr = ''
