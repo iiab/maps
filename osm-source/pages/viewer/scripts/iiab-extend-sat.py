@@ -768,7 +768,7 @@ def do_downloads():
 
    start = time.time()
    for zoom in range(args.zoom,14):
-      print("new zoom level:%s"%zoom,flush=True))
+      print("new zoom level:%s"%zoom,flush=True)
       download_tiles(src,args.lat,args.lon,zoom,args.radius)
    seconds =(time.time()-start)
    d,h,m,s = dhms_from_seconds(seconds)
