@@ -132,6 +132,7 @@ class MBTiles():
       self.conn = sqlite3.connect(filename)
       self.conn.row_factory = sqlite3.Row
       self.conn.text_factory = str
+      self.conn.isolation_level = "EXCLUSIVE"
       self.c = self.conn.cursor()
       self.schemaReady = False
       self.bounds = {}
@@ -229,6 +230,7 @@ class MBTiles():
          self.CheckSchema()
 
       tile_id = self.TileExists(zoomLevel, tileColumn, tileRow)
+      self.c.execute("begin transaction")
       if tile_id: 
          tile_id = uuid.uuid4().hex
          operation = 'update images'
@@ -699,7 +701,7 @@ def download_tiles(src,lat_deg,lon_deg,zoom,radius):
    for tileX in range(tileX_min,tileX_max+1):
       for tileY in range(tileY_min,tileY_max+1):
          if (total_tiles % 10) == 0:
-            print('tileX:%s tileY:%s zoom:%s already-downloaded:%s added:%s'%(tileX,tileY,zoom,ok,total_tiles))
+            print('tileX:%s tileY:%s zoom:%s already-downloaded:%s added:%s'%(tileX,tileY,zoom,ok,total_tiles), flush=True)
          tile_exists =  mbTiles.TileExists(zoom,tileX,tileY)
          if tile_exists != None:
             raw = mbTiles.GetTile(zoom, tileX, tileY)
@@ -766,7 +768,7 @@ def do_downloads():
 
    start = time.time()
    for zoom in range(args.zoom,14):
-      print("new zoom level:%s"%zoom)
+      print("new zoom level:%s"%zoom,flush=True))
       download_tiles(src,args.lat,args.lon,zoom,args.radius)
    seconds =(time.time()-start)
    d,h,m,s = dhms_from_seconds(seconds)

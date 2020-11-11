@@ -438,7 +438,7 @@ const boxLayer =  new ol_layer_Vector__WEBPACK_IMPORTED_MODULE_9__[/* default */
            color: 'rgba(67, 163, 46, 0)'
          }),
          stroke: new ol_style__WEBPACK_IMPORTED_MODULE_18__[/* Stroke */ "c"]({
-           color: 'rgba(250, 200, 20, 1)',
+           color: 'rgba(250, 200, 20, .2)',
            width: 2
          })
       })
