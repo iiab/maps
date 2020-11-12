@@ -283,7 +283,7 @@ const boxLayer =  new VectorLayer({
            color: 'rgba(67, 163, 46, 0)'
          }),
          stroke: new Stroke({
-           color: 'rgba(250, 200, 20, 1)',
+           color: 'rgba(250, 200, 20, .2)',
            width: 2
          })
       })
