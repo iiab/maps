@@ -6,7 +6,8 @@
 
 ## Revision history
 
-* Agust 10, 2020 -- make world to zoom 10 center close to china
+* Jan 24, 2021 -- Change detail_url links to point to digital ocean
+* August 10, 2020 -- make world to zoom 10 center close to china
 * April 16, 2020 -- shorten title from "Spanish-speaking Regions" to "Spanish Speakers"
 * Jan 27, 2020 -- Put san_jose back in with title: "World to Zoom 1"
 * Dec 2019  added Spanish-speaking Regions
