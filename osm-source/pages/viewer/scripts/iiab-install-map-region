@@ -1,69 +1,73 @@
-#!/bin/bash
+#!/bin/bash -x
+# fetch the specified tileset or world to zoom 10 without Admin Console
 
-# Download a Map Pack (3 .mbtiles files, as nec) for IIAB 7.2 w/o Admin Console
-# https://github.com/iiab/iiab/blob/master/roles/osm-vector-maps/README.md
-# https://github.com/iiab/iiab/wiki/IIAB-Maps
+source_url=https://iiab.sfo2.digitaloceanspaces.com/osm-tiles
+SATELLITE=satellite_z0-z9_v3.mbtiles
+working_dir=/library/working/maps
+PLANET=osm-planet_z0-z10_2019.mbtiles
+SAN_JOSE=osm_san_jose_z11-z14_2019.mbtiles
+PREVIEW_SAT=satellite_z0-z6_v3.mbtiles
+PREVIEW_OSM=planet_z0-z6_2019.mbtiles
 
-REGION=osm_san_jose_z11-z14_2019.mbtiles     # If called w/o parameter (20.3 MB)
-if [ $# -ne 0 ]; then
-    REGION=$1    # Map Pack selected on page: http://box > "Install IIAB Maps"
-fi    # SCREENSHOT https://github.com/iiab/iiab/pull/2551#issuecomment-701649236
+# if the PREVIEW tiles are in place, delete them
+if [ -e "/library/www/osm-vector-maps/viewer/tiles/$PREVIEW_OSM" ]; then
+   unlink "/library/www/osm-vector-maps/viewer/tiles/$PREVIEW_OSM"
+fi
+if [ -e "/library/www/osm-vector-maps/viewer/tiles/$PREVIEW_SAT" ]; then
+   rm -f "/library/www/osm-vector-maps/viewer/tiles/$PREVIEW_SAT"
+fi
 
-OSM_PLANET=osm-planet_z0-z10_2019.mbtiles    # 1.74 GB
-SAT_PLANET=satellite_z0-z9_v3.mbtiles        # 931 MB
+# If called without a parameter (perhaps from ansible), just load world to zoom 10
+if [ $# -eq 0 ]; then
+   TILESET=$SAN_JOSE
+   PROGRESS=""
+   fn=$(basename $SAN_JOSE)
+   if [ ! -f /library/www/osm-vector-maps/viewer/tiles/$fn ];then
+      wget -c $source_url/$SAN_JOSE $PROGRES -P $working_dir
+   fi
+   if [ $? -ne 0 ]; then
+      echo "Download of $fn failed. Please retry download command"
+      exit 1
+   fi
+   landing_url=$SAN_JOSE
+else
+   TILESET=$1
+   PROGRESS="--progress=dot:giga"
+   landing_url=$1
+   fn=$(basename $1)
+   if [ ! -f /library/www/osm-vector-maps/viewer/tiles/$fn ];then
+      wget -c $source_url/$1 $PROGRES -P $working_dir
+   fi
+   if [ $? -ne 0 ]; then
+      echo "Download of $fn failed. Please retry download command"
+      exit 1
+   fi
+fi
 
-OSM_PREVIEW=planet_z0-z6_2019.mbtiles        # 33.8 MB
-SAT_PREVIEW=satellite_z0-z6_v3.mbtiles       # 19.1 MB
+# get the data for planet to zoom 10, satellite to zoom 9, and san_jose to zoom 14
+fn=$(basename $SATELLITE)
+if [ ! -f /library/www/osm-vector-maps/viewer/tiles/$fn ];then
+   wget -c $source_url/$SATELLITE $PROGRES -P $working_dir
+fi
+if [ $? -ne 0 ]; then
+   echo "Download of $fn failed. Please retry download command"
+   exit 1
+fi
 
-WORKING_DIR=/library/working/maps
-TILES_DIR=/library/www/osm-vector-maps/viewer/tiles
+fn=$(basename $PLANET)
+if [ ! -f /library/www/osm-vector-maps/viewer/tiles/$fn ];then
+   wget -c $source_url/$PLANET $PROGRES -P $working_dir
+fi
+if [ $? -ne 0 ]; then
+   echo "Download of $fn failed. Please retry download command"
+   exit 1
+fi
 
-install_mbtiles() {
-    if [ -f $TILES_DIR/$1 ] ; then
-        echo -e "ALREADY INSTALLED: $TILES_DIR/$1\n"
-    else
-        grep -q '^maps_from_internet_archive:\s\+[tT]rue\b' /etc/iiab/local_vars.yml; loc_t=$?
-        grep -q '^maps_from_internet_archive:\s\+[fF]alse\b' /etc/iiab/local_vars.yml; loc_f=$?
-        grep -q '^maps_from_internet_archive:\s\+[tT]rue\b' /opt/iiab/iiab/vars/default_vars.yml; def_t=$?
-        # 0 means TRUE   1 means FALSE   2 means ERROR e.g. FILE DOESN'T EXIST
-        if [[ $loc_t = 0 || ($def_t = 0 && ! $loc_f = 0) ]]; then
-        #if grep -q '^maps_from_internet_archive: True' /etc/iiab/local_vars.yml ; then
-            wget -c https://archive.org/download/$1/$1 -P $WORKING_DIR
-        else
-            wget -c http://timmoody.com/iiab-files/maps/$1 -P $WORKING_DIR
-        fi
 
-        # FYI Bluehost (timmoody.com) erroneously 404's if full file is in
-        # $WORKING_DIR but not $TILES_DIR, causing wget error code 8.  Whereas
-        # Archive.org correctly returns "416 Requested Range Not Satisfiable"
-        # with wget output "The file is already fully retrieved; nothing to do"
-        # w/ wget exit code 0 (used below).  So we move it immediately 2 B Safe:
+# Just move the downloaded data files and blast any conflicting files away
+if [ ! -z  "$(ls -A $working_dir)" ]; then
+   mv -f $working_dir/*.mbtiles /library/www/osm-vector-maps/viewer/tiles/
+fi
 
-        if [ $? -eq 0 ]; then
-            echo -e "MOVING $1 TO $TILES_DIR\n"
-            mv $WORKING_DIR/$1 $TILES_DIR
-        else
-            echo -e " ███████████████████████████████ DOWNLOAD ERROR ███████████████████████████████"
-            echo -e " ██                                                                          ██"
-            echo -e " ██ (1) Verify your Internet and try again?                                  ██"
-            echo -e " ██                                                                          ██"
-            echo -e " ██ (2) Set 'maps_from_internet_archive: True' in /etc/iiab/local_vars.yml ? ██"
-            echo -e " ██                                                                          ██"
-            echo -e " ██████████████████████████████████████████████████████████████████████████████\n"
-            exit 1
-        fi
-    fi
-}
-
-# Download & Install 3 .mbtiles files (as nec!)
-echo
-install_mbtiles $REGION
-install_mbtiles $OSM_PLANET
-install_mbtiles $SAT_PLANET
-
-echo -e "Deleting OSM & Satellite PREVIEW tiles (as nec!)\n"
-rm -f $TILES_DIR/$OSM_PREVIEW
-rm -f $TILES_DIR/$SAT_PREVIEW
-
-# Put a json file (landing URL) which initializes the map view
-iiab-maps-finish.py $REGION
+# put a json file which initializes the map view
+iiab-maps-finish.py $landing_url
