@@ -25,6 +25,9 @@ osm-source/test/dist
 osm-source/console/build
 osm-source/ukids/build
 osm-source/pages/webpack
-
+jupcode/extracts
+jupcode/node_modules
+jupcode/package-lock.json
+jupcode/.ipynb_checkpoints
 
 
