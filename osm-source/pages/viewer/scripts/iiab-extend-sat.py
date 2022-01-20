@@ -417,7 +417,7 @@ class WMTS(object):
       
 def parse_args():
     parser = argparse.ArgumentParser(description="Download WMTS tiles arount a point.")
-    parser.add_argument('-z',"--zoom", help="zoom level", type=int)
+    parser.add_argument('-z',"--zoom", help="zoom level minimum", type=int)
     parser.add_argument("-m", "--mbtiles", help="mbtiles filename.")
     parser.add_argument("-v", "--verify", help="verify mbtiles.",action='store_true')
     parser.add_argument("-f", "--fix", help="fix invalid tiles.",action='store_true')
@@ -425,6 +425,8 @@ def parse_args():
     parser.add_argument("--lat", help="Latitude degrees.",type=float)
     parser.add_argument("--lon", help="Longitude degrees.",type=float)
     parser.add_argument("-r","--radius", help="Download within this radius(km).",type=float)
+
+    parser.add_argument('-t',"--topzoom", help="top zoom level plus one,default=14", type=int,default=14)
     parser.add_argument("-g", "--get", help='get WMTS tiles from this URL(Default: Sentinel Cloudless).')
     parser.add_argument("-s", "--summarize", help="Data about each zoom level.",action="store_true")
     return parser.parse_args()
@@ -767,7 +769,7 @@ def do_downloads():
    # set_up_target_db(args.name)
 
    start = time.time()
-   for zoom in range(args.zoom,14):
+   for zoom in range(args.zoom,args.topzoom):
       print("new zoom level:%s"%zoom,flush=True)
       download_tiles(src,args.lat,args.lon,zoom,args.radius)
    seconds =(time.time()-start)
@@ -799,7 +801,7 @@ def main():
       print('get specified')
       url = args.get
    else:
-      url =  "https://tiles.maps.eox.at/wmts?layer=s2cloudless-2018_3857&style=default&tilematrixset=g&Service=WMTS&Request=GetTile&Version=1.0.0&Format=image%2Fjpeg&TileMatrix={z}&TileCol={x}&TileRow={y}"
+      url =  "https://tiles.maps.eox.at/wmts?layer=s2cloudless-2020_3857&style=default&tilematrixset=g&Service=WMTS&Request=GetTile&Version=1.0.0&Format=image%2Fjpeg&TileMatrix={z}&TileCol={x}&TileRow={y}"
    if args.summarize:
       mbTiles.summarize()
       sys.exit(0)
