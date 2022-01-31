@@ -1,0 +1,6 @@
+### How does History explain some of the MAP quirks?
+ 
+ * The first version used regions.json as a description of the available packages;
+ * The packages were self contained zip files which could be expanded into a web server's serving space; These packages included programs, and data. They  suffered the shortcoming that they could not display two adjacent continents on the same page.
+ * The second version of maps separated the program from the data. The program is loaded at IIAB install time, and a very small amount of data is automatically loaded at that time -- which becomes a test page, and example, which automatically transitions to an installion request page. This offers to install one or more continental chunks of Open StreetMap data.
+ * The second version uses a 'map_catalog.json' file, rather than the 'regions.json', for selecting the file to download at install time. The principle difference between these two files is that 'regions.json' is keyed on a continental region (which would not be unique,as new maps are created  Whereas 'map_catalog.json' is keyed upon a unique instance in time of OMS vector data. And continental region is demoted to just one of the fields of metatadata about a specific map.
