@@ -1,6 +1,11 @@
 ### How does History explain some of the MAP quirks?
  
- * The first version used regions.json as a description of the available packages;
+ * The first version used regions.json as a description of the available packages.
  * The packages were self contained zip files which could be expanded into a web server's serving space; These packages included programs, and data. They  suffered the shortcoming that they could not display two adjacent continents on the same page.
  * The second version of maps separated the program from the data. The program is loaded at IIAB install time, and a very small amount of data is automatically loaded at that time -- which becomes a test page, and example, which automatically transitions to an installion request page. This offers to install one or more continental chunks of Open StreetMap data.
- * The second version uses a 'map_catalog.json' file, rather than the 'regions.json', for selecting the file to download at install time. The principle difference between these two files is that 'regions.json' is keyed on a continental region (which would not be unique,as new maps are created  Whereas 'map_catalog.json' is keyed upon a unique instance in time of OMS vector data. And continental region is demoted to just one of the fields of metatadata about a specific map.
+ * The second version uses a 'map_catalog.json' file, rather than the 'regions.json', for selecting the file to download at install time. The principle difference between these two files is that 'regions.json' is keyed on a continental region (which would not be unique,as new maps are created  Whereas 'map_catalog.json' is keyed upon a unique instance in time of OSM vector data. And continental region is demoted to just one of the fields of metadata about a specific map.
+ * Backward compatibiity has been the excuse which has caused multiple fields in "regions.json" and "osm-catalog.json" to exist:
+      1. Size -- In version 1, this field was the sum of OSM and satellite data. Communication between the the map system and the Admin Console has been poor. The Admin Console has created it's own version of map-catalog.json which uses "size" to mean just the physical size (next version will become duplicate of "mbtile_size").
+      2. osm_size -- Is the value of the "filesize" variable in the "metadata" table of the sqlite3 formated *.mbtiles file.
+      3. sat_size -- Was a forward looking effort to accomodate OSM and satellite data being combined in the same mbtile (It was a bad idea, and will be removed in next revision).
+      4. mbtile_size -- Is the size reported by the OS of the sqlite mbtile.
