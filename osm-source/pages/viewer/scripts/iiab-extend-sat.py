@@ -417,14 +417,14 @@ class WMTS(object):
       
 def parse_args():
     parser = argparse.ArgumentParser(description="Download WMTS tiles arount a point.")
-    parser.add_argument('-z',"--zoom", help="zoom level minimum", type=int)
+    parser.add_argument('-z',"--zoom", help="zoom level minimum", type=int,default=10)
     parser.add_argument("-m", "--mbtiles", help="mbtiles filename.")
     parser.add_argument("-v", "--verify", help="verify mbtiles.",action='store_true')
     parser.add_argument("-f", "--fix", help="fix invalid tiles.",action='store_true')
     parser.add_argument("-n", "--name", help="Output filename.")
     parser.add_argument("--lat", help="Latitude degrees.",type=float)
     parser.add_argument("--lon", help="Longitude degrees.",type=float)
-    parser.add_argument("-r","--radius", help="Download within this radius(km).",type=float)
+    parser.add_argument("-r","--radius", help="Download within this radius(km).",type=float,default=0.0)
 
     parser.add_argument('-t',"--topzoom", help="top zoom level plus one,default=14", type=int,default=14)
     parser.add_argument("-g", "--get", help='get WMTS tiles from this URL(Default: Sentinel Cloudless).')
@@ -699,7 +699,13 @@ def download_tiles(src,lat_deg,lon_deg,zoom,radius):
    global mbTiles, ok
    global total_tiles
    global start
-   tileX_min,tileX_max,tileY_min,tileY_max = get_bounds(lat_deg,lon_deg,radius,zoom)
+   if radius == 0.0:
+       tileX_min = 0
+       tileX_max = 2 ** zoom
+       tileY_min = 0
+       tileY_max = 2 ** zoom
+   else:
+       tileX_min,tileX_max,tileY_min,tileY_max = get_bounds(lat_deg,lon_deg,radius,zoom)
    for tileX in range(tileX_min,tileX_max+1):
       for tileY in range(tileY_min,tileY_max+1):
          if (total_tiles % 10) == 0:
@@ -722,14 +728,16 @@ def set_up_target_db(name='sentinel'):
    mbTiles = None
 
    # attach to the correct output database
-   dbname = sat_mbtile_fname
+   dbname = f'satellite_z{args.zoom}-z{args.topzoom - 1}_2020.mbtiles'
    if not os.path.isdir(work_dir):
       #os.mkdir('./work')
       work_dir = '/tmp'
    dbpath = '%s/%s'%(work_dir,dbname)
    if not os.path.exists(dbpath):
    #if True:
-      shutil.copyfile('%s/%s'%(sat_dir,sat_mbtile_fname),dbpath) 
+      #shutil.copyfile('%s/%s'%(sat_dir,sat_mbtile_fname),dbpath) 
+      pass
+   print('Opening %s'%dbpath)
    mbTiles = MBTiles(dbpath)
    mbTiles.CheckSchema()
    mbTiles.get_bounds()
@@ -766,9 +774,11 @@ def do_downloads():
       sys.exit(1)
    # the following sets up a copy of the real sat dbase -- 
    # Commenting out will just append to sat db already in use
-   # set_up_target_db(args.name)
+   if args.name != 'avni':
+        set_up_target_db(args.name)
 
    start = time.time()
+   print(args.zoom,args.topzoom)
    for zoom in range(args.zoom,args.topzoom):
       print("new zoom level:%s"%zoom,flush=True)
       download_tiles(src,args.lat,args.lon,zoom,args.radius)
@@ -794,7 +804,7 @@ def main():
    if os.path.isfile(args.mbtiles):
       mbTiles  = MBTiles(args.mbtiles)
       bounds = mbTiles.get_bounds()
-   else:
+   if False: #else:
       print('Failed to open %s -- Quitting'%args.mbtiles)
       sys.exit()
    if  args.get != None:
@@ -811,16 +821,16 @@ def main():
    if not args.lon and not args.lat:
       args.lon = -122.14 
       args.lat = 37.46
-   if not args.zoom:
-      args.zoom = 10
-   if not args.radius:
-      args.radius = 15
+   #if not args.radius:
+      #args.radius = 15
    if not args.name:
       args.name = 'avni'
    if not args.lon and not args.lat:
       args.lon = -122.14 
       args.lat = 37.46
-   #print('inputs to tileXY: lat:%s lon:%s zoom:%s'%(args.lat,args.lon,args.zoom))
+   if args.topzoom != 14:
+       args.topzoom = args.topzoom+1
+   print('inputs to tileXY: lat:%s lon:%s zoom:%s'%(args.lat,args.lon,args.zoom))
    args.x,args.y = xytools.tileXY(args.lat,args.lon,args.zoom)
 
    do_downloads() 
