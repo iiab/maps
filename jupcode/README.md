@@ -9,3 +9,4 @@
       2. osm_size -- Is the value of the "filesize" variable in the "metadata" table of the sqlite3 formated *.mbtiles file.
       3. sat_size -- Was a forward looking effort to accomodate OSM and satellite data being combined in the same mbtile (It was a bad idea, and will be removed in next revision).
       4. mbtile_size -- Is the size reported by the OS of the sqlite mbtile.
+* The main.js has about 500 lines of code which is not used. It came about while I was attempting to create a classroom activity  where students could add labels and images in the vacinity of their community. The project floundered because iphones, at that point, did not have a right click associated with a long press, as was available.  Now I find that the most recent iOS has now added a long press. But at this point the KISS principle seems most appropriate.
