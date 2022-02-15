@@ -48,7 +48,7 @@ var projection = getProjection('EPSG:3857');
 var projectionExtent = projection.getExtent();
 var size = getWidth(projectionExtent) / 256;
 var osm_style = './assets/style-sat.json';
-var previewSatellite = 'satellite_z0-z6_v3';
+var previewSatellite = 'satellite_z0-z6_';
 var isPreview = false;
 
 // initial values for on event variables to get through startup
@@ -138,7 +138,8 @@ var tilenames;
   })
 
 for (var i=0; i < tilenames.length; i++ ){
-   if (basename(tilenames[i]['basename']) == previewSatellite) {
+   //if (basename(tilenames[i]['basename']) == previewSatellite) {
+   if (basename(tilenames[i]['basename']).substr(0,16) == previewSatellite) {
       isPreview = true;
    }
 }
