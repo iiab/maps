@@ -1,0 +1,44 @@
+{
+  "name": "pack",
+  "version": "1.0.0",
+  "description": "To get the required files :  ``` chmod u+x installscript.sh ``` Then Execute the script ``` ./installscript.sh ``` Then finally, run  ``` ./up.sh ```",
+  "main": "main.js",
+  "scripts": {
+    "babel": "babel --presets es2015 ./main.js -o ./build/main.bundle.js",
+    "start": "webpack-dev-server --mode=development",
+    "build": "webpack --mode=development",
+    "pack": "webpack --mode=production"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@babel/core": "^7.10.2",
+    "autoprefixer": "^9.8.0",
+    "babel-loader": "^8.1.0",
+    "babel-preset-env": "^1.7.0",
+    "copy-webpack-plugin": "^6.0.2",
+    "css-loader": "^3.5.3",
+    "html-webpack-plugin": "^4.3.0",
+    "node-sass": "^4.14.1",
+    "popper": "^1.0.1",
+    "postcss-loader": "^3.0.0",
+    "sass-loader": "^8.0.2",
+    "style-loader": "^1.2.1",
+    "webpack": "^4.43.0",
+    "webpack-cli": "^3.3.11",
+    "webpack-dev-server": "^3.11.0",
+    "webpack-load-plugins": "^0.1.2"
+  },
+  "dependencies": {
+    "bootstrap": "^4.5.0",
+    "jquery": "^3.5.1",
+    "npm-check-updates": "^7.0.2",
+    "ol": "^6.3.1",
+    "ol-contextmenu": "^4.1.0",
+    "ol-hashed": "^2.0.0",
+    "ol-layerswitcher": "^3.6.0",
+    "ol-mapbox-style": "^6.1.2",
+    "popper.js": "^1.16.1"
+  }
+}
