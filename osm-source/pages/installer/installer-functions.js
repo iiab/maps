@@ -134,6 +134,7 @@ function genMapItem(region,checkbox) {
   }
   html += '</label>'; // end input
   var mapToolTip = genMapTooltip(region);
+  console.log("mapToolTip: " + mapToolTip);
   html += '<span class="map-desc ' + colorClass + '"' + mapToolTip + '>&nbsp;&nbsp;' + itemId + '</span>';
   html += ' ' + readableSize(ksize);
   html += '</div>';
@@ -155,12 +156,10 @@ function getInstalledVersion(permaRef){
 function genMapTooltip(map) {
   var mapToolTip = ' data-toggle="tooltip" data-placement="top" data-html="true" ';
   var re = /^.*_(v[0-9]+\.[0-9]+)\.zip/;
-  var url = map.url;
   var installed = getInstalledVersion(map.perma_ref);
   if ( installed == '' ) installed = 'Not installed';
-  var version = url.replace(re,'$1');
   mapToolTip += 'title="';
-  mapToolTip += 'Date: ' + map.date + "  Version: " + version + '<br>';
+  mapToolTip += 'Date: ' + map.date +  '<br>';
   mapToolTip += 'Available: ' + basename(map.detail_url) +'<br>';
   mapToolTip += 'Installed: '+ installed + '"';
   //mapToolTip += 'title="<em><b>' + zim.description + '</b><BR>some more text that is rather long"';
