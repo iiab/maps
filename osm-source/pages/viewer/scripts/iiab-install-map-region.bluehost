@@ -9,11 +9,11 @@ if [ $# -ne 0 ]; then
     REGION=$1    # Map Pack selected on page: http://box > "Install IIAB Maps"
 fi    # SCREENSHOT https://github.com/iiab/iiab/pull/2551#issuecomment-701649236
 
-OSM_PLANET=osm-planet_z0-z10_2019.mbtiles    # 1.74 GB
-SAT_PLANET=satellite_z0-z9_v3.mbtiles        # 931 MB
+OSM_PLANET=osm-planet_z0-z10_2020.mbtiles    # 1.74 GB
+SAT_PLANET=satellite_z0-z9_2020.mbtiles        # 931 MB
 
-OSM_PREVIEW=planet_z0-z6_2019.mbtiles        # 33.8 MB
-SAT_PREVIEW=satellite_z0-z6_v3.mbtiles       # 19.1 MB
+OSM_PREVIEW=planet_z0-z6_2020.mbtiles        # 33.8 MB
+SAT_PREVIEW=satellite_z0-z6_2020.mbtiles       # 19.1 MB
 
 WORKING_DIR=/library/working/maps
 TILES_DIR=/library/www/osm-vector-maps/viewer/tiles
