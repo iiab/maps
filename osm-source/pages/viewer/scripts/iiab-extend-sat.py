@@ -34,7 +34,7 @@ config = {}
 config_fn = 'config.json'
 total_tiles = 1
 bad_ref = 0
-sat_mbtile_fname = 'satellite_z0-z9_v3.mbtiles'
+sat_mbtile_fname = 'satellite_z0-z9_2020.mbtiles'
 bound_string = ''
 ok = 0
 
