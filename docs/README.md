@@ -8,7 +8,7 @@
 
 ### How do I add detailed Zoomable Maps for my region?
 
-Use IIAB's Admin Console, under the "Install Content" heading, to display the checkboxes to select the OpenStreetMap region you want to download.
+Use IIAB's Admin Console, under the "Install Content" heading, to select the [OpenStreetMap continent-or-region](https://github.com/iiab/iiab/wiki/IIAB-Maps#where-are-iiab-maps-stored) you want to download (choosing among a dozen checkboxes).
 
 In a manner similar to downloading/installing Kiwix ZIM files, or RACHEL/OER2Go content modules &mdash; the "Install Selected Region" button then starts a download process, which can take quite some time &mdash; depending upon the size of the region, and the speed of your internet connection.
 
