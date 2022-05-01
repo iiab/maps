@@ -8,11 +8,17 @@
 
 ### How do I add detailed Zoomable Maps for my region?
 
-Use IIAB's Admin Console, under the "Install Content" heading, to select the [OpenStreetMap continent-or-region](https://github.com/iiab/iiab/wiki/IIAB-Maps#where-are-iiab-maps-stored) you want to download (choosing among a dozen checkboxes).
+1. Use IIAB's [Admin Console](https://wiki.iiab.io/go/FAQ#What_are_the_default_passwords?) (http://box.lan/admin) > `Install Content` > `Get Map Regions` to select the [OpenStreetMap continent-or-region](https://github.com/iiab/iiab/issues/3111#issuecomment-1101975788) you want (choosing among the dozen checkboxes).
 
-In a manner similar to downloading/installing Kiwix ZIM files, or RACHEL/OER2Go content modules &mdash; the "Install Selected Region" button then starts a download process, which can take quite some time &mdash; depending upon the size of the region, and the speed of your internet connection.
+   In a manner similar to downloading/installing Kiwix ZIM files, or RACHEL/OER2Go content modules &mdash; the `Install Selected Region` button then starts a download process, which can take quite some time &mdash; depending upon the size of the region, and your internet/download speed.
 
-(The progress of this operation can be monitored by clicking "Utilities" in the header, and then "Display Job Status" in the left column.)
+   (Progress can be monitored by clicking `Utilities` in the header, and then `Display Job Status` in the left column.)
+
+2. Or if you prefer the [command-line](https://github.com/iiab/maps/blob/master/osm-source/pages/viewer/scripts/iiab-install-map-region), run:
+
+   `sudo iiab-install-map-region <CONTINENT-or-REGION>.mbtiles`
+
+   (Specifying any of a dozen OpenStreetMap [continent-or-region .mbtiles files](https://github.com/iiab/iiab/wiki/IIAB-Maps#where-are-iiab-maps-stored) from our catalog.)
 
 ### History and Architecture
 
