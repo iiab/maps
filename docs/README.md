@@ -35,7 +35,7 @@
   - [github.com/iiab/maptools](https://github.com/iiab/maptools)
   - [IIAB's roles/osm-vector-maps](https://github.com/iiab/iiab/tree/master/roles/osm-vector-maps)
   - [github.com/iiab/iiab-admin-console](https://github.com/iiab/iiab-admin-console/search?q=osm)
-  - [github.com/iiab/iiab-factory](https://github.com/iiab/iiab-factory/search?q=osm) (historical)
+    - [github.com/iiab/iiab-factory](https://github.com/iiab/iiab-factory/search?q=osm) (historical)
 
 #### 2018 Design Decisions
 
