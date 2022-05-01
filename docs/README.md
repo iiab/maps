@@ -34,7 +34,7 @@
 
   - [github.com/iiab/maps](https://github.com/iiab/maps) (right here!)
   - [github.com/iiab/maptools](https://github.com/iiab/maptools) > [README](https://github.com/iiab/maptools#readme)
-  - [IIAB's roles/osm-vector-maps](https://github.com/iiab/iiab/tree/master/roles/osm-vector-maps) > [README](https://github.com/iiab/iiab/tree/master/roles/osm-vector-maps#readme)
+  - [IIAB's roles/osm-vector-maps](https://github.com/iiab/iiab/tree/master/roles/osm-vector-maps) > [README ("What's New with IIAB Maps?")](https://github.com/iiab/iiab/tree/master/roles/osm-vector-maps#readme)
   - [github.com/iiab/iiab-admin-console](https://github.com/iiab/iiab-admin-console/search?q=osm)
     - [github.com/iiab/iiab-factory](https://github.com/iiab/iiab-factory/search?q=osm) (historical, see below)
 
