@@ -4,7 +4,8 @@
 
 - Getting Started — ["How do I add zoomable maps for my region?"](https://wiki.iiab.io/go/FAQ#How_do_I_add_zoomable_maps_for_my_region%3F) in [FAQ.IIAB.IO](https://wiki.iiab.io/go/FAQ)
 - Implementers — [IIAB Maps](https://github.com/iiab/iiab/wiki/IIAB-Maps) (wiki) has the latest implementer-focused instructions and explanations!
-- Developers — Check out the [Jupyter Notebook](https://github.com/iiab/maps/blob/master/osm-source/jupyter-code/maps.ipynb) version 2020 notes ([original](https://github.com/georgejhunt/maps/blob/maps7.3/osm-source/jupyter-code/maps.ipynb)) posted April 2022.
+- Developers — Check out the [Jupyter Notebook](https://github.com/iiab/maps/blob/master/osm-source/jupyter-code/maps.ipynb) version 2020 notes ([original](https://github.com/georgejhunt/maps/blob/maps7.3/osm-source/jupyter-code/maps.ipynb)) posted April 2022, and:
+  - ["Recipe for Generating Map Regions"](https://github.com/iiab/maps/wiki) posted January 2021.
 
 ### How do I add detailed Zoomable Maps for my region?
 
