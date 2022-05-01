@@ -31,11 +31,11 @@
 
 #### Source Code in 4 Repos
 
-  - [github.com/iiab/maps](https://github.com/iiab/maps)
-  - [github.com/iiab/maptools](https://github.com/iiab/maptools)
-  - [IIAB's roles/osm-vector-maps](https://github.com/iiab/iiab/tree/master/roles/osm-vector-maps)
+  - [github.com/iiab/maps](https://github.com/iiab/maps) (right here!)
+  - [github.com/iiab/maptools](https://github.com/iiab/maptools) > [README](https://github.com/iiab/maptools#readme)
+  - [IIAB's roles/osm-vector-maps](https://github.com/iiab/iiab/tree/master/roles/osm-vector-maps) > [README](https://github.com/iiab/iiab/tree/master/roles/osm-vector-maps#readme)
   - [github.com/iiab/iiab-admin-console](https://github.com/iiab/iiab-admin-console/search?q=osm)
-    - [github.com/iiab/iiab-factory](https://github.com/iiab/iiab-factory/search?q=osm) (historical)
+    - [github.com/iiab/iiab-factory](https://github.com/iiab/iiab-factory/search?q=osm) (historical, see below)
 
 #### 2018 Design Decisions
 
