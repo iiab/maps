@@ -1,4 +1,4 @@
-## Offline OpenStreetMap + Regional Vector Map Datasets
+## Offline OpenStreetMap Vector Map Continents/Regions + Satellite Photos
 
 ### Documentation
 
@@ -12,7 +12,7 @@ Use IIAB's Admin Console, under the "Install Content" heading, to select the [Op
 
 In a manner similar to downloading/installing Kiwix ZIM files, or RACHEL/OER2Go content modules &mdash; the "Install Selected Region" button then starts a download process, which can take quite some time &mdash; depending upon the size of the region, and the speed of your internet connection.
 
-(The progress of this operation can be monitored by clicking "Utilities" in the header, and then "Display Job Status" in the left column).
+(The progress of this operation can be monitored by clicking "Utilities" in the header, and then "Display Job Status" in the left column.)
 
 ### History and Architecture
 
@@ -21,7 +21,7 @@ In a manner similar to downloading/installing Kiwix ZIM files, or RACHEL/OER2Go 
 3. Thankfully the [MBTiles](https://github.com/mapbox/mbtiles-spec) file format can be used to store either bitmap/raster tilesets or vector tilesets.  So 3 essential data files are needed = 1 city search database + 2 .mbtiles files, one each for OSM and Satellite data:
    1. cities1000.sqlite (25-26 MB) so users can search for and locate any of 127,654 cities/settlements worldwide, whose population is larger than 1000.
    2. The world's landmasses are covered by `detail.mbtiles -> <regional selection of OSM data>.mbtiles` (typically 2-30 GB, depending on region) at zoom levels 11-14 and overzoomable to level 18 — encoded as MVT/PBF vector maps.
-   3. Satellite imagery of the World covered by `satellite.mbtiles -> satellite_z0-z9_2020.mbtiles` (1.2 GB) at zoom levels 0-9, encoded as JPEG bitmap/raster imagery.  (IIAB also allows you to add to this file, supplementing it with satellite photos for specific regions you care about most.)
+   3. Satellite imagery of the World is covered by `satellite.mbtiles -> satellite_z0-z9_2020.mbtiles` (1.2 GB) at zoom levels 0-9, encoded as JPEG bitmap/raster imagery.  (IIAB also allows you to add to this file, supplementing it with satellite photos for specific regions you care about most.)
 
 #### Source Code in 4 Repos
 
@@ -29,6 +29,7 @@ In a manner similar to downloading/installing Kiwix ZIM files, or RACHEL/OER2Go 
   - [github.com/iiab/maptools](https://github.com/iiab/maptools)
   - [IIAB's roles/osm-vector-maps](https://github.com/iiab/iiab/tree/master/roles/osm-vector-maps)
   - [github.com/iiab/iiab-admin-console](https://github.com/iiab/iiab-admin-console/search?q=osm)
+  - [github.com/iiab/iiab-factory](https://github.com/iiab/iiab-factory/search?q=osm) (historical)
 
 #### 2018 Design Decisions
 
