@@ -3,7 +3,7 @@
 ### Documentation
 
 - Please see [IIAB Maps](https://github.com/iiab/iiab/wiki/IIAB-Maps) for the latest implementer-focused instructions!
-- Also: ["How do I add zoomable maps for my region?"](https://wiki.iiab.io/go/FAQ#How_do_I_add_zoomable_maps_for_my_region.3F) in [FAQ.IIAB.IO](https://wiki.iiab.io/go/FAQ)
+- Also: ["How do I add zoomable maps for my region?"](https://wiki.iiab.io/go/FAQ#How_do_I_add_zoomable_maps_for_my_region%3F) in [FAQ.IIAB.IO](https://wiki.iiab.io/go/FAQ)
 - Developers — please see the Jupyter Notebook for version 2020 notes, posted April 2022:
   - https://github.com/iiab/maps/blob/master/osm-source/jupyter-code/maps.ipynb ([original](https://github.com/georgejhunt/maps/blob/maps7.3/osm-source/jupyter-code/maps.ipynb))
 
