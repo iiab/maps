@@ -12,8 +12,6 @@ import shutil
 import json
 
 # GLOBALS
-viewer_path = '/library/www/osm-vector-maps/viewer'
-catalog_path = '/etc/iiab'
 map_catalog = {}
 
 if len(sys.argv) != 2:
@@ -22,8 +20,7 @@ if len(sys.argv) != 2:
 
 def get_map_catalog():
     global map_catalog
-    input_json = '/etc/iiab/map-catalog.json'
-    with open(input_json, 'r') as regions:
+    with open(osm_cat_path, 'r') as regions:
         reg_str = regions.read()
         map_catalog = json.loads(reg_str)
     #print(json.dumps(map_catalog, indent=2))
@@ -55,9 +52,9 @@ def main():
     init = {}
     map = catalog[args.map_url]
     init['region'] = map['region']
-    init['zoom'] = map['zoom'] 
-    init['center_lon'] = map['center_lon'] 
-    init['center_lat'] = map['center_lat'] 
+    init['zoom'] = map['zoom']
+    init['center_lon'] = map['center_lon']
+    init['center_lat'] = map['center_lat']
     init_fn = viewer_path + '/init.json'
     with open(init_fn,'w') as init_fp:
         init_fp.write(json.dumps(init,indent=2))
