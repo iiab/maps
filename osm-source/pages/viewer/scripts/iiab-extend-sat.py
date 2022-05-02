@@ -41,9 +41,7 @@ ok = 0
 ATTRIBUTION = os.environ.get('METADATA_ATTRIBUTION', '<a href="http://openmaptiles.org/" target="_blank">&copy; OpenMapTiles</a> <a href="http://www.openstreetmap.org/about/" target="_blank">&copy; OpenStreetMap contributors</a>')
 VERSION = os.environ.get('METADATA_VERSION', '3.3')
 
-work_dir = '/library/working/maps'
-osm_dir = '/library/www/osm-vector-maps/maplist/assets'
-sat_dir = '/library/www/osm-vector-maps/viewer/tiles'
+work_dir = working_dir + '/maps'
 
 # Translates between lat/long and the slippy-map tile numbering scheme
 # 
