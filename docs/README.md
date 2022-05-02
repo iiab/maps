@@ -8,7 +8,7 @@
 
 ### How do I add detailed Zoomable Maps for my region?
 
-1. Use IIAB's [Admin Console](https://wiki.iiab.io/go/FAQ#What_are_the_default_passwords?) (http://box.lan/admin) > `Install Content` > `Get Map Regions` to select the [OpenStreetMap continent-or-region](https://github.com/iiab/iiab/issues/3111#issuecomment-1101975788) you want (choosing among the dozen checkboxes).
+1. Log in to IIAB's [Admin Console](https://wiki.iiab.io/go/FAQ#What_are_the_default_passwords?) (http://box.lan/admin) > `Install Content` > `Get Map Regions` to select the [OpenStreetMap continent-or-region](https://github.com/iiab/iiab/issues/3111#issuecomment-1101975788) you want (choosing among the dozen checkboxes).
 
    In a manner similar to downloading/installing Kiwix ZIM files, or RACHEL/OER2Go content modules &mdash; the `Install Selected Region` button then starts a download process, which can take quite some time &mdash; depending upon the size of the region, and your internet/download speed.
 
