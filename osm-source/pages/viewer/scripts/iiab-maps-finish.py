@@ -12,6 +12,9 @@ import shutil
 import json
 
 # GLOBALS
+# proposed
+#viewer_path = osm_viewer_path
+#viewer_path = osm_viewer_dir
 map_catalog = {}
 
 if len(sys.argv) != 2:

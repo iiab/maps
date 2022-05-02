@@ -42,6 +42,11 @@ ATTRIBUTION = os.environ.get('METADATA_ATTRIBUTION', '<a href="http://openmaptil
 VERSION = os.environ.get('METADATA_VERSION', '3.3')
 
 work_dir = working_dir + '/maps'
+# proposed
+#osm_dir = maplist_path
+#sat_dir = sat_tiles_path
+#osm_dir = maplist_dir
+#sat_dir = sat_tiles_dir
 
 # Translates between lat/long and the slippy-map tile numbering scheme
 # 
