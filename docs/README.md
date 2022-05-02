@@ -18,7 +18,7 @@
 
    `sudo iiab-install-map-region <CONTINENT-or-REGION>.mbtiles`
 
-   (Specifying any of a dozen OpenStreetMap [continent-or-region .mbtiles files](https://github.com/iiab/iiab/wiki/IIAB-Maps#where-are-iiab-maps-stored) from our catalog.)
+   (Specifying any of a dozen OpenStreetMap [continent-or-region .mbtiles files](https://github.com/iiab/iiab/wiki/IIAB-Maps#where-are-iiab-maps-stored) from our [catalog](https://github.com/iiab/iiab/wiki/IIAB-Maps#how-do-i-upgrade-an-iiab-map-pack).)
 
 ### History and Architecture
 
