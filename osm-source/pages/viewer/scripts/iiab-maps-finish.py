@@ -16,14 +16,16 @@ if len(sys.argv) != 2:
     print("Argument 1=map_url")
     sys.exit(1)
 
+
 def get_map_catalog():
     """returns contents of CATALOG_PATH"""
     input_json = CATALOG_PATH
     with open(input_json, 'r') as regions:
         reg_str = regions.read()
         map_catalog = json.loads(reg_str)
-    #print(json.dumps(map_catalog, indent=2))
+    # print(json.dumps(map_catalog, indent=2))
     return map_catalog
+
 
 def write_init_json():
     """create init.json which sets initial coords and zoom"""
@@ -37,8 +39,9 @@ def write_init_json():
     init['center_lon'] = map3['center_lon']
     init['center_lat'] = map3['center_lat']
     init_fn = VIEWER_PATH + '/init.json'
-    with open(init_fn,'w') as init_fp:
-        init_fp.write(json.dumps(init,indent=2))
+    with open(init_fn, 'w') as init_fp:
+        init_fp.write(json.dumps(init, indent=2))
+
 
 def write_vector_map_idx(installed_maps):
     """copied from adm_lib"""
@@ -64,6 +67,7 @@ def write_vector_map_idx(installed_maps):
     with open(VECTOR_MAP_IDX_PATH, 'w') as idx:
         idx.write(json.dumps(idx_dict, indent=2))
 
+
 def get_installed_tiles():
     """returns installed maps"""
     installed_maps = []
@@ -76,22 +80,26 @@ def get_installed_tiles():
         installed_maps.append(os.path.basename(tile_list[index]))
     return installed_maps
 
+
 def parse_args():
     """returns parse args"""
-    parser = argparse.ArgumentParser(description="Create init.json for a tile URL.")
-    parser.add_argument("map_url", help="The 'detail_url' field in mapcatalog.json.")
+    parser = argparse.ArgumentParser(description="Create init.json for a tile \
+        URL.")
+    parser.add_argument("map_url", help="The 'detail_url' field in \
+        mapcatalog.json.")
     return parser.parse_args()
+
 
 def main():
     """Create the idx file in format required by js-menu system"""
     args = parse_args()
     get_catalog = get_map_catalog()
     catalog = get_catalog['maps']
-    #for k in catalog.keys():
-      #print(k)
-    map2 = catalog.get(args.map_url,{})
-    if  len(map2) == 0:
-        print('Download URL not found in map-catalog.json: %s'%args.map_url)
+    # for k in catalog.keys():
+    #    print(k)
+    map2 = catalog.get(args.map_url, {})
+    if len(map2) == 0:
+        print('Download URL not found in map-catalog.json: %s' % args.map_url)
         sys.exit(1)
 
     write_init_json()
@@ -99,6 +107,7 @@ def main():
     print('installed_maps')
     print(repr(installed_maps))
     write_vector_map_idx(installed_maps)
+
 
 if __name__ == '__main__':
     main()
