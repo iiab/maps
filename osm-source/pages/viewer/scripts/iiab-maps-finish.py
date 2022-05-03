@@ -1,5 +1,6 @@
 #!/usr/bin/python3
 # -*- coding: UTF-8 -*-
+"""Create the idx file in format required by js-menu system"""
 import sys
 import os
 import argparse
@@ -18,6 +19,7 @@ if len(sys.argv) != 2:
 
 def get_map_catalog():
     global map_catalog
+    """returns contents of CATALOG_PATH"""
     input_json = CATALOG_PATH
     with open(input_json, 'r') as regions:
         reg_str = regions.read()
@@ -26,7 +28,7 @@ def get_map_catalog():
     return map_catalog
 
 def write_vector_map_idx(installed_maps):
-    # copied from adm_lib
+    """copied from adm_lib"""
     map_dict = {}
     idx_dict = {}
     for fname in installed_maps:
@@ -48,6 +50,7 @@ def write_vector_map_idx(installed_maps):
         idx.write(json.dumps(idx_dict, indent=2))
 
 def get_installed_tiles():
+    """returns installed maps"""
     installed_maps = []
     tile_list = glob.glob(VIEWER_PATH + '/tiles/*')
     for index in range(len(tile_list)):
@@ -57,6 +60,7 @@ def get_installed_tiles():
     return installed_maps
 
 def parse_args():
+    """returns parse args"""
     parser = argparse.ArgumentParser(description="Create init.json for a tile URL.")
     parser.add_argument("map_url", help="The 'detail_url' field in mapcatalog.json.")
     return parser.parse_args()
