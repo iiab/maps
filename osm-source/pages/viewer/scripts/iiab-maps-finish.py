@@ -1,14 +1,9 @@
 #!/usr/bin/python3
 # -*- coding: UTF-8 -*-
-
-import iiab.iiab_lib as iiab
-
-
+import sys
+import os
 import argparse
-import sys, os
-import json
 import glob
-import shutil
 import json
 
 # GLOBALS
