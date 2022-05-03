@@ -54,8 +54,10 @@ def get_installed_tiles():
     installed_maps = []
     tile_list = glob.glob(VIEWER_PATH + '/tiles/*')
     for index in range(len(tile_list)):
-        if tile_list[index].startswith('sat'): continue
-        if tile_list[index].startswith('osm-planet_z0'): continue
+        if tile_list[index].startswith('sat'):
+            continue
+        if tile_list[index].startswith('osm-planet_z0'):
+            continue
         installed_maps.append(os.path.basename(tile_list[index]))
     return installed_maps
 
