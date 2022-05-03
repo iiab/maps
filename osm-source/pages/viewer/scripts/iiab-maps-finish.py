@@ -25,11 +25,27 @@ def get_map_catalog():
     #print(json.dumps(map_catalog, indent=2))
     return map_catalog
 
+def write_init_json():
+    """create init.json which sets initial coords and zoom"""
+    init = {}
+    args = parse_args()
+    get_catalog = get_map_catalog()
+    catalog = get_catalog['maps']
+    map3 = catalog[args.map_url]
+    init['region'] = map3['region']
+    init['zoom'] = map3['zoom']
+    init['center_lon'] = map3['center_lon']
+    init['center_lat'] = map3['center_lat']
+    init_fn = VIEWER_PATH + '/init.json'
+    with open(init_fn,'w') as init_fp:
+        init_fp.write(json.dumps(init,indent=2))
+
 def write_vector_map_idx(installed_maps):
     """copied from adm_lib"""
-    map_catalog = {}
     map_dict = {}
     idx_dict = {}
+    map_catalog = get_map_catalog()
+
     for fname in installed_maps:
         map_dict = map_catalog['maps'].get(fname, '')
         if map_dict == '':
@@ -78,17 +94,7 @@ def main():
         print('Download URL not found in map-catalog.json: %s'%args.map_url)
         sys.exit(1)
 
-    # create init.json which sets initial coords and zoom
-    init = {}
-    map3 = catalog[args.map_url]
-    init['region'] = map3['region']
-    init['zoom'] = map3['zoom']
-    init['center_lon'] = map3['center_lon']
-    init['center_lat'] = map3['center_lat']
-    init_fn = VIEWER_PATH + '/init.json'
-    with open(init_fn,'w') as init_fp:
-        init_fp.write(json.dumps(init,indent=2))
-
+    write_init_json()
     installed_maps = get_installed_tiles()
     print('installed_maps')
     print(repr(installed_maps))
