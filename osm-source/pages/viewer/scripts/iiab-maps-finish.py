@@ -73,18 +73,18 @@ def main():
     catalog = map_catalog['maps']
     #for k in catalog.keys():
       #print(k)
-    map   = catalog.get(args.map_url,{})
-    if  len(map) == 0:
+    map2 = catalog.get(args.map_url,{})
+    if  len(map2) == 0:
         print('Download URL not found in map-catalog.json: %s'%args.map_url)
         sys.exit(1)
 
     # create init.json which sets initial coords and zoom
     init = {}
-    map = catalog[args.map_url]
-    init['region'] = map['region']
-    init['zoom'] = map['zoom']
-    init['center_lon'] = map['center_lon']
-    init['center_lat'] = map['center_lat']
+    map3 = catalog[args.map_url]
+    init['region'] = map3['region']
+    init['zoom'] = map3['zoom']
+    init['center_lon'] = map3['center_lon']
+    init['center_lat'] = map3['center_lat']
     init_fn = VIEWER_PATH + '/init.json'
     with open(init_fn,'w') as init_fp:
         init_fp.write(json.dumps(init,indent=2))
