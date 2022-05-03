@@ -12,9 +12,9 @@ import shutil
 import json
 
 # GLOBALS
-viewer_path = '/library/www/osm-vector-maps/viewer'
-vector_map_idx_dir = '/library/www/html/common/assets'
-catalog_path = '/etc/iiab'
+VIEWER_PATH = '/library/www/osm-vector-maps/viewer'
+VECTOR_MAP_IDX_PATH = '/library/www/html/common/assets/vector-map-idx.json'
+CATALOG_PATH = '/etc/iiab/map-catalog.json'
 map_catalog = {}
 
 if len(sys.argv) != 2:
@@ -23,7 +23,7 @@ if len(sys.argv) != 2:
 
 def get_map_catalog():
     global map_catalog
-    input_json = '/etc/iiab/map-catalog.json'
+    input_json = CATALOG_PATH
     with open(input_json, 'r') as regions:
         reg_str = regions.read()
         map_catalog = json.loads(reg_str)
@@ -41,7 +41,8 @@ def write_vector_map_idx(installed_maps):
     idx_dict = {}
     for fname in installed_maps:
         map_dict = map_catalog['maps'].get(fname, '')
-        if map_dict == '': continue
+        if map_dict == '':
+            continue
 
         # Create the idx file in format required bo js-menu system
         item = map_dict['perma_ref']
@@ -53,12 +54,12 @@ def write_vector_map_idx(installed_maps):
         idx_dict[item]['region'] = map_dict['region']
         idx_dict[item]['language'] = map_dict['perma_ref'][:2]
 
-    with open(vector_map_idx_dir + '/vector-map-idx.json', 'w') as idx:
+    with open(VECTOR_MAP_IDX_PATH, 'w') as idx:
         idx.write(json.dumps(idx_dict, indent=2))
 
 def get_installed_tiles():
     installed_maps = []
-    tile_list = glob.glob(viewer_path + '/tiles/*')
+    tile_list = glob.glob(VIEWER_PATH + '/tiles/*')
     for index in range(len(tile_list)):
         if tile_list[index].startswith('sat'): continue
         if tile_list[index].startswith('osm-planet_z0'): continue
@@ -71,7 +72,7 @@ def parse_args():
     return parser.parse_args()
 
 def main():
-    global map_catalog
+    """Create the idx file in format required by js-menu system"""
     args = parse_args()
     map_catalog = get_map_catalog()
     catalog = map_catalog['maps']
@@ -89,7 +90,7 @@ def main():
     init['zoom'] = map['zoom']
     init['center_lon'] = map['center_lon']
     init['center_lat'] = map['center_lat']
-    init_fn = viewer_path + '/init.json'
+    init_fn = VIEWER_PATH + '/init.json'
     with open(init_fn,'w') as init_fp:
         init_fp.write(json.dumps(init,indent=2))
 
