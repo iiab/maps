@@ -17,8 +17,8 @@ catalog_path = '/etc/iiab'
 map_catalog = {}
 
 if len(sys.argv) != 2:
-   print("Argument 1=map_url")
-   sys.exit(1)
+    print("Argument 1=map_url")
+    sys.exit(1)
 
 def get_map_catalog():
     global map_catalog
@@ -63,4 +63,4 @@ def main():
         init_fp.write(json.dumps(init,indent=2))
 
 if __name__ == '__main__':
-   main()
+    main()
