@@ -1,4 +1,4 @@
-#!/usr/bin/python3 
+#!/usr/bin/python3
 # -*- coding: UTF-8 -*-
 
 import iiab.iiab_lib as iiab
@@ -55,9 +55,9 @@ def main():
     init = {}
     map = catalog[args.map_url]
     init['region'] = map['region']
-    init['zoom'] = map['zoom'] 
-    init['center_lon'] = map['center_lon'] 
-    init['center_lat'] = map['center_lat'] 
+    init['zoom'] = map['zoom']
+    init['center_lon'] = map['center_lon']
+    init['center_lat'] = map['center_lat']
     init_fn = viewer_path + '/init.json'
     with open(init_fn,'w') as init_fp:
         init_fp.write(json.dumps(init,indent=2))
