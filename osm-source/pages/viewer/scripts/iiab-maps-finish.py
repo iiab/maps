@@ -11,14 +11,12 @@ import json
 VIEWER_PATH = '/library/www/osm-vector-maps/viewer'
 VECTOR_MAP_IDX_PATH = '/library/www/html/common/assets/vector-map-idx.json'
 CATALOG_PATH = '/etc/iiab/map-catalog.json'
-map_catalog = {}
 
 if len(sys.argv) != 2:
     print("Argument 1=map_url")
     sys.exit(1)
 
 def get_map_catalog():
-    global map_catalog
     """returns contents of CATALOG_PATH"""
     input_json = CATALOG_PATH
     with open(input_json, 'r') as regions:
@@ -29,6 +27,7 @@ def get_map_catalog():
 
 def write_vector_map_idx(installed_maps):
     """copied from adm_lib"""
+    map_catalog = {}
     map_dict = {}
     idx_dict = {}
     for fname in installed_maps:
@@ -70,8 +69,8 @@ def parse_args():
 def main():
     """Create the idx file in format required by js-menu system"""
     args = parse_args()
-    map_catalog = get_map_catalog()
-    catalog = map_catalog['maps']
+    get_catalog = get_map_catalog()
+    catalog = get_catalog['maps']
     #for k in catalog.keys():
       #print(k)
     map2 = catalog.get(args.map_url,{})
