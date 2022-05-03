@@ -18,8 +18,8 @@ catalog_path = '/etc/iiab'
 map_catalog = {}
 
 if len(sys.argv) != 2:
-   print("Argument 1=map_url")
-   sys.exit(1)
+    print("Argument 1=map_url")
+    sys.exit(1)
 
 def get_map_catalog():
     global map_catalog
@@ -60,9 +60,9 @@ def get_installed_tiles():
     installed_maps = []
     tile_list = glob.glob(viewer_path + '/tiles/*')
     for index in range(len(tile_list)):
-       if tile_list[index].startswith('sat'): continue
-       if tile_list[index].startswith('osm-planet_z0'): continue
-       installed_maps.append(os.path.basename(tile_list[index]))
+        if tile_list[index].startswith('sat'): continue
+        if tile_list[index].startswith('osm-planet_z0'): continue
+        installed_maps.append(os.path.basename(tile_list[index]))
     return installed_maps
 
 def parse_args():
@@ -99,4 +99,4 @@ def main():
     write_vector_map_idx(installed_maps)
 
 if __name__ == '__main__':
-   main()
+    main()
