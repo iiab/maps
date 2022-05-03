@@ -25,11 +25,6 @@ def get_map_catalog():
     #print(json.dumps(map_catalog, indent=2))
     return map_catalog
 
-def subproc_cmd(cmdstr, shell=False):
-    args = shlex.split(cmdstr)
-    outp = subproc_check_output(args, shell=shell)
-    return (outp)
-
 def write_vector_map_idx(installed_maps):
     # copied from adm_lib
     map_dict = {}
