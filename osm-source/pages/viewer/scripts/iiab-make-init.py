@@ -8,7 +8,6 @@ import json
 # GLOBALS
 VIEWER_PATH = '/library/www/osm-vector-maps/viewer'
 CATALOG_PATH = '/etc/iiab/map-catalog.json'
-MAP_CATALOG = {}
 
 if len(sys.argv) != 2:
     print("Argument 1=map_url")
