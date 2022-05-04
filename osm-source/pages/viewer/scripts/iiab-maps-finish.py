@@ -31,8 +31,8 @@ def write_init_json():
     """create init.json which sets initial coords and zoom"""
     init = {}
     args = parse_args()
-    get_catalog = get_map_catalog()
-    catalog = get_catalog['maps']
+    source_catalog = get_map_catalog()
+    catalog = source_catalog['maps']
     map3 = catalog[args.map_url]
     init['region'] = map3['region']
     init['zoom'] = map3['zoom']
@@ -93,8 +93,8 @@ def parse_args():
 def main():
     """Create the idx file in format required by js-menu system"""
     args = parse_args()
-    get_catalog = get_map_catalog()
-    catalog = get_catalog['maps']
+    source_catalog = get_map_catalog()
+    catalog = source_catalog['maps']
     # for k in catalog.keys():
     #    print(k)
     map2 = catalog.get(args.map_url, {})
