@@ -21,7 +21,11 @@
     "css-loader": "^3.5.3",
     "html-webpack-plugin": "^4.3.0",
 <<<<<<< HEAD
+<<<<<<< HEAD
     "node-sass": "^7.0.0",
+=======
+    "node-sass": "^4.14.1",
+>>>>>>> bf6804608872ec6aa6829b31f2243d0cc39738b7
 =======
     "node-sass": "^4.14.1",
 >>>>>>> bf6804608872ec6aa6829b31f2243d0cc39738b7
