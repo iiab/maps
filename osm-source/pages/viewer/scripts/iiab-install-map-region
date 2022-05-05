@@ -12,17 +12,23 @@ if [ $# -ne 0 ]; then
 fi    # SCREENSHOT https://github.com/iiab/iiab/pull/2551#issuecomment-701649236
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 OSM_PLANET=osm-planet_z0-z10_2020.mbtiles    # 2.0 GB
 SAT_PLANET=satellite_z0-z9_2020.mbtiles      # 1.2 GB
 
 OSM_PREVIEW=planet_z0-z6_2020.mbtiles        # 48 MB
 SAT_PREVIEW=satellite_z0-z6_2020.mbtiles     # 25 MB
 =======
+=======
+>>>>>>> bf6804608872ec6aa6829b31f2243d0cc39738b7
 OSM_PLANET=osm-planet_z0-z10_2020.mbtiles    # 1.74 GB
 SAT_PLANET=satellite_z0-z9_2020.mbtiles        # 931 MB
 
 OSM_PREVIEW=planet_z0-z6_2020.mbtiles        # 33.8 MB
 SAT_PREVIEW=satellite_z0-z6_2020.mbtiles       # 19.1 MB
+<<<<<<< HEAD
+>>>>>>> bf6804608872ec6aa6829b31f2243d0cc39738b7
+=======
 >>>>>>> bf6804608872ec6aa6829b31f2243d0cc39738b7
 
 WORKING_DIR=/library/working/maps
