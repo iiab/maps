@@ -30,10 +30,12 @@
    2. The world's landmasses are covered by `detail.mbtiles -> <regional selection of OSM data>.mbtiles` (typically 2-30 GB, depending on region) at zoom levels 11-14 and overzoomable to level 18 — encoded as MVT/PBF vector maps.
    3. Satellite imagery of the World is covered by `satellite.mbtiles -> satellite_z0-z9_2020.mbtiles` (1.2 GB) at zoom levels 0-9, encoded as JPEG bitmap/raster imagery.  (IIAB also allows you to add to this file, supplementing it with satellite photos for specific regions you care about most.)
 
-#### Source Code in 4 Repos
+
+#### 5 Important Repos
 
   - [github.com/iiab/maps](https://github.com/iiab/maps) (right here!)
   - [github.com/iiab/maptools](https://github.com/iiab/maptools) > [README](https://github.com/iiab/maptools#readme)
+  - [github.com/iiab/maps-assets](https://github.com/iiab/maps-assets) > [README](https://github.com/iiab/maps-assets#readme)
   - [IIAB's roles/osm-vector-maps](https://github.com/iiab/iiab/tree/master/roles/osm-vector-maps) > [README ("What's New with IIAB Maps?")](https://github.com/iiab/iiab/tree/master/roles/osm-vector-maps#readme)
   - [github.com/iiab/iiab-admin-console](https://github.com/iiab/iiab-admin-console/search?q=osm)
     - [github.com/iiab/iiab-factory](https://github.com/iiab/iiab-factory/search?q=osm) (historical, see below)
